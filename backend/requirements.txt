@@ -1,0 +1,7 @@
+django==4.0.5
+djangorestframework==3.13.1
+django-filter==22.1
+python-dotenv==0.20.0
+pillow==9.2.0
+isort==5.10.1 # delete after development
+flake8==5.0.3 # delete after development
