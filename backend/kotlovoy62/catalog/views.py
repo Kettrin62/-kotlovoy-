@@ -1,3 +1,24 @@
-from django.shortcuts import render
+from rest_framework import filters, permissions, status, viewsets
 
-# Create your views here.
+from .models import (
+    Вrand, Group, Element,
+)
+from .serializers import (
+    ВrandSerializer, GroupSerializer, ElementSerializer,
+)
+
+
+class ВrandViewSet(viewsets.ModelViewSet):
+    http_method_names = ('get', 'post', 'patch', 'delete',)
+    queryset = Вrand.objects.all()
+    serializer_class = ВrandSerializer
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+
+
+class ElementViewSet(viewsets.ModelViewSet):
+    queryset = Element.objects.all()
+    serializer_class = ElementSerializer

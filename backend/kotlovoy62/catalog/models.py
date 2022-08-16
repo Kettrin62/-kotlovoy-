@@ -1,13 +1,13 @@
 from django.db import models
 
 
-class Вrands(models.Model):
+class Вrand(models.Model):
     title = models.CharField(
         verbose_name='Бренд',
         max_length=100,
     )
     image = models.ImageField(
-        upload_to='media/images/',
+        upload_to='images/',
         blank=True, null=True,
         verbose_name='Картинка',
     )
@@ -19,12 +19,18 @@ class Вrands(models.Model):
         ordering = ('display_order', 'title')
         verbose_name = 'Бренд'
         verbose_name_plural = 'Бренды'
+        constraints = (
+            models.UniqueConstraint(
+                fields=['title'],
+                name='unique brand value'
+            ),
+        )
 
     def __str__(self):
-        return 'Бренд: {}'.format(self.title,)
+        return '{}'.format(self.title,)
 
 
-class Groups(models.Model):
+class Group(models.Model):
     title = models.CharField(
         verbose_name='Модель/Группа',
         max_length=150,
@@ -34,12 +40,18 @@ class Groups(models.Model):
         ordering = ('title',)
         verbose_name = 'Модель/Группа'
         verbose_name_plural = 'Модели/Группы'
+        constraints = (
+            models.UniqueConstraint(
+                fields=['title'],
+                name='unique group value'
+            ),
+        )
 
     def __str__(self):
-        return 'Группа: {}'.format(self.title,)
+        return '{}'.format(self.title,)
 
 
-class Elements(models.Model):
+class Element(models.Model):
     title = models.CharField(
         verbose_name='Название детали',
         max_length=200,
@@ -54,7 +66,7 @@ class Elements(models.Model):
         blank=True,
     )
     image = models.ImageField(
-        upload_to='media/images/',
+        upload_to='images/',
         blank=True, null=True,
         verbose_name='Картинка',
     )
@@ -84,7 +96,7 @@ class Elements(models.Model):
         verbose_name='Дата редактирования',
     )
     brand = models.ForeignKey(
-        Вrands,
+        Вrand,
         on_delete=models.CASCADE,
         blank=True,
         null=True,
@@ -92,15 +104,22 @@ class Elements(models.Model):
         verbose_name='Производитель',
     )
     groups = models.ManyToManyField(
-        Groups,
+        Group,
         through='ElementHasGroup',
-        related_name='groups'
+        related_name='groups',
+        verbose_name='Модели/Группы',
     )
 
     class Meta:
         ordering = ('title',)
         verbose_name = 'Деталь'
         verbose_name_plural = 'Детали'
+        constraints = (
+            models.UniqueConstraint(
+                fields=['title', 'article'],
+                name='unique element value'
+            ),
+        )
 
     def __str__(self):
         return '{}, {}'.format(self.title, self.measurement_unit)
@@ -108,19 +127,19 @@ class Elements(models.Model):
 
 class ElementHasGroup(models.Model):
     element = models.ForeignKey(
-        Elements,
+        Element,
         on_delete=models.CASCADE,
         verbose_name='Деталь'
     )
     group = models.ForeignKey(
-        Groups,
+        Group,
         on_delete=models.CASCADE,
         verbose_name='Модель/Группа'
     )
 
     class Meta:
-        verbose_name = 'Деталь в группе'
-        verbose_name_plural = 'Детали в группах'
+        verbose_name = 'Принадлежность к группе'
+        verbose_name_plural = 'Принадлежность к группам'
         constraints = (
             models.UniqueConstraint(
                 fields=['element', 'group'],
@@ -129,6 +148,4 @@ class ElementHasGroup(models.Model):
         )
 
     def __str__(self):
-        return 'Деталь {} в группе {}'.format(
-            self.element, self.group
-        )
+        return 'В группе "{}"'.format(self.group)
