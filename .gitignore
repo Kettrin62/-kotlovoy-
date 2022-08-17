@@ -133,5 +133,5 @@ dmypy.json
 
 static/
 .vscode/
-requests.http
+# requests.http
 media/

@@ -32,18 +32,14 @@ class ВrandSerializer(serializers.ModelSerializer):
         return brand
 
     def update(self, instance, validated_data):
-        brand = Вrand.objects.filter(pk=instance.id)
-        print(validated_data)
-
-        new_title = validated_data.get('title')
+        new_title = validated_data.get('title', instance.title)
         if new_title:
             obj_with_new_tittle = Вrand.objects.filter(title=new_title)
-            if len(obj_with_new_tittle) > 0 and new_title not in instance.title:
+            cnt_obj = len(obj_with_new_tittle)
+            if cnt_obj > 0 and new_title not in instance.title:
                 raise serializers.ValidationError(
                     detail=f'Бренд "{new_title}" уже существует!'
                 )
-
-        brand.update(**validated_data)
 
         new_image = validated_data.get('image')
         if new_image:
@@ -57,7 +53,14 @@ class ВrandSerializer(serializers.ModelSerializer):
                     'для удаления!'
                 )
 
-        return brand.first()
+        instance.title = new_title
+        instance.image = validated_data.get('image', instance.image)
+        instance.display_order = validated_data.get(
+            'display_order', instance.display_order
+        )
+        instance.save()
+
+        return instance
 
     class Meta:
         model = Вrand

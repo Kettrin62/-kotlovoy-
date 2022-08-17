@@ -4,11 +4,11 @@ from rest_framework.routers import DefaultRouter
 from .views import ВrandViewSet, GroupViewSet, ElementViewSet
 
 
-router = DefaultRouter()
-router.register('brands', ВrandViewSet, basename='brands')
-router.register('groups', GroupViewSet, basename='groups')
-router.register('elements', ElementViewSet, basename='elements')
+router_v1 = DefaultRouter()
+router_v1.register('brands', ВrandViewSet, basename='brands')
+router_v1.register('groups', GroupViewSet, basename='groups')
+router_v1.register('elements', ElementViewSet, basename='elements')
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('v1/', include(router_v1.urls)),
 ]
