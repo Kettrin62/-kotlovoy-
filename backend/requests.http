@@ -1,79 +1,3 @@
-### Авторизация
-# @name login
-POST http://127.0.0.1:8000/api/v1/auth/token/
-Content-Type: application/json
-
-{
-    "email": "admin@admin-email.adm",
-    "confirmation_code": "123456"
-}
-
-###
-
-@token = {{login.response.body.$.access}}
-
-
-
-
-### Список ревью
-GET http://127.0.0.1:8000/api/v1/titles/18/reviews/
-###
-
-
-### Отдельный отзыв
-GET http://127.0.0.1:8000/api/v1/titles/1/reviews/1/
-###
-
-
-### Новый отзыв
-POST http://127.0.0.1:8000/api/v1/titles/18/reviews/
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-    "text": "Прям втему к курсу!",
-    "score": 10
-}
-
-###
-
-
-
-
-
-
-### Список комментов
-GET http://127.0.0.1:8000/api/v1/titles/5/reviews/6/comments/
-###
-
-
-### Отдельный коммент
-GET http://127.0.0.1:8000/api/v1/titles/5/reviews/6/comments/2/
-###
-
-
-
-
-
-### Список произведениий
-GET http://127.0.0.1:8000/api/v1/titles/
-###
-
-### Отдельное произведение
-GET http://127.0.0.1:8000/api/v1/titles/1/
-###
-
-
-
-
-
-
-
-
-
-
-
-
 
 ###
 GET http://127.0.0.1:8000/api/v1/brands/
@@ -93,12 +17,17 @@ Content-Type: application/json
 
 
 ###
-PATCH http://127.0.0.1:8000/api/v1/brands/1/
+PATCH http://127.0.0.1:8000/api/v1/brands/4/
 Content-Type: application/json
 
 {
-    "title": "Хуята22",
+    "title": "Хуята",
     "image": "data:image/jpeg;base64,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"
 }
 
+###
+
+
+###
+DELETE http://127.0.0.1:8000/api/v1/brands/5/
 ###

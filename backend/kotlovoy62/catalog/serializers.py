@@ -39,7 +39,7 @@ class ВrandSerializer(serializers.ModelSerializer):
             if cnt_obj > 0 and new_title not in instance.title:
                 raise serializers.ValidationError(
                     detail=f'Бренд "{new_title}" уже существует!'
-                )
+                 )
 
         new_image = validated_data.get('image')
         if new_image:
@@ -51,7 +51,7 @@ class ВrandSerializer(serializers.ModelSerializer):
                     f'При обновлении данных для бренда {instance} не удалось '
                     f'найти файл с изображением по пути {image_file_path} '
                     'для удаления!'
-                )
+                 )
 
         instance.title = new_title
         instance.image = validated_data.get('image', instance.image)
