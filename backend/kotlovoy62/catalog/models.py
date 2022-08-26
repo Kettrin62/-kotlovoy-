@@ -51,6 +51,25 @@ class Group(models.Model):
         return '{}'.format(self.title,)
 
 
+class ProductPhoto(models.Model):
+    image = models.ImageField(
+        upload_to='images/',
+        blank=True, null=True,
+        verbose_name='Картинка',
+    )
+    display_order = models.PositiveSmallIntegerField(
+        verbose_name='Порядок расположения',
+    )
+
+    class Meta:
+        ordering = ('display_order',)
+        verbose_name = 'Фото продукции'
+        verbose_name_plural = 'Фото продукции'
+
+    def __str__(self):
+        return 'Фото {}'.format(self.image)
+
+
 class Element(models.Model):
     title = models.CharField(
         verbose_name='Название детали',
@@ -60,15 +79,17 @@ class Element(models.Model):
     measurement_unit = models.CharField(
         verbose_name='Ед. измерения',
         max_length=30,
+        default='шт.'
     )
     description = models.TextField(
         verbose_name='Описание',
         blank=True,
     )
-    image = models.ImageField(
-        upload_to='images/',
-        blank=True, null=True,
-        verbose_name='Картинка',
+    images = models.ManyToManyField(
+        ProductPhoto,
+        through='ElementHasProductPhoto',
+        related_name='photos',
+        verbose_name='Фото',
     )
     price = models.DecimalField(
         max_digits=10,
@@ -85,7 +106,7 @@ class Element(models.Model):
     )
     available = models.BooleanField(
         default=True,
-        verbose_name='Доступность',
+        verbose_name='Отображение на сайте',
     )
     created = models.DateTimeField(
         auto_now_add=True,
@@ -138,7 +159,7 @@ class ElementHasGroup(models.Model):
     )
 
     class Meta:
-        verbose_name = 'Принадлежность к группе'
+        verbose_name = 'Пункт'
         verbose_name_plural = 'Принадлежность к группам'
         constraints = (
             models.UniqueConstraint(
@@ -149,3 +170,23 @@ class ElementHasGroup(models.Model):
 
     def __str__(self):
         return 'В группе "{}"'.format(self.group)
+
+
+class ElementHasProductPhoto(models.Model):
+    element = models.ForeignKey(
+        Element,
+        on_delete=models.CASCADE,
+        verbose_name='Деталь'
+    )
+    photo = models.ForeignKey(
+        ProductPhoto,
+        on_delete=models.CASCADE,
+        verbose_name='Фото детали'
+    )
+
+    class Meta:
+        verbose_name = 'Снимок детали'
+        verbose_name_plural = 'Снимки деталей'
+
+    def __str__(self):
+        return '{} {}'.format(self.photo, self.element)
