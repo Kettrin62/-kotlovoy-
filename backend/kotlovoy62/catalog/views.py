@@ -31,3 +31,10 @@ class GroupViewSet(viewsets.ModelViewSet):
 class ElementViewSet(viewsets.ModelViewSet):
     queryset = Element.objects.all()
     serializer_class = ElementSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(
+            images={'images': (self.request.data['images'])},
+            brand=self.request.data['brand'],
+            groups={'groups': (self.request.data['groups'])},
+        )

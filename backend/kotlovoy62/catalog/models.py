@@ -143,7 +143,7 @@ class Element(models.Model):
         )
 
     def __str__(self):
-        return '{}, {}'.format(self.title, self.measurement_unit)
+        return '{}'.format(self.title)
 
 
 class ElementHasGroup(models.Model):

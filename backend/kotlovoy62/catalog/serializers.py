@@ -4,7 +4,7 @@ from rest_framework import serializers
 from rest_framework.generics import get_object_or_404
 
 from .models import (
-    Вrand, Group, Element,
+    Вrand, Group, Element, ProductPhoto, ElementHasProductPhoto,
 )
 from .custom_utils import file_delete
 
@@ -88,11 +88,46 @@ class GroupSerializer(serializers.ModelSerializer):
         fields = ('id', 'title',)
 
 
+class ImagesForElementSerializer(serializers.ModelSerializer):
+    image = Base64ImageField()
+    display_order = serializers.IntegerField(
+        max_value=32767, min_value=0, default=999,
+    )
+
+    class Meta:
+        model = ProductPhoto
+        fields = ('id', 'image', 'display_order',)
+
+
+
 class ElementSerializer(serializers.ModelSerializer):
+    #images = serializers.SerializerMethodField()
+    images = ImagesForElementSerializer(many=True, read_only=True)
+    brand = ВrandSerializer(read_only=True)
+    groups = GroupSerializer(many=True, read_only=True)
+
 
     class Meta:
         model = Element
         fields = (
-            'title', 'measurement_unit', 'description', 'image', 'price',
-            'stock', 'article', 'available', 'created', 'created',
+            'title', 'measurement_unit', 'description', 'images', 'price',
+            'stock', 'article', 'available', 'created', 'created', 'brand',
+            'groups',
         )
+
+    # def get_images(self, obj):
+    #     images = ElementHasProductPhoto.objects.filter(element=obj)
+    #     return ImagesForElementSerializer(images, many=True).data
+
+    def create(self, validated_data):
+        images = validated_data.pop('images')
+        brand = validated_data.pop('brand')
+        groups = validated_data.pop('groups')
+        element = Element.objects.create(**validated_data)
+
+        #for images
+
+        return element
+
+    def update(self, instance, validated_data):
+        pass
