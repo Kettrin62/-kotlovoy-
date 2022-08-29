@@ -5,6 +5,7 @@ from rest_framework.generics import get_object_or_404
 
 from .models import (
     Вrand, Group, Element, ProductPhoto, ElementHasProductPhoto,
+    ElementHasGroup, ProductPhoto,
 )
 from .custom_utils import file_delete
 
@@ -88,7 +89,7 @@ class GroupSerializer(serializers.ModelSerializer):
         fields = ('id', 'title',)
 
 
-class ImagesForElementSerializer(serializers.ModelSerializer):
+class ProductPhotoSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
     display_order = serializers.IntegerField(
         max_value=32767, min_value=0, default=999,
@@ -99,35 +100,86 @@ class ImagesForElementSerializer(serializers.ModelSerializer):
         fields = ('id', 'image', 'display_order',)
 
 
+class ImagesForElementSerializer(serializers.ModelSerializer):
+    photo = Base64ImageField()
+    display_order = serializers.IntegerField(
+        max_value=32767, min_value=0, default=999,
+    )
+
+    class Meta:
+        model = ProductPhoto
+        fields = ('id', 'photo', 'display_order',)
+
 
 class ElementSerializer(serializers.ModelSerializer):
-    #images = serializers.SerializerMethodField()
-    images = ImagesForElementSerializer(many=True, read_only=True)
-    brand = ВrandSerializer(read_only=True)
+    images = ProductPhotoSerializer(many=True, read_only=True)
     groups = GroupSerializer(many=True, read_only=True)
-
 
     class Meta:
         model = Element
         fields = (
-            'title', 'measurement_unit', 'description', 'images', 'price',
-            'stock', 'article', 'available', 'created', 'created', 'brand',
-            'groups',
+            'id', 'title', 'measurement_unit', 'description', 'images',
+            'price', 'stock', 'article', 'available', 'created', 'created',
+            'brand', 'groups',
         )
-
-    # def get_images(self, obj):
-    #     images = ElementHasProductPhoto.objects.filter(element=obj)
-    #     return ImagesForElementSerializer(images, many=True).data
 
     def create(self, validated_data):
         images = validated_data.pop('images')
-        brand = validated_data.pop('brand')
+        validated_images = []
+        for image in images['images']:
+            validated_images.append(
+                get_object_or_404(ProductPhoto, pk=image['id'])
+            )
+
         groups = validated_data.pop('groups')
+        validated_groups = []
+        for group in groups['groups']:
+            validated_groups.append(get_object_or_404(Group, pk=group['id']))
+
         element = Element.objects.create(**validated_data)
 
-        #for images
+        for image in validated_images:
+            ElementHasProductPhoto.objects.create(element=element, photo=image)
+        for group in validated_groups:
+            ElementHasGroup.objects.create(element=element, group=group)
 
         return element
 
     def update(self, instance, validated_data):
-        pass
+        images = validated_data.pop('images')
+        validated_images = []
+        for image in images['images']:
+            validated_images.append(
+                get_object_or_404(ProductPhoto, pk=image['id'])
+            )
+
+        groups = validated_data.pop('groups')
+        validated_groups = []
+        for group in groups['groups']:
+            validated_groups.append(get_object_or_404(Group, pk=group['id']))
+
+        element = Element.objects.filter(pk=instance.id)
+        instance = validated_data.pop('instance')
+        element.update(**validated_data)
+
+        old_images = [item[0] for item in instance.images.values_list('id')]
+        old_groups = [item[0] for item in instance.groups.values_list('id')]
+
+        # print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+        # print(old_groups)
+        # print(old_images)
+        # print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+        for image in validated_images:
+            if image.id in old_images:
+                old_images.remove(image.id)
+            else:
+                ElementHasProductPhoto.objects.get_or_create(
+                    element=instance, photo=image
+                )
+        for image_id in old_images:
+            del_image = ElementHasProductPhoto.objects.filter(
+                element=instance.id, photo=image_id
+            )
+            del_image.delete()
+
+        return instance
