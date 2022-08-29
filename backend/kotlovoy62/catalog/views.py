@@ -47,6 +47,7 @@ class ElementViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(
+            brand={'brand': (self.request.data['brand'])},
             images={'images': (self.request.data['images'])},
             groups={'groups': (self.request.data['groups'])},
         )

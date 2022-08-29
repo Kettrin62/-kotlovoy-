@@ -114,6 +114,7 @@ class ImagesForElementSerializer(serializers.ModelSerializer):
 class ElementSerializer(serializers.ModelSerializer):
     images = ProductPhotoSerializer(many=True, read_only=True)
     groups = GroupSerializer(many=True, read_only=True)
+    brand = ВrandSerializer(read_only=True)
 
     class Meta:
         model = Element
@@ -136,12 +137,19 @@ class ElementSerializer(serializers.ModelSerializer):
         for group in groups['groups']:
             validated_groups.append(get_object_or_404(Group, pk=group['id']))
 
+        brand_id = validated_data.pop('brand')
+        if brand_id['brand']:
+            brand = get_object_or_404(Вrand, pk=brand_id['brand'])
+        else:
+            brand = None
+
         element = Element.objects.create(**validated_data)
 
         for image in validated_images:
             ElementHasProductPhoto.objects.create(element=element, photo=image)
         for group in validated_groups:
             ElementHasGroup.objects.create(element=element, group=group)
+        element.brand = brand
 
         return element
 

@@ -119,25 +119,22 @@ POST http://127.0.0.1:8000/api/v1/elements/
 Content-Type: application/json
 
 {
-    "title": "Деталь из API 1",
-    "measurement_unit": "у.е.",
-    "description": "Описание дитали и всякая хуйня",
+    "title": "Деталь из API 4",
+    "measurement_unit": "у.е.б.у.",
+    "description": "Описание дитали и всякая лажа",
     "images": [
         {
-            "id": 1
+            "id": 10
         },
         {
-            "id": 2
-        },
-        {
-            "id": 9
+            "id": 12
         }
     ],
-    "price": 800.49,
-    "stock": 20,
-    "article": "987-987-987",
+    "price": 900.49,
+    "stock": 2,
+    "article": "987-987-987-000",
     "available": true,
-    "brand": 1,
+    "brand": null,
     "groups": [
         {
             "id": 1
