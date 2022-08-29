@@ -1,5 +1,5 @@
+from django.core.exceptions import ObjectDoesNotExist
 from drf_extra_fields.fields import Base64ImageField
-from rest_framework import status
 from rest_framework import serializers
 from rest_framework.generics import get_object_or_404
 
@@ -165,10 +165,6 @@ class ElementSerializer(serializers.ModelSerializer):
         old_images = [item[0] for item in instance.images.values_list('id')]
         old_groups = [item[0] for item in instance.groups.values_list('id')]
 
-        # print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-        # print(old_groups)
-        # print(old_images)
-        # print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
         for image in validated_images:
             if image.id in old_images:
                 old_images.remove(image.id)
@@ -177,9 +173,35 @@ class ElementSerializer(serializers.ModelSerializer):
                     element=instance, photo=image
                 )
         for image_id in old_images:
-            del_image = ElementHasProductPhoto.objects.filter(
+            del_elem_img = ElementHasProductPhoto.objects.filter(
                 element=instance.id, photo=image_id
             )
-            del_image.delete()
+            try:
+                del_image = ProductPhoto.objects.get(pk=image_id)
+            except ObjectDoesNotExist as err:
+                print(
+                    f'В БД запись таблицы "ProductPhoto" с pk={image_id} '
+                    'не обнаружена, в процессе выполнения кода возникло '
+                    f'исключение: {err}'
+                )
+            else:
+                del_file = del_image.image
+                del_image.delete()
+                file_delete(del_file)
+            finally:
+                del_elem_img.delete()
+
+        for group in validated_groups:
+            if group.id in old_groups:
+                old_groups.remove(group.id)
+            else:
+                ElementHasGroup.objects.get_or_create(
+                    element=instance, group=group
+                )
+        for group_id in old_groups:
+            del_elem_group = ElementHasGroup.objects.filter(
+                element=instance.id, group=group_id
+            )
+            del_elem_group.delete()
 
         return instance
