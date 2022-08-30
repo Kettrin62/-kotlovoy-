@@ -1,5 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from drf_extra_fields.fields import Base64ImageField
+from rest_framework.validators import UniqueValidator
 from rest_framework import serializers
 from rest_framework.generics import get_object_or_404
 
@@ -115,6 +116,10 @@ class ElementSerializer(serializers.ModelSerializer):
     images = ProductPhotoSerializer(many=True, read_only=True)
     groups = GroupSerializer(many=True, read_only=True)
     brand = ВrandSerializer(read_only=True)
+    article = serializers.CharField(
+        max_length=50,
+        validators=[UniqueValidator(queryset=Element.objects.all())]
+    )
 
     class Meta:
         model = Element
@@ -127,15 +132,19 @@ class ElementSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         images = validated_data.pop('images')
         validated_images = []
-        for image in images['images']:
-            validated_images.append(
-                get_object_or_404(ProductPhoto, pk=image['id'])
-            )
+        if images['images']:
+            for image in images['images']:
+                validated_images.append(
+                    get_object_or_404(ProductPhoto, pk=image['id'])
+                )
 
         groups = validated_data.pop('groups')
         validated_groups = []
-        for group in groups['groups']:
-            validated_groups.append(get_object_or_404(Group, pk=group['id']))
+        if groups['groups']:
+            for group in groups['groups']:
+                validated_groups.append(
+                    get_object_or_404(Group, pk=group['id'])
+                )
 
         brand_id = validated_data.pop('brand')
         if brand_id['brand']:
@@ -146,7 +155,9 @@ class ElementSerializer(serializers.ModelSerializer):
         element = Element.objects.create(**validated_data)
 
         for image in validated_images:
-            ElementHasProductPhoto.objects.create(element=element, photo=image)
+            ElementHasProductPhoto.objects.create(
+                element=element, photo=image
+            )
         for group in validated_groups:
             ElementHasGroup.objects.create(element=element, group=group)
         element.brand = brand
@@ -156,15 +167,26 @@ class ElementSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         images = validated_data.pop('images')
         validated_images = []
-        for image in images['images']:
-            validated_images.append(
-                get_object_or_404(ProductPhoto, pk=image['id'])
-            )
+        if images['images']:
+            for image in images['images']:
+                validated_images.append(
+                    get_object_or_404(ProductPhoto, pk=image['id'])
+                )
 
         groups = validated_data.pop('groups')
         validated_groups = []
-        for group in groups['groups']:
-            validated_groups.append(get_object_or_404(Group, pk=group['id']))
+        if groups['groups']:
+            for group in groups['groups']:
+                validated_groups.append(
+                    get_object_or_404(Group, pk=group['id'])
+                )
+
+        brand_id = validated_data.pop('brand')
+        if brand_id['brand']:
+            brand_id = brand_id['brand']['id']
+            brand = get_object_or_404(Вrand, pk=brand_id)
+        else:
+            brand = None
 
         element = Element.objects.filter(pk=instance.id)
         instance = validated_data.pop('instance')
@@ -212,4 +234,10 @@ class ElementSerializer(serializers.ModelSerializer):
             )
             del_elem_group.delete()
 
+        if brand:
+            element.update(brand=brand)
+        else:
+            element.update(brand=None)
+
+        instance.refresh_from_db()
         return instance
