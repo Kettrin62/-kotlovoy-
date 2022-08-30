@@ -1,3 +1,57 @@
+### Авторизация
+POST http://127.0.0.1:8000/api/auth/token/login/
+Content-Type: application/json
+
+{
+    "email": "vpupkin@yandex.ru",
+    "password": "ieurhfieufi"
+}
+
+###
+
+@token = bd7bb19ac2ba5c035020b433f104e11cca99cde4
+
+###
+
+POST http://127.0.0.1:8000/api/auth/token/logout/
+Authorization: Token {{token}}
+
+###
+
+
+### endpoint /users/
+GET http://127.0.0.1:8000/api/v1/users/
+###
+GET http://127.0.0.1:8000/api/v1/users/1/
+###
+GET http://127.0.0.1:8000/api/v1/users/me/
+Authorization: Token {{token}}
+###
+POST http://127.0.0.1:8000/api/v1/users/
+Content-Type: application/json
+
+{
+
+    "email": "vpupkin@yandex.ru",
+    "username": "vasya.pupkin",
+    "first_name": "Вася",
+    "last_name": "Пупкин",
+    "password": "ieurhfieufi"
+
+}
+
+
+
+
+
+
+
+###################################################################
+
+
+
+
+
 
 ###
 GET http://127.0.0.1:8000/api/v1/brands/
@@ -124,12 +178,12 @@ Content-Type: application/json
     "description": "Описание дитали и всякая лажа",
     "images": [
         {
-            "id": 21
+            "id": 1
         }
     ],
     "price": 900.49,
     "stock": 2,
-    "article": "987-987-987-000",
+    "article": "987-987-987-001",
     "available": false,
     "brand": null,
     "groups": [
