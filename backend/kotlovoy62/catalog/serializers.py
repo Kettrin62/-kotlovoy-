@@ -148,7 +148,8 @@ class ElementSerializer(serializers.ModelSerializer):
 
         brand_id = validated_data.pop('brand')
         if brand_id['brand']:
-            brand = get_object_or_404(Вrand, pk=brand_id['brand'])
+            brand_id = brand_id['brand']['id']
+            brand = get_object_or_404(Вrand, pk=brand_id)
         else:
             brand = None
 

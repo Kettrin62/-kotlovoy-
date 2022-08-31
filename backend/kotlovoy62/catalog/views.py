@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, permissions, status, viewsets
 from rest_framework.response import Response
 
@@ -44,6 +45,9 @@ class ProductPhotosViewSet(viewsets.ModelViewSet):
 class ElementViewSet(viewsets.ModelViewSet):
     queryset = Element.objects.all()
     serializer_class = ElementSerializer
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    filterset_fields = ('brand', 'groups')
+    search_fields = ('title', 'article',)
 
     def perform_create(self, serializer):
         serializer.save(
