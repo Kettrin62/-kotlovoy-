@@ -6,5 +6,6 @@ pillow==9.2.0
 drf-extra-fields==3.4.0
 djoser==2.1.0
 djangorestframework_simplejwt==4.8.0
+drf-yasg==1.21.3
 isort==5.10.1 # delete after development
 flake8==5.0.3 # delete after development

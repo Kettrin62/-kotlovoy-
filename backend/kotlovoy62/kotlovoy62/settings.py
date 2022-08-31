@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework.authtoken',
     'djoser',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -119,3 +120,13 @@ REST_FRAMEWORK = {
 CUSTOM_SETTINGS_DRF = {
     'PAGE_SIZE_USERS': 10,
 }
+
+SWAGGER_SETTINGS = {
+   'SECURITY_DEFINITIONS': {
+      'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+      }
+   }
+} 
