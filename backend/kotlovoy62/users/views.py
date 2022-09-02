@@ -1,12 +1,12 @@
-from rest_framework import permissions, status
+from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from kotlovoy62.settings import CUSTOM_SETTINGS_DRF
 from .mixins import CreateListRetrieveViewSet
 from .models import User
+from .permissions import (IsAdminOrUserHimself, IsUserHimself)
 from .serializers import (
     SetPasswordSerializer, UserCreateSerializer, UserSerializer
 )
@@ -16,9 +16,11 @@ class UserSetPagination(PageNumberPagination):
     page_size_query_param = 'limit'
     page_size = CUSTOM_SETTINGS_DRF.get('PAGE_SIZE_USERS')
 
+
 class UserViewSet(CreateListRetrieveViewSet):
     queryset = User.objects.all()
     pagination_class = UserSetPagination
+    permission_classes = (IsAdminOrUserHimself,)
 
     def get_serializer_class(self):
         if self.action == 'set_password':
@@ -30,7 +32,7 @@ class UserViewSet(CreateListRetrieveViewSet):
 
     @action(
         ['get'], detail=False,
-        permission_classes=(permissions.IsAuthenticated,)
+        permission_classes=(IsAdminOrUserHimself,)
     )
     def me(self, request):
         user = request.user
@@ -39,7 +41,7 @@ class UserViewSet(CreateListRetrieveViewSet):
 
     @action(
         ['post'], detail=False,
-        permission_classes=(permissions.IsAuthenticated,)
+        permission_classes=(IsUserHimself,)
     )
     def set_password(self, request):
         serializer = self.get_serializer(data=request.data)

@@ -1,10 +1,11 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, permissions, status, viewsets
+from rest_framework import filters, status, viewsets
 from rest_framework.response import Response
 
 from .models import (
     Вrand, Group, Element, ProductPhoto, ElementHasProductPhoto
 )
+from .permissions import IsAdminOrReadOnly
 from .serializers import (
     ВrandSerializer, GroupSerializer, ElementSerializer,
     ProductPhotoSerializer,
@@ -16,6 +17,7 @@ class ВrandViewSet(viewsets.ModelViewSet):
     http_method_names = ('get', 'post', 'patch', 'delete',)
     queryset = Вrand.objects.all()
     serializer_class = ВrandSerializer
+    permission_classes = (IsAdminOrReadOnly,)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -28,12 +30,14 @@ class GroupViewSet(viewsets.ModelViewSet):
     http_method_names = ('get', 'post', 'patch', 'delete',)
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+    permission_classes = (IsAdminOrReadOnly,)
 
 
 class ProductPhotosViewSet(viewsets.ModelViewSet):
-    http_method_names = ('get', 'post', 'delete',)
+    http_method_names = ('post', 'delete',)
     queryset = ProductPhoto.objects.all()
     serializer_class = ProductPhotoSerializer
+    permission_classes = (IsAdminOrReadOnly,)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -48,6 +52,7 @@ class ElementViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     filterset_fields = ('brand', 'groups')
     search_fields = ('title', 'article',)
+    permission_classes = (IsAdminOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save(
