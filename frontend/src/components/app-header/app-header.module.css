@@ -1,0 +1,41 @@
+.header {
+  /* min-height: 74px; */
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color: inherit;
+  box-sizing: border-box;
+  margin: 15px auto 0;
+  padding: 0 calc(25%/10);
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+  /* font-size: 18px; */
+  /* line-height: 129%;
+  font-weight: 500; */
+  transition: opacity .3s linear;
+  position: relative;
+  cursor: pointer;
+}
+
+.link:hover {
+  opacity: .75;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  border: none;
+  padding: 0;
+  background-color: inherit;
+  cursor: pointer;
+}
+
+.button:hover {
+  opacity: .75;
+}
+

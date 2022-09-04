@@ -1,0 +1,56 @@
+@media all and (max-width: 760px) {
+  .menu {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+  }
+}
+
+.button {
+  display: none;
+  cursor: pointer;
+  background-color: inherit;
+  margin-right: 20px;
+}
+
+@media all and (max-width: 760px) {
+  .button {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border: none;
+    padding: 0;
+  }
+}
+
+
+
+.line {
+  width: 22px;
+  margin-bottom: 5px;
+  border-bottom: 3px solid #151515;
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 129%;
+  font-weight: 500;
+  transition: opacity .3s linear;
+  position: relative;
+}
+
+.link:hover {
+  opacity: .75;
+}
+
+.link_mobile {
+  display: none;
+}
+
+@media all and (max-width: 760px) {
+  .link_mobile {
+    display: block;
+  }
+}

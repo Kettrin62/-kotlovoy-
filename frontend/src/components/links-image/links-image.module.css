@@ -1,0 +1,32 @@
+.image {
+  width: 22px;
+  height: 22px;
+  object-fit: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.cart {
+  position: absolute;
+  right: 0;
+  top: -16px;
+  min-width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  color: red;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 15px;
+}
+
+@media all and (max-width: 760px) {
+  .cart {
+    top: -12px;
+  }
+}
+
+.count {
+  margin: 0;
+  padding: 0;
+}

@@ -1,0 +1,21 @@
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.16;
+  margin: 0;
+  transition: color .3s linear;
+}
+
+@media all and (max-width: 760px) {
+  .title {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.16;
+  }
+}
+
+@media all and (max-width: 500px) {
+  .title {
+    font-size: 16px;
+  }
+}
