@@ -4,7 +4,7 @@ from shutil import copytree, ignore_patterns, rmtree
 
 from django.core.management.base import BaseCommand
 
-from catalog.models import Вrand
+from catalog.models import Вrand, Group
 
 
 class Command(BaseCommand):
@@ -19,6 +19,12 @@ class Command(BaseCommand):
                 Вrand.objects.get_or_create(
                     title=title, image=image, display_order=display_order
                 )
+
+        with open('../data/loading_data/groups/groups_data.csv') as file:
+            file_data = csv.reader(file, delimiter=';')
+            for item in file_data:
+                title, = item
+                Group.objects.get_or_create(title=title)
 
         if path.exists('media/images'):
             rmtree('media/images')

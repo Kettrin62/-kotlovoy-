@@ -41,7 +41,7 @@ class ВrandAdmin(admin.ModelAdmin):
     def display_image(self, obj):
         if obj.image:
             return mark_safe(
-                f'<img src={obj.image.url} width="65"  height="65">'
+                f'<img src={obj.image.url} width="100"  height="37">'
             )
         return '(No image)'
 
