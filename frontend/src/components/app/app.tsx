@@ -9,14 +9,75 @@ import api from '../../api';
 import { DataBrandsContext, DataSwiperContext } from '../../services/contexts/app-context';
 import { HomePage } from '../../pages/home';
 
+import slide1 from '../../images/фото котлов/2022-09-04 23-22-17.png';
+import slide2 from '../../images/фото котлов/2022-09-04 23-25-45.png';
+import slide3 from '../../images/фото котлов/1597939460154787852.jpg';
+import slide4 from '../../images/фото котлов/remont-i-obsluzhivanie-kotlov-bosch.jpeg';
+import brand1 from '../../images/brands/arderia.png';
+import brand2 from '../../images/brands/ariston.png';
+import brand3 from '../../images/brands/attack.png';
+import brand4 from '../../images/brands/baltgaz.png';
+import brand5 from '../../images/brands/baxi.png';
+import brand6 from '../../images/brands/beretta.png';
+import brand7 from '../../images/brands/biasi.png';
+import brand8 from '../../images/brands/bosch.png';
+import brand9 from '../../images/brands/buderus.png';
+
 function App() {
 
-  const [brands, setBrands] = useState<Array<TDataBrands>>([]);
+  const [brands, setBrands] = useState<Array<TDataBrands>>([
+    {
+      id: 1,
+      title: 'Brand 1',
+      image: `${brand1}`
+    },
+    {
+      id: 1,
+      title: 'Brand 1',
+      image: `${brand2}`
+    },
+    {
+      id: 1,
+      title: 'Brand 1',
+      image: `${brand3}`
+    },
+    {
+      id: 1,
+      title: 'Brand 1',
+      image: `${brand4}`
+    },
+    {
+      id: 1,
+      title: 'Brand 1',
+      image: `${brand5}`
+    },
+    {
+      id: 1,
+      title: 'Brand 1',
+      image: `${brand6}`
+    },
+    {
+      id: 1,
+      title: 'Brand 1',
+      image: `${brand7}`
+    },
+    {
+      id: 1,
+      title: 'Brand 1',
+      image: `${brand8}`
+    },
+    {
+      id: 1,
+      title: 'Brand 1',
+      image: `${brand9}`
+    },
+  ]);
+
   const [swiper, setSwiper] = useState<Array<TDataSwiper>>([
     {
       id: 1,
       title: 'Slide 1',
-      image: 'http://www.pnzsad.ru/media/Swiper/4.png',
+      image: `${slide1}`,
       message: 'I am angry',
       available: true,
       url: '#'
@@ -24,7 +85,7 @@ function App() {
     {
       id: 2,
       title: 'Slide 2',
-      image: 'http://www.pnzsad.ru/media/Swiper/7.png',
+      image: `${slide2}`,
       message: 'I am happy',
       available: true,
       url: '#'
@@ -32,7 +93,15 @@ function App() {
     {
       id: 3,
       title: 'Slide 3',
-      image: 'http://www.pnzsad.ru/media/Swiper/5.png',
+      image: `${slide3}`,
+      message: 'I am programmer',
+      available: true,
+      url: '#'
+    },
+    {
+      id: 4,
+      title: 'Slide 3',
+      image: `${slide4}`,
       message: 'I am programmer',
       available: true,
       url: '#'
@@ -48,25 +117,9 @@ function App() {
 
 
   useEffect(() => {
-    // const getData = () => {
-    //   fetch(`${BASEURL}brands/`)
-    //   .then(function (res) {
-    //     if (res.ok) {
-    //       return res.json();
-    //     }
-    //     return Promise.reject(`Ошибка: ${res.statusText}`);
-    //   })
-    //   .then((data) => {
-    //     setData(data.data)
-    //   }
-    //     )
-    //   .catch((err) => console.log(err));
-    // };
-    getBrands();
+    // getBrands();
   }, []);
 
-  // console.log(data);
-  
 
   return (
     <ErrorBoundary>

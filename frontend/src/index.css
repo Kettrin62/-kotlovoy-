@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 code {
@@ -39,8 +41,6 @@ code {
   font-family: 'Roboto';
   font-weight: 300;
 }
-
-
 
 .swiper-pagination-bullet-active {
   background-color: #fff !important;

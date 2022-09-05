@@ -13,13 +13,15 @@ function BrandList() {
   // console.log(brands);
   
   return (
-    <ul className={brandlistStyles.list}>
-      {brands.map(item => (
-        <li key={item.id}>
-          <img src={item.image} alt={item.title} className={brandlistStyles.image} />
-        </li>
-      ))}
-    </ul>
+    <section className={brandlistStyles.container}>
+      <ul className={brandlistStyles.list}>
+        {brands.map(item => (
+          <li key={item.id}>
+            <img src={item.image} alt={item.title} className={brandlistStyles.image} />
+          </li>
+        ))}
+      </ul>
+    </section>
   )
 }
 

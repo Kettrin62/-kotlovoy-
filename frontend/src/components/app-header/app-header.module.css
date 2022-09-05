@@ -1,8 +1,9 @@
 .header {
   /* min-height: 74px; */
-  min-height: 50px;
+  /* min-height: 50px; */
   display: flex;
-  align-items: center;
+  /* align-items: center; */
+  align-items: flex-end;
   justify-content: space-between;
   width: 100%;
   background-color: inherit;
