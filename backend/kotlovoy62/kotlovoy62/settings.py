@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
     'catalog.apps.CatalogConfig',
+    'swiper.apps.SwiperConfig',
     'rest_framework',
     'django_filters',
     'rest_framework.authtoken',

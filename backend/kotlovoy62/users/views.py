@@ -1,14 +1,15 @@
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from kotlovoy62.settings import CUSTOM_SETTINGS_DRF
-from .mixins import CreateListRetrieveViewSet
 from .models import User
-from .permissions import (IsAdminOrUserHimself, IsUserHimself)
+from .permissions import (
+    IsAdminOrUserHimself, IsUserHimself, IsAdminOrUserHimselfAndNotSafeMethods
+)
 from .serializers import (
-    SetPasswordSerializer, UserCreateSerializer, UserSerializer
+    SetPasswordSerializer, UserCreateSerializer, UserSerializer,
 )
 
 
@@ -17,10 +18,11 @@ class UserSetPagination(PageNumberPagination):
     page_size = CUSTOM_SETTINGS_DRF.get('PAGE_SIZE_USERS')
 
 
-class UserViewSet(CreateListRetrieveViewSet):
+class UserViewSet(viewsets.ModelViewSet):
+    http_method_names = ('get', 'post', 'patch', 'delete',)
     queryset = User.objects.all()
     pagination_class = UserSetPagination
-    permission_classes = (IsAdminOrUserHimself,)
+    permission_classes = (IsAdminOrUserHimselfAndNotSafeMethods,)
 
     def get_serializer_class(self):
         if self.action == 'set_password':

@@ -55,7 +55,7 @@ class ProductPhoto(models.Model):
     image = models.ImageField(
         upload_to='images/',
         blank=True, null=True,
-        verbose_name='Картинка',
+        verbose_name='Фото',
     )
     display_order = models.PositiveSmallIntegerField(
         verbose_name='Порядок расположения',

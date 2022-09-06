@@ -16,7 +16,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        with open('../data/loading_data/brands/brands_data.csv') as file:
+        with open(
+            '../data/loading_data/brands/brands_data.csv', encoding='utf8',
+        ) as file:
             file_data = csv.reader(file, delimiter=';')
             for item in file_data:
                 title, image, display_order = item
@@ -24,7 +26,9 @@ class Command(BaseCommand):
                     title=title, image=image, display_order=display_order
                 )
 
-        with open('../data/loading_data/groups/groups_data.csv') as file:
+        with open(
+            '../data/loading_data/groups/groups_data.csv', encoding='utf8',
+        ) as file:
             file_data = csv.reader(file, delimiter=';')
             for item in file_data:
                 title, = item
@@ -32,7 +36,9 @@ class Command(BaseCommand):
 
         ###########################################################
         # for testing
-        with open('../data/loading_data/elements/elements_data.csv') as file:
+        with open(
+            '../data/loading_data/elements/elements_data.csv', encoding='utf8',
+        ) as file:
             file_data = csv.reader(file, delimiter=';')
             for item in file_data:
                 title, unit, description, price, stock, article, brand = item
@@ -42,7 +48,9 @@ class Command(BaseCommand):
                     description=description, price=price, stock=stock,
                     article=article, brand=brand_obj,
                 )
-        with open('../data/loading_data/elements/photos_data.csv') as file:
+        with open(
+            '../data/loading_data/elements/photos_data.csv', encoding='utf8',
+        ) as file:
             file_data = csv.reader(file, delimiter=';')
             for item in file_data:
                 image, display_order = item
@@ -50,7 +58,8 @@ class Command(BaseCommand):
                     image=image, display_order=display_order,
                 )
         with open(
-            '../data/loading_data/elements/ElementHasGroup_data.csv'
+            '../data/loading_data/elements/ElementHasGroup_data.csv',
+            encoding='utf8',
         ) as file:
             file_data = csv.reader(file, delimiter=';')
             for item in file_data:
@@ -61,7 +70,8 @@ class Command(BaseCommand):
                     element=element_obj, group=group_obj,
                 )
         with open(
-            '../data/loading_data/elements/ElementHasProductPhoto_data.csv'
+            '../data/loading_data/elements/ElementHasProductPhoto_data.csv',
+            encoding='utf8',
         ) as file:
             file_data = csv.reader(file, delimiter=';')
             for item in file_data:

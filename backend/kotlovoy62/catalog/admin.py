@@ -78,6 +78,7 @@ class ElementAdmin(admin.ModelAdmin):
 class ProductPhotoAdmin(admin.ModelAdmin):
     list_display = ('display_image',)
     empty_value_display = EMPTY_VALUE
+    readonly_fields = ('display_image',)
 
     def display_image(self, obj):
         if obj.image:

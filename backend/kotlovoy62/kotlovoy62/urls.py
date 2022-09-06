@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/auth/', include('djoser.urls.authtoken')),
     path('api/', include('users.urls')),
     path('api/', include('catalog.urls')),
+    path('api/', include('swiper.urls')),
 ]
 
 urlpatterns += [
