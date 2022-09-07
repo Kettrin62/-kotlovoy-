@@ -1,0 +1,66 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@font-face {
+  src: url(./fonts/Roboto-Bold.woff) format('woff'),
+    url(./fonts/Roboto-Bold.woff2) format('woff2');
+  font-family: 'Roboto';
+  font-weight: 700;
+}
+
+@font-face {
+  src: url(./fonts/Roboto-Medium.woff) format('woff'),
+    url(./fonts/Roboto-Medium.woff2) format('woff2');
+  font-family: 'Roboto';
+  font-weight: 500;
+}
+
+@font-face {
+  src: url(./fonts/Roboto-Regular.woff) format('woff'),
+    url(./fonts/Roboto-Regular.woff2) format('woff2');
+  font-family: 'Roboto';
+  font-weight: normal;
+}
+
+@font-face {
+  src: url(./fonts/Roboto-Light.woff) format('woff'),
+    url(./fonts/Roboto-Light.woff2) format('woff2');
+  font-family: 'Roboto';
+  font-weight: 300;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #fff !important;
+}
+
+.swiper-button-prev {
+  color: #fff !important;
+}
+
+.swiper-button-prev::after {
+  font-size: 28px !important;
+  font-weight: 700 !important;
+}
+
+.swiper-button-next {
+  color: #fff !important;
+}
+
+.swiper-button-next::after {
+  font-size: 28px !important;
+  font-weight: 700 !important;
+}
+

@@ -1,0 +1,378 @@
+### endpoint /auth/
+### Авторизация
+POST http://127.0.0.1:8000/api/auth/token/login/
+Content-Type: application/json
+
+{
+    "email": "admin499@adm.ru",
+    "password": "2d13ed2d123qd23d1232e"
+}
+
+###
+
+# @token = ec2ad6f83182315bab912dbf06fc4a443c59c5c6
+
+# @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOThmNjRkMjcwZDk1MDAxMDQwYTdlOSIsInVzZXJuYW1lIjoia2V0dCIsImV4cCI6MTY1OTM3NjIwMSwiaWF0IjoxNjU0MTkyMjAxfQ.7URSyFREZRduAE49sWk4GRhhCVWSq1E9J4ZBuqZB1PM
+
+# @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOWY0ZTRjODRkNzViMGJmNDQzZjUwNyIsInVzZXJuYW1lIjoiYWRtaW4iLCJleHAiOjE2NTk3OTIxNDIsImlhdCI6MTY1NDYwODE0Mn0.cpKJTriqnxpzH-_fert-NHSIFjzi_6cOU01ZPQY0jNE
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOWU5OWY3MDhmMjU5OGQ5Nzc5ZmYyNiIsInVzZXJuYW1lIjoiYWRtaW4iLCJleHAiOjE2NjA1NDgzMDUsImlhdCI6MTY1NTM2NDMwNX0.0PwI4eG1FDul2qKfPWe9mEZUg3YJpxZePWbLKCTWhQU
+
+###
+
+POST http://127.0.0.1:8000/api/auth/token/logout/
+Authorization: Token {{token}}
+
+###
+
+
+
+
+
+
+
+
+
+
+### endpoint /users/
+
+
+GET http://127.0.0.1:8000/api/users/
+
+###
+
+GET http://127.0.0.1:8000/api/users/?limit=2
+Authorization: Token {{token}}
+
+###
+
+GET http://127.0.0.1:8000/api/users/?page=2
+Authorization: Token {{token}}
+
+###
+
+GET http://127.0.0.1:8000/api/users/1/
+Authorization: Token {{token}}
+
+###
+
+GET http://127.0.0.1:8000/api/users/me/
+Content-Type: application/json
+Authorization: Token {{token}}
+
+###
+
+POST http://127.0.0.1:8000/api/users/
+Content-Type: application/json
+
+{
+
+    "email": "admin3@adm.ru",
+    "username": "admin3",
+    "first_name": "admin3",
+    "last_name": "admin3",
+    "password": "uyg756f7uvyur"
+
+}
+
+###
+
+POST http://127.0.0.1:8000/api/users/set_password/
+Content-Type: application/json
+Authorization: Token {{token}}
+
+{
+
+    "new_password": "2d13ed2d123qd23d1232e",
+    "current_password": "fded34ed54ed"
+
+}
+
+###
+
+
+
+
+
+
+
+### endpoint /tags/
+
+
+GET http://127.0.0.1:8000/api/tags/
+###
+
+
+GET http://127.0.0.1:8000/api/tags/1/
+###
+
+
+
+
+
+
+
+
+### endpoint /ingredients/
+
+
+GET http://127.0.0.1:8000/api/ingredients/?name=карто
+###
+
+
+GET http://127.0.0.1:8000/api/ingredients/125/
+###
+
+
+
+
+
+
+
+
+### endpoint /recipes/
+
+
+GET http://127.0.0.1:8000/api/recipes?is_in_shopping_cart=1
+Content-Type: application/json
+Authorization: Token {{token}}
+###
+
+
+GET http://127.0.0.1:8000/api/recipes/5/
+###
+
+
+DELETE http://127.0.0.1:8000/api/recipes/9/
+Authorization: Token {{token}}
+###
+
+
+POST http://127.0.0.1:8000/api/recipes/
+Content-Type: application/json
+Authorization: Token {{token}}
+
+{
+  "ingredients": [
+    {
+      "id": 324,
+      "amount": -33
+    },
+    {
+      "id": 325,
+      "amount": 325
+    }
+  ],
+  "tags": [
+      1,
+      2
+  ],
+  "image": null,
+  "name": "trgbvergef",
+  "text": "dvfsrgwergwergerg",
+  "cooking_time": 444
+}
+
+###
+
+
+DELETE http://127.0.0.1:8000/api/recipes/38/
+Content-Type: application/json
+Authorization: Token {{token}}
+###
+
+
+PATCH http://127.0.0.1:8000/api/recipes/11/
+Content-Type: application/json
+Authorization: Token {{token}}
+
+{
+  "ingredients": [
+    {
+      "id": 777,
+      "amount": 777
+    }
+  ],
+  "tags": [
+    1
+  ],
+  "image": null,
+  "name": "sdcwecwcwefdw",
+  "text": "324",
+  "cooking_time": 324
+}
+
+###
+
+
+
+
+
+
+
+### endpoint /subscriptions/
+
+GET http://127.0.0.1:8000/api/users/subscriptions/
+Content-Type: application/json
+Authorization: Token {{token}}
+###
+
+
+POST http://127.0.0.1:8000/api/users/1/subscribe/
+Content-Type: application/json
+Authorization: Token {{token}}
+###
+
+
+
+DELETE http://127.0.0.1:8000/api/users/1/subscribe/
+Content-Type: application/json
+Authorization: Token {{token}}
+###
+
+
+
+
+
+
+### endpoint /favorite/
+
+POST http://127.0.0.1:8000/api/recipes/5/favorite/
+Content-Type: application/json
+Authorization: Token {{token}}
+###
+
+
+DELETE http://127.0.0.1:8000/api/recipes/4/favorite/
+Content-Type: application/json
+Authorization: Token {{token}}
+###
+
+
+
+
+
+
+
+
+### endpoint /shopping_cart/
+
+POST http://127.0.0.1:8000/api/recipes/4/shopping_cart/
+Content-Type: application/json
+Authorization: Token {{token}}
+###
+
+DELETE http://127.0.0.1:8000/api/recipes/4/shopping_cart/
+Content-Type: application/json
+Authorization: Token {{token}}
+###
+
+
+GET http://127.0.0.1:8000/api/recipes/download_shopping_cart/
+Content-Type: application/json
+Authorization: Token {{token}}
+###
+
+
+######################################################################################
+#############################
+######################################################################################
+
+
+
+
+GET http://127.0.0.1:8000/api/v1/brands/
+Content-Type: application/json
+
+###
+
+GET https://api.kogda-virastu.com/admin/users
+Content-Type: application/json
+Authorization: Bearer {{token}}
+###
+
+GET https://api.kogda-virastu.com/admin/users/some333
+Content-Type: application/json
+Authorization: Bearer {{token}}
+###
+
+GET https://api.kogda-virastu.com/profiles/some333
+Content-Type: application/json
+Authorization: Bearer {{token}}
+###
+
+PATCH https://api.kogda-virastu.com/admin/users/lagerta/roles
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "roles": [
+    "user"
+  ]
+}
+
+GET	http://localhost:3000/api/tags
+Content-Type: application/json
+
+###
+
+GET	http://localhost:3000/api/tags/follow
+Content-Type: application/json
+Authorization: Bearer {{token}}
+###
+
+GET	http://localhost:3000/api/tags/top
+# Content-Type: application/json
+# Authorization: Bearer {{token}}
+
+
+
+POST  http://localhost:3000/api/tags/озеро/follow
+Content-Type: application/json
+Authorization: Bearer {{token}}
+###
+
+DELETE  http://localhost:3000/api/tags/kkk/follow
+Content-Type: application/json
+Authorization: Bearer {{token}}
+###
+
+
+
+
+GET	http://localhost:3000/api/user
+Content-Type: application/json
+Authorization: Bearer {{token}}
+###
+
+
+POST	http://localhost:3000/api/profiles/kett/follow
+Content-Type: application/json
+Authorization: Bearer {{token}}
+###
+
+
+
+# POST	http://localhost:3000/api/users
+# Content-Type: application/json
+# ###
+
+GET	http://localhost:3000/api/user
+Content-Type: application/json
+Authorization: Bearer {{token}}
+###
+
+
+
+GET	http://localhost:3000/api/articles/feed
+Content-Type: application/json
+Authorization: Bearer {{token}}
+###
+
+GET http://localhost:3000/api/tags
+Content-Type: application/json
+Authorization: Bearer {{token}}
+###
+
+
+GET https://nomoreparties.co/tests/1
+

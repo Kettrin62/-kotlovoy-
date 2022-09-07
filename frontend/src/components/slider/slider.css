@@ -1,0 +1,123 @@
+.swiper {
+  width: 100%;
+  height: 100%;
+  margin: 5px 0;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 440px;
+  object-fit: cover;
+
+  color: #fff;
+  /* min-height: 440px; */
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.swiper-slide img::before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-color: #2a2c2f;
+  opacity: .4;
+  transition: opacity .2s ease-in-out;
+}
+
+@media all and (max-width: 730px) {
+  .swiper-slide img {
+    height: 300px;
+  }
+}
+
+.swiper-slide h2 {
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1.46;
+  z-index: 2;
+  color: #fff;
+  position: absolute;
+  display: flex;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 0 10%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  text-align: center;
+}
+
+@media all and (max-width: 730px) {
+  .swiper-slide h2 {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.16;
+  }
+}
+
+.swiper-slide div {
+  display: block;
+  width: 100%;
+  height: 440px;
+  object-fit: cover;
+
+  color: #fff;
+  /* min-height: 440px; */
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.swiper-slide div::before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-color: #2a2c2f;
+  opacity: .4;
+  transition: opacity .2s ease-in-out;
+}
+
+@media all and (max-width: 730px) {
+  .swiper-slide div {
+    height: 300px;
+  }
+}
+
+
