@@ -1,9 +1,15 @@
 import linksimageStyles from './links-image.module.css';
 import searchIcon from '../../images/search.svg';
+import cn from 'classnames';
+import { FC } from 'react';
 
-function LinkSearch() {
+interface ILinkSearchtProps {
+  class?: string
+}
+
+const LinkSearch: FC<ILinkSearchtProps> = (props) => {
   return (
-    <img src={searchIcon} alt='Личный кабинет' className={linksimageStyles.image} />
+    <img src={searchIcon} alt='Личный кабинет' className={cn(linksimageStyles.image, props.class)} />
   )
 }
 

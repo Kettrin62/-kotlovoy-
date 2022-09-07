@@ -13,6 +13,10 @@ import LinkAccount from '../links-image/link-account';
 import LinkSearch from '../links-image/link-search';
 import Menu from '../menu/menu';
 import Divider from '../divider/divider';
+import Input from '../input/input';
+import SearchBar from '../search-bar/search-bar';
+import { useState } from 'react';
+
 
 
 
@@ -22,6 +26,8 @@ function AppHeader() {
 
   const history = useHistory();
   const { pathname } = useLocation();
+  const [visible, setVisible] = useState(false);
+
 
   const onClickMain = useCallback(
     () => {
@@ -29,6 +35,14 @@ function AppHeader() {
     },
     [history]
   );
+
+  const onClickSearch = () => {
+    setVisible(true);
+  };
+
+  const classSearchBar = visible
+    ? appheaderStyles.bar_show
+    : appheaderStyles.bar_hide
 
   return (
     <>
@@ -38,8 +52,9 @@ function AppHeader() {
           <Link class={appheaderStyles.link} onClick={onClickMain}>
             <Title />
           </Link>
-          <button className={appheaderStyles.button} onClick={onClickMain}>
-            <LinkSearch />
+          <SearchBar />
+          <button className={appheaderStyles.button} onClick={onClickSearch}>
+            <LinkSearch class={appheaderStyles.search} />
           </button>
           <Link class={appheaderStyles.link} onClick={onClickMain}>
             <LinkCart />

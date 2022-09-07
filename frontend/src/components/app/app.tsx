@@ -22,6 +22,7 @@ import brand6 from '../../images/brands/beretta.png';
 import brand7 from '../../images/brands/biasi.png';
 import brand8 from '../../images/brands/bosch.png';
 import brand9 from '../../images/brands/buderus.png';
+import Footer from '../footer/footer';
 
 function App() {
 
@@ -32,43 +33,88 @@ function App() {
       image: `${brand1}`
     },
     {
-      id: 1,
-      title: 'Brand 1',
+      id: 2,
+      title: 'Brand 2',
       image: `${brand2}`
     },
     {
-      id: 1,
-      title: 'Brand 1',
+      id: 3,
+      title: 'Brand 3',
       image: `${brand3}`
     },
     {
-      id: 1,
-      title: 'Brand 1',
+      id: 4,
+      title: 'Brand 4',
       image: `${brand4}`
     },
     {
-      id: 1,
-      title: 'Brand 1',
+      id: 5,
+      title: 'Brand 5',
       image: `${brand5}`
     },
     {
-      id: 1,
+      id: 6,
       title: 'Brand 1',
       image: `${brand6}`
     },
     {
-      id: 1,
-      title: 'Brand 1',
+      id: 7,
+      title: 'Brand 6',
       image: `${brand7}`
     },
     {
-      id: 1,
-      title: 'Brand 1',
+      id: 8,
+      title: 'Brand 11',
       image: `${brand8}`
     },
     {
-      id: 1,
+      id: 9,
+      title: 'Brand 12',
+      image: `${brand9}`
+    },
+    {
+      id: 10,
+      title: 'Brand 13',
+      image: `${brand1}`
+    },
+    {
+      id: 12,
+      title: 'Brand 41',
+      image: `${brand2}`
+    },
+    {
+      id: 13,
+      title: 'Brand 61',
+      image: `${brand3}`
+    },
+    {
+      id: 14,
       title: 'Brand 1',
+      image: `${brand4}`
+    },
+    {
+      id: 15,
+      title: 'Brand 11',
+      image: `${brand5}`
+    },
+    {
+      id: 16,
+      title: 'Brand 1',
+      image: `${brand6}`
+    },
+    {
+      id: 17,
+      title: 'Brand 2',
+      image: `${brand7}`
+    },
+    {
+      id: 18,
+      title: 'Brand 23',
+      image: `${brand8}`
+    },
+    {
+      id: 19,
+      title: 'Brand 19',
       image: `${brand9}`
     },
   ]);
@@ -135,6 +181,7 @@ function App() {
               </DataBrandsContext.Provider>
             </Route>
           </Switch>
+          <Footer />
         </Router>
       </div>
     </ErrorBoundary>

@@ -10,20 +10,11 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-interface IBrandListProps {
-  children: React.ReactNode
-}
-
 function Slider() {
   const swiper = useContext(DataSwiperContext);
   console.log(swiper);
 
 
-  // brands.forEach(item => {
-  //   console.log(item);
-    
-  // })
-  
   return (
     <Swiper
       slidesPerView={1}
@@ -43,6 +34,13 @@ function Slider() {
     >
       {swiper.map(item => (
         <SwiperSlide key={item.id}>
+          {/* <div style={{ backgroundImage: `URL(${item.image})` }}>
+            <a>
+              <h2>
+                {item.title}
+              </h2>
+            </a>
+          </div> */}
           <img src={item.image} />
           <h2>
             {item.title}

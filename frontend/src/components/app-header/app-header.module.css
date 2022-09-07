@@ -40,3 +40,7 @@
   opacity: .75;
 }
 
+.bar_hide {
+  display: none;
+}
+

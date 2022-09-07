@@ -12,3 +12,9 @@ export type TDataSwiper = {
   readonly available: boolean;
   readonly url: string;
 }
+
+export type TDataFooter = {
+  readonly name: string;
+  readonly image: string;
+  readonly text: string;
+}

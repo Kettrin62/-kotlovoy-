@@ -374,5 +374,5 @@ Authorization: Bearer {{token}}
 ###
 
 
-
+GET https://nomoreparties.co/tests/1
 
