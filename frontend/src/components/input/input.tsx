@@ -16,6 +16,7 @@ interface IInputProps {
   onFocus?: any,
   onBlur?: any,
   value: string,
+  reset?: boolean,
 }
 
 const Input: FC<IInputProps> = ({
@@ -29,20 +30,26 @@ const Input: FC<IInputProps> = ({
     required,
     onFocus,
     onBlur,
-    value = ''
+    value = '',
+    reset
   }) => {
 
-  const [ inputValue, setInputValue ] = useState(value)
+  const [ inputValue, setInputValue ] = useState(value);
+
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setInputValue(value)
     onChange(e)
-  }
+  };
+
   useEffect(() => {
     if (value !== inputValue) {
       setInputValue(value)
     }
-  }, [value])
+    if (reset) {
+      setInputValue('')
+    }
+  }, [value, reset]);
 
 
   return <div className={cn(inputStyles.input, className)}>

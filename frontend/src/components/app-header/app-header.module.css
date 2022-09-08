@@ -1,9 +1,9 @@
 .header {
-  /* min-height: 74px; */
+  min-height: 56px;
   /* min-height: 50px; */
   display: flex;
-  /* align-items: center; */
-  align-items: flex-end;
+  align-items: center;
+  /* align-items: flex-end; */
   justify-content: space-between;
   width: 100%;
   background-color: inherit;
@@ -41,6 +41,17 @@
 }
 
 .bar_hide {
+  display: none !important;
+}
+
+.bar_show {
+  display: flex;
+}
+
+.button_hide {
   display: none;
 }
 
+.button_show {
+  display: flex;
+}
