@@ -7,5 +7,6 @@ drf-extra-fields==3.4.0
 djoser==2.1.0
 djangorestframework_simplejwt==4.8.0
 drf-yasg==1.21.3
+django-cors-headers==3.13.0 # delete after development
 isort==5.10.1 # delete after development
 flake8==5.0.3 # delete after development
