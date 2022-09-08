@@ -374,5 +374,4 @@ Authorization: Bearer {{token}}
 ###
 
 
-GET https://nomoreparties.co/tests/1
-
+GET https://serverhub.praktikum-services.ru/servers/25ebb687-c413-445b-a3a7-bed9428206e8/proxy/users

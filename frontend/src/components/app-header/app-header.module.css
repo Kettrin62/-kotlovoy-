@@ -12,6 +12,12 @@
   padding: 0 calc(25%/10);
 }
 
+@media screen and (max-width: 760px) {
+  .header {
+    min-height: 40px;
+  }
+}
+
 .link {
   color: inherit;
   text-decoration: none;
@@ -21,6 +27,12 @@
   transition: opacity .3s linear;
   position: relative;
   cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .link_hide {
+    display: none !important;
+  }
 }
 
 .link:hover {

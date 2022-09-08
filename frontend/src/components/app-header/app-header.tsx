@@ -17,6 +17,7 @@ import Input from '../input/input';
 import SearchBar from '../search-bar/search-bar';
 import { useState } from 'react';
 import Button from '../button/button';
+import cn from 'classnames';
 
 
 
@@ -60,12 +61,16 @@ function AppHeader() {
     setInputClear(true);
   };
 
+  const classLink = visibleButton
+    ? appheaderStyles.link_show
+    : appheaderStyles.link_hide
+
   return (
     <>
       <header className={appheaderStyles.header}>
         <Menu />
         <Navigation >
-          <Link class={appheaderStyles.link} onClick={onClickMain}>
+          <Link class={cn(appheaderStyles.link, classLink)} onClick={onClickMain}>
             <Title />
           </Link>
           <SearchBar 
@@ -81,7 +86,7 @@ function AppHeader() {
           <Link class={appheaderStyles.link} onClick={onClickMain}>
             <LinkCart />
           </Link>
-          <Link class={appheaderStyles.link} onClick={onClickMain}>
+          <Link class={cn(appheaderStyles.link, classLink)} onClick={onClickMain}>
             <LinkAccount />
           </Link>
         </Navigation>
