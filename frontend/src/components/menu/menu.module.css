@@ -90,12 +90,12 @@
   overflow: hidden;
 }
 
-.menu_opened {
-  /* visibility: visible;
+/* .menu_opened {
+  visibility: visible;
   opacity: 1;
   transition: visibility 0s, opacity 0.3s linear;
-  z-index: 5; */
-}
+  z-index: 5;
+} */
 
 .button_close {
   background: url(../../images/menu-button-close.svg) center/cover no-repeat;

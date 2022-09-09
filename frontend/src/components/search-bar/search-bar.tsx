@@ -1,25 +1,30 @@
 import * as React from 'react';
-import Navigation from '../navigation/navigation';
+import { FC } from 'react';
 import searchbarStyles from './searchbar.module.css';
 import { useCallback } from 'react';
 import { 
   useHistory,
   useLocation,
 } from 'react-router-dom';
-import Title from '../title/title';
-import Link from '../link/link';
-import LinkCart from '../links-image/link-cart';
-import LinkAccount from '../links-image/link-account';
-import LinkSearch from '../links-image/link-search';
-import Menu from '../menu/menu';
-import Divider from '../divider/divider';
+import LinkSearch from '../links-buttons-image/link-search';
 import Input from '../input/input';
+import cn from 'classnames';
+import LinkClose from '../links-buttons-image/link-close';
+import Button from '../button/button';
 
 
+interface ISearchBarProps {
+  className: string,
+  onClickClose: () => void;
+  reset?: boolean;
+}
 
 
-
-function SearchBar() {
+const SearchBar: FC<ISearchBarProps> = ({ 
+  className,
+  onClickClose,
+  reset,
+}) => {
 
   const history = useHistory();
   const { pathname } = useLocation();
@@ -31,11 +36,11 @@ function SearchBar() {
     [history]
   );
 
-
-
   return (
-    <div className={searchbarStyles.container}>
-      <LinkSearch />
+    <div className={cn(searchbarStyles.container, className)}>
+      <Button clickHandler={onClickClose}>
+        <LinkClose />
+      </Button>
       <Input
         className=''
         inputClassName=''
@@ -47,7 +52,11 @@ function SearchBar() {
           // })
         }}
         value=''
+        reset={reset}
       />
+      <Button clickHandler={onClickMain}>
+        <LinkSearch />
+      </Button>
     </div>
   )
 }
