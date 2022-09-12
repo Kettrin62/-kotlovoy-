@@ -1,3 +1,4 @@
+from pstats import Stats
 from django.core.exceptions import ObjectDoesNotExist
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework.validators import UniqueValidator
@@ -134,6 +135,7 @@ class ElementSerializer(serializers.ModelSerializer):
         validated_images = []
         if images['images']:
             for image in images['images']:
+                raise serializers.ValidationError({'images': ['Not a valid contact']})
                 validated_images.append(
                     get_object_or_404(ProductPhoto, pk=image['id'])
                 )

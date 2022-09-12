@@ -1,7 +1,9 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status, viewsets
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
+from kotlovoy62.settings import CUSTOM_SETTINGS_DRF
 from .models import (
     Вrand, Group, Element, ProductPhoto, ElementHasProductPhoto
 )
@@ -46,6 +48,11 @@ class ProductPhotosViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class RecipeSetPagination(PageNumberPagination):
+    page_size_query_param = 'limit'
+    page_size = CUSTOM_SETTINGS_DRF.get('PAGE_SIZE_ELEMENTS')
+
+
 class ElementViewSet(viewsets.ModelViewSet):
     queryset = Element.objects.all()
     serializer_class = ElementSerializer
@@ -53,6 +60,7 @@ class ElementViewSet(viewsets.ModelViewSet):
     filterset_fields = ('brand', 'groups')
     search_fields = ('title', 'article',)
     permission_classes = (IsAdminOrReadOnly,)
+    pagination_class = RecipeSetPagination
 
     def perform_create(self, serializer):
         serializer.save(

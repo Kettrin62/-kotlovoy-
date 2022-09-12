@@ -107,7 +107,6 @@ class Element(models.Model):
     available = models.BooleanField(
         default=True,
         verbose_name='Отображение на сайте',
-        null=True,
     )
     created = models.DateTimeField(
         auto_now_add=True,

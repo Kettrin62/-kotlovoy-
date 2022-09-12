@@ -2,15 +2,15 @@
 POST http://127.0.0.1:8000/api/auth/token/login/
 Content-Type: application/json
 
-{
-    "email": "vpupkin@yandex.ru",
-    "password": "ieurhfieufi1"
-}
-
 # {
-#     "email": "admin@admin.admin",
-#     "password": "admin"
+#     "email": "vpupkin@yandex.ru",
+#     "password": "ieurhfieufi1"
 # }
+
+{
+    "email": "admin@admin.admin",
+    "password": "admin"
+}
 
 ###
 
@@ -18,7 +18,7 @@ Content-Type: application/json
 #@token = 7d2894397266c3eecf0ea8a0319ec3e5e102e09b
 
 # Админ
-@token = 63d8888b51a97c03b2aff091cb76fdd308b2e715
+@token = 7d769c8d5b0e14ae1627c2cd49defe0e44cba736
 
 
 ###
@@ -228,6 +228,10 @@ Authorization: Token {{token}}
 GET http://127.0.0.1:8000/api/v1/elements/
 ###
 
+###
+GET http://127.0.0.1:8000/api/v1/elements/?limit=3
+###
+
 
 ###
 GET http://127.0.0.1:8000/api/v1/elements/?brand=3
@@ -274,7 +278,7 @@ Authorization: Token {{token}}
     "description": "Описание дитали и всякая лажа",
     "images": [
         {
-            "id": 6
+            "id": 58
         },
         {
             "id": 7
@@ -285,7 +289,7 @@ Authorization: Token {{token}}
     ],
     "price": 900.49,
     "stock": 2,
-    "article": "987-987-987-005",
+    "article": "987-987-987-006",
     "available": true,
     "brand": {
         "id": 3
