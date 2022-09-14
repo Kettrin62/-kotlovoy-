@@ -74,7 +74,7 @@ class ProductPhoto(models.Model):
         verbose_name='Фото',
     )
     display_order = models.PositiveSmallIntegerField(
-        verbose_name='Порядок расположения',
+        verbose_name='Порядок отображения',
     )
 
     class Meta:
