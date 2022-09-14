@@ -49,6 +49,31 @@ class Api {
     ).then(this.checkResponse)
   }
 
+  // elements
+  getElementsBrand (id) {
+    return fetch(
+      `${BASEURL}elements/?brand=${id}`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // slides
+  getSliders () {
+    return fetch(
+      `${BASEURL}swipers/`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+        }
+      }
+    ).then(this.checkResponse)
+  }
 
 
 

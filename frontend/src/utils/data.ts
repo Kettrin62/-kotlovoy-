@@ -1,4 +1,4 @@
-import { TDataFooter } from "../services/types/data";
+import { TDataFooter, TDataPathNames } from "../services/types/data";
 import map from '../images/map.svg';
 import mail from '../images/mail.svg';
 import telephoneIcon from '../images/telephone-icon.svg';
@@ -20,3 +20,13 @@ export const dataFooter: Array<TDataFooter> = [
     text: '390044, г.Рязань, ул.Новая, д.20',
   }
 ]
+
+export const pathNames: TDataPathNames = {
+  main: '/',
+  elements: '/elements',
+  pay: '/pay',
+  delivery: '/delivery',
+  about: '/about',
+  contacts: '/contacts',
+  feedback: '/contacts',
+}

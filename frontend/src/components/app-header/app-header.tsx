@@ -18,6 +18,8 @@ import SearchBar from '../search-bar/search-bar';
 import { useState } from 'react';
 import Button from '../button/button';
 import cn from 'classnames';
+import Text from '../text/text';
+import { pathNames } from '../../utils/data';
 
 
 
@@ -62,33 +64,59 @@ function AppHeader() {
   };
 
   const classLink = visibleButton
-    ? appheaderStyles.link_show
-    : appheaderStyles.link_hide
+    ? ''
+    : appheaderStyles.link_hide;
+
+  const onClickLink = useCallback(
+    (path: string) => {
+      history.replace({ pathname: path });
+    },
+    [history]
+  );
+
+  const classBox = visibleButton
+  ? ''
+  : appheaderStyles.box_hide;
 
   return (
     <>
       <header className={appheaderStyles.header}>
         <Menu />
-        <Navigation >
-          <Link class={cn(appheaderStyles.link, classLink)} onClick={onClickMain}>
-            <Title />
-          </Link>
-          <SearchBar 
-            className={classSearchBar} 
-            onClickClose={onClickClose} 
-            reset={inputClear}
-          />
-          <Button className={classButton} clickHandler={onClickSearch}>
-            <LinkSearch class={appheaderStyles.search} />
-          </Button>
-          {/* <button className={appheaderStyles.button} onClick={onClickSearch}>
-          </button> */}
-          <Link class={appheaderStyles.link} onClick={onClickMain}>
-            <LinkCart />
-          </Link>
-          <Link class={cn(appheaderStyles.link, classLink)} onClick={onClickMain}>
-            <LinkAccount />
-          </Link>
+        <Navigation>
+          <div className={appheaderStyles.container}>
+            <Link class={cn(appheaderStyles.link, classLink)} onClick={onClickMain}>
+              <Title />
+            </Link>
+            <div className={cn(appheaderStyles.box, classBox)}>
+              <Link class={appheaderStyles.link} onClick={() => onClickLink(pathNames.elements)}>
+                <Text class={appheaderStyles.text} text='Каталог' />
+              </Link>
+              <Link class={appheaderStyles.link} onClick={() => onClickLink(pathNames.pay)}>
+                <Text class={appheaderStyles.text} text='Оплата' />
+              </Link>
+              <Link class={appheaderStyles.link} onClick={() => onClickLink(pathNames.delivery)}>
+                <Text class={appheaderStyles.text} text='Доставка' />
+              </Link>
+            </div>
+          </div>
+          <div className={appheaderStyles.container}>
+            <SearchBar 
+              className={classSearchBar} 
+              onClickClose={onClickClose} 
+              reset={inputClear}
+            />
+            <Button className={classButton} clickHandler={onClickSearch}>
+              <LinkSearch class={appheaderStyles.search} />
+            </Button>
+            {/* <button className={appheaderStyles.button} onClick={onClickSearch}>
+            </button> */}
+            <Link class={appheaderStyles.link} onClick={onClickMain}>
+              <LinkCart />
+            </Link>
+            <Link class={cn(appheaderStyles.link, classLink)} onClick={onClickMain}>
+              <LinkAccount />
+            </Link>
+          </div>
         </Navigation>
       </header>
       <Divider />

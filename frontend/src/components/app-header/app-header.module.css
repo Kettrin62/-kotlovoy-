@@ -18,6 +18,12 @@
   }
 }
 
+.container {
+  display: flex;
+  gap: 45px;
+  align-items: center;
+}
+
 .link {
   color: inherit;
   text-decoration: none;
@@ -66,4 +72,32 @@
 
 .button_show {
   display: flex;
+}
+
+.box {
+  display: flex;
+  gap: 15px;
+}
+
+@media screen and (max-width: 760px) {
+  .box {
+    display: none;
+  }
+}
+
+.text {
+  margin: 0;
+  font-size: 20px;
+}
+
+@media screen and (max-width: 1040px) {
+  .text {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .box_hide {
+    display: none !important;
+  }
 }
