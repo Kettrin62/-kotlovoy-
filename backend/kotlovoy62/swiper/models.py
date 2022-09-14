@@ -11,7 +11,7 @@ class Swiper(models.Model):
         verbose_name='Текст слайда',
     )
     image = models.ImageField(
-        upload_to='images/',
+        upload_to='swipers/',
         verbose_name='Картинка сайда',
     )
     created = models.DateTimeField(

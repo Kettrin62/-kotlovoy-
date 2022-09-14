@@ -1,4 +1,20 @@
+import os
+from hashlib import sha1
+
 from django.db import models
+
+UPLOAD_ROOT_DIR = {
+    'Вrand': 'brands',
+    'ProductPhoto': 'elements'
+}
+
+
+def get_image_path(instance, filename):
+    parse_name = str.encode(filename)
+    parse_type = str(filename).split('.')[-1]
+    hash_name = sha1(parse_name).hexdigest() + '.' + parse_type
+    root_dir = UPLOAD_ROOT_DIR.get(instance.__class__.__name__)
+    return os.path.join(root_dir, hash_name[:2], hash_name[2:4], hash_name)
 
 
 class Вrand(models.Model):
@@ -7,7 +23,7 @@ class Вrand(models.Model):
         max_length=100,
     )
     image = models.ImageField(
-        upload_to='images/',
+        upload_to=get_image_path,
         blank=True, null=True,
         verbose_name='Картинка',
     )
@@ -53,7 +69,7 @@ class Group(models.Model):
 
 class ProductPhoto(models.Model):
     image = models.ImageField(
-        upload_to='images/',
+        upload_to=get_image_path,
         blank=True, null=True,
         verbose_name='Фото',
     )

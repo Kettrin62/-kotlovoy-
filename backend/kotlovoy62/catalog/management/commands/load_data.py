@@ -1,6 +1,5 @@
 import csv
 from os import path
-from re import T
 from shutil import copytree, ignore_patterns, rmtree
 
 from django.core.management.base import BaseCommand
@@ -84,16 +83,18 @@ class Command(BaseCommand):
         #
         ###########################################################
 
-        if path.exists('media/images'):
-            rmtree('media/images')
+        if path.exists('media/brands'):
+            rmtree('media/brands')
         copytree(
-            '../data/loading_data/brands/', 'media/images/',
+            '../data/loading_data/brands/', 'media/brands/',
             ignore=ignore_patterns('*.csv',)
         )
         ###########################################################
         # for testing
+        if path.exists('media/elements'):
+            rmtree('media/elements')
         copytree(
-            '../data/loading_data/elements/', 'media/images/',
+            '../data/loading_data/elements/', 'media/elements/',
             ignore=ignore_patterns('*.csv',), dirs_exist_ok=True
         )
         #
