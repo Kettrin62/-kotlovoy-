@@ -1,6 +1,7 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
 
-from .models import User, Address
+from .models import User
 
 EMPTY_VALUE = '-пусто-'
 
@@ -14,16 +15,8 @@ class UserAdmin(admin.ModelAdmin):
     search_fields = ('username', 'email')
     list_filter = ('is_active', 'date_joined')
     list_editable = ('is_active', 'discount')
-
-
-class AddressAdmin(admin.ModelAdmin):
-    list_display = (
-        'postal_code', 'region', 'city', 'location', 'created'
-    )
-    empty_value_display = EMPTY_VALUE
-    search_fields = ('postal_code', 'city')
-    list_filter = ('created',)
+    exclude = ('is_superuser', 'is_staff', 'groups', 'user_permissions', )
 
 
 admin.site.register(User, UserAdmin)
-admin.site.register(Address, AddressAdmin)
+admin.site.unregister(Group)

@@ -107,9 +107,7 @@ class Element(models.Model):
         related_name='photos',
         verbose_name='Фото',
     )
-    price = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
+    price = models.PositiveIntegerField(
         verbose_name='Цена',
     )
     stock = models.PositiveIntegerField(

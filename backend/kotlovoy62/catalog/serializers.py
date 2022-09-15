@@ -1,11 +1,12 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.models import AnonymousUser
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework.validators import UniqueValidator
 from rest_framework import serializers
 
 from .models import (
     Вrand, Group, Element, ProductPhoto, ElementHasProductPhoto,
-    ElementHasGroup, ProductPhoto,
+    ElementHasGroup,
 )
 from .custom_utils import file_delete
 
@@ -127,14 +128,22 @@ class ElementSerializer(serializers.ModelSerializer):
         max_length=50,
         validators=[UniqueValidator(queryset=Element.objects.all())]
     )
+    cur_price = serializers.SerializerMethodField()
 
     class Meta:
         model = Element
         fields = (
             'id', 'title', 'measurement_unit', 'description', 'images',
             'price', 'stock', 'article', 'available', 'created', 'created',
-            'brand', 'groups',
+            'brand', 'groups', 'cur_price',
         )
+
+    def get_cur_price(self, obj):
+        req_user = self.context.get('request').user
+        if req_user.is_anonymous:
+            return obj.price
+        price = obj.price - round(obj.price * req_user.discount / 100)
+        return price
 
     def create(self, validated_data):
         images = validated_data.pop('images')

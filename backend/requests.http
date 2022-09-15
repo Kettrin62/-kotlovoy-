@@ -18,7 +18,7 @@ Content-Type: application/json
 #@token = 7d2894397266c3eecf0ea8a0319ec3e5e102e09b
 
 # Админ
-@token = 8115bfbd14e8cc9006f61ccd0cd8f1a9b07b5f85
+@token = ecc27a4db8c0c19bcf5c43de465feb8f5642ac3c
 
 
 ###
@@ -225,7 +225,8 @@ Authorization: Token {{token}}
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/elements/
+GET http://127.0.0.1:8000/api/v1/elements/2
+Authorization: Token {{token}}
 ###
 
 ###

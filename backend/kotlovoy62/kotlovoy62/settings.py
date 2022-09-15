@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'catalog.apps.CatalogConfig',
     'swiper.apps.SwiperConfig',
+    'orders.apps.OrdersConfig',
     'rest_framework',
     'django_filters',
     'rest_framework.authtoken',
