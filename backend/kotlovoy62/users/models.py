@@ -13,10 +13,6 @@ class User(AbstractUser):
     phoneNumber = PhoneNumberField(
         verbose_name='Телефон', blank=True, null=True,
     )
-    addresses = models.ForeignKey(
-        'address', on_delete=models.CASCADE, blank=True, null=True,
-        related_name='addresses', verbose_name='Адреса',
-    )
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ('username', 'first_name', 'last_name',)
 
@@ -24,6 +20,10 @@ class User(AbstractUser):
 class Address(models.Model):
     postal_code = models.CharField(
         max_length=20, blank=True, null=True, verbose_name='Индекс',
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=True, null=True,
+        related_name='addresses', verbose_name='Адреса',
     )
     region = models.CharField(
         max_length=100, blank=True, null=True, verbose_name='Область',
@@ -35,6 +35,14 @@ class Address(models.Model):
     location = models.CharField(
         max_length=200, blank=True, null=True,
         verbose_name='Улица, дом, квартира',
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата создания',
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Дата редактирования',
     )
 
     class Meta:
@@ -48,4 +56,6 @@ class Address(models.Model):
         )
 
     def __str__(self):
-        return 'Адрес {}'.format(self.pk,)
+        return '{}, {}, {}, {}'.format(
+            self.postal_code, self.region, self.city, self.location
+        )
