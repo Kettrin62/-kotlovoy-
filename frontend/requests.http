@@ -280,10 +280,23 @@ Authorization: Token {{token}}
 
 
 
-GET http://127.0.0.1:8000/api/v1/brands/
+GET http://194.67.110.183/api/v1/brands/
 Content-Type: application/json
 
 ###
+
+
+GET http://194.67.110.183/api/v1/swipers/
+Content-Type: application/json
+
+###
+
+GET http://194.67.110.183/api/v1/elements/?brand=3
+Content-Type: application/json
+
+###
+
+
 
 GET https://api.kogda-virastu.com/admin/users
 Content-Type: application/json
