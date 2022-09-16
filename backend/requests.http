@@ -2,15 +2,15 @@
 POST http://127.0.0.1:8000/api/auth/token/login/
 Content-Type: application/json
 
-{
-    "email": "vpupkin@yandex.ru",
-    "password": "ieurhfieufi1"
-}
-
 # {
-#     "email": "admin@admin.admin",
-#     "password": "admin"
+#     "email": "vpupkin@yandex.ru",
+#     "password": "ieurhfieufi1"
 # }
+
+{
+    "email": "admin@admin.admin",
+    "password": "admin"
+}
 
 ###
 
@@ -18,7 +18,7 @@ Content-Type: application/json
 #@token = 7d2894397266c3eecf0ea8a0319ec3e5e102e09b
 
 # Админ
-@token = 63d8888b51a97c03b2aff091cb76fdd308b2e715
+@token = ecc27a4db8c0c19bcf5c43de465feb8f5642ac3c
 
 
 ###
@@ -119,7 +119,7 @@ Content-Type: application/json
 Authorization: Token {{token}}
 
 {
-    "title": "Бренд 7",
+    "title": "Бренд 862",
     "image": "data:image/jpeg;base64,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"
 }
 
@@ -225,7 +225,12 @@ Authorization: Token {{token}}
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/elements/
+GET http://127.0.0.1:8000/api/v1/elements/2
+Authorization: Token {{token}}
+###
+
+###
+GET http://127.0.0.1:8000/api/v1/elements/?limit=3
 ###
 
 
@@ -274,7 +279,7 @@ Authorization: Token {{token}}
     "description": "Описание дитали и всякая лажа",
     "images": [
         {
-            "id": 6
+            "id": 5
         },
         {
             "id": 7
@@ -285,7 +290,7 @@ Authorization: Token {{token}}
     ],
     "price": 900.49,
     "stock": 2,
-    "article": "987-987-987-005",
+    "article": "987-987-987-007",
     "available": true,
     "brand": {
         "id": 3

@@ -1,4 +1,20 @@
+import os
+from hashlib import sha1
+
 from django.db import models
+
+UPLOAD_ROOT_DIR = {
+    'Вrand': 'brands',
+    'ProductPhoto': 'elements'
+}
+
+
+def get_image_path(instance, filename):
+    parse_name = str.encode(filename)
+    parse_type = str(filename).split('.')[-1]
+    hash_name = sha1(parse_name).hexdigest() + '.' + parse_type
+    root_dir = UPLOAD_ROOT_DIR.get(instance.__class__.__name__)
+    return os.path.join(root_dir, hash_name[:2], hash_name[2:4], hash_name)
 
 
 class Вrand(models.Model):
@@ -7,7 +23,7 @@ class Вrand(models.Model):
         max_length=100,
     )
     image = models.ImageField(
-        upload_to='images/',
+        upload_to=get_image_path,
         blank=True, null=True,
         verbose_name='Картинка',
     )
@@ -53,12 +69,12 @@ class Group(models.Model):
 
 class ProductPhoto(models.Model):
     image = models.ImageField(
-        upload_to='images/',
+        upload_to=get_image_path,
         blank=True, null=True,
         verbose_name='Фото',
     )
     display_order = models.PositiveSmallIntegerField(
-        verbose_name='Порядок расположения',
+        verbose_name='Порядок отображения',
     )
 
     class Meta:
@@ -91,9 +107,7 @@ class Element(models.Model):
         related_name='photos',
         verbose_name='Фото',
     )
-    price = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
+    price = models.PositiveIntegerField(
         verbose_name='Цена',
     )
     stock = models.PositiveIntegerField(
@@ -107,7 +121,6 @@ class Element(models.Model):
     available = models.BooleanField(
         default=True,
         verbose_name='Отображение на сайте',
-        null=True,
     )
     created = models.DateTimeField(
         auto_now_add=True,

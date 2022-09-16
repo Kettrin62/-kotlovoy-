@@ -11,7 +11,7 @@ class Swiper(models.Model):
         verbose_name='Текст слайда',
     )
     image = models.ImageField(
-        upload_to='images/',
+        upload_to='swipers/',
         verbose_name='Картинка сайда',
     )
     created = models.DateTimeField(
@@ -21,7 +21,6 @@ class Swiper(models.Model):
     available = models.BooleanField(
         default=True,
         verbose_name='Отображение слайда',
-        null=True,
     )
     display_order = models.PositiveSmallIntegerField(
         verbose_name='Порядок отображения слайда',

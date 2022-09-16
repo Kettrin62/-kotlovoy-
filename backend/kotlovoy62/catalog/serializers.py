@@ -1,12 +1,12 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.models import AnonymousUser
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework.validators import UniqueValidator
 from rest_framework import serializers
-from rest_framework.generics import get_object_or_404
 
 from .models import (
     Вrand, Group, Element, ProductPhoto, ElementHasProductPhoto,
-    ElementHasGroup, ProductPhoto,
+    ElementHasGroup,
 )
 from .custom_utils import file_delete
 
@@ -22,7 +22,7 @@ class ВrandSerializer(serializers.ModelSerializer):
         brand = Вrand.objects.filter(title=title)
         if brand:
             raise serializers.ValidationError(
-                detail=f'Бренд "{title}" уже существует!'
+                {'title': [f'Бренд c названием: {title} уже существует!']}
             )
         brand = Вrand.objects.create(**validated_data)
         return brand
@@ -34,8 +34,12 @@ class ВrandSerializer(serializers.ModelSerializer):
             cnt_obj = len(obj_with_new_tittle)
             if cnt_obj > 0 and new_title not in instance.title:
                 raise serializers.ValidationError(
-                    detail=f'Бренд "{new_title}" уже существует!'
-                 )
+                    {
+                        'title': [
+                            f'Бренд c названием: {new_title} уже существует!'
+                        ]
+                    }
+                )
 
         new_image = validated_data.get('image')
         if new_image:
@@ -66,7 +70,7 @@ class GroupSerializer(serializers.ModelSerializer):
         group = Group.objects.filter(title=title)
         if group:
             raise serializers.ValidationError(
-                detail=f'Группа "{title}" уже существует!'
+                {'title': [f'Группа с названием: {title} уже существует!']}
             )
         group = Group.objects.create(**validated_data)
         return group
@@ -78,8 +82,12 @@ class GroupSerializer(serializers.ModelSerializer):
             cnt_obj = len(obj_with_new_tittle)
             if cnt_obj > 0 and new_title not in instance.title:
                 raise serializers.ValidationError(
-                    detail=f'Группа "{new_title}" уже существует!'
-                 )
+                    {
+                        'title': [
+                            f'Группа с названием: {new_title} уже существует!'
+                        ]
+                    }
+                )
 
         instance.title = new_title
         instance.save()
@@ -120,36 +128,70 @@ class ElementSerializer(serializers.ModelSerializer):
         max_length=50,
         validators=[UniqueValidator(queryset=Element.objects.all())]
     )
+    cur_price = serializers.SerializerMethodField()
 
     class Meta:
         model = Element
         fields = (
             'id', 'title', 'measurement_unit', 'description', 'images',
             'price', 'stock', 'article', 'available', 'created', 'created',
-            'brand', 'groups',
+            'brand', 'groups', 'cur_price',
         )
+
+    def get_cur_price(self, obj):
+        req_user = self.context.get('request').user
+        if req_user.is_anonymous:
+            return obj.price
+        price = obj.price - round(obj.price * req_user.discount / 100)
+        return price
 
     def create(self, validated_data):
         images = validated_data.pop('images')
         validated_images = []
         if images['images']:
             for image in images['images']:
-                validated_images.append(
-                    get_object_or_404(ProductPhoto, pk=image['id'])
-                )
+                try:
+                    img_obj = ProductPhoto.objects.get(pk=image['id'])
+                    validated_images.append(img_obj)
+                except BaseException:
+                    raise serializers.ValidationError(
+                        {
+                            'images': [
+                                f'Передан не правильный параметр: {image}'
+                            ]
+                        }
+                    )
 
         groups = validated_data.pop('groups')
         validated_groups = []
         if groups['groups']:
             for group in groups['groups']:
-                validated_groups.append(
-                    get_object_or_404(Group, pk=group['id'])
-                )
+                try:
+                    group_obj = Group.objects.get(pk=group['id'])
+                    validated_groups.append(group_obj)
+                except BaseException:
+                    raise serializers.ValidationError(
+                        {
+                            'groups': [
+                                f'Передан не правильный параметр: {group}'
+                            ]
+                        }
+                    )
 
         brand_id = validated_data.pop('brand')
         if brand_id['brand']:
-            brand_id = brand_id['brand']['id']
-            brand = get_object_or_404(Вrand, pk=brand_id)
+            try:
+                brand_id = brand_id['brand']['id']
+                brand = Вrand.objects.get(pk=brand_id)
+            except BaseException:
+                raise serializers.ValidationError(
+                    {
+                        'brand': [
+                            "Передан не правильный параметр: "
+                            f"{brand_id['brand']}"
+                        ]
+                    }
+                )
         else:
             brand = None
 
@@ -170,22 +212,48 @@ class ElementSerializer(serializers.ModelSerializer):
         validated_images = []
         if images['images']:
             for image in images['images']:
-                validated_images.append(
-                    get_object_or_404(ProductPhoto, pk=image['id'])
-                )
+                try:
+                    img_obj = ProductPhoto.objects.get(pk=image['id'])
+                    validated_images.append(img_obj)
+                except BaseException:
+                    raise serializers.ValidationError(
+                        {
+                            'images': [
+                                f'Передан не правильный параметр: {image}'
+                            ]
+                        }
+                    )
 
         groups = validated_data.pop('groups')
         validated_groups = []
         if groups['groups']:
             for group in groups['groups']:
-                validated_groups.append(
-                    get_object_or_404(Group, pk=group['id'])
-                )
+                try:
+                    group_obj = Group.objects.get(pk=group['id'])
+                    validated_groups.append(group_obj)
+                except BaseException:
+                    raise serializers.ValidationError(
+                        {
+                            'groups': [
+                                f'Передан не правильный параметр: {group}'
+                            ]
+                        }
+                    )
 
         brand_id = validated_data.pop('brand')
         if brand_id['brand']:
-            brand_id = brand_id['brand']['id']
-            brand = get_object_or_404(Вrand, pk=brand_id)
+            try:
+                brand_id = brand_id['brand']['id']
+                brand = Вrand.objects.get(pk=brand_id)
+            except Вrand.DoesNotExist:
+                raise serializers.ValidationError(
+                    {
+                        'brand': [
+                            "Передан не правильный параметр: "
+                            f"{brand_id['brand']}"
+                        ]
+                    }
+                )
         else:
             brand = None
 

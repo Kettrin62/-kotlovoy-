@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'catalog.apps.CatalogConfig',
     'swiper.apps.SwiperConfig',
+    'orders.apps.OrdersConfig',
     'rest_framework',
     'django_filters',
     'rest_framework.authtoken',
@@ -65,18 +66,18 @@ TEMPLATES = [
 WSGI_APPLICATION = 'kotlovoy62.wsgi.application'
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
     'default': {
-        'ENGINE': os.environ.get('DB_ENGINE', default='django.db.backends.postgresql'),
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('POSTGRES_USER'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'ENGINE': os.environ.get('DB_ENGINE', default='django.db.backends.postgresql'),
+    #     'NAME': os.environ.get('DB_NAME'),
+    #     'USER': os.environ.get('POSTGRES_USER'),
+    #     'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+    #     'HOST': os.environ.get('DB_HOST'),
+    #     'PORT': os.environ.get('DB_PORT'),
+    # }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -123,7 +124,8 @@ REST_FRAMEWORK = {
 }
 
 CUSTOM_SETTINGS_DRF = {
-    'PAGE_SIZE_USERS': 10,
+    'PAGE_SIZE_ELEMENTS': 10,
+    'PAGE_SIZE_USERS': 20,
 }
 
 SWAGGER_SETTINGS = {

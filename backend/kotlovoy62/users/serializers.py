@@ -9,7 +9,11 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'username', 'first_name', 'last_name',)
+        fields = (
+            'id', 'email', 'username', 'first_name', 'last_name',
+            'discount', 'phoneNumber', 'postal_code', 'region',
+            'city', 'location'
+        )
 
 
 class UserCreateSerializer(DjUserCreateSerializer):
