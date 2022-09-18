@@ -21,7 +21,7 @@ function Footer() {
     <>
       <Divider />
       <footer className={footerStyles.footer}>
-        <Text class={footerStyles.copy} text='&copy; Котловой62&nbsp;2022' />
+        <Text class={footerStyles.copy} text='&copy; Котловой62' />
         <div className={footerStyles.container}>
           <Navigation className={footerStyles.nav}>
             <Link class={footerStyles.link} onClick={() => onClickLink(pathNames.about)}>

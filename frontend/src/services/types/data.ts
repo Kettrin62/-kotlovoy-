@@ -9,9 +9,11 @@ export type TDataSwiper = {
   readonly id: number;
   readonly title: string;
   readonly image: string;
-  readonly message: string;
+  readonly text: string;
   readonly available: boolean;
-  readonly url: string;
+  readonly created: string;
+  readonly display_order: number;
+
 }
 
 export type TDataFooter = {
@@ -37,13 +39,14 @@ export type TDataElement = {
   readonly measurement_unit: string;
   readonly description: string;
   readonly images: ReadonlyArray<TImageElement>;
-  readonly price: string;
+  readonly price: number;
   readonly stock: number;
   readonly article: string;
   readonly available: boolean;
   readonly created: string;
   readonly brand: TDataBrand;
   readonly groups: ReadonlyArray<TGroup>;
+  readonly cur_price: number;
 }
 
 export type TDataPathNames = {

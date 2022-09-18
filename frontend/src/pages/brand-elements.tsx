@@ -7,6 +7,8 @@ import brandelementsStyles from './brand-elements.module.css';
 
 export function BrandElementsPage() {
   const [elements, setElements] = useState<Array<TDataElement>>([]);
+  console.log(elements);
+  
 
   const { id } = useParams<{ id?: string }>();
 
@@ -15,7 +17,10 @@ export function BrandElementsPage() {
   const getElementsBrand = (id: string) => {
     api
       .getElementsBrand(id)
-      .then(data => setElements(data))
+      .then(data => {
+        const { results, count } = data;
+        setElements(results)
+      })
       .catch(err => console.log(err))
   }
 

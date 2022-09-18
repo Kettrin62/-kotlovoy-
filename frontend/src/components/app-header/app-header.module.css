@@ -20,9 +20,11 @@
 
 .container {
   display: flex;
-  gap: 45px;
+  gap: 20px;
   align-items: center;
 }
+
+
 
 .link {
   color: inherit;
@@ -101,3 +103,5 @@
     display: none !important;
   }
 }
+
+
