@@ -2,6 +2,15 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border-radius: 6px;
+  border: 1px solid rgb(207, 205, 205);
+  cursor: pointer;
+  gap: 5px;
+}
+
+.card:hover {
+  /* box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5); */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .swiper-slide img {
@@ -10,24 +19,58 @@
 
 .image {
   width: 100%;
+  border-radius: 6px 6px 0 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* min-height: 130px; */
+  justify-content: space-between;
+}
+
+.text {
+  font-size: 14px;
+  margin: 0 10px;
+  text-align: center;
+}
+
+.title {
+  min-height: 50px;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price {
+  font-size: 18px;
+  margin: 0 10px;
+  text-align: center;
 }
 
 .button {
-  background-color: #cecaca;
-  width: 95%;
-  min-height: 30px;
+  /* background-color: #cecaca; */
+  background-color: #e7e7e7;
+  /* width: 95%; */
+  /* min-height: 30px; */
   text-align: center;
-  border-radius: 3px;
   border: 1px solid rgba(84, 84, 84, 0.7);
+  /* border-radius: 3px; */
+  /* border: 1px solid ; */
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   transition: transform .3s ease-in-out;
   text-decoration: none;
   color: inherit;
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
+  align-self: flex-end;
 }
 
 .button:nth-of-type(2n) {

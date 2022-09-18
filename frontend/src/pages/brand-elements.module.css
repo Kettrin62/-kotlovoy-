@@ -14,8 +14,8 @@
 
 .list {
   display: grid;
-  gap: 20px 15px;
-  grid-template-columns: repeat(4, calc(100%/4));
+  gap: 25px 20px;
+  grid-template-columns: repeat(5, calc((100% - 4*20px)/5));
   list-style-type: none;
   margin: 0 auto;
   padding: 0;

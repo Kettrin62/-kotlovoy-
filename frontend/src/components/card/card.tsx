@@ -8,6 +8,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Button from '../button/button';
 import cardStyles from './card.module.css';
+import cn from 'classnames';
 
 interface IElementProps {
   element: TDataElement;
@@ -15,7 +16,13 @@ interface IElementProps {
 
 const Element: FC<IElementProps> = ({ element }) => {
 
-  const { title, price, article, images } = element;
+  const { 
+    title, 
+    price, 
+    article, 
+    images,
+    stock
+  } = element;
 
 console.log(element);
 
@@ -26,7 +33,7 @@ const onClickButton = () => {
 
   return (
     <li className={cardStyles.card}>
-      <Swiper
+      {/* <Swiper
         slidesPerView={1}
         centeredSlides={true}
         loop={true}
@@ -42,23 +49,34 @@ const onClickButton = () => {
             <img src={item.image} className={cardStyles.image} />
           </SwiperSlide>
         ))}
-      </Swiper>
+      </Swiper> */}
       {/* <div>
         {images.map(item => (
           <img src={item.image} className={cardStyles.image} />
 
         ))}
       </div> */}
-      <div>
-        <p>
+      <img src={images[0].image} alt={title} className={cardStyles.image} />
+      <div className={cardStyles.container}>
+        <p className={cn(cardStyles.text, cardStyles.title)}>
           {title}
         </p>
-        <h3>
-          {price} руб.
-        </h3>
-        <Button clickHandler={onClickButton} className={cardStyles.button}>
-          В корзину
-        </Button>
+        <div className={cardStyles.box}>
+          <p className={cardStyles.text}>
+            Арт:&nbsp;{article}
+          </p>
+          <h3 className={cardStyles.price}>
+            {price}&nbsp;руб.
+          </h3>
+        </div>
+        <div className={cardStyles.box}>
+          <p className={cardStyles.text}>
+            Доступно: {stock}шт.
+          </p>
+          <Button clickHandler={onClickButton} className={cardStyles.button}>
+            В&nbsp;корзину
+          </Button>
+        </div>
       </div>
     </li>
   )
