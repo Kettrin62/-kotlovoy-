@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 from phonenumber_field.modelfields import PhoneNumberField
 
 from users.models import User
@@ -82,16 +83,22 @@ class Order(models.Model):
     )
     user = models.ForeignKey(
         User, verbose_name='Пользователь',
-        on_delete=models.RESTRICT, related_name='orders',
+        on_delete=models.CASCADE, related_name='orders',
         blank=True, null=True,
+    )
+    elements = models.ManyToManyField(
+        Element, through='OrderHasElement'
     )
 
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
 
+    def __str__(self):
+        return 'Заказ №{}'.format(self.number)
 
-class OrderItem(models.Model):
+
+class OrderHasElement(models.Model):
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
@@ -100,8 +107,7 @@ class OrderItem(models.Model):
     )
     element = models.ForeignKey(
         Element,
-        on_delete=models.SET_NULL,
-        null=True,
+        on_delete=models.PROTECT,
         related_name='order_items',
         verbose_name='Деталь',
     )
@@ -111,9 +117,13 @@ class OrderItem(models.Model):
     cur_price = models.PositiveIntegerField(
         verbose_name='Цена со скидкой',
     )
-    quantity = models.PositiveIntegerField(
+    amount = models.PositiveSmallIntegerField(
         default=1,
         verbose_name='Количество',
+        validators=[MinValueValidator(
+            limit_value=1, message="Минимальное значение: 1"
+            )
+        ],
     )
 
     class Meta:
@@ -121,7 +131,4 @@ class OrderItem(models.Model):
         verbose_name_plural = 'Элементы'
 
     def __str__(self):
-        return '{}'.format(self.element)
-
-    def get_cost(self):
-        return self.cur_price * self.quantity
+        return '{}, {}'.format(self.order, self.element)

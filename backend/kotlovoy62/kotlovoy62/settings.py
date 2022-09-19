@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'drf_yasg',
-    'corsheaders', # delete after development
+    #'corsheaders', # delete after development
 ]
 
 MIDDLEWARE = [
@@ -40,8 +40,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware', # delete after development
-    'django.middleware.common.CommonMiddleware', # delete after development
+    #'corsheaders.middleware.CorsMiddleware', # delete after development
+    #'django.middleware.common.CommonMiddleware', # delete after development
 ]
 
 ROOT_URLCONF = 'kotlovoy62.urls'
@@ -138,7 +138,7 @@ SWAGGER_SETTINGS = {
    }
 }
 
-# delete after development
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-]
+# # delete after development
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:3000',
+# ]
