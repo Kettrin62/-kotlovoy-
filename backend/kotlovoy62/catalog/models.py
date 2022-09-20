@@ -19,8 +19,9 @@ def get_image_path(instance, filename):
 
 class Вrand(models.Model):
     title = models.CharField(
-        verbose_name='Бренд',
+        verbose_name='Название бренда',
         max_length=100,
+        unique=True
     )
     image = models.ImageField(
         upload_to=get_image_path,
@@ -48,8 +49,9 @@ class Вrand(models.Model):
 
 class Group(models.Model):
     title = models.CharField(
-        verbose_name='Модель/Группа',
+        verbose_name='Название группы/модели',
         max_length=150,
+        unique=True
     )
 
     class Meta:

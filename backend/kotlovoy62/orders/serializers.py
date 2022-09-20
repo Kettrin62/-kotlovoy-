@@ -1,97 +1,88 @@
+from datetime import datetime as dt
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import AnonymousUser
 from rest_framework.validators import UniqueValidator
 from rest_framework import serializers
 
 from .models import Order, OrderHasElement
+from catalog.models import Element
+from users.models import User
+from users.serializers import UserSerializer
+from catalog.serializers import ElementSerializer
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    images = ProductPhotoSerializer(many=True, read_only=True)
-    groups = GroupSerializer(many=True, read_only=True)
-    brand = ВrandSerializer(read_only=True)
-    article = serializers.CharField(
-        max_length=50,
-        validators=[UniqueValidator(queryset=Element.objects.all())]
-    )
-    cur_price = serializers.SerializerMethodField()
+    user = UserSerializer(read_only=True)
+    elements = ElementSerializer(many=True, read_only=True)
+    number = serializers.CharField(required=False)
 
     class Meta:
-        model = Element
+        model = Order
         fields = (
-            'id', 'title', 'measurement_unit', 'description', 'images',
-            'price', 'stock', 'article', 'available', 'created', 'created',
-            'brand', 'groups', 'cur_price',
+            'id', 'number', 'created', 'updated', 'status', 'delivery',
+            'payment', 'comment', 'email', 'last_name', 'first_name',
+            'phoneNumber', 'discount', 'order_sum', 'postal_code', 'region',
+            'city', 'location', 'user', 'elements',
         )
 
-    def get_cur_price(self, obj):
-        req_user = self.context.get('request').user
-        if req_user.is_anonymous:
-            return obj.price
-        price = obj.price - round(obj.price * req_user.discount / 100)
-        return price
-
     def create(self, validated_data):
-        images = validated_data.pop('images')
-        validated_images = []
-        if images['images']:
-            for image in images['images']:
+        order_elements = validated_data.pop('elements')
+        validated_elements = set()
+        if order_elements['elements']:
+            for element in order_elements['elements']:
                 try:
-                    img_obj = ProductPhoto.objects.get(pk=image['id'])
-                    validated_images.append(img_obj)
+                    element_obj = Element.objects.get(pk=element['id'])
+                    validated_elements.add(
+                        (element_obj, element['amount']),
+                    )
                 except BaseException:
                     raise serializers.ValidationError(
                         {
-                            'images': [
-                                f'Передан не правильный параметр: {image}'
+                            'elements': [
+                                f'Передан не правильный параметр: {element}'
                             ]
                         }
                     )
-
-        groups = validated_data.pop('groups')
-        validated_groups = []
-        if groups['groups']:
-            for group in groups['groups']:
-                try:
-                    group_obj = Group.objects.get(pk=group['id'])
-                    validated_groups.append(group_obj)
-                except BaseException:
-                    raise serializers.ValidationError(
-                        {
-                            'groups': [
-                                f'Передан не правильный параметр: {group}'
-                            ]
-                        }
-                    )
-
-        brand_id = validated_data.pop('brand')
-        if brand_id['brand']:
-            try:
-                brand_id = brand_id['brand']['id']
-                brand = Вrand.objects.get(pk=brand_id)
-            except BaseException:
-                raise serializers.ValidationError(
-                    {
-                        'brand': [
-                            "Передан не правильный параметр: "
-                            f"{brand_id['brand']}"
-                        ]
-                    }
-                )
         else:
-            brand = None
+            raise serializers.ValidationError(
+                        {
+                            'elements': [
+                                'Заказ не может быть оформлен пустым!'
+                            ]
+                        }
+                    )
 
-        element = Element.objects.create(**validated_data)
+        user = self.context.get('request').user
+        usr_discount = 0
+        if not user.is_authenticated:
+            user = None
+        else:
+            usr_discount = user.discount
 
-        for image in validated_images:
-            ElementHasProductPhoto.objects.create(
-                element=element, photo=image
+        order = Order.objects.create(**validated_data)
+
+        ord_sum = 0
+        for element, amount in validated_elements:
+            cur_price = element.price - round(
+                element.price * usr_discount / 100
             )
-        for group in validated_groups:
-            ElementHasGroup.objects.create(element=element, group=group)
-        element.brand = brand
+            OrderHasElement.objects.create(
+                order=order,
+                element=element,
+                price=element.price,
+                cur_price=cur_price,
+                amount=amount
+            )
+            ord_sum += cur_price * amount
 
-        return element
+        order.user = user
+        order.number = dt.today().strftime('%H%M-%f')
+        order.discount = usr_discount
+        order.order_sum = ord_sum
+        order.save()
+
+        return order
 
     def update(self, instance, validated_data):
         images = validated_data.pop('images')

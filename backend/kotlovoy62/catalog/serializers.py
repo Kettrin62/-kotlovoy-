@@ -17,30 +17,8 @@ class ВrandSerializer(serializers.ModelSerializer):
     )
     image = Base64ImageField()
 
-    def create(self, validated_data):
-        title = validated_data.get('title')
-        brand = Вrand.objects.filter(title=title)
-        if brand:
-            raise serializers.ValidationError(
-                {'title': [f'Бренд c названием: {title} уже существует!']}
-            )
-        brand = Вrand.objects.create(**validated_data)
-        return brand
-
     def update(self, instance, validated_data):
         new_title = validated_data.get('title', instance.title)
-        if new_title:
-            obj_with_new_tittle = Вrand.objects.filter(title=new_title)
-            cnt_obj = len(obj_with_new_tittle)
-            if cnt_obj > 0 and new_title not in instance.title:
-                raise serializers.ValidationError(
-                    {
-                        'title': [
-                            f'Бренд c названием: {new_title} уже существует!'
-                        ]
-                    }
-                )
-
         new_image = validated_data.get('image')
         if new_image:
             file_delete(instance.image)
@@ -60,38 +38,6 @@ class ВrandSerializer(serializers.ModelSerializer):
 
 
 class GroupSerializer(serializers.ModelSerializer):
-    title = serializers.CharField(
-        max_length=150,
-        trim_whitespace=True
-    )
-
-    def create(self, validated_data):
-        title = validated_data.get('title')
-        group = Group.objects.filter(title=title)
-        if group:
-            raise serializers.ValidationError(
-                {'title': [f'Группа с названием: {title} уже существует!']}
-            )
-        group = Group.objects.create(**validated_data)
-        return group
-
-    def update(self, instance, validated_data):
-        new_title = validated_data.get('title', instance.title)
-        if new_title:
-            obj_with_new_tittle = Group.objects.filter(title=new_title)
-            cnt_obj = len(obj_with_new_tittle)
-            if cnt_obj > 0 and new_title not in instance.title:
-                raise serializers.ValidationError(
-                    {
-                        'title': [
-                            f'Группа с названием: {new_title} уже существует!'
-                        ]
-                    }
-                )
-
-        instance.title = new_title
-        instance.save()
-        return instance
 
     class Meta:
         model = Group
