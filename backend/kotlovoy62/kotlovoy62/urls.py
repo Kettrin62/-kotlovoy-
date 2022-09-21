@@ -12,9 +12,6 @@ schema_view = get_schema_view(
       title="Kotlovoy62 API",
       default_version='v1',
       description="Документация для Kotlovoy62",
-      # terms_of_service="URL страницы с пользовательским соглашением",
-      # contact=openapi.Contact(email="admin@kittygram.ru"),
-      # license=openapi.License(name="BSD License"),
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),
@@ -27,6 +24,7 @@ urlpatterns = [
     path('api/', include('users.urls')),
     path('api/', include('catalog.urls')),
     path('api/', include('swiper.urls')),
+    path('api/', include('orders.urls')),
 ]
 
 urlpatterns += [

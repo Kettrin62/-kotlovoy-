@@ -1,5 +1,9 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 from phonenumber_field.modelfields import PhoneNumberField
+
+from users.models import User
+from catalog.models import Element
 
 ORDER_STATUS = (
         ('order_is_completed', 'заказ выполнен'),
@@ -9,6 +13,18 @@ ORDER_STATUS = (
         ('new_order', 'новый заказ'),
         ('order_cancelled', 'заказ отменён'),
     )
+
+DELIVERY = (
+    ('SDEK', 'СДЭК'),
+    ('Yandex', 'Яндекс'),
+    ('Russian_post', 'Почта России'),
+)
+
+PAYMENT = (
+    ('by_fact', 'при получении'),
+    ('online', 'онлайн'),
+    ('cashless', 'безналичный расчет'),
+)
 
 
 class Order(models.Model):
@@ -24,6 +40,14 @@ class Order(models.Model):
     status = models.CharField(
         max_length=50, choices=ORDER_STATUS, default='new_order',
         verbose_name='Статус заказа',
+    )
+    delivery = models.CharField(
+        max_length=50, choices=DELIVERY, default='SDEK',
+        verbose_name='Доставка',
+    )
+    payment = models.CharField(
+        max_length=50, choices=PAYMENT, default='by_fact',
+        verbose_name='Оплата',
     )
     comment = models.CharField(
         max_length=250, blank=True, null=True, verbose_name='Комментарий',
@@ -43,6 +67,9 @@ class Order(models.Model):
     discount = models.PositiveSmallIntegerField(
         default=0, verbose_name="Скидка, %",
     )
+    order_sum = models.PositiveIntegerField(
+        default=0, verbose_name="Сумма заказа",
+    )
     postal_code = models.CharField(
         max_length=20, blank=True, null=True, verbose_name='Индекс',
     )
@@ -57,3 +84,54 @@ class Order(models.Model):
         max_length=200, blank=True, null=True,
         verbose_name='Улица, дом, квартира',
     )
+    user = models.ForeignKey(
+        User, verbose_name='Пользователь',
+        on_delete=models.CASCADE, related_name='orders',
+        blank=True, null=True,
+    )
+    elements = models.ManyToManyField(
+        Element, through='OrderHasElement'
+    )
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
+
+    def __str__(self):
+        return 'Заказ №{}'.format(self.number)
+
+
+class OrderHasElement(models.Model):
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name='items',
+        verbose_name='Заказ',
+    )
+    element = models.ForeignKey(
+        Element,
+        on_delete=models.PROTECT,
+        related_name='order_items',
+        verbose_name='Деталь',
+    )
+    price = models.PositiveIntegerField(
+        verbose_name='Цена',
+    )
+    cur_price = models.PositiveIntegerField(
+        verbose_name='Цена со скидкой',
+    )
+    amount = models.PositiveSmallIntegerField(
+        default=1,
+        verbose_name='Количество',
+        validators=[MinValueValidator(
+            limit_value=1, message="Минимальное значение: 1"
+            )
+        ],
+    )
+
+    class Meta:
+        verbose_name = 'Элемент'
+        verbose_name_plural = 'Элементы'
+
+    def __str__(self):
+        return '{}, {}'.format(self.order, self.element)

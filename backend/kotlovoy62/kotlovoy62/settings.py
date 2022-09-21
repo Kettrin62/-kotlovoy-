@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'drf_yasg',
-    'corsheaders', # delete after development
+    #'corsheaders', # delete after development
 ]
 
 MIDDLEWARE = [
@@ -40,8 +40,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware', # delete after development
-    'django.middleware.common.CommonMiddleware', # delete after development
+    #'corsheaders.middleware.CorsMiddleware', # delete after development
+    #'django.middleware.common.CommonMiddleware', # delete after development
 ]
 
 ROOT_URLCONF = 'kotlovoy62.urls'
@@ -66,18 +66,18 @@ TEMPLATES = [
 WSGI_APPLICATION = 'kotlovoy62.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
     # 'default': {
-    #     'ENGINE': os.environ.get('DB_ENGINE', default='django.db.backends.postgresql'),
-    #     'NAME': os.environ.get('DB_NAME'),
-    #     'USER': os.environ.get('POSTGRES_USER'),
-    #     'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-    #     'HOST': os.environ.get('DB_HOST'),
-    #     'PORT': os.environ.get('DB_PORT'),
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
+    'default': {
+        'ENGINE': os.environ.get('DB_ENGINE', default='django.db.backends.postgresql'),
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
+    }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -126,6 +126,7 @@ REST_FRAMEWORK = {
 CUSTOM_SETTINGS_DRF = {
     'PAGE_SIZE_ELEMENTS': 10,
     'PAGE_SIZE_USERS': 20,
+    'PAGE_SIZE_ORDERS': 30,
 }
 
 SWAGGER_SETTINGS = {
@@ -138,7 +139,7 @@ SWAGGER_SETTINGS = {
    }
 }
 
-# delete after development
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-]
+# # delete after development
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:3000',
+# ]
