@@ -12,7 +12,7 @@ import 'swiper/css/pagination';
 
 function Slider() {
   const swiper = useContext(DataSwiperContext);
-  console.log(swiper);
+  // console.log(swiper);
 
 
   return (
@@ -34,17 +34,17 @@ function Slider() {
     >
       {swiper.map(item => (
         <SwiperSlide key={item.id}>
-          {/* <div style={{ backgroundImage: `URL(${item.image})` }}>
+          <div style={{ backgroundImage: `URL(${item.image})` }}>
             <a>
               <h2>
                 {item.title}
               </h2>
             </a>
-          </div> */}
-          <img src={item.image} />
+          </div>
+          {/* <img src={item.image} />
           <h2>
             {item.title}
-          </h2>
+          </h2> */}
         </SwiperSlide>
       ))}
       {/* <SwiperSlide>Slide 1</SwiperSlide>
