@@ -4,7 +4,7 @@
   font-size: 14px;
   background: none;
   background-color: none;
-  border-radius: 6px;
+  border-radius: 6px 0 6px 0;
   padding: 0 20px;
   /* height: 48px; */
   min-height: 30px;
@@ -78,5 +78,11 @@
     font-size: 12px!important;
     /* height: 32px; */
     line-height: 30px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .button {
+    padding-right: 0;
   }
 }

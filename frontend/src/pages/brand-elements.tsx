@@ -7,7 +7,7 @@ import brandelementsStyles from './brand-elements.module.css';
 
 export function BrandElementsPage() {
   const [elements, setElements] = useState<Array<TDataElement>>([]);
-  console.log(elements);
+  // console.log(elements);
   
 
   const { id } = useParams<{ id?: string }>();
@@ -38,6 +38,22 @@ export function BrandElementsPage() {
         {elements.map(el => (
           <Card key={el.id} element={el} />
           ))}
+
+
+                  {elements.map(el => (
+          <Card key={el.id} element={el} />
+          ))}
+                  {elements.map(el => (
+          <Card key={el.id} element={el} />
+          ))}
+                  {elements.map(el => (
+          <Card key={el.id} element={el} />
+          ))}
+                  {elements.map(el => (
+          <Card key={el.id} element={el} />
+          ))}
+
+
       </ul>
     </main>
   )

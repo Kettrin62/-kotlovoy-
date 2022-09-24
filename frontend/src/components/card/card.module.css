@@ -3,7 +3,8 @@
   flex-direction: column;
   justify-content: space-between;
   border-radius: 6px;
-  border: 1px solid rgb(207, 205, 205);
+  /* border: 1px solid rgb(207, 205, 205); */
+  border: 1px solid rgb(170, 170, 170);
   cursor: pointer;
   gap: 5px;
 }
@@ -20,6 +21,7 @@
 .image {
   width: 100%;
   border-radius: 6px 6px 0 0;
+  object-fit: contain;
 }
 
 .container {
@@ -31,13 +33,17 @@
 }
 
 .text {
-  font-size: 14px;
+  font-size: 12px;
   margin: 0 10px;
   text-align: center;
 }
 
 .title {
+  font-size: 14px;
   min-height: 50px;
+  font-weight: 500;
+  margin: 0 10px;
+  text-align: center;
 }
 
 .box {
@@ -53,14 +59,9 @@
 }
 
 .button {
-  /* background-color: #cecaca; */
   background-color: #e7e7e7;
-  /* width: 95%; */
-  /* min-height: 30px; */
   text-align: center;
-  border: 1px solid rgba(84, 84, 84, 0.7);
-  /* border-radius: 3px; */
-  /* border: 1px solid ; */
+  /* border: 1px solid rgba(84, 84, 84, 0.7); */
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
@@ -81,13 +82,44 @@
   transform: scale(1.05, 1.05);
 }
 
-@media all and (max-width: 610px) {
+@media all and (max-width: 1030px) {
   .button {
-    width: 90%;
-    min-height: 25px;
-    font-size: 12px;
-    font-weight: 500;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .price {
+    font-size: 16px;
   }
 }
 
+@media all and (max-width: 500px) {
+  .title {
+    font-size: 12px;
+  }
 
+  .price {
+    font-size: 13px;
+  }
+
+  .text {
+    font-size: 10px;
+  }
+}
+
+@media all and (max-width: 400px) {
+  .container {
+    padding-top: 5px;
+  }
+
+  .card {
+    flex-direction: row;
+    width: calc(100vw - 25vw/5);
+  }
+
+  .image {
+    width: 45%;
+  }
+
+
+}

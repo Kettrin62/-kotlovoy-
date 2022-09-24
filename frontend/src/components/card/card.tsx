@@ -24,7 +24,7 @@ const Element: FC<IElementProps> = ({ element }) => {
     stock
   } = element;
 
-console.log(element);
+// console.log(element);
 
 const onClickButton = () => {
 
@@ -58,7 +58,7 @@ const onClickButton = () => {
       </div> */}
       <img src={images[0].image} alt={title} className={cardStyles.image} />
       <div className={cardStyles.container}>
-        <p className={cn(cardStyles.text, cardStyles.title)}>
+        <p className={cardStyles.title}>
           {title}
         </p>
         <div className={cardStyles.box}>
@@ -71,7 +71,7 @@ const onClickButton = () => {
         </div>
         <div className={cardStyles.box}>
           <p className={cardStyles.text}>
-            Доступно: {stock}шт.
+            Доступно: {stock}11шт.
           </p>
           <Button clickHandler={onClickButton} className={cardStyles.button}>
             В&nbsp;корзину

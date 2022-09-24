@@ -12,10 +12,6 @@ import 'swiper/css/pagination';
 
 function Slider() {
   const swiper = useContext(DataSwiperContext);
-  // console.log(swiper);
-  console.log(swiper);
-  
-
 
   return (
     <Swiper
