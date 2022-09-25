@@ -49,7 +49,7 @@ class Api {
     ).then(this.checkResponse)
   }
 
-  // elements
+  // elementsBrand
   getElementsBrand (id) {
     return fetch(
       `${BASEURL}elements/?brand=${id}`,
@@ -74,6 +74,32 @@ class Api {
       }
     ).then(this.checkResponse)
   }
+
+    // elements
+    getElements () {
+      return fetch(
+        `${BASEURL}elements/`,
+        {
+          method: 'GET',
+          headers: {
+            ...this._headers,
+          }
+        }
+      ).then(this.checkResponse)
+    }
+
+    // elements
+    getElement (id) {
+      return fetch(
+        `${BASEURL}elements/${id}/`,
+        {
+          method: 'GET',
+          headers: {
+            ...this._headers,
+          }
+        }
+      ).then(this.checkResponse)
+    }
 
 
 

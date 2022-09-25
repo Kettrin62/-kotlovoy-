@@ -296,6 +296,24 @@ Content-Type: application/json
 
 ###
 
+GET http://194.67.110.183/api/v1/elements/
+Content-Type: application/json
+
+###
+
+GET http://194.67.110.183/api/v1/elements/15/
+Content-Type: application/json
+
+###
+
+GET http://194.67.110.183/api/v1/groups/
+Content-Type: application/json
+
+###
+
+
+
+
 
 
 GET https://api.kogda-virastu.com/admin/users

@@ -3,36 +3,47 @@ import { useParams } from 'react-router-dom';
 import api from '../api';
 import Card from '../components/card/card';
 import { TDataElement } from '../services/types/data';
+import elementsStyles from './elements.module.css';
+
 
 export function ElementsPage() {
   const [elements, setElements] = useState<Array<TDataElement>>([]);
 
   const { id } = useParams<{ id?: string }>();
 
-  // console.log(id);
-  
-  const getElementsBrand = (id: string) => {
+  const getElements = () => {
     api
-      .getElementsBrand(id)
-      .then(data => setElements(data))
+      .getElements()
+      .then(data => {
+        const { results, count } = data;
+        setElements(results)
+      })
       .catch(err => console.log(err))
   }
 
   useEffect(() => {
-    if (id) getElementsBrand(id);
+    getElements();
   }, []);
 
-  // console.log(elements[0]);
-  
-
-
   return (
-    <div>
-      <ul>
+    <main className={elementsStyles.container}>
+      <ul className={elementsStyles.list}>
         {elements.map(el => (
           <Card key={el.id} element={el} />
-          ))}
+        ))}
+                    {/* {elements.map(el => (
+            <Card key={el.id} element={el} />
+            ))}
+                    {elements.map(el => (
+            <Card key={el.id} element={el} />
+            ))}
+                    {elements.map(el => (
+            <Card key={el.id} element={el} />
+            ))}
+                    {elements.map(el => (
+            <Card key={el.id} element={el} />
+            ))} */}
       </ul>
-    </div>
+    </main>
   )
 }

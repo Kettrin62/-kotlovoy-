@@ -17,6 +17,7 @@ interface IInputProps {
   onBlur?: any,
   value: string,
   reset?: boolean,
+  maxLength?: number,
 }
 
 const Input: FC<IInputProps> = ({
@@ -31,7 +32,8 @@ const Input: FC<IInputProps> = ({
     onFocus,
     onBlur,
     value = '',
-    reset
+    reset,
+    maxLength
   }) => {
 
   const [ inputValue, setInputValue ] = useState(value);
@@ -68,6 +70,7 @@ const Input: FC<IInputProps> = ({
         onFocus={onFocus}
         value={inputValue}
         onBlur={onBlur}
+        maxLength={maxLength}
       />
     </label>
   </div>
