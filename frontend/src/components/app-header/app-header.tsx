@@ -20,6 +20,7 @@ import Button from '../button/button';
 import cn from 'classnames';
 import Text from '../text/text';
 import { pathNames } from '../../utils/data';
+import LinkWhatsApp from '../links-buttons-image/link-whatsapp';
 
 
 
@@ -98,6 +99,9 @@ function AppHeader() {
                 <Text class={appheaderStyles.text} text='Доставка' />
               </Link>
             </div>
+            <Link class={cn(appheaderStyles.link, classLink)} onClick={() => {}}>
+              <LinkWhatsApp />
+            </Link>
           </div>
           <div className={appheaderStyles.container}>
             <SearchBar 
@@ -108,8 +112,6 @@ function AppHeader() {
             <Button className={classButton} clickHandler={onClickSearch}>
               <LinkSearch class={appheaderStyles.search} />
             </Button>
-            {/* <button className={appheaderStyles.button} onClick={onClickSearch}>
-            </button> */}
             <Link class={appheaderStyles.link} onClick={onClickMain}>
               <LinkCart />
             </Link>

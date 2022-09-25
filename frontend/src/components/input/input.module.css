@@ -22,13 +22,14 @@
 
 .inputField {
   /* flex-basis: 370px; */
-  padding: 2px 18px;
+  padding: 2px 4px;
   /* border-radius: 6px; */
   font-size: 16px;
   /* border: 0.5px solid rgba(0, 0, 0, 0.5); */
   outline: none;
   border: 1px solid #fff;
   border-radius: 5px;
+  width: 100%;
 }
 
 @media screen and (max-width: 730px) {
@@ -42,6 +43,6 @@
   }
 
   .inputField {
-    width: 70%;
+    width: 90%;
   }
 }

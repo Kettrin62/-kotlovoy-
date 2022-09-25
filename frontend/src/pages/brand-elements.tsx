@@ -3,10 +3,12 @@ import { useParams } from 'react-router-dom';
 import api from '../api';
 import Card from '../components/card/card';
 import { TDataElement } from '../services/types/data';
-import brandelementsStyles from './brand-elements.module.css';
+import elementsStyles from './elements.module.css';
 
 export function BrandElementsPage() {
   const [elements, setElements] = useState<Array<TDataElement>>([]);
+  // console.log(elements);
+  
 
   const { id } = useParams<{ id?: string }>();
 
@@ -15,7 +17,10 @@ export function BrandElementsPage() {
   const getElementsBrand = (id: string) => {
     api
       .getElementsBrand(id)
-      .then(data => setElements(data))
+      .then(data => {
+        const { results, count } = data;
+        setElements(results)
+      })
       .catch(err => console.log(err))
   }
 
@@ -28,11 +33,23 @@ export function BrandElementsPage() {
 
 
   return (
-    <main className={brandelementsStyles.container}>
-      <ul className={brandelementsStyles.list}>
+    <main className={elementsStyles.container}>
+      <ul className={elementsStyles.list}>
         {elements.map(el => (
           <Card key={el.id} element={el} />
           ))}
+                  {/* {elements.map(el => (
+          <Card key={el.id} element={el} />
+          ))}
+                  {elements.map(el => (
+          <Card key={el.id} element={el} />
+          ))}
+                  {elements.map(el => (
+          <Card key={el.id} element={el} />
+          ))}
+                  {elements.map(el => (
+          <Card key={el.id} element={el} />
+          ))} */}
       </ul>
     </main>
   )

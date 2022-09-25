@@ -16,15 +16,14 @@ interface IBrandListProps {
 
 function BrandList() {
   const brands = useContext(DataBrandsContext);
-  // console.log(brands);
   const history = useHistory();
 
-  const onClickBrand = useCallback(
-    () => {
-      history.replace({ pathname: '/elements/?brand=3' });
-    },
-    [history]
-  );
+  // const onClickBrand = useCallback(
+  //   () => {
+  //     history.replace({ pathname: '/elements' });
+  //   },
+  //   [history]
+  // );
   
   return (
     <section className={brandlistStyles.container}>

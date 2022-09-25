@@ -42,7 +42,7 @@ const SearchBar: FC<ISearchBarProps> = ({
         <LinkClose />
       </Button>
       <Input
-        className=''
+        className={searchbarStyles.input}
         inputClassName=''
         onChange={e => {
           const value = e.target.value

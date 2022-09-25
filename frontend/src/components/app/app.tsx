@@ -3,16 +3,19 @@ import { useState, useEffect } from 'react';
 import ErrorBoundary from '../error-boundary/error-boundary';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import AppHeader from '../app-header/app-header';
-import { TDataBrand, TDataSwiper } from '../../services/types/data';
+import { 
+  TDataBrand, 
+  TDataSwiper,
+  TDataElement
+} from '../../services/types/data';
 import api from '../../api';
 // import { BASEURL } from '../../utils/constants';
-import { DataBrandsContext, DataSwiperContext } from '../../services/contexts/app-context';
+import { 
+  DataBrandsContext, 
+  DataSwiperContext 
+} from '../../services/contexts/app-context';
 import { HomePage } from '../../pages/home';
 
-import slide1 from '../../images/фото котлов/2022-09-04 23-22-17.png';
-import slide2 from '../../images/фото котлов/2022-09-04 23-25-45.png';
-import slide3 from '../../images/фото котлов/1597939460154787852.jpg';
-import slide4 from '../../images/фото котлов/remont-i-obsluzhivanie-kotlov-bosch.jpeg';
 import Footer from '../footer/footer';
 import { BrandElementsPage } from '../../pages/brand-elements';
 import { ElementsPage } from '../../pages/elements';
@@ -21,12 +24,15 @@ import { DeliveryPage } from '../../pages/delivery';
 import { AboutPage } from '../../pages/about';
 import { ContactsPage } from '../../pages/contacts';
 import { FeedbackPage } from '../../pages/feedback';
+import { ElementPage } from '../../pages/element';
 
 function App() {
 
   const [brands, setBrands] = useState<Array<TDataBrand>>([]);
 
   const [swiper, setSwiper] = useState<Array<TDataSwiper>>([]);
+
+  const [elements, setElements] = useState<Array<TDataElement>>([]);
 
   const getBrands = () => {
     api
@@ -41,7 +47,6 @@ function App() {
       .then(data => setSwiper(data))
       .catch(err => console.log(err))
   }
-
 
   useEffect(() => {
     getBrands();
@@ -62,9 +67,11 @@ function App() {
                 </DataSwiperContext.Provider>
               </DataBrandsContext.Provider>
             </Route>
-
             <Route path='/elements' exact={true}>
               <ElementsPage />
+            </Route>
+            <Route path='/elements/:id' exact={true}>
+              <ElementPage />
             </Route>
 
             <Route path='/pay' exact={true}>

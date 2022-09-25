@@ -2,6 +2,16 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border-radius: 6px;
+  /* border: 1px solid rgb(207, 205, 205); */
+  border: 1px solid rgb(170, 170, 170);
+  cursor: pointer;
+  gap: 5px;
+}
+
+.card:hover {
+  /* box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5); */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .swiper-slide img {
@@ -10,24 +20,58 @@
 
 .image {
   width: 100%;
+  border-radius: 6px 6px 0 0;
+  object-fit: contain;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* min-height: 130px; */
+  justify-content: space-between;
+}
+
+.text {
+  font-size: 12px;
+  margin: 0 10px;
+  text-align: center;
+}
+
+.title {
+  font-size: 14px;
+  min-height: 50px;
+  font-weight: 500;
+  margin: 0 10px;
+  text-align: center;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price {
+  font-size: 18px;
+  margin: 0 10px;
+  text-align: center;
 }
 
 .button {
-  background-color: #cecaca;
-  width: 95%;
-  min-height: 30px;
+  background-color: #e7e7e7;
   text-align: center;
-  border-radius: 3px;
-  border: 1px solid rgba(84, 84, 84, 0.7);
+  /* border: 1px solid rgba(84, 84, 84, 0.7); */
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   transition: transform .3s ease-in-out;
   text-decoration: none;
   color: inherit;
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
+  align-self: flex-end;
 }
 
 .button:nth-of-type(2n) {
@@ -38,13 +82,44 @@
   transform: scale(1.05, 1.05);
 }
 
-@media all and (max-width: 610px) {
+@media all and (max-width: 1030px) {
   .button {
-    width: 90%;
-    min-height: 25px;
-    font-size: 12px;
-    font-weight: 500;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .price {
+    font-size: 16px;
   }
 }
 
+@media all and (max-width: 500px) {
+  .title {
+    font-size: 12px;
+  }
 
+  .price {
+    font-size: 13px;
+  }
+
+  .text {
+    font-size: 10px;
+  }
+}
+
+@media all and (max-width: 400px) {
+  .container {
+    padding-top: 5px;
+  }
+
+  .card {
+    flex-direction: row;
+    width: calc(100vw - 25vw/5);
+  }
+
+  .image {
+    width: 45%;
+  }
+
+
+}

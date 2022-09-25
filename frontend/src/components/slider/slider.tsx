@@ -12,15 +12,13 @@ import 'swiper/css/pagination';
 
 function Slider() {
   const swiper = useContext(DataSwiperContext);
-  // console.log(swiper);
-
 
   return (
     <Swiper
       slidesPerView={1}
       centeredSlides={true}
       autoplay={{
-        delay: 2500,
+        delay: 8000,
         disableOnInteraction: false,
       }}
       spaceBetween={30}
@@ -37,7 +35,7 @@ function Slider() {
           <div style={{ backgroundImage: `URL(${item.image})` }}>
             <a>
               <h2>
-                {item.title}
+                {item.text}
               </h2>
             </a>
           </div>
