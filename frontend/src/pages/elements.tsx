@@ -7,7 +7,11 @@ import elementsStyles from './elements.module.css';
 
 
 export function ElementsPage() {
-  const [elements, setElements] = useState<Array<TDataElement>>([]);
+  const [elementsData, setElementsData] = useState<Array<TDataElement>>([]);
+
+  const elements = elementsData.filter(item => {
+    return item.available === true
+  });
 
   const { id } = useParams<{ id?: string }>();
 
@@ -16,7 +20,7 @@ export function ElementsPage() {
       .getElements()
       .then(data => {
         const { results, count } = data;
-        setElements(results)
+        setElementsData(results)
       })
       .catch(err => console.log(err))
   }

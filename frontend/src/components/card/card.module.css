@@ -118,7 +118,8 @@
   }
 
   .image {
-    width: 45%;
+    width: 40%;
+    min-width: 40%;
   }
 
 

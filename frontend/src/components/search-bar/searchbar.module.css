@@ -10,6 +10,11 @@
   /* flex: 0 0 300px; */
 }
 
+.button {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
 @media screen and (max-width: 680px) {
   .container {
     width: 280px;

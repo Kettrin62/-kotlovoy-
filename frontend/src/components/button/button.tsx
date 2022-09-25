@@ -5,7 +5,6 @@ import buttonStyles from './button.module.css';
 
 interface IButtonProps {
   children: React.ReactNode;
-  // modifier: string;
   href?: string;
   clickHandler: () => void;
   className?: string;
@@ -16,7 +15,6 @@ interface IButtonProps {
 
 const Button: FC<IButtonProps> = ({
   children,
-  // modifier = 'style_light-blue',
   href,
   clickHandler,
   className,
@@ -24,7 +22,6 @@ const Button: FC<IButtonProps> = ({
   type = 'button'
 }) => {
   const classNames = cn(buttonStyles.button, className, {
-    // [styles[`button_${modifier}`]]: modifier,
     [buttonStyles.button_disabled]: disabled
   })
   if (href) {

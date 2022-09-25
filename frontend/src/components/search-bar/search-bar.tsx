@@ -38,7 +38,7 @@ const SearchBar: FC<ISearchBarProps> = ({
 
   return (
     <div className={cn(searchbarStyles.container, className)}>
-      <Button clickHandler={onClickClose}>
+      <Button clickHandler={onClickClose} className={searchbarStyles.button}>
         <LinkClose />
       </Button>
       <Input
@@ -54,7 +54,7 @@ const SearchBar: FC<ISearchBarProps> = ({
         value=''
         reset={reset}
       />
-      <Button clickHandler={onClickMain}>
+      <Button clickHandler={onClickMain} className={searchbarStyles.button}>
         <LinkSearch />
       </Button>
     </div>

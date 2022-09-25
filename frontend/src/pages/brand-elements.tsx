@@ -6,9 +6,11 @@ import { TDataElement } from '../services/types/data';
 import elementsStyles from './elements.module.css';
 
 export function BrandElementsPage() {
-  const [elements, setElements] = useState<Array<TDataElement>>([]);
-  // console.log(elements);
-  
+  const [elementsData, setElementsData] = useState<Array<TDataElement>>([]);
+
+  const elements = elementsData.filter(item => {
+    return item.available === true
+  });
 
   const { id } = useParams<{ id?: string }>();
 
@@ -19,7 +21,7 @@ export function BrandElementsPage() {
       .getElementsBrand(id)
       .then(data => {
         const { results, count } = data;
-        setElements(results)
+        setElementsData(results)
       })
       .catch(err => console.log(err))
   }
@@ -34,6 +36,9 @@ export function BrandElementsPage() {
 
   return (
     <main className={elementsStyles.container}>
+      <div>
+        
+      </div>
       <ul className={elementsStyles.list}>
         {elements.map(el => (
           <Card key={el.id} element={el} />

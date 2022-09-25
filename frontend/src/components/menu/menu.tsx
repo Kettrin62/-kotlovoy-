@@ -1,6 +1,6 @@
 import Link from '../link/link';
 import menuStyles from './menu.module.css';
-import { useCallback, useState } from 'react';
+import { useEffect, useCallback, useRef, useState } from 'react';
 import { 
   useHistory,
   useLocation,
@@ -13,6 +13,7 @@ import { pathNames } from '../../utils/data';
 function Menu() {
   const history = useHistory();
   const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   const onClickLink = useCallback(
     (path: string) => {
@@ -30,6 +31,20 @@ function Menu() {
     setVisible(false);
   };
 
+  const handleClickOutside = (e: any) => {
+    if (ref.current && !ref.current.contains(e.target)) {
+      setVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    }
+  }, []);
+
   const classMenu = visible
     ? menuStyles.menu + ' ' + menuStyles.menu_show
     : menuStyles.menu + ' ' + menuStyles.menu_hide;
@@ -37,7 +52,7 @@ function Menu() {
 
 
   return (
-    <div className={menuStyles.container}>
+    <div className={menuStyles.container} ref={ref}>
       <button type='button' className={menuStyles.button} onClick={onClickMenu}>
         <span className={menuStyles.line}></span>
         <span className={menuStyles.line}></span>

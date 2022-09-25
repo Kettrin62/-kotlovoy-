@@ -11,7 +11,10 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 function Slider() {
-  const swiper = useContext(DataSwiperContext);
+  const swiperData = useContext(DataSwiperContext);
+  const swiper = swiperData.filter(item => {
+    return item.available === true
+  });
 
   return (
     <Swiper

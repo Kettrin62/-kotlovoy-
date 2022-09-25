@@ -32,8 +32,6 @@ function App() {
 
   const [swiper, setSwiper] = useState<Array<TDataSwiper>>([]);
 
-  const [elements, setElements] = useState<Array<TDataElement>>([]);
-
   const getBrands = () => {
     api
       .getBrands()

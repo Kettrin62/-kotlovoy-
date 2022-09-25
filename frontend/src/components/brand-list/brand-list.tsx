@@ -24,7 +24,7 @@ function BrandList() {
   //   },
   //   [history]
   // );
-  
+
   return (
     <section className={brandlistStyles.container}>
       <ul className={brandlistStyles.list}>
