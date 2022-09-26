@@ -2,6 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status, viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
+from rest_framework.decorators import action
 
 from kotlovoy62.settings import CUSTOM_SETTINGS_DRF
 from .models import (
@@ -33,6 +34,17 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = (IsAdminOrReadOnly,)
+
+    @action(
+        ['get'], detail=True,
+        permission_classes=(IsAdminOrReadOnly,)
+    )
+    def related_to_brand(self, request, pk):
+        arr = Group.objects.filter(
+            groups_has_elm__element__brand_id=pk
+        ).distinct()
+        serializer = GroupSerializer(arr, many=True)
+        return Response(serializer.data)
 
 
 class ProductPhotosViewSet(viewsets.ModelViewSet):
