@@ -109,7 +109,7 @@ GET http://127.0.0.1:8000/api/v1/brands/
 ###
 
 ###
-GET http://127.0.0.1:8000/api/v1/brands/7/
+GET http://127.0.0.1:8000/api/v1/brands/5/
 ###
 
 
@@ -154,6 +154,11 @@ GET http://127.0.0.1:8000/api/v1/groups/
 
 ###
 GET http://127.0.0.1:8000/api/v1/groups/6/
+###
+
+
+###
+GET http://127.0.0.1:8000/api/v1/groups/5/related_to_brand/
 ###
 
 

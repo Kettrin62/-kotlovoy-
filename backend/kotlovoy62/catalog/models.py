@@ -171,7 +171,8 @@ class ElementHasGroup(models.Model):
     group = models.ForeignKey(
         Group,
         on_delete=models.CASCADE,
-        verbose_name='Модель/Группа'
+        verbose_name='Модель/Группа',
+        related_name='groups_has_elm',
     )
 
     class Meta:
