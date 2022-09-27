@@ -1,8 +1,14 @@
+import { FC } from 'react';
+import cn from 'classnames';
 import dividerStyles from './divider.module.css';
 
-function Divider() {
+interface IDividerProps {
+  className?: string;
+}
+
+const Divider: FC<IDividerProps> = ({ className }) => {
   return (
-    <hr className={dividerStyles.line}>
+    <hr className={cn(dividerStyles.line, className)}>
     </hr>
   )
 }

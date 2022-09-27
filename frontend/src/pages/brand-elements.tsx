@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../api';
+import Button from '../components/button/button';
 import Card from '../components/card/card';
-import { TDataElement } from '../services/types/data';
+import Groups from '../components/groups/groups';
+import Text from '../components/text/text';
+import { TDataElement, TDataGroups } from '../services/types/data';
 import elementsStyles from './elements.module.css';
 
 export function BrandElementsPage() {
   const [elementsData, setElementsData] = useState<Array<TDataElement>>([]);
+  const [groups, setGroups] = useState<Array<TDataGroups>>([]);
 
   const elements = elementsData.filter(item => {
     return item.available === true
@@ -14,8 +18,6 @@ export function BrandElementsPage() {
 
   const { id } = useParams<{ id?: string }>();
 
-  // console.log(id);
-  
   const getElementsBrand = (id: string) => {
     api
       .getElementsBrand(id)
@@ -24,21 +26,26 @@ export function BrandElementsPage() {
         setElementsData(results)
       })
       .catch(err => console.log(err))
-  }
+  };
+
+  const getGroupsById = (id: string) => {
+    api
+      .getGroupsById(id)
+      .then(data => setGroups(data))
+      .catch(err => console.log(err))
+  };
 
   useEffect(() => {
-    if (id) getElementsBrand(id);
+    if (id) {
+      getElementsBrand(id);
+      getGroupsById(id);
+    }
   }, []);
-
-  // console.log(elements[0]);
-  
 
 
   return (
     <main className={elementsStyles.container}>
-      <div>
-        
-      </div>
+      <Groups groups={groups} />
       <ul className={elementsStyles.list}>
         {elements.map(el => (
           <Card key={el.id} element={el} />
