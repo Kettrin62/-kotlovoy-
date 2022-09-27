@@ -9,7 +9,6 @@ import {
   TDataElement
 } from '../../services/types/data';
 import api from '../../api';
-// import { BASEURL } from '../../utils/constants';
 import { 
   DataBrandsContext, 
   DataSwiperContext 
@@ -93,8 +92,14 @@ function App() {
             </Route>
 
             <Route path='/elements/brand/:id' exact={true}>
-              <BrandElementsPage />
+              {/* <BrandElementsPage /> */}
+              <ElementsPage />
             </Route>
+
+            <Route path='/elements/search/:name' exact={true}>
+              <ElementsPage />
+            </Route>
+
           </Switch>
           <Footer />
         </Router>

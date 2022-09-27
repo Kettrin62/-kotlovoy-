@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Navigation from '../navigation/navigation';
 import appheaderStyles from './app-header.module.css';
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import { 
   useHistory,
   useLocation,
@@ -34,6 +34,7 @@ function AppHeader() {
   const [visibleSearchBar, setVisibleSearchBar] = useState(false);
   const [visibleButton, setVisibleButton] = useState(true);
   const [inputClear, setInputClear] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
 
   const onClickMain = useCallback(
@@ -62,6 +63,20 @@ function AppHeader() {
     setVisibleSearchBar(false);
     setVisibleButton(true);
     setInputClear(true);
+  };
+
+  const onClickSearchElements = useCallback(
+    () => {
+      console.log(inputValue);
+      
+      history.replace({ pathname: `/elements/search/${inputValue}` });
+    },
+    [history, inputValue]
+  );
+
+  const onChangeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputValue(value);
   };
 
   const classLink = visibleButton
@@ -108,6 +123,9 @@ function AppHeader() {
               className={classSearchBar} 
               onClickClose={onClickClose} 
               reset={inputClear}
+              inputValue={inputValue}
+              onChangeInput={onChangeInputValue}
+              onClickSearch={onClickSearchElements}
             />
             <Button className={classButton} clickHandler={onClickSearch}>
               <LinkSearch class={appheaderStyles.search} />

@@ -127,6 +127,19 @@ class Api {
     ).then(this.checkResponse)
   }
 
+  //elementsSearch
+  getElementsSearch (name) {
+    return fetch(
+      `${BASEURL}elements/?search=${name}`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
 
 
 

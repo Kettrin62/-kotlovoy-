@@ -17,6 +17,9 @@ interface ISearchBarProps {
   className: string,
   onClickClose: () => void;
   reset?: boolean;
+  inputValue: string;
+  onChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onClickSearch: () => void;
 }
 
 
@@ -24,6 +27,9 @@ const SearchBar: FC<ISearchBarProps> = ({
   className,
   onClickClose,
   reset,
+  inputValue,
+  onChangeInput,
+  onClickSearch,
 }) => {
 
   const history = useHistory();
@@ -36,6 +42,9 @@ const SearchBar: FC<ISearchBarProps> = ({
     [history]
   );
 
+  // console.log(inputValue);
+  
+
   return (
     <div className={cn(searchbarStyles.container, className)}>
       <Button clickHandler={onClickClose} className={searchbarStyles.button}>
@@ -44,17 +53,11 @@ const SearchBar: FC<ISearchBarProps> = ({
       <Input
         className={searchbarStyles.input}
         inputClassName=''
-        onChange={e => {
-          const value = e.target.value
-          // setIngredientValue({
-          //   ...ingredientValue,
-          //   amount: value
-          // })
-        }}
-        value=''
+        onChange={onChangeInput}
+        value={inputValue}
         reset={reset}
       />
-      <Button clickHandler={onClickMain} className={searchbarStyles.button}>
+      <Button clickHandler={onClickSearch} className={searchbarStyles.button}>
         <LinkSearch />
       </Button>
     </div>
