@@ -18,6 +18,7 @@ import elementStyles from './element.module.css';
 import Button from '../components/button/button';
 import Image from '../components/image/image';
 import InputBox from '../components/input-box/input-box';
+import Divider from '../components/divider/divider';
 
 
 
@@ -86,6 +87,7 @@ export function ElementPage() {
               class={cn(elementStyles.text, elementStyles.article)}
               text={`Артикул: ${element.article}`}
             />
+            <Divider className={elementStyles.divider} />
             <div className={elementStyles.box_price}>
               <Text class={elementStyles.text} text='Цена:' />
               <Text class={cn(elementStyles.text, elementStyles.text_bold)} text={`${element.cur_price} руб.`} />
@@ -107,6 +109,7 @@ export function ElementPage() {
               class={cn(elementStyles.text, elementStyles.stock)}
               text={`В наличии ${element.stock} ${element.measurement_unit}`} 
             />
+            <Divider className={elementStyles.divider} />
             <Text class={cn(elementStyles.text, elementStyles.description)} text={element.description} />
           </div>
           

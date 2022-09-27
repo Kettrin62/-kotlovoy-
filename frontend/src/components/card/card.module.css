@@ -95,7 +95,7 @@
 
 @media all and (max-width: 500px) {
   .title {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .price {
@@ -104,6 +104,10 @@
 
   .text {
     font-size: 10px;
+  }
+
+  .article {
+    font-size: 12px;
   }
 }
 
@@ -120,7 +124,13 @@
   .image {
     width: 40%;
     min-width: 40%;
+    padding-left: 5px;
+    padding-right: 5px;
+    box-sizing: border-box;
   }
 
-
+  .text {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }

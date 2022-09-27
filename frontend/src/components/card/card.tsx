@@ -49,7 +49,7 @@ const onClickButton = useCallback(
           {title}
         </p>
         <div className={cardStyles.box}>
-          <p className={cardStyles.text}>
+          <p className={cn(cardStyles.text, cardStyles.article)}>
             Арт:&nbsp;{article}
           </p>
           <h3 className={cardStyles.price}>

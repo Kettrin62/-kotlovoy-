@@ -75,31 +75,57 @@ class Api {
     ).then(this.checkResponse)
   }
 
-    // elements
-    getElements () {
-      return fetch(
-        `${BASEURL}elements/`,
-        {
-          method: 'GET',
-          headers: {
-            ...this._headers,
-          }
+  // elements
+  getElements () {
+    return fetch(
+      `${BASEURL}elements/`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
         }
-      ).then(this.checkResponse)
-    }
+      }
+    ).then(this.checkResponse)
+  }
 
-    // elements
-    getElement (id) {
-      return fetch(
-        `${BASEURL}elements/${id}/`,
-        {
-          method: 'GET',
-          headers: {
-            ...this._headers,
-          }
+  // elements
+  getElement (id) {
+    return fetch(
+      `${BASEURL}elements/${id}/`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
         }
-      ).then(this.checkResponse)
-    }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // groups
+  getGroups () {
+    return fetch(
+      `${BASEURL}groups/`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // groups
+  getGroupsById (id) {
+    return fetch(
+      `${BASEURL}groups/${id}/related_to_brand/`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+        }
+      }
+    ).then(this.checkResponse)
+  }
 
 
 

@@ -58,3 +58,8 @@ export type TDataPathNames = {
   readonly contacts: string;
   readonly feedback: string;
 }
+
+export type TDataGroups = {
+  readonly id: number;
+  readonly title: string;
+}

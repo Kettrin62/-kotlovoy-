@@ -39,13 +39,11 @@
 @media all and (max-width: 640px) {
   .list {
     grid-template-columns: repeat(2, calc((100% - 5px)/2));
-    gap: 7px;
   }
 }
 
 @media all and (max-width: 400px) {
   .list {
     grid-template-columns: 210px;
-    gap: 7px;
   }
 }
