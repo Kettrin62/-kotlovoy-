@@ -54,15 +54,15 @@ class ProductPhotoSerializer(serializers.ModelSerializer):
         fields = ('id', 'image', 'display_order',)
 
 
-class ImagesForElementSerializer(serializers.ModelSerializer):
-    photo = Base64ImageField()
-    display_order = serializers.IntegerField(
-        max_value=32767, min_value=0, default=999,
-    )
+# class ImagesForElementSerializer(serializers.ModelSerializer):
+#     photo = Base64ImageField()
+#     display_order = serializers.IntegerField(
+#         max_value=32767, min_value=0, default=999,
+#     )
 
-    class Meta:
-        model = ProductPhoto
-        fields = ('id', 'photo', 'display_order',)
+#     class Meta:
+#         model = ProductPhoto
+#         fields = ('id', 'photo', 'display_order',)
 
 
 class ElementSerializer(serializers.ModelSerializer):

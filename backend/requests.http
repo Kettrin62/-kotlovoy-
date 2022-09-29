@@ -2,20 +2,20 @@
 POST http://127.0.0.1:8000/api/auth/token/login/
 Content-Type: application/json
 
-# {
-#     "email": "vpupkin@yandex.ru",
-#     "password": "ieurhfieufi1"
-# }
-
 {
-    "email": "admin@admin.admin",
-    "password": "admin"
+    "email": "vpupkin@yandex.ru",
+    "password": "ieurhfieufi"
 }
+
+# {
+#     "email": "admin@admin.admin",
+#     "password": "admin"
+# }
 
 ###
 
 # Васёк
-#@token = 7d2894397266c3eecf0ea8a0319ec3e5e102e09b
+#@token = 3eb731e786f1a10364d5ca9d607ed294fbd1395d
 
 # Админ
 @token = adf383f9ba3597796bd4dc195c8c6511c97fdb0e
@@ -268,7 +268,7 @@ GET http://127.0.0.1:8000/api/v1/elements/?search=004
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/elements/1/
+GET http://127.0.0.1:8000/api/v1/elements/7/
 ###
 
 
@@ -379,7 +379,7 @@ GET http://127.0.0.1:8000/api/v1/swipers/
 ###
 
 ###
-GET http://127.0.0.1:8000/api/v1/swipers/2/
+GET http://127.0.0.1:8000/api/v1/swipers/1/
 ###
 
 
@@ -423,7 +423,8 @@ Authorization: Token {{token}}
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/orders/
+GET http://127.0.0.1:8000/api/v1/orders/22/
+Authorization: Token {{token}}
 ###
 
 
@@ -448,7 +449,41 @@ Content-Type: application/json
       "elements": [
         {
           "id": 5,
-          "amount": 10
+          "amount": 1
+        },
+        {
+          "id": 7,
+          "amount": 2
+        },
+        {
+          "id": 10,
+          "amount": 3
+        }
+      ]
+}
+
+
+###
+PATCH http://127.0.0.1:8000/api/v1/orders/22/
+Authorization: Token {{token}}
+Content-Type: application/json
+
+{
+      "delivery": "SDEK",
+      "payment": "by_fact",
+      "comment": "wedwd",
+      "email": "h46h@mail.ru",
+      "last_name": "SH",
+      "first_name": "HA",
+      "phoneNumber": "+79209746653",
+      "postal_code": null,
+      "region": null,
+      "city": null,
+      "location": null,
+      "elements": [
+        {
+          "id": 5,
+          "amount": 5
         },
         {
           "id": 7,
