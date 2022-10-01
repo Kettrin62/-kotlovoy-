@@ -179,21 +179,38 @@ class OrderSerializer(serializers.ModelSerializer):
                         }
                     )
 
+        order = Order.objects.filter(pk=instance.id)
+
         instance = validated_data.pop('instance')
-        # old_elements = [
-        #     item[0] for item in instance.elements.values_list('id')
-        # ]
-        old_elements = {}
-        # for 
+        #old_elements = list(instance.elements.all())
+        old_elements = list(OrderHasElement.objects.filter(order=instance))
+
+        # order.update(**validated_data)
+
+        # usr_discount = order.discount
+        # for element, amount  in validated_elements:
+        #     if element in old_elements:
+        #         old_elements.remove(element)
+        #     else:
+        #         cur_price = element.price - round(
+        #             element.price * usr_discount / 100
+        #         )
+        #         OrderHasElement.objects.create(
+        #             order=instance,
+        #             element=element,
+        #             price=element.price,
+        #             cur_price=cur_price,
+        #             amount=amount
+        #         )
 
 
         print('@@@@@@@@@@@@@@@@@@@@@@@@@')
-        print(instance.items)
-        for i in instance.items.all():
+        # print(instance.elements.all())
+        for i in old_elements:
             print(i.amount)
         print('@@@@@@@@@@@@@@@@@@@@@@@@@')
 
-        usr_discount = instance.discount
+        # usr_discount = instance.discount
         # for element, amount  in validated_elements:
         #     if element.id in old_elements:
         #         old_elements.remove(element.id)
