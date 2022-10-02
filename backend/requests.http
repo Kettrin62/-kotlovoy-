@@ -2,23 +2,23 @@
 POST http://127.0.0.1:8000/api/auth/token/login/
 Content-Type: application/json
 
-{
-    "email": "vpupkin@yandex.ru",
-    "password": "ieurhfieufi"
-}
-
 # {
-#     "email": "admin@admin.admin",
-#     "password": "admin"
+#     "email": "vpupkin@yandex.ru",
+#     "password": "ieurhfieufi"
 # }
+
+{
+    "email": "admin@admin.admin",
+    "password": "admin"
+}
 
 ###
 
 # Васёк
-@token = db9d05d0472452da76b0120fb68ae5399130656e
+#@token = e48b03a98ba932178104d9d3d0a0566594342dcf
 
 # Админ
-#@token = adf383f9ba3597796bd4dc195c8c6511c97fdb0e
+@token = 2637674b3c8aab69beb1efc31457e697fa1e0280
 
 
 ###
@@ -423,7 +423,7 @@ Authorization: Token {{token}}
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/orders/2
+GET http://127.0.0.1:8000/api/v1/orders/1
 Authorization: Token {{token}}
 ###
 
@@ -448,16 +448,16 @@ Content-Type: application/json
       "location": null,
       "elements": [
         {
-          "id": 5,
-          "amount": 100000
+          "id": 1,
+          "amount": 1
         },
         {
-          "id": 7,
-          "amount": 2
+          "id": 2,
+          "amount": 0
         },
         {
-          "id": 10,
-          "amount": 3
+          "id": 3,
+          "amount": 0
         }
       ]
 }
@@ -470,8 +470,9 @@ Content-Type: application/json
 
 {
       "delivery": "SDEK",
+      "order_sum": 777,
       "payment": "by_fact",
-      "discount": 5,
+      "discount": 50,
       "comment": "2222322",
       "email": "h46h@mail.ru",
       "last_name": "SH",
@@ -483,16 +484,16 @@ Content-Type: application/json
       "location": null,
       "elements": [
         {
-          "id": 6,
-          "amount": 5
+          "id": 5,
+          "amount": 7
         },
         {
           "id": 7,
-          "amount": 6
+          "amount": 2
         },
         {
           "id": 10,
-          "amount": 2
+          "amount": 3
         }
       ]
 }

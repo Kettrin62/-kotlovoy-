@@ -21,7 +21,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_editable = ('comment', 'status')
     search_fields = ('number', 'last_name', 'first_name')
     list_filter = (
-        'status', 'created', 'updated', 'delivery', 'payment'
+        'status', 'created', 'delivery', 'payment'
     )
     inlines = [OrderHasElementInline]
 

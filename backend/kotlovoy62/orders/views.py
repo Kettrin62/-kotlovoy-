@@ -33,3 +33,12 @@ class OrderViewSet(viewsets.ModelViewSet):
             instance=order,
             elements={'elements': (self.request.data['elements'])},
         )
+
+    @action(
+        ['get'], detail=True,
+        permission_classes=(AllowAny,)
+    )
+    def cancel_order(self, request, pk):
+        order = Order.objects.filter(pk=pk)
+
+        return Response(serializer.data)

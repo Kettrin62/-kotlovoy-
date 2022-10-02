@@ -33,9 +33,6 @@ class Order(models.Model):
     created = models.DateTimeField(
         auto_now_add=True, verbose_name='Дата создания заказа',
     )
-    updated = models.DateTimeField(
-        auto_now=True, verbose_name='Дата редактирования заказа',
-    )
     status = models.CharField(
         max_length=50, choices=ORDER_STATUS, default='new_order',
         verbose_name='Статус заказа',

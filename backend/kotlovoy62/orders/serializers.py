@@ -45,14 +45,14 @@ class ElementForOrderSerializer(serializers.ModelSerializer):
         source='element.article', read_only=True
     )
     element_image = serializers.SerializerMethodField()
-    old_price = serializers.IntegerField(source='element.price')
+    start_price = serializers.IntegerField(source='price')
 
     class Meta:
         model = OrderHasElement
         fields = (
             'element_id', 'element_title', 'element_meas_unit',
             'element_stock', 'element_price', 'element_article',
-            'element_image', 'old_price', 'cur_price', 'amount',
+            'element_image', 'start_price', 'cur_price', 'amount',
         )
 
     def get_element_image(self, obj):
@@ -69,7 +69,7 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = (
-            'id', 'number', 'created', 'updated', 'status', 'delivery',
+            'id', 'number', 'created', 'status', 'delivery',
             'payment', 'comment', 'email', 'last_name', 'first_name',
             'phoneNumber', 'discount', 'order_sum', 'postal_code', 'region',
             'city', 'location', 'user', 'elements',
@@ -164,6 +164,9 @@ class OrderSerializer(serializers.ModelSerializer):
                 }
             )
 
+        _ = validated_data.pop('number', None)
+        _ = validated_data.pop('order_sum', None)
+
         order_elements = validated_data.pop('elements')
         validated_elements = set()
         if order_elements['elements']:
@@ -194,16 +197,11 @@ class OrderSerializer(serializers.ModelSerializer):
 
         instance = validated_data.pop('instance')
 
-        #old_elements = list(instance.elements.all())
-        #old_order_elements = list(OrderHasElement.objects.filter(order=instance))
-
         old_order_elements = {}
         for item in list(OrderHasElement.objects.filter(order=instance)):
             old_order_elements[item.element] = item
-        #order.update(**validated_data)
 
         usr_discount = validated_data.get('discount', order.first().discount)
-        print('-----------> ', usr_discount)
         ord_sum = 0
         for element, amount in validated_elements:
             if element in old_order_elements:
@@ -247,8 +245,9 @@ class OrderSerializer(serializers.ModelSerializer):
                         }
                     )
                 else:
-                    #old_order_elements[element] = elm_to_ord
-                    pass
+                    elm_to_ord.cur_price = cur_price
+                    elm_to_ord.save()
+
             else:
                 if order.first().status in [
                         'order_is_completed', 'order_cancelled'
