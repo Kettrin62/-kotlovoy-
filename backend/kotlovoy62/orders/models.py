@@ -8,7 +8,6 @@ from catalog.models import Element
 ORDER_STATUS = (
         ('order_is_completed', 'заказ выполнен'),
         ('order_in_progress', 'заказ на этапе выполнения'),
-        ('order_in_progress', 'заказ на этапе выполнения'),
         ('order_asks_details', 'заказ требует уточнений'),
         ('new_order', 'новый заказ'),
         ('order_cancelled', 'заказ отменён'),

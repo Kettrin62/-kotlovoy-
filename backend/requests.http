@@ -15,10 +15,10 @@ Content-Type: application/json
 ###
 
 # Васёк
-#@token = 3eb731e786f1a10364d5ca9d607ed294fbd1395d
+@token = db9d05d0472452da76b0120fb68ae5399130656e
 
 # Админ
-@token = adf383f9ba3597796bd4dc195c8c6511c97fdb0e
+#@token = adf383f9ba3597796bd4dc195c8c6511c97fdb0e
 
 
 ###
@@ -423,7 +423,7 @@ Authorization: Token {{token}}
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/orders/22/
+GET http://127.0.0.1:8000/api/v1/orders/2
 Authorization: Token {{token}}
 ###
 
@@ -449,7 +449,7 @@ Content-Type: application/json
       "elements": [
         {
           "id": 5,
-          "amount": 1
+          "amount": 100000
         },
         {
           "id": 7,
@@ -464,14 +464,15 @@ Content-Type: application/json
 
 
 ###
-PATCH http://127.0.0.1:8000/api/v1/orders/22/
+PATCH http://127.0.0.1:8000/api/v1/orders/1/
 Authorization: Token {{token}}
 Content-Type: application/json
 
 {
       "delivery": "SDEK",
       "payment": "by_fact",
-      "comment": "wedwd",
+      "discount": 5,
+      "comment": "2222322",
       "email": "h46h@mail.ru",
       "last_name": "SH",
       "first_name": "HA",
@@ -482,16 +483,16 @@ Content-Type: application/json
       "location": null,
       "elements": [
         {
-          "id": 5,
+          "id": 6,
           "amount": 5
         },
         {
           "id": 7,
-          "amount": 2
+          "amount": 6
         },
         {
           "id": 10,
-          "amount": 3
+          "amount": 2
         }
       ]
 }

@@ -105,8 +105,9 @@ class OrderSerializer(serializers.ModelSerializer):
                         {
                             'elements': [
                                 f'кол-во заказываемых деталей: "{element_obj}"'
-                                f' {element["amount"]} единиц, что превышает '
-                                f'остаток в {element_obj.stock} единиц.'
+                                f' составило {element["amount"]} единиц, '
+                                f'что превышает остаток в {element_obj.stock} '
+                                'единиц.'
                             ]
                         }
                     )
@@ -153,6 +154,16 @@ class OrderSerializer(serializers.ModelSerializer):
         return order
 
     def update(self, instance, validated_data):
+        status = validated_data.get('status', 'status is missing')
+        if status in 'order_cancelled':
+            raise serializers.ValidationError(
+                {
+                    'order': [
+                        'Для отмены заказа используйте другой эндпоинт!'
+                    ]
+                }
+            )
+
         order_elements = validated_data.pop('elements')
         validated_elements = set()
         if order_elements['elements']:
@@ -182,185 +193,100 @@ class OrderSerializer(serializers.ModelSerializer):
         order = Order.objects.filter(pk=instance.id)
 
         instance = validated_data.pop('instance')
+
         #old_elements = list(instance.elements.all())
-        old_elements = list(OrderHasElement.objects.filter(order=instance))
+        #old_order_elements = list(OrderHasElement.objects.filter(order=instance))
 
-        # order.update(**validated_data)
+        old_order_elements = {}
+        for item in list(OrderHasElement.objects.filter(order=instance)):
+            old_order_elements[item.element] = item
+        #order.update(**validated_data)
 
-        # usr_discount = order.discount
-        # for element, amount  in validated_elements:
-        #     if element in old_elements:
-        #         old_elements.remove(element)
-        #     else:
-        #         cur_price = element.price - round(
-        #             element.price * usr_discount / 100
-        #         )
-        #         OrderHasElement.objects.create(
-        #             order=instance,
-        #             element=element,
-        #             price=element.price,
-        #             cur_price=cur_price,
-        #             amount=amount
-        #         )
+        usr_discount = validated_data.get('discount', order.first().discount)
+        print('-----------> ', usr_discount)
+        ord_sum = 0
+        for element, amount in validated_elements:
+            if element in old_order_elements:
+                elm_to_ord = old_order_elements.pop(element)
 
+                cur_price = elm_to_ord.price - round(
+                    elm_to_ord.price * usr_discount / 100
+                )
 
-        print('@@@@@@@@@@@@@@@@@@@@@@@@@')
-        # print(instance.elements.all())
-        for i in old_elements:
-            print(i.amount)
-        print('@@@@@@@@@@@@@@@@@@@@@@@@@')
+                cnt_amount = element.stock + elm_to_ord.amount
+                if (
+                    elm_to_ord.amount != amount and
+                    amount <= cnt_amount
+                ):
+                    if order.first().status in [
+                        'order_is_completed', 'order_cancelled'
+                    ]:
+                        raise serializers.ValidationError(
+                            {
+                                'order': [
+                                    'Нельзя менять состав выполненного '
+                                    'или отменённого заказа!'
+                                ]
+                            }
+                        )
+                    delta = elm_to_ord.amount - amount
+                    element.stock += delta
+                    element.save()
+                    elm_to_ord.amount = amount
+                    elm_to_ord.cur_price = cur_price
+                    elm_to_ord.save()
 
-        # usr_discount = instance.discount
-        # for element, amount  in validated_elements:
-        #     if element.id in old_elements:
-        #         old_elements.remove(element.id)
-        #     else:
-        #         cur_price = element.price - round(
-        #             element.price * usr_discount / 100
-        #         )
-        #         OrderHasElement.objects.create(
-        #             order=instance,
-        #             element=element,
-        #             price=element.price,
-        #             cur_price=cur_price,
-        #             amount=amount
-        #         )
+                elif amount > cnt_amount:
+                    raise serializers.ValidationError(
+                        {
+                            'elements': [
+                                f'кол-во заказываемых деталей: "{amount}"'
+                                f' {element.title} единиц, что превышает '
+                                f'остаток в {cnt_amount} единиц.'
+                            ]
+                        }
+                    )
+                else:
+                    #old_order_elements[element] = elm_to_ord
+                    pass
+            else:
+                if order.first().status in [
+                        'order_is_completed', 'order_cancelled'
+                ]:
+                    raise serializers.ValidationError(
+                        {
+                            'order': [
+                                'Нельзя менять состав выполненного '
+                                'или отменённого заказа!'
+                            ]
+                        }
+                    )
+                cur_price = element.price - round(
+                    element.price * usr_discount / 100
+                )
+                OrderHasElement.objects.create(
+                    order=instance,
+                    element=element,
+                    price=element.price,
+                    cur_price=cur_price,
+                    amount=amount
+                )
+            ord_sum += cur_price * amount
 
+        for item in old_order_elements:
+            if order.first().status in [
+                        'order_is_completed', 'order_cancelled'
+            ]:
+                raise serializers.ValidationError(
+                    {
+                        'order': [
+                            'Нельзя менять состав выполненного '
+                            'или отменённого заказа!'
+                        ]
+                    }
+                )
+            old_order_elements[item].delete()
 
-
-        # for group_id in old_groups:
-        #     del_elem_group = ElementHasGroup.objects.filter(
-        #         element=instance.id, group=group_id
-        #     )
-        #     del_elem_group.delete()
-
-        # ord_sum = 0
-        # for element, amount in validated_elements:
-        #     cur_price = element.price - round(
-        #         element.price * usr_discount / 100
-        #     )
-        #     OrderHasElement.objects.create(
-        #         order=order,
-        #         element=element,
-        #         price=element.price,
-        #         cur_price=cur_price,
-        #         amount=amount
-        #     )
-        #     ord_sum += cur_price * amount
-
-        # order.user = user
-        # order.number = dt.today().strftime('%H%M-%f')
-        # order.discount = usr_discount
-        # order.order_sum = ord_sum
-        # order.save()
-
+        order.update(order_sum=ord_sum, **validated_data)
+        instance.refresh_from_db()
         return instance
-
-
-
-
-
-
-    # def update(self, instance, validated_data):
-    #     images = validated_data.pop('images')
-    #     validated_images = []
-    #     if images['images']:
-    #         for image in images['images']:
-    #             try:
-    #                 img_obj = ProductPhoto.objects.get(pk=image['id'])
-    #                 validated_images.append(img_obj)
-    #             except BaseException:
-    #                 raise serializers.ValidationError(
-    #                     {
-    #                         'images': [
-    #                             f'Передан не правильный параметр: {image}'
-    #                         ]
-    #                     }
-    #                 )
-
-    #     groups = validated_data.pop('groups')
-    #     validated_groups = []
-    #     if groups['groups']:
-    #         for group in groups['groups']:
-    #             try:
-    #                 group_obj = Group.objects.get(pk=group['id'])
-    #                 validated_groups.append(group_obj)
-    #             except BaseException:
-    #                 raise serializers.ValidationError(
-    #                     {
-    #                         'groups': [
-    #                             f'Передан не правильный параметр: {group}'
-    #                         ]
-    #                     }
-    #                 )
-
-    #     brand_id = validated_data.pop('brand')
-    #     if brand_id['brand']:
-    #         try:
-    #             brand_id = brand_id['brand']['id']
-    #             brand = Вrand.objects.get(pk=brand_id)
-    #         except Вrand.DoesNotExist:
-    #             raise serializers.ValidationError(
-    #                 {
-    #                     'brand': [
-    #                         "Передан не правильный параметр: "
-    #                         f"{brand_id['brand']}"
-    #                     ]
-    #                 }
-    #             )
-    #     else:
-    #         brand = None
-
-    #     element = Element.objects.filter(pk=instance.id)
-    #     instance = validated_data.pop('instance')
-    #     element.update(**validated_data)
-
-    #     old_images = [item[0] for item in instance.images.values_list('id')]
-    #     old_groups = [item[0] for item in instance.groups.values_list('id')]
-
-    #     for image in validated_images:
-    #         if image.id in old_images:
-    #             old_images.remove(image.id)
-    #         else:
-    #             ElementHasProductPhoto.objects.get_or_create(
-    #                 element=instance, photo=image
-    #             )
-    #     for image_id in old_images:
-    #         del_elem_img = ElementHasProductPhoto.objects.filter(
-    #             element=instance.id, photo=image_id
-    #         )
-    #         try:
-    #             del_image = ProductPhoto.objects.get(pk=image_id)
-    #         except ObjectDoesNotExist as err:
-    #             print(
-    #                 f'В БД запись таблицы "ProductPhoto" с pk={image_id} '
-    #                 'не обнаружена, в процессе выполнения кода возникло '
-    #                 f'исключение: {err}'
-    #             )
-    #         else:
-    #             del_file = del_image.image
-    #             del_image.delete()
-    #             file_delete(del_file)
-    #         finally:
-    #             del_elem_img.delete()
-
-    #     for group in validated_groups:
-    #         if group.id in old_groups:
-    #             old_groups.remove(group.id)
-    #         else:
-    #             ElementHasGroup.objects.get_or_create(
-    #                 element=instance, group=group
-    #             )
-    #     for group_id in old_groups:
-    #         del_elem_group = ElementHasGroup.objects.filter(
-    #             element=instance.id, group=group_id
-    #         )
-    #         del_elem_group.delete()
-
-    #     if brand:
-    #         element.update(brand=brand)
-    #     else:
-    #         element.update(brand=None)
-
-    #     instance.refresh_from_db()
-    #     return instance
