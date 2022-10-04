@@ -4,7 +4,7 @@ Content-Type: application/json
 
 # {
 #     "email": "vpupkin@yandex.ru",
-#     "password": "ieurhfieufi1"
+#     "password": "ieurhfieufi"
 # }
 
 {
@@ -15,10 +15,10 @@ Content-Type: application/json
 ###
 
 # Васёк
-#@token = 7d2894397266c3eecf0ea8a0319ec3e5e102e09b
+#@token = 014a0d22f02fd6e03e284cd2b70059bb51fe98fb
 
 # Админ
-@token = adf383f9ba3597796bd4dc195c8c6511c97fdb0e
+@token = 085ba499746359a22a96142997677655f2e1f629
 
 
 ###
@@ -268,7 +268,7 @@ GET http://127.0.0.1:8000/api/v1/elements/?search=004
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/elements/1/
+GET http://127.0.0.1:8000/api/v1/elements/7/
 ###
 
 
@@ -379,7 +379,7 @@ GET http://127.0.0.1:8000/api/v1/swipers/
 ###
 
 ###
-GET http://127.0.0.1:8000/api/v1/swipers/2/
+GET http://127.0.0.1:8000/api/v1/swipers/1/
 ###
 
 
@@ -423,7 +423,8 @@ Authorization: Token {{token}}
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/orders/
+GET http://127.0.0.1:8000/api/v1/orders/3/
+Authorization: Token {{token}}
 ###
 
 
@@ -447,16 +448,68 @@ Content-Type: application/json
       "location": null,
       "elements": [
         {
-          "id": 5,
-          "amount": 10
+          "id": 1,
+          "amount": 1
         },
         {
-          "id": 7,
-          "amount": 2
+          "id": 2,
+          "amount": 0
         },
         {
-          "id": 10,
-          "amount": 3
+          "id": 3,
+          "amount": 0
         }
       ]
 }
+
+
+###
+PATCH http://127.0.0.1:8000/api/v1/orders/1/
+Authorization: Token {{token}}
+Content-Type: application/json
+
+{
+      "delivery": "SDEK",
+      "order_sum": 777,
+      "payment": "by_fact",
+      "discount": 50,
+      "comment": "2222322",
+      "email": "h46h@mail.ru",
+      "last_name": "SH",
+      "first_name": "HA",
+      "phoneNumber": "+79209746653",
+      "postal_code": null,
+      "region": null,
+      "city": null,
+      "location": null,
+      "elements": [
+        {
+          "id": 5,
+          "amount": 11
+        },
+        {
+          "id": 7,
+          "amount": 7
+        },
+        {
+          "id": 10,
+          "amount": 8
+        }
+      ]
+}
+
+
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/4/cancel_order/
+Authorization: Token {{token}}
+###
+
+
+
+
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/5/get_report/
+Authorization: Token {{token}}
+###
