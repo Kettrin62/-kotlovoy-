@@ -11,7 +11,7 @@ class IsAdminOrUserHimself(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         return bool(
-            request.user.is_staff or request.user == obj
+            request.user.is_superuser or request.user == obj
         )
 
 
@@ -31,12 +31,12 @@ class IsAdminOrUserHimselfAndNotSafeMethods(permissions.BasePermission):
     def has_permission(self, request, view):
         return bool(
             request.method in ('POST', 'PATCH') or
-            request.user.is_staff
+            request.user.is_superuser
         )
 
     def has_object_permission(self, request, view, obj):
         return bool(
             request.method in 'PATCH' and
             request.user == obj or
-            request.user.is_staff
+            request.user.is_superuser
         )

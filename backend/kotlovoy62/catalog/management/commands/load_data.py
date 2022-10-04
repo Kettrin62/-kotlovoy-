@@ -1,6 +1,6 @@
 import csv
 from os import path
-from shutil import copytree, ignore_patterns, rmtree
+from shutil import copytree, ignore_patterns, rmtree, copyfile
 
 from django.core.management.base import BaseCommand
 
@@ -89,6 +89,11 @@ class Command(BaseCommand):
             '../data/loading_data/brands/', 'media/brands/',
             ignore=ignore_patterns('*.csv',)
         )
+
+        copyfile(
+            '../data/loading_data/pattern.xlsx', 'media/pattern.xlsx',
+        )
+
         ###########################################################
         # for testing
         if path.exists('media/elements'):

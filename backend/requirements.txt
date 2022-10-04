@@ -10,6 +10,7 @@ drf-yasg==1.21.3
 gunicorn==20.1.0
 psycopg2-binary==2.9.3
 django-phonenumber-field[phonenumberslite]
+openpyxl==3.0.10 
 django-cors-headers==3.13.0 # delete after development
 isort==5.10.1 # delete after development
 flake8==5.0.3 # delete after development

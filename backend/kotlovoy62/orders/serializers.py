@@ -1,15 +1,10 @@
 from datetime import datetime as dt
 
-from django.core.exceptions import ObjectDoesNotExist
-from drf_extra_fields.fields import Base64ImageField
-from django.contrib.auth.models import AnonymousUser
-from rest_framework.validators import UniqueValidator
 from rest_framework import serializers
 
 from kotlovoy62.settings import MEDIA_URL
 from .models import Order, OrderHasElement
-from catalog.models import Element, ElementHasProductPhoto, ProductPhoto
-from users.models import User
+from catalog.models import Element, ProductPhoto
 from users.serializers import UserSerializer
 
 
@@ -155,6 +150,18 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         status = validated_data.get('status', 'status is missing')
+
+        order = Order.objects.filter(pk=instance.id)
+        instance = validated_data.pop('instance')
+
+        if order.first().status in 'order_cancelled':
+            raise serializers.ValidationError(
+                {
+                    'order': [
+                        'Отменённый заказ изменению не подлежит!'
+                    ]
+                }
+            )
         if status in 'order_cancelled':
             raise serializers.ValidationError(
                 {
@@ -192,10 +199,6 @@ class OrderSerializer(serializers.ModelSerializer):
                             ]
                         }
                     )
-
-        order = Order.objects.filter(pk=instance.id)
-
-        instance = validated_data.pop('instance')
 
         old_order_elements = {}
         for item in list(OrderHasElement.objects.filter(order=instance)):

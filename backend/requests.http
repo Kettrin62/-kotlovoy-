@@ -15,10 +15,10 @@ Content-Type: application/json
 ###
 
 # Васёк
-#@token = e48b03a98ba932178104d9d3d0a0566594342dcf
+#@token = 014a0d22f02fd6e03e284cd2b70059bb51fe98fb
 
 # Админ
-@token = 2637674b3c8aab69beb1efc31457e697fa1e0280
+@token = 085ba499746359a22a96142997677655f2e1f629
 
 
 ###
@@ -423,7 +423,7 @@ Authorization: Token {{token}}
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/orders/1
+GET http://127.0.0.1:8000/api/v1/orders/3/
 Authorization: Token {{token}}
 ###
 
@@ -485,15 +485,31 @@ Content-Type: application/json
       "elements": [
         {
           "id": 5,
-          "amount": 7
+          "amount": 11
         },
         {
           "id": 7,
-          "amount": 2
+          "amount": 7
         },
         {
           "id": 10,
-          "amount": 3
+          "amount": 8
         }
       ]
 }
+
+
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/4/cancel_order/
+Authorization: Token {{token}}
+###
+
+
+
+
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/5/get_report/
+Authorization: Token {{token}}
+###

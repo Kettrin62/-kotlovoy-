@@ -1,16 +1,16 @@
 from rest_framework import permissions
 
-from rest_framework.permissions import SAFE_METHODS
 
-
-class IsUserHimselfOrAdminWithSafeMethods(permissions.BasePermission):
+class UserGetAndCreateOnlyOrAdmin(permissions.BasePermission):
     def has_permission(self, request, view):
         return bool(
-            request.user.is_staff
+            request.user.is_superuser or
+            request.user.is_authenticated
         )
 
     def has_object_permission(self, request, view, obj):
         return bool(
-            request.user == obj.user or
-            request.user.is_staff and request.method in SAFE_METHODS
+            request.user == obj.user and
+            request.method in ('GET', 'POST',) or
+            request.user.is_superuser
         )
