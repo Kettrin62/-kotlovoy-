@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Navigation from '../navigation/navigation';
 import appheaderStyles from './app-header.module.css';
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { 
   useHistory,
-  useLocation,
+  useLocation
 } from 'react-router-dom';
 import Title from '../title/title';
 import Link from '../link/link';
@@ -21,6 +21,7 @@ import cn from 'classnames';
 import Text from '../text/text';
 import { pathNames } from '../../utils/data';
 import LinkWhatsApp from '../links-buttons-image/link-whatsapp';
+import LinkMain from '../links-buttons-image/link-main';
 
 
 
@@ -33,7 +34,7 @@ function AppHeader() {
   const { pathname } = useLocation();
   const [visibleSearchBar, setVisibleSearchBar] = useState(false);
   const [visibleButton, setVisibleButton] = useState(true);
-  const [inputClear, setInputClear] = useState(false);
+  // const [inputClear, setInputClear] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
 
@@ -48,7 +49,6 @@ function AppHeader() {
   const onClickSearch = () => {
     setVisibleSearchBar(true);
     setVisibleButton(false);
-    setInputClear(false);
   };
 
   const classSearchBar = visibleSearchBar
@@ -62,7 +62,7 @@ function AppHeader() {
   const onClickClose = () => {
     setVisibleSearchBar(false);
     setVisibleButton(true);
-    setInputClear(true);
+    setInputValue('');
   };
 
   const onClickSearchElements = useCallback(
@@ -94,6 +94,26 @@ function AppHeader() {
   ? ''
   : appheaderStyles.box_hide;
 
+    useEffect(() => {
+      const keyDownHandler = (event: KeyboardEvent) => {
+        console.log('User pressed: ', event.key);
+        console.log(inputValue);
+  
+        if (event.key === 'Enter') {
+          event.preventDefault();
+  
+          // 👇️ call submit function here
+          onClickSearchElements();
+        }
+      };
+
+      document.addEventListener('keydown', keyDownHandler);
+
+      return () => {
+        document.removeEventListener('keydown', keyDownHandler);
+      };
+    }, [inputValue]);
+
   return (
     <>
       <header className={appheaderStyles.header}>
@@ -101,9 +121,10 @@ function AppHeader() {
         <Navigation>
           <div className={appheaderStyles.container}>
             <Link class={cn(appheaderStyles.link, classLink)} onClick={onClickMain}>
-              <Title />
+              <LinkMain />
+              {/* <Title /> */}
             </Link>
-            <div className={cn(appheaderStyles.box, classBox)}>
+            <div className={cn(appheaderStyles.box, classBox, appheaderStyles.indent)}>
               <Link class={appheaderStyles.link} onClick={() => onClickLink(pathNames.elements)}>
                 <Text class={appheaderStyles.text} text='Каталог' />
               </Link>
@@ -114,15 +135,15 @@ function AppHeader() {
                 <Text class={appheaderStyles.text} text='Доставка' />
               </Link>
             </div>
-            <Link class={cn(appheaderStyles.link, classLink)} onClick={() => {}}>
+            <Link class={cn(appheaderStyles.link, classLink, appheaderStyles.indent)} onClick={() => {}}>
               <LinkWhatsApp />
             </Link>
           </div>
-          <div className={appheaderStyles.container}>
+          <div className={cn(appheaderStyles.container, appheaderStyles.indent)}>
             <SearchBar 
               className={classSearchBar} 
               onClickClose={onClickClose} 
-              reset={inputClear}
+              // reset={inputClear}
               inputValue={inputValue}
               onChangeInput={onChangeInputValue}
               onClickSearch={onClickSearchElements}

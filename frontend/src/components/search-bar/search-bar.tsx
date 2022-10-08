@@ -42,8 +42,7 @@ const SearchBar: FC<ISearchBarProps> = ({
     [history]
   );
 
-  // console.log(inputValue);
-  
+
 
   return (
     <div className={cn(searchbarStyles.container, className)}>
@@ -55,7 +54,7 @@ const SearchBar: FC<ISearchBarProps> = ({
         inputClassName=''
         onChange={onChangeInput}
         value={inputValue}
-        reset={reset}
+        // reset={reset}
       />
       <Button clickHandler={onClickSearch} className={searchbarStyles.button}>
         <LinkSearch />

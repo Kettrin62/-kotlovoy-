@@ -20,13 +20,22 @@
   line-height: 15px;
 }
 
+.count {
+  margin: 0;
+  padding: 0;
+}
+
+.logo {
+  /* width: 140px; */
+  height: 40px;
+  object-fit: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 10px;
+}
+
 @media all and (max-width: 760px) {
   .cart {
     top: -12px;
   }
-}
-
-.count {
-  margin: 0;
-  padding: 0;
 }
