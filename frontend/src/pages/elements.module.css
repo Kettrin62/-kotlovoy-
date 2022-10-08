@@ -113,6 +113,8 @@
 
 @media all and (max-width: 400px) {
   .list {
-    grid-template-columns: 210px;
+    /* grid-template-columns: 210px; */
+    grid-template-columns: 100%;
+
   }
 }
