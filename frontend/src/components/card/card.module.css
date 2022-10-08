@@ -8,6 +8,7 @@
   cursor: pointer;
   gap: 5px;
   min-width: 206px;
+  box-sizing: border-box;
 }
 
 .card:hover {
@@ -112,7 +113,7 @@
   }
 }
 
-@media all and (max-width: 400px) {
+@media all and (max-width: 440px) {
   .container {
     padding-top: 5px;
   }
