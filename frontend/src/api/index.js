@@ -36,7 +36,7 @@ class Api {
 
 
 
-  // tags
+  // brands
   getBrands () {
     return fetch(
       `${BASEURL}brands/`,
@@ -114,10 +114,36 @@ class Api {
     ).then(this.checkResponse)
   }
 
-  // groups
+  // groupsByIdBrand
   getGroupsById (id) {
     return fetch(
       `${BASEURL}groups/${id}/related_to_brand/`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // elementsSearch
+  getElementsSearch (name) {
+    return fetch(
+      `${BASEURL}elements/?search=${name}`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // elementsByIdGroup
+  getElementsGroups (fetchUrl) {
+    return fetch(
+      `${BASEURL}${fetchUrl}`,
       {
         method: 'GET',
         headers: {

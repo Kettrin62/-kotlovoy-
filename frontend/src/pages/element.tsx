@@ -57,7 +57,7 @@ export function ElementPage() {
     } else setInputValue(1);
   };
 
-  console.log(inputValue);
+  // console.log(inputValue);
   
 
   return (

@@ -316,6 +316,11 @@ Content-Type: application/json
 
 ###
 
+GET http://kotlovoy62.ru/api/v1/elements/?brand=5&groups=11
+Content-Type: application/json
+
+###
+
 
 
 

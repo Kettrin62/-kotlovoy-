@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import api from '../api';
 import Button from '../components/button/button';
 import Card from '../components/card/card';
-import Groups from '../components/groups/groups';
 import Text from '../components/text/text';
 import { TDataElement, TDataGroups } from '../services/types/data';
 import elementsStyles from './elements.module.css';
@@ -45,7 +44,7 @@ export function BrandElementsPage() {
 
   return (
     <main className={elementsStyles.container}>
-      <Groups groups={groups} />
+      {/* <Groups groups={groups} /> */}
       <ul className={elementsStyles.list}>
         {elements.map(el => (
           <Card key={el.id} element={el} />

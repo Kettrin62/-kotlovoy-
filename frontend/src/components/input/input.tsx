@@ -18,6 +18,7 @@ interface IInputProps {
   value: string,
   reset?: boolean,
   maxLength?: number,
+  handleKeypress?: (e: any) => void,
 }
 
 const Input: FC<IInputProps> = ({
@@ -33,7 +34,8 @@ const Input: FC<IInputProps> = ({
     onBlur,
     value = '',
     reset,
-    maxLength
+    maxLength,
+    handleKeypress
   }) => {
 
   const [ inputValue, setInputValue ] = useState(value);
@@ -71,6 +73,7 @@ const Input: FC<IInputProps> = ({
         value={inputValue}
         onBlur={onBlur}
         maxLength={maxLength}
+        onKeyPress={handleKeypress}
       />
     </label>
   </div>

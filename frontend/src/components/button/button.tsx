@@ -36,7 +36,7 @@ const Button: FC<IButtonProps> = ({
     <button
       className={classNames}
       disabled={disabled}
-      onClick={_ => clickHandler && clickHandler()}
+      onClick={e => clickHandler && clickHandler()}
     >
       {children}
     </button>
