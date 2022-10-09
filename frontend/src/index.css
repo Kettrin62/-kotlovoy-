@@ -43,11 +43,11 @@ code {
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #fff !important;
+  background-color: #0c555e !important;
 }
 
 .swiper-button-prev {
-  color: #fff !important;
+  color: #0c555e !important;
 }
 
 .swiper-button-prev::after {
@@ -56,7 +56,7 @@ code {
 }
 
 .swiper-button-next {
-  color: #fff !important;
+  color: #0c555e !important;
 
   /* width: 30px !important;
   height: 40px !important; */

@@ -43,6 +43,7 @@
 .article {
   margin-top: 0;
   font-size: 16px;
+  align-self: flex-end;
 }
 
 .text_bold {
@@ -55,10 +56,11 @@
 }
 
 .button {
-  border: 1px solid #000;
+  border: 1px solid rgba(247, 109, 10, 0.7);
   border-radius: 6px;
   padding-left: 30px;
   padding-right: 30px;
+  background-color: rgba(247, 109, 10, 0.7)
 }
 
 .stock {
@@ -107,11 +109,5 @@
     grid-column: 1/2;
     padding-right: 0;
   }
-
-  /* .button {
-    padding-left: 20px;
-    padding-right: 20px;
-  } */
-
 
 }

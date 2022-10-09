@@ -61,7 +61,8 @@
 }
 
 .button {
-  background-color: #e7e7e7;
+  /* background-color: #e7e7e7; */
+  background-color: rgba(247, 109, 10, 0.7);
   text-align: center;
   /* border: 1px solid rgba(84, 84, 84, 0.7); */
   cursor: pointer;

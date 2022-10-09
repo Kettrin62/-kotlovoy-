@@ -49,18 +49,6 @@ export function BrandElementsPage() {
         {elements.map(el => (
           <Card key={el.id} element={el} />
           ))}
-                  {/* {elements.map(el => (
-          <Card key={el.id} element={el} />
-          ))}
-                  {elements.map(el => (
-          <Card key={el.id} element={el} />
-          ))}
-                  {elements.map(el => (
-          <Card key={el.id} element={el} />
-          ))}
-                  {elements.map(el => (
-          <Card key={el.id} element={el} />
-          ))} */}
       </ul>
     </main>
   )

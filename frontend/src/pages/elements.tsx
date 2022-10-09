@@ -110,10 +110,6 @@ export function ElementsPage() {
 
 
 
-
-
-
-
   const [activeButton, setActiveButton] = useState<Array<number>>([]);
 
   const getElementsGroups = (url: string) => {

@@ -40,6 +40,11 @@ const onClickButton = useCallback(
   [history]
 );
 
+const onClickButtonCard = () => {
+  console.log(title);
+  
+};
+
 
   return (
     <li className={cardStyles.card} onClick={onClickButton}>
@@ -58,9 +63,9 @@ const onClickButton = useCallback(
         </div>
         <div className={cardStyles.box}>
           <p className={cardStyles.text}>
-            Доступно: {stock}11шт.
+            Доступно: {stock}шт.
           </p>
-          <Button clickHandler={onClickButton} className={cardStyles.button}>
+          <Button clickHandler={onClickButtonCard} className={cardStyles.button}>
             В&nbsp;корзину
           </Button>
         </div>
