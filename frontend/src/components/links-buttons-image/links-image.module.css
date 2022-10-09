@@ -38,4 +38,8 @@
   .cart {
     top: -12px;
   }
+
+  .logo {
+    height: 35px;
+  }
 }

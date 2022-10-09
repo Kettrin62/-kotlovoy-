@@ -35,7 +35,7 @@
   margin: 0;
   font-weight: 500;
   line-height: 24px;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 
@@ -47,7 +47,7 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 5px;
-  width: 80%;
+  width: 70%;
   /* row-gap: 5px; */
   padding: 0;
   margin: 0;
@@ -65,7 +65,7 @@
 }
 
 .button_group_active {
-  background-color: #e7e7e7;
+  background-color: rgba(247, 109, 10, 0.3);
 }
 
 .text_group {
@@ -107,7 +107,8 @@
   }
 
   .show {
-    display: grid;
+    display: inline-flex;
+    width: 90%;
   }
 }
 

@@ -67,8 +67,6 @@ function AppHeader() {
 
   const onClickSearchElements = useCallback(
     () => {
-      console.log(inputValue);
-      
       history.replace({ pathname: `/elements/search/${inputValue}` });
     },
     [history, inputValue]
@@ -96,9 +94,6 @@ function AppHeader() {
 
     useEffect(() => {
       const keyDownHandler = (event: KeyboardEvent) => {
-        console.log('User pressed: ', event.key);
-        console.log(inputValue);
-  
         if (event.key === 'Enter') {
           event.preventDefault();
   

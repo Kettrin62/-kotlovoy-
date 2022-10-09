@@ -87,9 +87,11 @@
   .header {
     min-height: 40px;
   }
-}
 
-@media screen and (max-width: 760px) {
+  .indent {
+    padding-top: 0;
+  }
+
   .box {
     display: none;
   }
