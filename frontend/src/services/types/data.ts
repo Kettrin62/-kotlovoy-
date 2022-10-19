@@ -63,3 +63,16 @@ export type TDataGroups = {
   readonly id: number;
   readonly title: string;
 }
+
+export type TDataCartElement = {
+  readonly element: TDataElement;
+  readonly qty: number;
+}
+
+export type TTotalPrice = {
+  price: number;
+}
+
+export type TAction = {
+  array: Array<TDataCartElement>
+}

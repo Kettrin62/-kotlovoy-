@@ -19,7 +19,7 @@ export const dataFooter: Array<TDataFooter> = [
     image: `${map}`,
     text: '390044, г.Рязань, ул.Новая, д.20',
   }
-]
+];
 
 export const pathNames: TDataPathNames = {
   main: '/',
@@ -29,4 +29,18 @@ export const pathNames: TDataPathNames = {
   about: '/about',
   contacts: '/contacts',
   feedback: '/contacts',
+};
+
+export const stepName = {
+  cart: 'cart',
+  delivery: 'delivery',
+  checkout: 'checkout',
 }
+
+export const titleCart = {
+  cart: 'Корзина', 
+  delivery: 'Доставка', 
+  checkout: 'Подтверждение заказа'
+};
+
+export const totalInitialPrice = { price: 0 };

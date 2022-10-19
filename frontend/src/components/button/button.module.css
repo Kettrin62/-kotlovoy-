@@ -56,8 +56,9 @@
 } */
 
 .button_disabled {
-  opacity: .6;
-  cursor: not-allowed;
+  background-color: rgba(170, 170, 170, 0.4) !important;
+  opacity: .6 !important;
+  cursor: not-allowed !important;
 }
 
 /* .button_style_dark-blue:hover {

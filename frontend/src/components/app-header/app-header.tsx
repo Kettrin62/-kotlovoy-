@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Navigation from '../navigation/navigation';
 import appheaderStyles from './app-header.module.css';
-import { useCallback, useContext, useEffect } from 'react';
+import { useCallback, useState, useEffect, useContext } from 'react';
 import { 
   useHistory,
   useLocation
@@ -15,13 +15,13 @@ import Menu from '../menu/menu';
 import Divider from '../divider/divider';
 import Input from '../input/input';
 import SearchBar from '../search-bar/search-bar';
-import { useState } from 'react';
 import Button from '../button/button';
 import cn from 'classnames';
 import Text from '../text/text';
 import { pathNames } from '../../utils/data';
 import LinkWhatsApp from '../links-buttons-image/link-whatsapp';
 import LinkMain from '../links-buttons-image/link-main';
+import { DataCartContext } from '../../services/contexts/app-context';
 
 
 
@@ -36,6 +36,12 @@ function AppHeader() {
   const [visibleButton, setVisibleButton] = useState(true);
   // const [inputClear, setInputClear] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const { dataCart, setDataCart } = useContext(DataCartContext);
+  const [count, setCount] = useState<number>(0);
+
+  useEffect(() => {
+    setCount(dataCart.length);
+  }, [dataCart]);
 
 
   const onClickMain = useCallback(
@@ -88,26 +94,31 @@ function AppHeader() {
     [history]
   );
 
+  const onClickCart = useCallback(
+    () => {
+      history.replace({ pathname: '/cart' });
+    },
+    [history]
+  );
+
   const classBox = visibleButton
   ? ''
   : appheaderStyles.box_hide;
 
-    useEffect(() => {
-      const keyDownHandler = (event: KeyboardEvent) => {
-        if (event.key === 'Enter') {
-          event.preventDefault();
-  
-          // 👇️ call submit function here
-          onClickSearchElements();
-        }
-      };
+  useEffect(() => {
+    const keyDownHandler = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        onClickSearchElements();
+      }
+    };
 
-      document.addEventListener('keydown', keyDownHandler);
+    document.addEventListener('keydown', keyDownHandler);
 
-      return () => {
-        document.removeEventListener('keydown', keyDownHandler);
-      };
-    }, [inputValue]);
+    return () => {
+      document.removeEventListener('keydown', keyDownHandler);
+    };
+  }, [inputValue]);
 
   return (
     <>
@@ -146,8 +157,8 @@ function AppHeader() {
             <Button className={classButton} clickHandler={onClickSearch}>
               <LinkSearch class={appheaderStyles.search} />
             </Button>
-            <Link class={appheaderStyles.link} onClick={onClickMain}>
-              <LinkCart />
+            <Link class={appheaderStyles.link} onClick={onClickCart}>
+              <LinkCart count={count} />
             </Link>
             <Link class={cn(appheaderStyles.link, classLink)} onClick={onClickMain}>
               <LinkAccount />
