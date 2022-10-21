@@ -18,7 +18,7 @@ Content-Type: application/json
 #@token = 014a0d22f02fd6e03e284cd2b70059bb51fe98fb
 
 # Админ
-@token = 085ba499746359a22a96142997677655f2e1f629
+@token = 9c951d8894af3ad61946178f514171b2187c048e
 
 
 ###
@@ -336,7 +336,7 @@ Authorization: Token {{token}}
             "id": 8
         }
     ],
-    "price": 900.49,
+    "price": 900,
     "stock": 2,
     "article": "987-987-987-005",
     "available": true,
@@ -420,10 +420,135 @@ Authorization: Token {{token}}
 
 
 
+###
+GET http://127.0.0.1:8000/api/v1/delivery/
+Authorization: Token {{token}}
+###
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/orders/3/
+PATCH http://127.0.0.1:8000/api/v1/delivery/1/
+Authorization: Token {{token}}
+Content-Type: application/json
+
+{
+    "company": "SDEK",
+    "price": 400,
+    "comment": "Самая-super выгодная доставка"
+}
+###
+
+
+###
+POST http://127.0.0.1:8000/api/v1/delivery/
+Authorization: Token {{token}}
+Content-Type: application/json
+
+{
+    "company": "SOSEC2",
+}
+###
+
+###
+DELETE http://127.0.0.1:8000/api/v1/delivery/4/
+Authorization: Token {{token}}
+
+###
+
+
+
+
+
+###
+GET http://127.0.0.1:8000/api/v1/payment/
+Authorization: Token {{token}}
+###
+
+###
+GET http://127.0.0.1:8000/api/v1/payment/3/
+Authorization: Token {{token}}
+###
+
+
+###
+PATCH http://127.0.0.1:8000/api/v1/payment/3/
+Authorization: Token {{token}}
+Content-Type: application/json
+
+{
+    "comment": "Самая-super выгодная jgkfnf"
+}
+###
+
+
+###
+POST http://127.0.0.1:8000/api/v1/payment/
+Authorization: Token {{token}}
+Content-Type: application/json
+
+{
+    "pay_type": "SOSEC2"
+}
+###
+
+###
+DELETE http://127.0.0.1:8000/api/v1/payment/3/
+Authorization: Token {{token}}
+
+###
+
+
+
+
+
+
+
+###
+GET http://127.0.0.1:8000/api/v1/order_status/
+Authorization: Token {{token}}
+###
+
+
+###
+PATCH http://127.0.0.1:8000/api/v1/order_status/1/
+Authorization: Token {{token}}
+Content-Type: application/json
+
+{
+    "company": "SDEK",
+    "price": 400,
+    "comment": "Самая-super выгодная доставка"
+}
+###
+
+
+###
+POST http://127.0.0.1:8000/api/v1/order_status/
+Authorization: Token {{token}}
+Content-Type: application/json
+
+{
+    "status": "SOSEC2"
+}
+###
+
+###
+DELETE http://127.0.0.1:8000/api/v1/order_status/3/
+Authorization: Token {{token}}
+
+###
+
+
+
+
+
+
+
+
+
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/
 Authorization: Token {{token}}
 ###
 
@@ -435,31 +560,37 @@ Authorization: Token {{token}}
 Content-Type: application/json
 
 {
-      "delivery": "SDEK",
-      "payment": "by_fact",
-      "comment": "wedwd",
-      "email": "h46h@mail.ru",
-      "last_name": "SH",
-      "first_name": "HA",
-      "phoneNumber": "+79209746653",
-      "postal_code": null,
-      "region": null,
-      "city": null,
-      "location": null,
-      "elements": [
-        {
-          "id": 1,
-          "amount": 1
-        },
-        {
-          "id": 2,
-          "amount": 0
-        },
-        {
-          "id": 3,
-          "amount": 0
-        }
-      ]
+    "delivery":
+    {
+        "id": 1
+    },
+    "payment":
+    {
+        "id": 1
+    },
+    "comment": "wedwd",
+    "email": "h46h@mail.ru",
+    "last_name": "SH",
+    "first_name": "HA",
+    "phoneNumber": "+79209746653",
+    "postal_code": null,
+    "region": null,
+    "city": null,
+    "location": null,
+    "elements": [
+    {
+        "id": 1,
+        "amount": 1
+    },
+    {
+        "id": 2,
+        "amount": 0
+    },
+    {
+        "id": 3,
+        "amount": 0
+    }
+    ]
 }
 
 
@@ -469,11 +600,21 @@ Authorization: Token {{token}}
 Content-Type: application/json
 
 {
-      "delivery": "SDEK",
+    "status":
+    {
+        "id": 4
+    },
+    "delivery":
+    {
+        "id": 1
+    },
+    "payment":
+    {
+        "id": 1
+    },
       "order_sum": 777,
-      "payment": "by_fact",
       "discount": 50,
-      "comment": "2222322",
+      "comment": "3424243242",
       "email": "h46h@mail.ru",
       "last_name": "SH",
       "first_name": "HA",

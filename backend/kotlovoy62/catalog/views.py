@@ -2,6 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status, viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
+from rest_framework.serializers import ValidationError
 from rest_framework.decorators import action
 
 from kotlovoy62.settings import CUSTOM_SETTINGS_DRF
@@ -75,20 +76,38 @@ class ElementViewSet(viewsets.ModelViewSet):
     pagination_class = RecipeSetPagination
 
     def perform_create(self, serializer):
-        serializer.save(
-            brand={'brand': (self.request.data['brand'])},
-            images={'images': (self.request.data['images'])},
-            groups={'groups': (self.request.data['groups'])},
-        )
+        try:
+            serializer.save(
+                brand={'brand': (self.request.data['brand'])},
+                images={'images': (self.request.data['images'])},
+                groups={'groups': (self.request.data['groups'])},
+            )
+        except KeyError as err:
+            raise ValidationError(
+                {
+                    'message': [
+                        'В запросе не передан параметр: {}'.format(err)
+                    ]
+                }
+            )
 
     def perform_update(self, serializer):
         element = self.get_object()
-        serializer.save(
-            instance=element,
-            brand={'brand': (self.request.data['brand'])},
-            images={'images': (self.request.data['images'])},
-            groups={'groups': (self.request.data['groups'])},
-        )
+        try:
+            serializer.save(
+                instance=element,
+                brand={'brand': (self.request.data['brand'])},
+                images={'images': (self.request.data['images'])},
+                groups={'groups': (self.request.data['groups'])},
+            )
+        except KeyError as err:
+            raise ValidationError(
+                {
+                    'message': [
+                        'В запросе не передан параметр: {}'.format(err)
+                    ]
+                }
+            )
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from django.core.validators import MinValueValidator
 from phonenumber_field.modelfields import PhoneNumberField
@@ -5,25 +6,71 @@ from phonenumber_field.modelfields import PhoneNumberField
 from users.models import User
 from catalog.models import Element
 
-ORDER_STATUS = (
-        ('order_is_completed', 'заказ выполнен'),
-        ('order_in_progress', 'заказ на этапе выполнения'),
-        ('order_asks_details', 'заказ требует уточнений'),
-        ('new_order', 'новый заказ'),
-        ('order_cancelled', 'заказ отменён'),
+
+class Payment(models.Model):
+    pay_type = models.CharField(
+        verbose_name='Тип оплаты',
+        max_length=100,
+        unique=True
+    )
+    comment = models.CharField(
+        verbose_name='Комментарий',
+        max_length=500,
+        null=True, blank=True,
     )
 
-DELIVERY = (
-    ('SDEK', 'СДЭК'),
-    ('Yandex', 'Яндекс'),
-    ('Russian_post', 'Почта России'),
-)
+    class Meta:
+        ordering = ('pay_type',)
+        verbose_name = 'Тип оплаты'
+        verbose_name_plural = 'Типы оплаты'
 
-PAYMENT = (
-    ('by_fact', 'при получении'),
-    ('online', 'онлайн'),
-    ('cashless', 'безналичный расчет'),
-)
+    def __str__(self):
+        return '{}'.format(self.pay_type,)
+
+
+class Delivery(models.Model):
+    company = models.CharField(
+        verbose_name='Название компании',
+        max_length=100,
+        unique=True
+    )
+    price = models.PositiveIntegerField(
+        verbose_name='Цена доставки', default=0,
+    )
+    comment = models.CharField(
+        verbose_name='Комментарий',
+        max_length=500,
+        null=True, blank=True,
+    )
+
+    class Meta:
+        ordering = ('company',)
+        verbose_name = 'Компания'
+        verbose_name_plural = 'Логистические компании'
+
+    def __str__(self):
+        return '{}'.format(self.company,)
+
+
+class OrderStatus(models.Model):
+    status = models.CharField(
+        verbose_name='Статус заказа',
+        max_length=50,
+        unique=True
+    )
+    comment = models.CharField(
+        verbose_name='Комментарий',
+        max_length=500,
+        null=True, blank=True,
+    )
+
+    class Meta:
+        ordering = ('status',)
+        verbose_name = 'Статус заказа'
+        verbose_name_plural = 'Статусы заказа'
+
+    def __str__(self):
+        return '{}'.format(self.status,)
 
 
 class Order(models.Model):
@@ -33,17 +80,20 @@ class Order(models.Model):
     created = models.DateTimeField(
         auto_now_add=True, verbose_name='Дата создания заказа',
     )
-    status = models.CharField(
-        max_length=50, choices=ORDER_STATUS, default='new_order',
-        verbose_name='Статус заказа',
+    status = models.ForeignKey(
+        OrderStatus, verbose_name='Статус заказа',
+        on_delete=models.SET_NULL, related_name='order_status',
+        null=True,
     )
-    delivery = models.CharField(
-        max_length=50, choices=DELIVERY, default='SDEK',
-        verbose_name='Доставка',
+    delivery = models.ForeignKey(
+        Delivery, verbose_name='Доставка',
+        on_delete=models.SET_NULL, related_name='order_delivery',
+        null=True,
     )
-    payment = models.CharField(
-        max_length=50, choices=PAYMENT, default='by_fact',
-        verbose_name='Оплата',
+    payment = models.ForeignKey(
+        Payment, verbose_name='Оплата',
+        on_delete=models.SET_NULL, related_name='order_payment',
+        null=True,
     )
     comment = models.CharField(
         max_length=250, blank=True, null=True, verbose_name='Комментарий',

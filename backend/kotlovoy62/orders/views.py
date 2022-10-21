@@ -9,14 +9,23 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
+from rest_framework.serializers import ValidationError
 from rest_framework import status
 
 from kotlovoy62.settings import CUSTOM_SETTINGS_DRF
 
-from .models import Order, OrderHasElement
-from .serializers import OrderSerializer
+from .models import Order, OrderHasElement, Delivery, Payment, OrderStatus
+from .serializers import (
+    OrderSerializer, DeliverySerializer, PaymentSerializer,
+    OrderStatusSerializer
+)
 from .permissions import UserGetAndCreateOnlyOrAdmin
+from catalog.permissions import IsAdminOrReadOnly
 from kotlovoy62.settings import MEDIA_ROOT
+
+
+# OrderStatus.objects.get_or_create(status='заказ отменен')
+# OrderStatus.objects.get_or_create(status='заказ выполнен')
 
 
 class OrderSetPagination(PageNumberPagination):
@@ -39,16 +48,39 @@ class OrderViewSet(viewsets.ModelViewSet):
         return self.request.user.orders.all()
 
     def perform_create(self, serializer):
-        serializer.save(
-            elements={'elements': (self.request.data['elements'])},
-        )
+        try:
+            serializer.save(
+                elements={'elements': (self.request.data['elements'])},
+                delivery={'delivery': (self.request.data['delivery'])},
+                payment={'payment': (self.request.data['payment'])},
+            )
+        except KeyError as err:
+            raise ValidationError(
+                {
+                    'message': [
+                        'В запросе не передан параметр: {}'.format(err)
+                    ]
+                }
+            )
 
     def perform_update(self, serializer):
         order = self.get_object()
-        serializer.save(
-            instance=order,
-            elements={'elements': (self.request.data['elements'])},
-        )
+        try:
+            serializer.save(
+                instance=order,
+                elements={'elements': (self.request.data['elements'])},
+                status={'status': (self.request.data['status'])},
+                delivery={'delivery': (self.request.data['delivery'])},
+                payment={'payment': (self.request.data['payment'])},
+            )
+        except KeyError as err:
+            raise ValidationError(
+                {
+                    'message': [
+                        'В запросе не передан параметр: {}'.format(err)
+                    ]
+                }
+            )
 
     @action(
         ['get'], detail=True,
@@ -168,3 +200,24 @@ class OrderViewSet(viewsets.ModelViewSet):
             row += 1
         wb.save(response)
         return response
+
+
+class DeliveryViewSet(viewsets.ModelViewSet):
+    http_method_names = ('get', 'post', 'patch', 'delete',)
+    queryset = Delivery.objects.all()
+    serializer_class = DeliverySerializer
+    permission_classes = (IsAdminOrReadOnly,)
+
+
+class PaymentViewSet(viewsets.ModelViewSet):
+    http_method_names = ('get', 'post', 'patch', 'delete',)
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
+    permission_classes = (IsAdminOrReadOnly,)
+
+
+class OrderStatusViewSet(viewsets.ModelViewSet):
+    http_method_names = ('get', 'post', 'patch', 'delete',)
+    queryset = OrderStatus.objects.all()
+    serializer_class = OrderStatusSerializer
+    permission_classes = (IsAdminOrReadOnly,)
