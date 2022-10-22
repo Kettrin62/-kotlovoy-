@@ -11,6 +11,7 @@ import {
 } from '../../services/types/data';
 import api from '../../api';
 import { 
+  CartStepContext,
   DataBrandsContext, 
   DataCartContext, 
   DataSwiperContext 
@@ -34,6 +35,8 @@ function App() {
   const [swiper, setSwiper] = useState<Array<TDataSwiper>>([]);
 
   const [dataCart, setDataCart] = useState<Array<TDataCartElement>>([]);
+
+  const [step, setStep] = useState<string>('');
 
   const getBrands = () => {
     api
@@ -60,56 +63,58 @@ function App() {
       <div>
         <Router>
           <DataCartContext.Provider value={{ dataCart, setDataCart }}>
-            <AppHeader />
-            <Switch>
-              <Route path='/' exact={true}>
-                <DataBrandsContext.Provider value={brands}>
-                  <DataSwiperContext.Provider value={swiper}>
-                    <HomePage />
-                  </DataSwiperContext.Provider>
-                </DataBrandsContext.Provider>
-              </Route>
-              <Route path='/elements' exact={true}>
-                <ElementsPage />
-              </Route>
-              <Route path='/elements/:id' exact={true}>
-                <ElementPage />
-              </Route>
+            <CartStepContext.Provider value={{ step, setStep }}>
+              <AppHeader />
+              <Switch>
+                <Route path='/' exact={true}>
+                  <DataBrandsContext.Provider value={brands}>
+                    <DataSwiperContext.Provider value={swiper}>
+                      <HomePage />
+                    </DataSwiperContext.Provider>
+                  </DataBrandsContext.Provider>
+                </Route>
+                <Route path='/elements' exact={true}>
+                  <ElementsPage />
+                </Route>
+                <Route path='/elements/:id' exact={true}>
+                  <ElementPage />
+                </Route>
 
-              <Route path='/pay' exact={true}>
-                <PayPage />
-              </Route>
+                <Route path='/pay' exact={true}>
+                  <PayPage />
+                </Route>
 
-              <Route path='/delivery' exact={true}>
-                <DeliveryPage />
-              </Route>
+                <Route path='/delivery' exact={true}>
+                  <DeliveryPage />
+                </Route>
 
-              <Route path='/about' exact={true}>
-                <AboutPage />
-              </Route>
+                <Route path='/about' exact={true}>
+                  <AboutPage />
+                </Route>
 
-              <Route path='/contacts' exact={true}>
-                <ContactsPage />
-              </Route>
+                <Route path='/contacts' exact={true}>
+                  <ContactsPage />
+                </Route>
 
-              <Route path='/feedback' exact={true}>
-                <FeedbackPage />
-              </Route>
+                <Route path='/feedback' exact={true}>
+                  <FeedbackPage />
+                </Route>
 
-              <Route path='/elements/brand/:id' exact={true}>
-                {/* <BrandElementsPage /> */}
-                <ElementsPage />
-              </Route>
+                <Route path='/elements/brand/:id' exact={true}>
+                  {/* <BrandElementsPage /> */}
+                  <ElementsPage />
+                </Route>
 
-              <Route path='/elements/search/:name' exact={true}>
-                <ElementsPage />
-              </Route>
+                <Route path='/elements/search/:name' exact={true}>
+                  <ElementsPage />
+                </Route>
 
-              <Route path='/cart' exact={true}>
-                <CartPage />
-              </Route>
+                <Route path='/cart' exact={true}>
+                  <CartPage />
+                </Route>
 
-            </Switch>
+              </Switch>
+            </CartStepContext.Provider>
           </DataCartContext.Provider>
           <Footer />
         </Router>

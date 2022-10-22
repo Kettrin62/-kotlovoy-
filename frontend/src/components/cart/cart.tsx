@@ -10,7 +10,7 @@ function Cart() {
   const { totalDispatcher } = useContext(TotalPriceContext);
 
   useEffect(() => {
-    totalDispatcher({ array: dataCart})
+    totalDispatcher({ array: dataCart })
   }, [dataCart]);
 
   const content = useMemo(

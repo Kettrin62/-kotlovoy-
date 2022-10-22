@@ -6,35 +6,39 @@ import styles from './total-price.module.css';
 // import { orderCheckout } from '../../services/actions/checkout';
 import { priceFormat, totalPriceSelector } from './utils';
 import { Loader } from '../../ui/loader/loader';
-import { DataCartContext } from '../../services/contexts/app-context';
+import { DataCartContext, CartStepContext } from '../../services/contexts/app-context';
 import { TotalPriceContext } from '../../services/contexts/cart-context';
+import { stepName } from '../../utils/data';
 
-interface ITotalPriceProps {
-  step: string;
-}
 
-export const TotalPrice: FC<ITotalPriceProps> = ({ step }) => {
+
+export const TotalPrice = () => {
   const { dataCart, setDataCart } = useContext(DataCartContext);
   const { totalPrice } = useContext(TotalPriceContext);
+  const { step, setStep } = useContext(CartStepContext);
+  
+
 
   const orderCheckoutRequest = false;
 
 
   const prev = () => {
-    
+    const prevStep = step === stepName.checkout ? stepName.delivery : stepName.cart;
+    setStep(prevStep);
   };
 
   const next = () => {
-
+    const nextStep = step === stepName.cart ? stepName.delivery : stepName.checkout
+    setStep(nextStep);
   };
 
-  const submitButtonText = step === 'checkout' ? 'Оформить заказ' : 'Продолжить оформление';
+  const submitButtonText = step === stepName.checkout ? 'Оформить заказ' : 'Продолжить оформление';
 
   const buttonText = useMemo(
     () => {
-      if (step === 'delivery') {
+      if (step === stepName.delivery) {
         return 'Назад к списку покупок';
-      } else if (step === 'checkout') {
+      } else if (step === stepName.checkout) {
         return 'Назад к выбору доставки';
       } else {
         return '';
@@ -47,14 +51,14 @@ export const TotalPrice: FC<ITotalPriceProps> = ({ step }) => {
 
   };
 
-  const nextAction = step === 'delivery' || step === 'cart' ? next : confirmOrder;
+  const nextAction = step === stepName.delivery || step === stepName.cart ? next : confirmOrder;
 
   return (
     <div className={`${styles.container}`}>
       <p className={styles.text}>Итого:</p>
       <p className={styles.cost}>{priceFormat(totalPrice.price)}</p>
       <div className={styles.buttonbox}>
-        {(step === 'delivery' || step === 'checkout') && (
+        {(step === stepName.delivery || step === stepName.checkout) && (
           <MainButton onClick={prev} type="button" secondary={true} extraClass={styles.button}>
             {buttonText}
           </MainButton>

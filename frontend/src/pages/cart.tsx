@@ -1,43 +1,63 @@
-import { useState, useMemo, useReducer } from 'react';
+import { useState, useMemo, useReducer, useContext, useEffect } from 'react';
 import Cart from '../components/cart/cart';
+import { Checkout } from '../components/checkout/checkout';
 import Delivery from '../components/delivery/delivery';
 import { TotalPrice } from '../components/total-price/total-price';
-import { CartStepContext, TotalPriceContext } from '../services/contexts/cart-context';
-import { TAction, TDataCartElement, TTotalPrice } from '../services/types/data';
+import { CartStepContext } from '../services/contexts/app-context';
+import { DeliveryContext, DeliveryFormContext, SelectedDeliveryContext, TotalPriceContext } from '../services/contexts/cart-context';
+import { TAction, TDataCartElement, TDeliveryForm, TDeliveryMethod, TTotalPrice } from '../services/types/data';
 import { TitleCart } from '../ui/title-cart/title-cart';
 import { stepName, titleCart, totalInitialPrice } from '../utils/data';
 import cartStyles from './cart.module.css';
 
 
 function reducer(_totalPrice: TTotalPrice, action: TAction) {
-  const total = 
+  const deliveryPrice =
+    (action.delivery?.selectedMethod &&
+      action.delivery?.methods.
+      find(method => method.id === action.delivery?.selectedMethod)?.price) || 
+    0;
+
+  const total = deliveryPrice +
     action.array.reduce((
       acc: number, 
       item: TDataCartElement
     ) => acc + item.element.cur_price * item.qty, 0);
+  
+  console.log(total);
+  
+
   return { price: total };
 }
 
 export function CartPage() {
-  const [step, setStep] = useState(stepName.cart);
+  // const [step, setStep] = useState(stepName.cart);
   const [totalPrice, totalDispatcher] = useReducer(reducer, totalInitialPrice);
+  const { step, setStep } = useContext(CartStepContext);
+
+  const [methodDelivery, setMethodDelivery] = useState<TDeliveryMethod | null>(null);
+  const [selectedDeliveryId, setSelectedDeliveryId] = useState<number>(1);
+  const [form, setForm] = useState<TDeliveryForm | null>(null);
+
+  useEffect(() => {
+    if(step === '') setStep(stepName.cart);
+  }, []);
+  
 
   const content = useMemo(
     () => {
       switch (step) {
-        case 'cart': {
+        case stepName.cart: {
           return <Cart />;
         }
-        case 'delivery': {
+        case stepName.delivery: {
           return <Delivery />;
         }
         case 'checkout': {
-          // return <Checkout />;
-          return <div></div>;
+          return <Checkout />;
         }
         default: {
-          // return <Cart />;
-          return <div></div>;
+          return <Cart />;
         }
       }
     },
@@ -46,17 +66,23 @@ export function CartPage() {
 
   return (
     <div className={cartStyles.container}>
-      <CartStepContext.Provider value={{ step, setStep }}>
+      {/* <CartStepContext.Provider value={{ step, setStep }}> */}
         <TotalPriceContext.Provider value={{ totalPrice, totalDispatcher }}>
-          <TitleCart
-            text={titleCart.cart}
-            currentStep={Object.keys(titleCart).indexOf(step) + 1}
-            allSteps={Object.keys(titleCart).length}
-          />
-          {content}
-          <TotalPrice step={step} />
+          <DeliveryContext.Provider value={{ methodDelivery, setMethodDelivery }}>
+            <SelectedDeliveryContext.Provider value={{ selectedDeliveryId, setSelectedDeliveryId }}>
+              <DeliveryFormContext.Provider value={{ form, setForm }}>
+                <TitleCart
+                  text={titleCart.cart}
+                  currentStep={Object.keys(titleCart).indexOf(step) + 1}
+                  allSteps={Object.keys(titleCart).length}
+                />
+                {content}
+                <TotalPrice />
+              </DeliveryFormContext.Provider>
+            </SelectedDeliveryContext.Provider>
+          </DeliveryContext.Provider>
         </TotalPriceContext.Provider>
-      </CartStepContext.Provider>
+      {/* </CartStepContext.Provider> */}
     </div>
   )
 }

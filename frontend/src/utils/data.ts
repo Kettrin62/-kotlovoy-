@@ -2,6 +2,8 @@ import { TDataFooter, TDataPathNames } from "../services/types/data";
 import map from '../images/map.svg';
 import mail from '../images/mail.svg';
 import telephoneIcon from '../images/telephone-icon.svg';
+import express from '../images/express.svg';
+import standart from '../images/standart.svg';
 
 export const dataFooter: Array<TDataFooter> = [
   {
@@ -44,3 +46,20 @@ export const titleCart = {
 };
 
 export const totalInitialPrice = { price: 0 };
+
+export const deliveryMethods = [
+  {
+    thumb: express,
+    id: 1,
+    text: 'Экспресс доставка',
+    duration: '7-14 дней',
+    price: 4000
+  },
+  {
+    thumb: standart,
+    id: 2,
+    text: 'Обычная доставка',
+    duration: '30-45 дней',
+    price: 0
+  }
+];

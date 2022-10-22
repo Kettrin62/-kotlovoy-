@@ -70,9 +70,33 @@ export type TDataCartElement = {
 }
 
 export type TTotalPrice = {
-  price: number;
+  readonly price: number;
+}
+
+export type TDeliveryMethod = {
+  readonly thumb: string;
+  readonly id: number;
+  readonly text: string;
+  readonly duration: string;
+  readonly price: number;
 }
 
 export type TAction = {
-  array: Array<TDataCartElement>
+  readonly array: Array<TDataCartElement>;
+  readonly delivery?: {
+    methods: Array<TDeliveryMethod>;
+    selectedMethod: number;
+  }
+}
+
+export type TDeliveryForm = {
+  readonly index?: string,
+  readonly region?: string;
+  readonly city?: string;
+  readonly address?: string;
+  readonly secondName?: string;
+  readonly firstName?: string;
+  readonly phone?: string;
+  readonly email?: string;
+  readonly comment?: string;
 }
