@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useContext } from 'react';
 import { SelectedDeliveryContext } from '../../services/contexts/cart-context';
 import { priceFormat } from '../total-price/utils';
@@ -28,6 +28,17 @@ const DeliveryMethodOption: FC<IDeliveryMethodOptionProps> = ({
     setSelectedDeliveryId(id);
   };
 
+  const priceContent = useMemo(
+    () => {
+      return price !== 0 ? (
+        <p className={styles.price}>{priceFormat(price)}</p>
+      ) : (
+        <p className={styles.price}>Доставка оплачивается при получении</p>
+      );
+    },
+    [price]
+  );
+
   return (
     <li className={`${styles.option} ${checked && styles['option-checked']} `}>
       <input
@@ -45,7 +56,7 @@ const DeliveryMethodOption: FC<IDeliveryMethodOptionProps> = ({
         </div>
       </label>
       <p className={styles.duration}>{duration} дней</p>
-      <p className={styles.price}>{priceFormat(price)}</p>
+      {priceContent}
     </li>
   );
 };

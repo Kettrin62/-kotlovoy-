@@ -16,9 +16,6 @@ const DeliveryMethod = () => {
   const { methodDelivery, setMethodDelivery } = useContext(DeliveryContext);
   const { selectedDeliveryId, setSelectedDeliveryId } = useContext(SelectedDeliveryContext);
 
-  console.log(methodDelivery);
-  console.log(selectedDeliveryId);
-  
   const { dataCart, setDataCart } = useContext(DataCartContext);
 
   const { totalDispatcher } = useContext(TotalPriceContext);

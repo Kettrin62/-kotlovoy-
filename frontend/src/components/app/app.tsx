@@ -1,23 +1,27 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { 
+  useState, 
+  useEffect,
+  useReducer
+} from 'react';
 import ErrorBoundary from '../error-boundary/error-boundary';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import AppHeader from '../app-header/app-header';
 import { 
   TDataBrand, 
   TDataSwiper,
-  TDataElement,
-  TDataCartElement
+  TDataCartElement,
+  TTotalPrice,
+  TAction,
+  TDeliveryMethod,
+  TDeliveryForm
 } from '../../services/types/data';
 import api from '../../api';
 import { 
-  CartStepContext,
   DataBrandsContext, 
   DataCartContext, 
   DataSwiperContext 
 } from '../../services/contexts/app-context';
 import { HomePage } from '../../pages/home';
-
 import Footer from '../footer/footer';
 import { ElementsPage } from '../../pages/elements';
 import { PayPage } from '../../pages/pay';
@@ -27,6 +31,29 @@ import { ContactsPage } from '../../pages/contacts';
 import { FeedbackPage } from '../../pages/feedback';
 import { ElementPage } from '../../pages/element';
 import { CartPage } from '../../pages/cart';
+import { 
+  CartStepContext,
+  TotalPriceContext,
+  SelectedDeliveryContext,
+  DeliveryFormContext
+} from '../../services/contexts/cart-context';
+import { totalInitialPrice } from '../../utils/data';
+
+function reducer(_totalPrice: TTotalPrice, action: TAction) {
+  const deliveryPrice =
+    (action.delivery?.selectedMethod &&
+      action.delivery?.methods.
+      find(method => method.id === action.delivery?.selectedMethod)?.price) || 
+    0;
+
+  const total = deliveryPrice +
+    action.array.reduce((
+      acc: number, 
+      item: TDataCartElement
+    ) => acc + item.element.cur_price * item.qty, 0);
+
+  return { price: total };
+}
 
 function App() {
 
@@ -37,6 +64,12 @@ function App() {
   const [dataCart, setDataCart] = useState<Array<TDataCartElement>>([]);
 
   const [step, setStep] = useState<string>('');
+
+  const [totalPrice, totalDispatcher] = useReducer(reducer, totalInitialPrice);
+
+  const [selectedDeliveryId, setSelectedDeliveryId] = useState<number>(1);
+  const [form, setForm] = useState<TDeliveryForm | null>(null);
+
 
   const getBrands = () => {
     api
@@ -101,7 +134,6 @@ function App() {
                 </Route>
 
                 <Route path='/elements/brand/:id' exact={true}>
-                  {/* <BrandElementsPage /> */}
                   <ElementsPage />
                 </Route>
 
@@ -110,7 +142,13 @@ function App() {
                 </Route>
 
                 <Route path='/cart' exact={true}>
-                  <CartPage />
+                  <TotalPriceContext.Provider value={{ totalPrice, totalDispatcher }}>
+                    <SelectedDeliveryContext.Provider value={{ selectedDeliveryId, setSelectedDeliveryId }}>
+                      <DeliveryFormContext.Provider value={{ form, setForm }}>
+                        <CartPage />
+                      </DeliveryFormContext.Provider>
+                    </SelectedDeliveryContext.Provider>
+                  </TotalPriceContext.Provider>
                 </Route>
 
               </Switch>

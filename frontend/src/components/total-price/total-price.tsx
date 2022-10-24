@@ -6,20 +6,31 @@ import styles from './total-price.module.css';
 // import { orderCheckout } from '../../services/actions/checkout';
 import { priceFormat, totalPriceSelector } from './utils';
 import { Loader } from '../../ui/loader/loader';
-import { DataCartContext, CartStepContext } from '../../services/contexts/app-context';
-import { TotalPriceContext } from '../../services/contexts/cart-context';
-import { stepName } from '../../utils/data';
+import { DataCartContext } from '../../services/contexts/app-context';
+import { CartStepContext, SelectedDeliveryContext, TotalPriceContext } from '../../services/contexts/cart-context';
+import { deliveryMethods, stepName } from '../../utils/data';
 
 
 
 export const TotalPrice = () => {
   const { dataCart, setDataCart } = useContext(DataCartContext);
-  const { totalPrice } = useContext(TotalPriceContext);
+  const { totalPrice, totalDispatcher } = useContext(TotalPriceContext);
   const { step, setStep } = useContext(CartStepContext);
-  
+  const { selectedDeliveryId, setSelectedDeliveryId } = useContext(SelectedDeliveryContext);
+
 
 
   const orderCheckoutRequest = false;
+
+  // useEffect(() => {
+  //   totalDispatcher({ 
+  //     array: dataCart, 
+  //     delivery: {
+  //       methods: deliveryMethods,
+  //       selectedMethod: selectedDeliveryId
+  //     }
+  //   })
+  // }, [dataCart, selectedDeliveryId]);
 
 
   const prev = () => {

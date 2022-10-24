@@ -2,10 +2,10 @@ import React, { Dispatch } from 'react';
 import { totalInitialPrice } from '../../utils/data';
 import { TAction, TDataCartElement, TDeliveryForm, TDeliveryMethod, TTotalPrice } from '../types/data';
 
-// interface ICartStepContext {
-//   step: string;
-//   setStep: (step: string) => void;
-// }
+interface ICartStepContext {
+  step: string;
+  setStep: (step: string) => void;
+}
 
 interface IselectedDelivery {
   selectedDeliveryId: number;
@@ -27,10 +27,10 @@ interface IDeliveryFormContext {
   setForm: (form: TDeliveryForm) => void;
 }
 
-// export const CartStepContext = React.createContext<ICartStepContext>({
-//   step: '',
-//   setStep: () => {},
-// });
+export const CartStepContext = React.createContext<ICartStepContext>({
+  step: '',
+  setStep: () => {},
+});
 
 export const TotalPriceContext = React.createContext<ITotalPriceContext>({
   totalPrice: totalInitialPrice,
