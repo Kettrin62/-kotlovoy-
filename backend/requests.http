@@ -15,10 +15,10 @@ Content-Type: application/json
 ###
 
 # Васёк
-#@token = cf35fe5bafa1e25d4c86f0a522165dfbc0990871
+@token = cf35fe5bafa1e25d4c86f0a522165dfbc0990871
 
 # Админ
-@token = c8403b61502cd18ba8b6cce92b2de3ea9c97e549
+#@token = c8403b61502cd18ba8b6cce92b2de3ea9c97e549
 
 
 ###
@@ -48,9 +48,9 @@ Content-Type: application/json
 
 {
 
-    "email": "vpupkin@yandex.ru",
-    "username": "vpupkin",
-    "password": "ieurhfieufi"
+    "email": "h466h@mail.ru",
+    "username": "hash",
+    "password": "sosok123"
 
 }
 ###
@@ -63,7 +63,7 @@ Authorization: Token {{token}}
 Content-Type: application/json
 
 {
-    "first_name": "Вася-Гнида2"
+    "first_name": ""
 }
 ###
 

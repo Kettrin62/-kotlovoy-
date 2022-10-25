@@ -1,12 +1,23 @@
+from phonenumber_field.modelfields import PhoneNumberField
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
+from django.dispatch import receiver
+from django.urls import reverse
+from django_rest_passwordreset.signals import reset_password_token_created
+from django.core.mail import send_mail
+
+from kotlovoy62.settings import DEFAULT_FROM_EMAIL
 
 
 class User(AbstractUser):
     email = models.EmailField(unique=True,)
-    last_name = models.CharField(max_length=100, verbose_name="Фамилия",)
-    first_name = models.CharField(max_length=100, verbose_name="Имя",)
+    last_name = models.CharField(
+        max_length=100, verbose_name="Фамилия", blank=True, null=True,
+    )
+    first_name = models.CharField(
+        max_length=100, verbose_name="Имя", blank=True, null=True,
+    )
     discount = models.PositiveSmallIntegerField(
         default=0, verbose_name="Скидка, %",
     )
@@ -30,3 +41,28 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ('username',)
+
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(
+    sender, instance, reset_password_token, *args, **kwargs
+):
+    email_plaintext_message = (
+        'Кто-то пытается изменить ваш пароль на сайте Kotlovoy62.ru\nЕсли '
+        'это были не Вы, то просто проигнорируйте данное письмо.\nЕсли это Вы '
+        'инициировали сброс пароля, то пройдите на сайт по ссылке: '
+        'http://kotlovoy62.ru/password_reset/confirm\n'
+        f'Введите данный токен: {reset_password_token.key} и новый '
+        'пароль в соответсвующие поля.'
+    )
+
+    send_mail(
+        # title:
+        "Сброс пароля на сайте Kotlovoy62.ru",
+        # message:
+        email_plaintext_message,
+        # from:
+        DEFAULT_FROM_EMAIL,
+        # to:
+        [reset_password_token.user.email]
+    )
