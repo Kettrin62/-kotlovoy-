@@ -139,6 +139,12 @@ SWAGGER_SETTINGS = {
    }
 }
 
+CANT_DELETE_STATUS = [
+    'новый заказ',
+    'отменённый заказ',
+    'выполненный заказ',
+]
+
 # delete after development
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
