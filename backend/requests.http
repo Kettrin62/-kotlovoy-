@@ -2,23 +2,23 @@
 POST http://127.0.0.1:8000/api/auth/token/login/
 Content-Type: application/json
 
-# {
-#     "email": "vpupkin@yandex.ru",
-#     "password": "ieurhfieufi"
-# }
-
 {
-    "email": "admin@admin.admin",
-    "password": "admin"
+    "email": "vpupkin@yandex.ru",
+    "password": "ieurhfieufi1"
 }
+
+# {
+#     "email": "admin@admin.admin",
+#     "password": "admin"
+# }
 
 ###
 
 # Васёк
-#@token = 014a0d22f02fd6e03e284cd2b70059bb51fe98fb
+#@token = cf35fe5bafa1e25d4c86f0a522165dfbc0990871
 
 # Админ
-@token = 9c951d8894af3ad61946178f514171b2187c048e
+@token = c8403b61502cd18ba8b6cce92b2de3ea9c97e549
 
 
 ###
@@ -33,7 +33,7 @@ Authorization: Token {{token}}
 GET http://127.0.0.1:8000/api/v1/users/
 Authorization: Token {{token}}
 ###
-GET http://127.0.0.1:8000/api/v1/users/2/
+GET http://127.0.0.1:8000/api/v1/users/1/
 Authorization: Token {{token}}
 ###
 GET http://127.0.0.1:8000/api/v1/users/me/
@@ -49,9 +49,7 @@ Content-Type: application/json
 {
 
     "email": "vpupkin@yandex.ru",
-    "username": "vasya.pupkin",
-    "first_name": "Вася",
-    "last_name": "Пупкин",
+    "username": "vpupkin",
     "password": "ieurhfieufi"
 
 }
@@ -60,7 +58,7 @@ Content-Type: application/json
 
 
 
-PATCH http://127.0.0.1:8000/api/v1/users/3/
+PATCH http://127.0.0.1:8000/api/v1/users/2/
 Authorization: Token {{token}}
 Content-Type: application/json
 
@@ -71,7 +69,7 @@ Content-Type: application/json
 
 
 
-DELETE http://127.0.0.1:8000/api/v1/users/3/
+DELETE http://127.0.0.1:8000/api/v1/users/2/
 Authorization: Token {{token}}
 
 ###
@@ -127,7 +125,7 @@ Authorization: Token {{token}}
 
 
 ###
-PATCH http://127.0.0.1:8000/api/v1/brands/7/
+PATCH http://127.0.0.1:8000/api/v1/brands/36/
 Content-Type: application/json
 Authorization: Token {{token}}
 
@@ -140,7 +138,7 @@ Authorization: Token {{token}}
 
 
 ###
-DELETE http://127.0.0.1:8000/api/v1/brands/7/
+DELETE http://127.0.0.1:8000/api/v1/brands/36/
 Authorization: Token {{token}}
 ###
 
@@ -158,7 +156,7 @@ GET http://127.0.0.1:8000/api/v1/groups/6/
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/groups/5/related_to_brand/
+GET http://127.0.0.1:8000/api/v1/groups/1/related_to_brand/
 ###
 
 
@@ -200,6 +198,7 @@ Authorization: Token {{token}}
 
 ###
 GET http://127.0.0.1:8000/api/v1/product_photos/
+Authorization: Token {{token}}
 ###
 
 
@@ -209,14 +208,13 @@ Content-Type: application/json
 Authorization: Token {{token}}
 
 {
-    "image": "data:image/jpeg;base64,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",
-    "display_order": 5
+    "image": "data:image/jpeg;base64,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"
 }
 ###
 
 
 ###
-DELETE http://127.0.0.1:8000/api/v1/product_photos/9/
+DELETE http://127.0.0.1:8000/api/v1/product_photos/31/
 Authorization: Token {{token}}
 ###
 
@@ -446,11 +444,12 @@ Content-Type: application/json
 
 {
     "company": "SOSEC2",
+    "duration": "many deys"
 }
 ###
 
 ###
-DELETE http://127.0.0.1:8000/api/v1/delivery/4/
+DELETE http://127.0.0.1:8000/api/v1/delivery/2/
 Authorization: Token {{token}}
 
 ###
@@ -505,12 +504,12 @@ Authorization: Token {{token}}
 
 ###
 GET http://127.0.0.1:8000/api/v1/order_status/
-Authorization: Token {{token}}
+
 ###
 
 
 ###
-PATCH http://127.0.0.1:8000/api/v1/order_status/1/
+PATCH http://127.0.0.1:8000/api/v1/order_status/3/
 Authorization: Token {{token}}
 Content-Type: application/json
 
@@ -533,7 +532,7 @@ Content-Type: application/json
 ###
 
 ###
-DELETE http://127.0.0.1:8000/api/v1/order_status/3/
+DELETE http://127.0.0.1:8000/api/v1/order_status/2/
 Authorization: Token {{token}}
 
 ###
@@ -595,14 +594,14 @@ Content-Type: application/json
 
 
 ###
-PATCH http://127.0.0.1:8000/api/v1/orders/1/
+PATCH http://127.0.0.1:8000/api/v1/orders/2/
 Authorization: Token {{token}}
 Content-Type: application/json
 
 {
     "status":
     {
-        "id": 4
+        "id": 3
     },
     "delivery":
     {
@@ -634,15 +633,21 @@ Content-Type: application/json
         },
         {
           "id": 10,
-          "amount": 8
+          "amount": 80
         }
       ]
 }
 
+###
+DELETE http://127.0.0.1:8000/api/v1/orders/1/
+Authorization: Token {{token}}
+
+###
+
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/orders/4/cancel_order/
+GET http://127.0.0.1:8000/api/v1/orders/3/cancel_order/
 Authorization: Token {{token}}
 ###
 
@@ -651,6 +656,6 @@ Authorization: Token {{token}}
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/orders/5/get_report/
+GET http://127.0.0.1:8000/api/v1/orders/1/get_report/
 Authorization: Token {{token}}
 ###

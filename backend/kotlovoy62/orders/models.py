@@ -37,6 +37,10 @@ class Delivery(models.Model):
     price = models.PositiveIntegerField(
         verbose_name='Цена доставки', default=0,
     )
+    duration = models.CharField(
+        verbose_name='Время доставки',
+        max_length=100,
+    )
     comment = models.CharField(
         verbose_name='Комментарий',
         max_length=500,

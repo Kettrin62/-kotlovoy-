@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
 from rest_framework import status
 
-from kotlovoy62.settings import CUSTOM_SETTINGS_DRF
+from kotlovoy62.settings import CUSTOM_SETTINGS_DRF, CANT_DELETE_STATUS
 
 from .models import Order, OrderHasElement, Delivery, Payment, OrderStatus
 from .serializers import (
@@ -22,10 +22,6 @@ from .serializers import (
 from .permissions import UserGetAndCreateOnlyOrAdmin
 from catalog.permissions import IsAdminOrReadOnly
 from kotlovoy62.settings import MEDIA_ROOT
-
-
-# OrderStatus.objects.get_or_create(status='заказ отменен')
-# OrderStatus.objects.get_or_create(status='заказ выполнен')
 
 
 class OrderSetPagination(PageNumberPagination):
@@ -92,8 +88,10 @@ class OrderViewSet(viewsets.ModelViewSet):
         if request.user != order.user and not request.user.is_superuser:
             return Response(
                 {
-                    'detail': 'У вас недостаточно прав для выполнения '
-                    'данного действия.'
+                    'message': [
+                        'У вас недостаточно прав для выполнения данного '
+                        'действия.'
+                    ]
                 },
                 status=status.HTTP_403_FORBIDDEN
             )
@@ -103,12 +101,15 @@ class OrderViewSet(viewsets.ModelViewSet):
             cnt = item.amount
             item.element.stock += cnt
             item.element.save()
-        order.status = 'order_cancelled'
+        order_cancelled = OrderStatus.objects.get(status='отменённый заказ')
+        order.status = order_cancelled
         order.save()
 
         return Response(
             {
-                'order': f'Заказ {order.number} отменён'
+                'order': [
+                    f'Заказ {order.number} отменён'
+                ]
             },
             status=status.HTTP_200_OK
         )
@@ -123,8 +124,10 @@ class OrderViewSet(viewsets.ModelViewSet):
         if request.user != order.user and not request.user.is_superuser:
             return Response(
                 {
-                    'detail': 'У вас недостаточно прав для выполнения '
-                    'данного действия.'
+                    'message': [
+                        'У вас недостаточно прав для выполнения данного '
+                        'действия.'
+                    ]
                 },
                 status=status.HTTP_403_FORBIDDEN
             )
@@ -221,3 +224,29 @@ class OrderStatusViewSet(viewsets.ModelViewSet):
     queryset = OrderStatus.objects.all()
     serializer_class = OrderStatusSerializer
     permission_classes = (IsAdminOrReadOnly,)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.status in CANT_DELETE_STATUS:
+            return Response(
+                {
+                    'message': [
+                        'Удаление предустановленных статусов запрещено!'
+                    ]
+                },
+                status=status.HTTP_403_FORBIDDEN
+            )
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def perform_update(self, serializer):
+        status = self.get_object()
+        if status.status in CANT_DELETE_STATUS:
+            raise ValidationError(
+                {
+                    'message': [
+                        'Изменение предустановленных статусов запрещено!'
+                    ]
+                }
+            )
+        serializer.save(instance=status)

@@ -8,6 +8,7 @@ from catalog.models import (
     Вrand, Group, Element, ProductPhoto, ElementHasGroup,
     ElementHasProductPhoto,
 )
+from orders.models import OrderStatus
 
 
 class Command(BaseCommand):
@@ -32,6 +33,17 @@ class Command(BaseCommand):
             for item in file_data:
                 title, = item
                 Group.objects.get_or_create(title=title)
+
+        with open(
+            '../data/loading_data/orders_status/orders_status_data.csv',
+            encoding='utf8',
+        ) as file:
+            file_data = csv.reader(file, delimiter=';')
+            for item in file_data:
+                status, comment = item
+                OrderStatus.objects.get_or_create(
+                    status=status, comment=comment
+                )
 
         ###########################################################
         # for testing

@@ -1,5 +1,7 @@
 from django.contrib import admin, messages
 
+from kotlovoy62.settings import CANT_DELETE_STATUS
+
 from .models import Order, OrderHasElement, OrderStatus, Delivery, Payment
 
 EMPTY_VALUE = '-пусто-'
@@ -29,39 +31,39 @@ class OrderStatusAdmin(admin.ModelAdmin):
     list_display = ('status', 'comment')
     empty_value_display = EMPTY_VALUE
 
+    def save_model(self, request, obj, form, change):
+        if obj.status in CANT_DELETE_STATUS:
+            messages.set_level(request, messages.ERROR)
+            message = 'Вы не можете изменять предустановленный статус заказа!'
+            self.message_user(request, message, level=messages.ERROR)
+        else:
+            return super().save_model(request, obj, form, change)
+
     def delete_model(self, request, obj):
-        print('************************************')
-        print(obj)
-        print('************************************')
-        # if check_permission(obj):
-        #     return super().delete_model(request, obj)
-        # При следующем запросе захватываем только ошибки.
-        # Так после нажатия на кнопку удаления не будет захвачено ложное сообщение
-        # об успешном удалении.
-        messages.set_level(request, messages.ERROR)
-        message = "You cant delete this!"
-        # Посылаем свое сообщение об ошибке.
-        self.message_user(request, message, level=messages.ERROR)
+        if obj.status in CANT_DELETE_STATUS:
+            messages.set_level(request, messages.ERROR)
+            message = 'Вы не можете удалить предустановленный статус заказа!'
+            self.message_user(request, message, level=messages.ERROR)
+        else:
+            return super().delete_model(request, obj)
 
     def delete_queryset(self, request, queryset):
-        print('************************************')
-        print(queryset)
-        print('************************************')
-        # if check_permission(obj):
-        #     return super().delete_model(request, obj)
-        # При следующем запросе захватываем только ошибки.
-        # Так после нажатия на кнопку удаления не будет захвачено ложное сообщение
-        # об успешном удалении.
-        messages.set_level(request, messages.ERROR)
-        message = "You cant delete this!"
-        # Посылаем свое сообщение об ошибке.
-        self.message_user(request, message, level=messages.ERROR)
+        for item in queryset:
+            if item.status in CANT_DELETE_STATUS:
+                messages.set_level(request, messages.ERROR)
+                message = (
+                    'Вы не можете удалять предустановленные статусы заказа!'
+                )
+                self.message_user(request, message, level=messages.ERROR)
+                break
+        else:
+            return super().delete_model(request, queryset)
 
 
 class DeliveryAdmin(admin.ModelAdmin):
-    list_display = ('company', 'price', 'comment')
+    list_display = ('company', 'price', 'duration', 'comment')
     empty_value_display = EMPTY_VALUE
-    list_editable = ('price',)
+    list_editable = ('price', 'duration')
 
 
 class PaymentAdmin(admin.ModelAdmin):

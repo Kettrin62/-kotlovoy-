@@ -60,7 +60,7 @@ class DeliverySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Delivery
-        fields = ('id', 'company', 'price', 'comment',)
+        fields = ('id', 'company', 'price', 'duration', 'comment',)
 
 
 class PaymentSerializer(serializers.ModelSerializer):
@@ -171,10 +171,10 @@ class OrderSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError(
                         {
                             'elements': [
-                                f'кол-во заказываемых деталей: "{element_obj}"'
-                                f' составило {element["amount"]} единиц, '
+                                f'кол-во заказываемых деталей {element_obj}: '
+                                f'{element["amount"]} единиц(ы), '
                                 f'что превышает остаток в {element_obj.stock} '
-                                'единиц.'
+                                'единиц(ы).'
                             ]
                         }
                     )
@@ -290,7 +290,7 @@ class OrderSerializer(serializers.ModelSerializer):
                 }
             )
 
-        if order.first().status in 'order_cancelled':
+        if order.first().status.status in 'отменённый заказ':
             raise serializers.ValidationError(
                 {
                     'order': [
@@ -298,7 +298,7 @@ class OrderSerializer(serializers.ModelSerializer):
                     ]
                 }
             )
-        if status in 'order_cancelled':
+        if status.status in 'отменённый заказ':
             raise serializers.ValidationError(
                 {
                     'order': [
@@ -355,8 +355,8 @@ class OrderSerializer(serializers.ModelSerializer):
                     elm_to_ord.amount != amount and
                     amount <= cnt_amount
                 ):
-                    if order.first().status in [
-                        'order_is_completed', 'order_cancelled'
+                    if order.first().status.status in [
+                        'выполненный заказ', 'отменённый заказ'
                     ]:
                         raise serializers.ValidationError(
                             {
@@ -377,9 +377,9 @@ class OrderSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError(
                         {
                             'elements': [
-                                f'кол-во заказываемых деталей: "{amount}"'
-                                f' {element.title} единиц, что превышает '
-                                f'остаток в {cnt_amount} единиц.'
+                                f'кол-во заказываемых деталей {element.title}'
+                                f': {amount} единиц(ы), что превышает '
+                                f'остаток в {cnt_amount} единиц(ы).'
                             ]
                         }
                     )
@@ -388,8 +388,8 @@ class OrderSerializer(serializers.ModelSerializer):
                     elm_to_ord.save()
 
             else:
-                if order.first().status in [
-                        'order_is_completed', 'order_cancelled'
+                if order.first().status.status in [
+                        'выполненный заказ', 'отменённый заказ'
                 ]:
                     raise serializers.ValidationError(
                         {
@@ -412,8 +412,8 @@ class OrderSerializer(serializers.ModelSerializer):
             ord_sum += cur_price * amount
 
         for item in old_order_elements:
-            if order.first().status in [
-                        'order_is_completed', 'order_cancelled'
+            if order.first().status.status in [
+                        'выполненный заказ', 'отменённый заказ'
             ]:
                 raise serializers.ValidationError(
                     {
