@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework.authtoken',
     'djoser',
-    'drf_yasg',
+    'drf_yasg', # delete after development
     'corsheaders', # delete after development
 ]
 
@@ -116,7 +116,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAdminUser',
-        'rest_framework.permissions.AllowAny', # delete after development
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
@@ -129,6 +128,7 @@ CUSTOM_SETTINGS_DRF = {
     'PAGE_SIZE_ORDERS': 30,
 }
 
+# delete after development
 SWAGGER_SETTINGS = {
    'SECURITY_DEFINITIONS': {
       'Bearer': {
@@ -138,6 +138,7 @@ SWAGGER_SETTINGS = {
       }
    }
 }
+#
 
 CANT_DELETE_STATUS = [
     'новый заказ',
