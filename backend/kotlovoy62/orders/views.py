@@ -9,13 +9,18 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
+from rest_framework.serializers import ValidationError
 from rest_framework import status
 
-from kotlovoy62.settings import CUSTOM_SETTINGS_DRF
+from kotlovoy62.settings import CUSTOM_SETTINGS_DRF, CANT_DELETE_STATUS
 
-from .models import Order, OrderHasElement
-from .serializers import OrderSerializer
+from .models import Order, OrderHasElement, Delivery, Payment, OrderStatus
+from .serializers import (
+    OrderSerializer, DeliverySerializer, PaymentSerializer,
+    OrderStatusSerializer
+)
 from .permissions import UserGetAndCreateOnlyOrAdmin
+from catalog.permissions import IsAdminOrReadOnly
 from kotlovoy62.settings import MEDIA_ROOT
 
 
@@ -39,16 +44,39 @@ class OrderViewSet(viewsets.ModelViewSet):
         return self.request.user.orders.all()
 
     def perform_create(self, serializer):
-        serializer.save(
-            elements={'elements': (self.request.data['elements'])},
-        )
+        try:
+            serializer.save(
+                elements={'elements': (self.request.data['elements'])},
+                delivery={'delivery': (self.request.data['delivery'])},
+                payment={'payment': (self.request.data['payment'])},
+            )
+        except KeyError as err:
+            raise ValidationError(
+                {
+                    'message': [
+                        'В запросе не передан параметр: {}'.format(err)
+                    ]
+                }
+            )
 
     def perform_update(self, serializer):
         order = self.get_object()
-        serializer.save(
-            instance=order,
-            elements={'elements': (self.request.data['elements'])},
-        )
+        try:
+            serializer.save(
+                instance=order,
+                elements={'elements': (self.request.data['elements'])},
+                status={'status': (self.request.data['status'])},
+                delivery={'delivery': (self.request.data['delivery'])},
+                payment={'payment': (self.request.data['payment'])},
+            )
+        except KeyError as err:
+            raise ValidationError(
+                {
+                    'message': [
+                        'В запросе не передан параметр: {}'.format(err)
+                    ]
+                }
+            )
 
     @action(
         ['get'], detail=True,
@@ -60,8 +88,10 @@ class OrderViewSet(viewsets.ModelViewSet):
         if request.user != order.user and not request.user.is_superuser:
             return Response(
                 {
-                    'detail': 'У вас недостаточно прав для выполнения '
-                    'данного действия.'
+                    'message': [
+                        'У вас недостаточно прав для выполнения данного '
+                        'действия.'
+                    ]
                 },
                 status=status.HTTP_403_FORBIDDEN
             )
@@ -71,12 +101,15 @@ class OrderViewSet(viewsets.ModelViewSet):
             cnt = item.amount
             item.element.stock += cnt
             item.element.save()
-        order.status = 'order_cancelled'
+        order_cancelled = OrderStatus.objects.get(status='отменённый заказ')
+        order.status = order_cancelled
         order.save()
 
         return Response(
             {
-                'order': f'Заказ {order.number} отменён'
+                'order': [
+                    f'Заказ {order.number} отменён'
+                ]
             },
             status=status.HTTP_200_OK
         )
@@ -91,8 +124,10 @@ class OrderViewSet(viewsets.ModelViewSet):
         if request.user != order.user and not request.user.is_superuser:
             return Response(
                 {
-                    'detail': 'У вас недостаточно прав для выполнения '
-                    'данного действия.'
+                    'message': [
+                        'У вас недостаточно прав для выполнения данного '
+                        'действия.'
+                    ]
                 },
                 status=status.HTTP_403_FORBIDDEN
             )
@@ -168,3 +203,50 @@ class OrderViewSet(viewsets.ModelViewSet):
             row += 1
         wb.save(response)
         return response
+
+
+class DeliveryViewSet(viewsets.ModelViewSet):
+    http_method_names = ('get', 'post', 'patch', 'delete',)
+    queryset = Delivery.objects.all()
+    serializer_class = DeliverySerializer
+    permission_classes = (IsAdminOrReadOnly,)
+
+
+class PaymentViewSet(viewsets.ModelViewSet):
+    http_method_names = ('get', 'post', 'patch', 'delete',)
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
+    permission_classes = (IsAdminOrReadOnly,)
+
+
+class OrderStatusViewSet(viewsets.ModelViewSet):
+    http_method_names = ('get', 'post', 'patch', 'delete',)
+    queryset = OrderStatus.objects.all()
+    serializer_class = OrderStatusSerializer
+    permission_classes = (IsAdminOrReadOnly,)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.status in CANT_DELETE_STATUS:
+            return Response(
+                {
+                    'message': [
+                        'Удаление предустановленных статусов запрещено!'
+                    ]
+                },
+                status=status.HTTP_403_FORBIDDEN
+            )
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def perform_update(self, serializer):
+        status = self.get_object()
+        if status.status in CANT_DELETE_STATUS:
+            raise ValidationError(
+                {
+                    'message': [
+                        'Изменение предустановленных статусов запрещено!'
+                    ]
+                }
+            )
+        serializer.save(instance=status)

@@ -3,7 +3,7 @@ from datetime import datetime as dt
 from rest_framework import serializers
 
 from kotlovoy62.settings import MEDIA_URL
-from .models import Order, OrderHasElement
+from .models import Order, OrderHasElement, Delivery, Payment, OrderStatus
 from catalog.models import Element, ProductPhoto
 from users.serializers import UserSerializer
 
@@ -56,10 +56,34 @@ class ElementForOrderSerializer(serializers.ModelSerializer):
         return request.build_absolute_uri(MEDIA_URL + str(image.image))
 
 
+class DeliverySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Delivery
+        fields = ('id', 'company', 'price', 'duration', 'comment',)
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Payment
+        fields = ('id', 'pay_type', 'comment',)
+
+
+class OrderStatusSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = OrderStatus
+        fields = ('id', 'status', 'comment',)
+
+
 class OrderSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     elements = serializers.SerializerMethodField()
     number = serializers.CharField(required=False)
+    status = OrderStatusSerializer(read_only=True)
+    delivery = DeliverySerializer(read_only=True)
+    payment = PaymentSerializer(read_only=True)
 
     class Meta:
         model = Order
@@ -78,6 +102,54 @@ class OrderSerializer(serializers.ModelSerializer):
         ).data
 
     def create(self, validated_data):
+        status, _ = OrderStatus.objects.get_or_create(status='новый заказ')
+
+        delivery_id = validated_data.pop('delivery')
+        if delivery_id['delivery']:
+            try:
+                delivery_id = delivery_id['delivery']['id']
+                delivery = Delivery.objects.get(pk=delivery_id)
+            except BaseException:
+                raise serializers.ValidationError(
+                    {
+                        'delivery': [
+                            "Передан не правильный параметр id: "
+                            f"{delivery_id}"
+                        ]
+                    }
+                )
+        else:
+            raise serializers.ValidationError(
+                {
+                    'delivery': [
+                        "Поле не может быть пустым!"
+                    ]
+                }
+            )
+
+        payment_id = validated_data.pop('payment')
+        if payment_id['payment']:
+            try:
+                payment_id = payment_id['payment']['id']
+                payment = Payment.objects.get(pk=payment_id)
+            except BaseException:
+                raise serializers.ValidationError(
+                    {
+                        'payment': [
+                            "Передан не правильный параметр id: "
+                            f"{payment_id}"
+                        ]
+                    }
+                )
+        else:
+            raise serializers.ValidationError(
+                {
+                    'payment': [
+                        "Поле не может быть пустым!"
+                    ]
+                }
+            )
+
         order_elements = validated_data.pop('elements')
         validated_elements = set()
         if order_elements['elements']:
@@ -99,10 +171,10 @@ class OrderSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError(
                         {
                             'elements': [
-                                f'кол-во заказываемых деталей: "{element_obj}"'
-                                f' составило {element["amount"]} единиц, '
+                                f'кол-во заказываемых деталей {element_obj}: '
+                                f'{element["amount"]} единиц(ы), '
                                 f'что превышает остаток в {element_obj.stock} '
-                                'единиц.'
+                                'единиц(ы).'
                             ]
                         }
                     )
@@ -144,17 +216,81 @@ class OrderSerializer(serializers.ModelSerializer):
         order.number = dt.today().strftime('%H%M-%f')
         order.discount = usr_discount
         order.order_sum = ord_sum
+        order.status = status
+        order.delivery = delivery
+        order.payment = payment
         order.save()
 
         return order
 
     def update(self, instance, validated_data):
-        status = validated_data.get('status', 'status is missing')
-
         order = Order.objects.filter(pk=instance.id)
         instance = validated_data.pop('instance')
 
-        if order.first().status in 'order_cancelled':
+        status_id = validated_data.pop('status')
+        if status_id['status']:
+            try:
+                status_id = status_id['status']['id']
+                status = OrderStatus.objects.get(pk=status_id)
+            except BaseException:
+                raise serializers.ValidationError(
+                    {
+                        'status': [
+                            "Передан не правильный параметр id: "
+                            f"{status_id}"
+                        ]
+                    }
+                )
+        else:
+            status = instance.status
+
+        delivery_id = validated_data.pop('delivery')
+        if delivery_id['delivery']:
+            try:
+                delivery_id = delivery_id['delivery']['id']
+                delivery = Delivery.objects.get(pk=delivery_id)
+            except BaseException:
+                raise serializers.ValidationError(
+                    {
+                        'delivery': [
+                            "Передан не правильный параметр id: "
+                            f"{delivery_id}"
+                        ]
+                    }
+                )
+        else:
+            raise serializers.ValidationError(
+                {
+                    'delivery': [
+                        "Поле не может быть пустым!"
+                    ]
+                }
+            )
+
+        payment_id = validated_data.pop('payment')
+        if payment_id['payment']:
+            try:
+                payment_id = payment_id['payment']['id']
+                payment = Payment.objects.get(pk=payment_id)
+            except BaseException:
+                raise serializers.ValidationError(
+                    {
+                        'payment': [
+                            "Передан не правильный параметр id: "
+                            f"{payment_id}"
+                        ]
+                    }
+                )
+        else:
+            raise serializers.ValidationError(
+                {
+                    'payment': [
+                        "Поле не может быть пустым!"
+                    ]
+                }
+            )
+
+        if order.first().status.status in 'отменённый заказ':
             raise serializers.ValidationError(
                 {
                     'order': [
@@ -162,7 +298,7 @@ class OrderSerializer(serializers.ModelSerializer):
                     ]
                 }
             )
-        if status in 'order_cancelled':
+        if status.status in 'отменённый заказ':
             raise serializers.ValidationError(
                 {
                     'order': [
@@ -219,8 +355,8 @@ class OrderSerializer(serializers.ModelSerializer):
                     elm_to_ord.amount != amount and
                     amount <= cnt_amount
                 ):
-                    if order.first().status in [
-                        'order_is_completed', 'order_cancelled'
+                    if order.first().status.status in [
+                        'выполненный заказ', 'отменённый заказ'
                     ]:
                         raise serializers.ValidationError(
                             {
@@ -241,9 +377,9 @@ class OrderSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError(
                         {
                             'elements': [
-                                f'кол-во заказываемых деталей: "{amount}"'
-                                f' {element.title} единиц, что превышает '
-                                f'остаток в {cnt_amount} единиц.'
+                                f'кол-во заказываемых деталей {element.title}'
+                                f': {amount} единиц(ы), что превышает '
+                                f'остаток в {cnt_amount} единиц(ы).'
                             ]
                         }
                     )
@@ -252,8 +388,8 @@ class OrderSerializer(serializers.ModelSerializer):
                     elm_to_ord.save()
 
             else:
-                if order.first().status in [
-                        'order_is_completed', 'order_cancelled'
+                if order.first().status.status in [
+                        'выполненный заказ', 'отменённый заказ'
                 ]:
                     raise serializers.ValidationError(
                         {
@@ -276,8 +412,8 @@ class OrderSerializer(serializers.ModelSerializer):
             ord_sum += cur_price * amount
 
         for item in old_order_elements:
-            if order.first().status in [
-                        'order_is_completed', 'order_cancelled'
+            if order.first().status.status in [
+                        'выполненный заказ', 'отменённый заказ'
             ]:
                 raise serializers.ValidationError(
                     {
@@ -289,6 +425,9 @@ class OrderSerializer(serializers.ModelSerializer):
                 )
             old_order_elements[item].delete()
 
-        order.update(order_sum=ord_sum, **validated_data)
+        order.update(
+            order_sum=ord_sum, status=status, delivery=delivery,
+            payment=payment, **validated_data
+        )
         instance.refresh_from_db()
         return instance
