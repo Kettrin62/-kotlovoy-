@@ -1,10 +1,8 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import (
-    ВrandViewSet, GroupViewSet, ElementViewSet, ProductPhotosViewSet,
-)
-
+from .views import (ElementViewSet, GroupViewSet, ProductPhotosViewSet,
+                    ВrandViewSet)
 
 router_v1 = DefaultRouter()
 router_v1.register('brands', ВrandViewSet, basename='brands')

@@ -1,13 +1,11 @@
 from django.core.exceptions import ObjectDoesNotExist
 from drf_extra_fields.fields import Base64ImageField
-from rest_framework.validators import UniqueValidator
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
-from .models import (
-    Вrand, Group, Element, ProductPhoto, ElementHasProductPhoto,
-    ElementHasGroup,
-)
 from .custom_utils import file_delete
+from .models import (Element, ElementHasGroup, ElementHasProductPhoto, Group,
+                     ProductPhoto, Вrand)
 
 
 class ВrandSerializer(serializers.ModelSerializer):

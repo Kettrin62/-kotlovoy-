@@ -1,11 +1,12 @@
 from datetime import datetime as dt
 
+from catalog.models import Element, ProductPhoto
 from rest_framework import serializers
+from users.serializers import UserSerializer
 
 from kotlovoy62.settings import MEDIA_URL
-from .models import Order, OrderHasElement, Delivery, Payment, OrderStatus
-from catalog.models import Element, ProductPhoto
-from users.serializers import UserSerializer
+
+from .models import Delivery, Order, OrderHasElement, OrderStatus, Payment
 
 
 class ProductPhotoForOrderSerializer(serializers.ModelSerializer):

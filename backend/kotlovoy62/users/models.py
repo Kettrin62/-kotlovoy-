@@ -1,11 +1,10 @@
-from phonenumber_field.modelfields import PhoneNumberField
-
 from django.contrib.auth.models import AbstractUser
+from django.core.mail import send_mail
 from django.db import models
 from django.dispatch import receiver
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
-from django.core.mail import send_mail
+from phonenumber_field.modelfields import PhoneNumberField
 
 from kotlovoy62.settings import DEFAULT_FROM_EMAIL
 

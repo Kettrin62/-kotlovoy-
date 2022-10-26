@@ -1,10 +1,10 @@
+from catalog.custom_utils import file_delete
+from catalog.permissions import IsAdminOrReadOnly
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 
 from .models import Swiper
-from catalog.permissions import IsAdminOrReadOnly
 from .serializers import SwiperSerializer
-from catalog.custom_utils import file_delete
 
 
 class SwiperViewSet(viewsets.ModelViewSet):

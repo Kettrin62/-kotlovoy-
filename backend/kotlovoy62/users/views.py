@@ -4,13 +4,12 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from kotlovoy62.settings import CUSTOM_SETTINGS_DRF
+
 from .models import User
-from .permissions import (
-    IsAdminOrUserHimself, IsUserHimself, IsAdminOrUserHimselfAndNotSafeMethods
-)
-from .serializers import (
-    SetPasswordSerializer, UserCreateSerializer, UserSerializer,
-)
+from .permissions import (IsAdminOrUserHimself,
+                          IsAdminOrUserHimselfAndNotSafeMethods, IsUserHimself)
+from .serializers import (SetPasswordSerializer, UserCreateSerializer,
+                          UserSerializer)
 
 
 class UserSetPagination(PageNumberPagination):

@@ -1,27 +1,24 @@
-from openpyxl import load_workbook
-from openpyxl.styles.borders import Border, Side
 from os import sep
 
+from catalog.permissions import IsAdminOrReadOnly
 from django.http.response import HttpResponse
-from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.pagination import PageNumberPagination
+from openpyxl import load_workbook
+from openpyxl.styles.borders import Border, Side
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
-from rest_framework import status
 
-from kotlovoy62.settings import CUSTOM_SETTINGS_DRF, CANT_DELETE_STATUS
+from kotlovoy62.settings import (CANT_DELETE_STATUS, CUSTOM_SETTINGS_DRF,
+                                 MEDIA_ROOT)
 
-from .models import Order, OrderHasElement, Delivery, Payment, OrderStatus
-from .serializers import (
-    OrderSerializer, DeliverySerializer, PaymentSerializer,
-    OrderStatusSerializer
-)
+from .models import Delivery, Order, OrderHasElement, OrderStatus, Payment
 from .permissions import UserGetAndCreateOnlyOrAdmin
-from catalog.permissions import IsAdminOrReadOnly
-from kotlovoy62.settings import MEDIA_ROOT
+from .serializers import (DeliverySerializer, OrderSerializer,
+                          OrderStatusSerializer, PaymentSerializer)
 
 
 class OrderSetPagination(PageNumberPagination):

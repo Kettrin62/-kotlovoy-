@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import Вrand, Group, Element, ProductPhoto
+from .models import Element, Group, ProductPhoto, Вrand
 
 EMPTY_VALUE = '-пусто-'
 
