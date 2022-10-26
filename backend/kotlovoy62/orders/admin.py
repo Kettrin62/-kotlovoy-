@@ -2,7 +2,7 @@ from django.contrib import admin, messages
 
 from kotlovoy62.settings import CANT_DELETE_STATUS
 
-from .models import Order, OrderHasElement, OrderStatus, Delivery, Payment
+from .models import Delivery, Order, OrderHasElement, OrderStatus, Payment
 
 EMPTY_VALUE = '-пусто-'
 

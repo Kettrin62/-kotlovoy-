@@ -1,8 +1,8 @@
+from catalog.custom_utils import file_delete
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
 from .models import Swiper
-from catalog.custom_utils import file_delete
 
 
 class SwiperSerializer(serializers.ModelSerializer):

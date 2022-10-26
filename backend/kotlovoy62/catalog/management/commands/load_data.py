@@ -1,13 +1,10 @@
 import csv
 from os import path
-from shutil import copytree, ignore_patterns, rmtree, copyfile
+from shutil import copyfile, copytree, ignore_patterns, rmtree
 
+from catalog.models import (Element, ElementHasGroup, ElementHasProductPhoto,
+                            Group, ProductPhoto, Вrand)
 from django.core.management.base import BaseCommand
-
-from catalog.models import (
-    Вrand, Group, Element, ProductPhoto, ElementHasGroup,
-    ElementHasProductPhoto,
-)
 from orders.models import OrderStatus
 
 

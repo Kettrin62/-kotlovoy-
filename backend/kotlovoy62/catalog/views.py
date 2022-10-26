@@ -1,20 +1,17 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status, viewsets
+from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
-from rest_framework.decorators import action
 
 from kotlovoy62.settings import CUSTOM_SETTINGS_DRF
-from .models import (
-    Вrand, Group, Element, ProductPhoto, ElementHasProductPhoto
-)
-from .permissions import IsAdminOrReadOnly
-from .serializers import (
-    ВrandSerializer, GroupSerializer, ElementSerializer,
-    ProductPhotoSerializer,
-)
+
 from .custom_utils import file_delete
+from .models import Element, ElementHasProductPhoto, Group, ProductPhoto, Вrand
+from .permissions import IsAdminOrReadOnly
+from .serializers import (ElementSerializer, GroupSerializer,
+                          ProductPhotoSerializer, ВrandSerializer)
 
 
 class ВrandViewSet(viewsets.ModelViewSet):

@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 
-
 MEDIA_DIR = (
     str(Path(__file__).resolve().parent.parent) + os.sep + 'media' + os.sep
 )

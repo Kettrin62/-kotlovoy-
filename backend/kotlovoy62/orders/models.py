@@ -1,10 +1,10 @@
 from email.policy import default
-from django.db import models
-from django.core.validators import MinValueValidator
-from phonenumber_field.modelfields import PhoneNumberField
 
-from users.models import User
 from catalog.models import Element
+from django.core.validators import MinValueValidator
+from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
+from users.models import User
 
 
 class Payment(models.Model):

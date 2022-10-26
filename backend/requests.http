@@ -48,9 +48,9 @@ Content-Type: application/json
 
 {
 
-    "email": "vpupkin@yandex.ru",
-    "username": "vpupkin",
-    "password": "ieurhfieufi"
+    "email": "h466h@mail.ru",
+    "username": "hash",
+    "password": "sosok123"
 
 }
 ###
@@ -63,7 +63,7 @@ Authorization: Token {{token}}
 Content-Type: application/json
 
 {
-    "first_name": "Вася-Гнида2"
+    "email": "vpupkin1@yandex.ru"
 }
 ###
 
