@@ -23,18 +23,12 @@ import LinkWhatsApp from '../links-buttons-image/link-whatsapp';
 import LinkMain from '../links-buttons-image/link-main';
 import { DataCartContext } from '../../services/contexts/app-context';
 
-
-
-
-
-
 function AppHeader() {
 
   const history = useHistory();
   const { pathname } = useLocation();
   const [visibleSearchBar, setVisibleSearchBar] = useState(false);
   const [visibleButton, setVisibleButton] = useState(true);
-  // const [inputClear, setInputClear] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const { dataCart, setDataCart } = useContext(DataCartContext);
   const [count, setCount] = useState<number>(0);
@@ -107,7 +101,7 @@ function AppHeader() {
 
   useEffect(() => {
     const keyDownHandler = (event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
+      if (visibleSearchBar && event.key === 'Enter') {
         event.preventDefault();
         onClickSearchElements();
       }
@@ -119,6 +113,13 @@ function AppHeader() {
       document.removeEventListener('keydown', keyDownHandler);
     };
   }, [inputValue]);
+
+  const onClickProfile = useCallback(
+    () => {
+      history.replace({ pathname: '/profile' });
+    },
+    [history]
+  );
 
   return (
     <>
@@ -160,7 +161,7 @@ function AppHeader() {
             <Link class={appheaderStyles.link} onClick={onClickCart}>
               <LinkCart count={count} />
             </Link>
-            <Link class={cn(appheaderStyles.link, classLink)} onClick={onClickMain}>
+            <Link class={cn(appheaderStyles.link, classLink)} onClick={onClickProfile}>
               <LinkAccount />
             </Link>
           </div>

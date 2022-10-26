@@ -100,3 +100,37 @@ export type TDeliveryForm = {
   readonly email?: string;
   readonly comment?: string;
 }
+
+type TLocationObj = {
+  pathname: string;
+}
+
+export type TUseLocationState = {
+  from: TLocationObj;
+}
+
+export type TFormRegister = {
+  email: string;
+  password: string;
+  username: string;
+}
+
+export type TFormAuth = {
+  email: string;
+  password: string;
+}
+
+
+export type TUser = {
+  city: string | null;
+  discount: number;
+  email: string;
+  first_name: string;
+  id: number;
+  last_name: string;
+  location: string | null;
+  phoneNumber: string | null;
+  postal_code: string | null;
+  region: string | null;
+  username: string;
+}

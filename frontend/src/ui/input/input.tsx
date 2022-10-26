@@ -8,9 +8,11 @@ interface IInputProps {
   extraClass?: string,
   inputRef?: React.Ref<HTMLInputElement>;
   value?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   name: string;
-  id: string;
+  id?: string;
+  required?: boolean;
+  label?: string | undefined,
 }
 
 const Input: FC<IInputProps> = ({
@@ -21,19 +23,27 @@ const Input: FC<IInputProps> = ({
   inputRef,
   value,
   onChange,
+  label,
   ...props
 }) => {
   const className = `${styles.input} ${extraClass} ${inputWithBtn ? styles.input_withBtn : ''}`;
   return (
-    <input
-      type={type}
-      className={className}
-      placeholder={placeholder}
-      ref={inputRef}
-      value={value}
-      onChange={onChange}
-      {...props}
-    />
+    <div>
+      <label>
+      {label && <div>
+        {label}
+      </div>}
+        <input
+          type={type}
+          className={className}
+          placeholder={placeholder}
+          ref={inputRef}
+          value={value}
+          onChange={onChange}
+          {...props}
+        />
+      </label>
+    </div>
   );
 };
 

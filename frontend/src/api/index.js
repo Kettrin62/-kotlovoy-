@@ -39,7 +39,7 @@ class Api {
   // brands
   getBrands () {
     return fetch(
-      `${BASEURL}brands/`,
+      `${BASEURL}v1/brands/`,
       {
         method: 'GET',
         headers: {
@@ -52,7 +52,7 @@ class Api {
   // elementsBrand
   getElementsBrand (id) {
     return fetch(
-      `${BASEURL}elements/?brand=${id}`,
+      `${BASEURL}v1/elements/?brand=${id}`,
       {
         method: 'GET',
         headers: {
@@ -65,7 +65,7 @@ class Api {
   // slides
   getSliders () {
     return fetch(
-      `${BASEURL}swipers/`,
+      `${BASEURL}v1/swipers/`,
       {
         method: 'GET',
         headers: {
@@ -78,7 +78,7 @@ class Api {
   // elements
   getElements () {
     return fetch(
-      `${BASEURL}elements/`,
+      `${BASEURL}v1/elements/`,
       {
         method: 'GET',
         headers: {
@@ -91,7 +91,7 @@ class Api {
   // elements
   getElement (id) {
     return fetch(
-      `${BASEURL}elements/${id}/`,
+      `${BASEURL}v1/elements/${id}/`,
       {
         method: 'GET',
         headers: {
@@ -104,7 +104,7 @@ class Api {
   // groups
   getGroups () {
     return fetch(
-      `${BASEURL}groups/`,
+      `${BASEURL}v1/groups/`,
       {
         method: 'GET',
         headers: {
@@ -117,7 +117,7 @@ class Api {
   // groupsByIdBrand
   getGroupsById (id) {
     return fetch(
-      `${BASEURL}groups/${id}/related_to_brand/`,
+      `${BASEURL}v1/groups/${id}/related_to_brand/`,
       {
         method: 'GET',
         headers: {
@@ -130,7 +130,7 @@ class Api {
   // elementsSearch
   getElementsSearch (name) {
     return fetch(
-      `${BASEURL}elements/?search=${name}`,
+      `${BASEURL}v1/elements/?search=${name}`,
       {
         method: 'GET',
         headers: {
@@ -143,7 +143,7 @@ class Api {
   // elementsByIdGroup
   getElementsGroups (fetchUrl) {
     return fetch(
-      `${BASEURL}${fetchUrl}`,
+      `${BASEURL}v1/${fetchUrl}`,
       {
         method: 'GET',
         headers: {
@@ -153,12 +153,24 @@ class Api {
     ).then(this.checkResponse)
   }
 
+  // register
+  signup ({ email, password, username }) {
+    return fetch(
+      `${BASEURL}v1/users/`,
+      {
+        method: 'POST',
+        headers: this._headers,
+        body: JSON.stringify({
+          email, password, username
+        })
+      }
+    ).then(this.checkResponse)
+  }
 
-
-
+  // authorization
   signin ({ email, password }) {
     return fetch(
-      '/api/auth/token/login/',
+      `${BASEURL}auth/token/login/`,
       {
         method: 'POST',
         headers: this._headers,
@@ -169,37 +181,11 @@ class Api {
     ).then(this.checkResponse)
   }
 
-  signout () {
-    const token = localStorage.getItem('token')
-    return fetch(
-      '/api/auth/token/logout/',
-      {
-        method: 'POST',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
-  signup ({ email, password, username, first_name, last_name }) {
-    return fetch(
-      `/api/users/`,
-      {
-        method: 'POST',
-        headers: this._headers,
-        body: JSON.stringify({
-          email, password, username, first_name, last_name
-        })
-      }
-    ).then(this.checkResponse)
-  }
-
+  // userData
   getUserData () {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/users/me/`,
+      `${BASEURL}v1/users/me/`,
       {
         method: 'GET',
         headers: {
@@ -210,10 +196,107 @@ class Api {
     ).then(this.checkResponse)
   }
 
+  // logout
+  signout () {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}auth/token/logout/`,
+      {
+        method: 'POST',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // change password
+  updateDataUser ({ 
+    id,
+    city,
+    discount,
+    email,
+    first_name,
+    last_name,
+    location,
+    phoneNumber,
+    postal_code,
+    region,
+    username, 
+  }) {
+    console.log(JSON.stringify({ 
+      city,
+      discount,
+      email,
+      first_name,
+      last_name,
+      location,
+      phoneNumber,
+      postal_code,
+      region,
+      username, 
+    }));
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/users/${id}/`,
+      {
+        method: 'PATCH',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        },
+        body: JSON.stringify({ 
+          city,
+          discount,
+          email,
+          first_name,
+          last_name,
+          location,
+          phoneNumber,
+          postal_code,
+          region,
+          username, 
+        })
+      }
+    ).then(this.checkResponse)
+  }
+
+  // forgot password
+  forgotPassword (email) {
+    return fetch(
+      `${BASEURL}v1/users/password_reset/`,
+      {
+        method: 'POST',
+        headers: this._headers,
+        body: JSON.stringify({
+          email
+        })
+      }
+    ).then(this.checkResponse)
+  }
+
+    // reset password
+    resetPassword (password, token) {
+      return fetch(
+        `${BASEURL}v1/users/password_reset/confirm/`,
+        {
+          method: 'POST',
+          headers: this._headers,
+          body: JSON.stringify({
+            password,
+            token
+          })
+        }
+      ).then(this.checkResponse)
+    }
+
+
+  // change password
   changePassword ({ current_password, new_password }) {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/users/set_password/`,
+      `${BASEURL}v1//users/set_password/`,
       {
         method: 'POST',
         headers: {
@@ -224,6 +307,9 @@ class Api {
       }
     ).then(this.checkResponse)
   }
+
+
+
 
 
   // recipes

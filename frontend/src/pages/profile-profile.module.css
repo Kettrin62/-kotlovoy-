@@ -1,0 +1,8 @@
+.container {
+  padding-top: 120px;
+}
+
+.buttons {
+  display: flex;
+  gap: 24px;
+}

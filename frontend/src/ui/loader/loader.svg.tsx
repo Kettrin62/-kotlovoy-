@@ -1,4 +1,11 @@
-export const LoaderSvg = ({ color = '#3C39EC', size }) => {
+import { FC } from 'react';
+
+interface ILoaderSvgProps {
+  color?: string;
+  size: number;
+}
+
+export const LoaderSvg: FC<ILoaderSvgProps> = ({ color = '#3C39EC', size }) => {
   return (
     <svg
       width={size}

@@ -6,10 +6,10 @@ import buttonStyles from './button.module.css';
 interface IButtonProps {
   children: React.ReactNode;
   href?: string;
-  clickHandler: () => void;
+  clickHandler?: () => void;
   className?: string;
   disabled?: boolean;
-  type?: string;
+  type?: 'button' | 'submit' | 'reset';
 };
 
 
@@ -37,6 +37,7 @@ const Button: FC<IButtonProps> = ({
       className={classNames}
       disabled={disabled}
       onClick={e => clickHandler && clickHandler()}
+      type={type}
     >
       {children}
     </button>

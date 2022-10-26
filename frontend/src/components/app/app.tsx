@@ -3,8 +3,14 @@ import {
   useEffect,
   useReducer
 } from 'react';
+import { 
+  BrowserRouter as Router, 
+  Switch, 
+  Route,
+  useLocation,
+  useHistory
+} from 'react-router-dom';
 import ErrorBoundary from '../error-boundary/error-boundary';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import AppHeader from '../app-header/app-header';
 import { 
   TDataBrand, 
@@ -13,12 +19,15 @@ import {
   TTotalPrice,
   TAction,
   TDeliveryMethod,
-  TDeliveryForm
+  TDeliveryForm,
+  TUser,
+  TFormRegister,
+  TFormAuth
 } from '../../services/types/data';
 import api from '../../api';
 import { 
   DataBrandsContext, 
-  DataCartContext, 
+  DataCartContext,
   DataSwiperContext 
 } from '../../services/contexts/app-context';
 import { HomePage } from '../../pages/home';
@@ -38,6 +47,15 @@ import {
   DeliveryFormContext
 } from '../../services/contexts/cart-context';
 import { totalInitialPrice } from '../../utils/data';
+import { ProtectedRoute } from '../protected-route/protected-route';
+import { LoginPage } from '../../pages/login';
+import { RegisterPage } from '../../pages/register';
+import AuthContext from '../../services/contexts/auth-context';
+import { Loader } from '../../ui/loader/loader';
+import { ProfilePage } from '../../pages/profile';
+import { UserContext } from '../../services/contexts/user-context';
+import { ForgotPasswordPage } from '../../pages/forgot-password';
+import { ResetPasswordPage } from '../../pages/reset-password';
 
 function reducer(_totalPrice: TTotalPrice, action: TAction) {
   const deliveryPrice =
@@ -70,6 +88,95 @@ function App() {
   const [selectedDeliveryId, setSelectedDeliveryId] = useState<number>(1);
   const [form, setForm] = useState<TDeliveryForm | null>(null);
 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const [ loggedIn, setLoggedIn ] = useState<boolean | null>(null);
+  const [ user, setUser ] = useState<TUser | null>(null);
+  const [successForgotPassword, setSuccessForgotPassword] = useState(false);
+
+
+  // console.log(user);
+  
+  // const [ loading, setLoading ] = useState(false);
+  const [ orders, setOrders ] = useState(0);
+  // const location = useLocation();
+  const history = useHistory();
+
+  const registration = (data: TFormRegister) => {
+    const { email, password, username } = data;
+    api
+      .signup({ email, password, username })
+      .then(res => {
+        history.push('/login')
+      })
+      .catch(err => {
+        const errors = Object.values(err)
+        if (errors) {
+          alert(errors.join(', '))
+        }
+        setLoggedIn(false)
+      })
+  };
+
+  const authorization = (data: TFormAuth) => {
+    const { email, password } = data;
+    api
+      .signin({ email, password })
+      .then(res => {
+        if (res.auth_token) {
+          localStorage.setItem('token', res.auth_token)
+          api.getUserData()
+            .then(res => {
+              setUser(res);
+              setLoggedIn(true);
+              // getOrders()
+            })
+            .catch(err => {
+              setLoggedIn(false)
+              history.push('/login')
+            })
+        } else {
+          setLoggedIn(false)
+        }
+      })
+      .catch(err => {
+        const errors = Object.values(err)
+        if (errors) {
+          alert(errors.join(', '))
+        }
+        setLoggedIn(false)
+      })
+  };
+
+  const onLogout = () => {
+    api
+      .signout()
+      .then(res => {
+        localStorage.removeItem('token')
+        setLoggedIn(false)
+      })
+      .catch(err => {
+        const errors = Object.values(err)
+        if (errors) {
+          alert(errors.join(', '))
+        }
+      })
+  };
+
+  const forgotPassword = (email: string) => {
+    api
+      .forgotPassword(email)
+      .then(res => {
+        setSuccessForgotPassword(true);
+      })
+      .catch(err => {
+        const errors = Object.values(err)
+        if (errors) {
+          alert(errors.join(', '))
+        }
+        setSuccessForgotPassword(false);
+      })
+  };
 
   const getBrands = () => {
     api
@@ -90,70 +197,129 @@ function App() {
     getSliders();
   }, []);
 
+  const initUser = () => {
+    const token = localStorage.getItem('token');
+    if (token && token !== null) {
+      return api.getUserData()
+        .then(res => {
+          setUser(res)
+          setLoggedIn(true)
+          // getOrders()
+        })
+        .catch(err => {
+          setLoggedIn(false)
+          history.push('/login')
+        })
+    }
+    setLoggedIn(false);
+  };
+
+  useEffect(() => {
+    initUser();
+  }, []);
+
+  if (loggedIn === null) {
+    return <Loader size='large' />
+  }
 
   return (
     <ErrorBoundary>
       <div>
         <Router>
-          <DataCartContext.Provider value={{ dataCart, setDataCart }}>
-            <CartStepContext.Provider value={{ step, setStep }}>
-              <AppHeader />
-              <Switch>
-                <Route path='/' exact={true}>
-                  <DataBrandsContext.Provider value={brands}>
-                    <DataSwiperContext.Provider value={swiper}>
-                      <HomePage />
-                    </DataSwiperContext.Provider>
-                  </DataBrandsContext.Provider>
-                </Route>
-                <Route path='/elements' exact={true}>
-                  <ElementsPage />
-                </Route>
-                <Route path='/elements/:id' exact={true}>
-                  <ElementPage />
-                </Route>
+          <AuthContext.Provider value={loggedIn}>
+            <UserContext.Provider value={{user, setUser}}>
+              <DataCartContext.Provider value={{ dataCart, setDataCart }}>
+                <CartStepContext.Provider value={{ step, setStep }}>
+                  <AppHeader />
+                  <Switch>
+                    <Route path='/' exact={true}>
+                      <DataBrandsContext.Provider value={brands}>
+                        <DataSwiperContext.Provider value={swiper}>
+                          <HomePage />
+                        </DataSwiperContext.Provider>
+                      </DataBrandsContext.Provider>
+                    </Route>
+                    <Route path='/elements' exact={true}>
+                      <ElementsPage />
+                    </Route>
+                    <Route path='/elements/:id' exact={true}>
+                      <ElementPage />
+                    </Route>
 
-                <Route path='/pay' exact={true}>
-                  <PayPage />
-                </Route>
+                    <Route path='/pay' exact={true}>
+                      <PayPage />
+                    </Route>
 
-                <Route path='/delivery' exact={true}>
-                  <DeliveryPage />
-                </Route>
+                    <Route path='/delivery' exact={true}>
+                      <DeliveryPage />
+                    </Route>
 
-                <Route path='/about' exact={true}>
-                  <AboutPage />
-                </Route>
+                    <Route path='/about' exact={true}>
+                      <AboutPage />
+                    </Route>
 
-                <Route path='/contacts' exact={true}>
-                  <ContactsPage />
-                </Route>
+                    <Route path='/contacts' exact={true}>
+                      <ContactsPage />
+                    </Route>
 
-                <Route path='/feedback' exact={true}>
-                  <FeedbackPage />
-                </Route>
+                    <Route path='/feedback' exact={true}>
+                      <FeedbackPage />
+                    </Route>
 
-                <Route path='/elements/brand/:id' exact={true}>
-                  <ElementsPage />
-                </Route>
+                    <Route path='/elements/brand/:id' exact={true}>
+                      <ElementsPage />
+                    </Route>
 
-                <Route path='/elements/search/:name' exact={true}>
-                  <ElementsPage />
-                </Route>
+                    <Route path='/elements/search/:name' exact={true}>
+                      <ElementsPage />
+                    </Route>
 
-                <Route path='/cart' exact={true}>
-                  <TotalPriceContext.Provider value={{ totalPrice, totalDispatcher }}>
-                    <SelectedDeliveryContext.Provider value={{ selectedDeliveryId, setSelectedDeliveryId }}>
-                      <DeliveryFormContext.Provider value={{ form, setForm }}>
-                        <CartPage />
-                      </DeliveryFormContext.Provider>
-                    </SelectedDeliveryContext.Provider>
-                  </TotalPriceContext.Provider>
-                </Route>
+                    <Route path='/cart' exact={true}>
+                      <TotalPriceContext.Provider value={{ totalPrice, totalDispatcher }}>
+                        <SelectedDeliveryContext.Provider value={{ selectedDeliveryId, setSelectedDeliveryId }}>
+                          <DeliveryFormContext.Provider value={{ form, setForm }}>
+                            <CartPage />
+                          </DeliveryFormContext.Provider>
+                        </SelectedDeliveryContext.Provider>
+                      </TotalPriceContext.Provider>
+                    </Route>
 
-              </Switch>
-            </CartStepContext.Provider>
-          </DataCartContext.Provider>
+                    <Route path='/register' exact={true}>
+                      <RegisterPage
+                        onSignUp={registration}
+                      />
+                    </Route>
+
+                    <Route path='/login' exact={true}>
+                      <LoginPage 
+                        onLogin={authorization}
+                      />
+                    </Route>
+                    <Route path='/forgot-password' exact={true}>
+                      <ForgotPasswordPage 
+                        onForgot={forgotPassword} 
+                        success={successForgotPassword}
+                      />
+                    </Route>
+                    <Route path='/reset-password' exact={true}>
+                      <ResetPasswordPage
+                        successForgot={successForgotPassword}
+                      />
+                    </Route>
+
+                    <ProtectedRoute
+                      path='/profile' 
+                      exact={true}
+                      loggedIn={loggedIn}
+                    >
+                      <ProfilePage onLogout={onLogout} />
+                    </ProtectedRoute>
+
+                  </Switch>
+                </CartStepContext.Provider>
+              </DataCartContext.Provider>
+            </UserContext.Provider>
+          </AuthContext.Provider>
           <Footer />
         </Router>
       </div>
