@@ -73,16 +73,20 @@ export function ElementPage() {
           text: 'Оформить',
           class: elementStyles.button_active,
         })
+        const qty = dataCart.find((el) => `${el.element.id}` === id)!.qty;
+        setInputValue(qty);
       } else setButtonState({
         ...buttonState,
         text: 'В корзину',
       })
     }
-  }, [dataCart]);
 
-  useEffect(() => {
-    setInputValue(1);
-  }, [reset])
+    if (reset) setInputValue(1)
+  }, [dataCart, reset]);
+
+  // useEffect(() => {
+  //   setInputValue(1);
+  // }, [reset])
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target: number = + e.target.value.replace(/\D/g, '');
