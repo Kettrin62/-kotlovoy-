@@ -54,6 +54,8 @@ class ElementForOrderSerializer(serializers.ModelSerializer):
     def get_element_image(self, obj):
         request = self.context.get("request")
         image = obj.element.images.first()
+        if not image:
+            return '(No image)'
         return request.build_absolute_uri(MEDIA_URL + str(image.image))
 
 
@@ -91,8 +93,8 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'number', 'created', 'status', 'delivery',
             'payment', 'comment', 'email', 'last_name', 'first_name',
-            'phoneNumber', 'discount', 'order_sum', 'postal_code', 'region',
-            'city', 'location', 'user', 'elements',
+            'phoneNumber', 'discount', 'element_sum', 'order_sum',
+            'postal_code', 'region', 'city', 'location', 'user', 'elements',
         )
 
     def get_elements(self, obj):
@@ -199,7 +201,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
         order = Order.objects.create(**validated_data)
 
-        ord_sum = 0
+        elm_sum = 0
         for element, amount in validated_elements:
             cur_price = element.price - round(
                 element.price * usr_discount / 100
@@ -211,12 +213,13 @@ class OrderSerializer(serializers.ModelSerializer):
                 cur_price=cur_price,
                 amount=amount
             )
-            ord_sum += cur_price * amount
+            elm_sum += cur_price * amount
 
         order.user = user
         order.number = dt.today().strftime('%H%M-%f')
         order.discount = usr_discount
-        order.order_sum = ord_sum
+        order.element_sum = elm_sum
+        order.order_sum = elm_sum + delivery.price
         order.status = status
         order.delivery = delivery
         order.payment = payment
@@ -310,6 +313,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
         _ = validated_data.pop('number', None)
         _ = validated_data.pop('order_sum', None)
+        _ = validated_data.pop('element_sum', None)
 
         order_elements = validated_data.pop('elements')
         validated_elements = set()
@@ -342,7 +346,7 @@ class OrderSerializer(serializers.ModelSerializer):
             old_order_elements[item.element] = item
 
         usr_discount = validated_data.get('discount', order.first().discount)
-        ord_sum = 0
+        elm_sum = 0
         for element, amount in validated_elements:
             if element in old_order_elements:
                 elm_to_ord = old_order_elements.pop(element)
@@ -410,7 +414,7 @@ class OrderSerializer(serializers.ModelSerializer):
                     cur_price=cur_price,
                     amount=amount
                 )
-            ord_sum += cur_price * amount
+            elm_sum += cur_price * amount
 
         for item in old_order_elements:
             if order.first().status.status in [
@@ -426,9 +430,10 @@ class OrderSerializer(serializers.ModelSerializer):
                 )
             old_order_elements[item].delete()
 
+        ord_sum = elm_sum + delivery.price
         order.update(
-            order_sum=ord_sum, status=status, delivery=delivery,
-            payment=payment, **validated_data
+            element_sum=elm_sum, order_sum=ord_sum, status=status,
+            delivery=delivery, payment=payment, **validated_data
         )
         instance.refresh_from_db()
         return instance

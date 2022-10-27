@@ -15,12 +15,12 @@ class OrderHasElementInline(admin.TabularInline):
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = (
-        'number', 'last_name', 'first_name', 'status', 'comment',
+        'number', 'last_name', 'first_name', 'status', 'order_sum', 'comment',
         'created'
     )
     empty_value_display = EMPTY_VALUE
     list_editable = ('comment', 'status')
-    search_fields = ('number', 'last_name', 'first_name')
+    search_fields = ('number', 'last_name', 'first_name', 'order_sum')
     list_filter = (
         'status', 'created', 'delivery', 'payment'
     )
