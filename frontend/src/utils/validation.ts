@@ -7,6 +7,8 @@ export function useForm() {
     email: '',
     password: '',
     username: '',
+    current_password: '',
+    new_password: ''
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,6 +27,8 @@ export function useFormWithValidation() {
     email: '',
     password: '',
     username: '',
+    current_password: '',
+    new_password: ''
   });
   const [errors, setErrors] = React.useState({});
   const [isValid, setIsValid] = React.useState(false);
@@ -33,7 +37,9 @@ export function useFormWithValidation() {
     const target = event.target;
     const name = target.name;
     const value = target.value;
-    setValues({...values, [name]: value});
+    if (name === 'email') {
+      setValues({...values, [name]: value.toLowerCase()});
+    } else setValues({...values, [name]: value});
     setErrors({...errors, [name]: target.validationMessage });
     setIsValid(target?.closest("form")!.checkValidity());
   };
@@ -43,6 +49,8 @@ export function useFormWithValidation() {
       email: '',
       password: '',
       username: '',
+      current_password: '',
+      new_password: ''
     }, newErrors = {}, newIsValid = false) => {
       setValues(newValues);
       setErrors(newErrors);

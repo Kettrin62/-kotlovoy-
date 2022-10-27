@@ -315,6 +315,14 @@ function App() {
                       <ProfilePage onLogout={onLogout} />
                     </ProtectedRoute>
 
+                    <ProtectedRoute
+                      path='/profile/set-password' 
+                      exact={true}
+                      loggedIn={loggedIn}
+                    >
+                      <ProfilePage onLogout={onLogout} />
+                    </ProtectedRoute>
+
                   </Switch>
                 </CartStepContext.Provider>
               </DataCartContext.Provider>

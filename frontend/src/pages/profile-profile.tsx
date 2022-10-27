@@ -2,146 +2,117 @@ import * as React from 'react';
 import { useState, useRef, useContext, useEffect, useCallback } from 'react';
 import api from '../api';
 import Button from '../components/button/button';
-// import {
-//   Input,
-//   Button
-// } from '@ya.praktikum/react-developer-burger-ui-components';
 import Form from '../components/form/form';
 import { UserContext } from '../services/contexts/user-context';
+import { TUser } from '../services/types/data';
+import InputEdit from '../ui/input-rdit/input-edit';
 import Input from '../ui/input/input';
 import { useFormWithValidation } from '../utils/validation';
-// import { useDispatch, useSelector } from '../services/hooks';
-// import { getCookie } from '../utils/functions';
 import profileprofileStyles from './profile-profile.module.css';
-// import { 
-//   updateUserDataToken,
-//   updateUserData
-// } from '../services/actions/user';
 
 export function ProfileProfilePage() {
-  // const { name, email, token } = useSelector(state => state.user);
   const [changValue, setChangeValue] = useState(false);
   const { user, setUser } = useContext(UserContext);
+  const [id, setId] = useState<number | null>(null);
   const [cancel, setCancel] = useState(false);
 
-  const [values, setValues] = useState({
-    id: 0,
-    city: '',
-    discount: 0,
-    email: '',
-    first_name: '',
-    last_name: '',
-    location: '',
-    phoneNumber: '',
-    postal_code: '',
-    region: '',
-    username: '',
-  });
+  const [username, setUsername] = useState('');
+  const onChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+    setChangeValue(true);
+  };
+
+  const [firstname, setFirstname] = useState('');
+  const onChangeFirstname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFirstname(e.target.value);
+    setChangeValue(true);
+  };
+
+  const [lastname, setLastname] = useState('');
+  const onChangeLastname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLastname(e.target.value);
+    setChangeValue(true);
+  };
+
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const onChangePhoneNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhoneNumber(e.target.value.replace(/\D/g, '').replace(/^7|8/, '+7').slice(0, 12));
+    setChangeValue(true);
+  };
+
+  const [postalCode, setPostalCode] = useState('');
+  const onChangePostalCode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPostalCode(e.target.value.replace(/\D/g, '').slice(0, 6));
+    setChangeValue(true);
+  };
+
+  const [region, setRegion] = useState('');
+  const onChangeRegion = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRegion(e.target.value);
+    setChangeValue(true);
+  };
+
+  const [city, setCity] = useState('');
+  const onChangeCity = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCity(e.target.value);
+    setChangeValue(true);
+  };
+
+  const [location, setLocation] = useState('');
+  const onChangeLocation = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLocation(e.target.value);
+    setChangeValue(true);
+  };
 
   const inputRef = useRef(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const target = e.target;
-    const value = target.value;
-    const name = target.name;
-    setValues({
-      ...values,
-      [name]: value    
-    });
-    setChangeValue(true);
-  }
-
-  console.log(user);
-  
-
   useEffect(() => {
-    if (user) {
-      setValues({
-        ...values,
-        id: user.id,
-        discount: user.discount,
-        email: user.email,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        username: user.username,
-      })
-      if (user.city) {
-        setValues({
-          ...values,
-          city: user.city
-        })
-      }
-      if (user.location) {
-        setValues({
-          ...values,
-          location: user.location
-        })
-      }
+    if(user) {
+      setId(user.id);
+      setUsername(user.username);
+      setFirstname(user.first_name);
+      setLastname(user.last_name);
       if (user.phoneNumber) {
-        setValues({
-          ...values,
-          phoneNumber: user.phoneNumber
-        })
-      }
+        setPhoneNumber(user.phoneNumber);
+      } else setPhoneNumber('');
       if (user.postal_code) {
-        setValues({
-          ...values,
-          postal_code: user.postal_code
-        })
-      }
+        setPostalCode(user.postal_code);
+      } else setPostalCode('');
       if (user.region) {
-        setValues({
-          ...values,
-          region: user.region
-        })
-      }
+        setRegion(user.region);
+      } else setRegion('');
+      if (user.city) {
+        setCity(user.city);
+      } else setCity('');
+      if (user.location) {
+        setLocation(user.location);
+      } else setLocation('');
     }
   }, [user, cancel]);
 
+
+
   const updateUserSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const { 
-      id,
-      city, 
-      discount, 
-      email, 
-      first_name, 
-      last_name, 
-      location,
-      phoneNumber,
-      postal_code,
-      region,
-      username,
-    } = values;
-    const dataUser = {
-      id,
-      city,
-      discount,
-      email,
-      first_name,
-      last_name,
-      location,
-      phoneNumber,
-      postal_code,
-      region,
-      username,
-    };
-    if (id !== 0) {
-      console.log(dataUser);
-      
+    if (id) {
+      const dataUser = {
+        city,
+        first_name: firstname,
+        last_name: lastname,
+        location,
+        phoneNumber,
+        postal_code: postalCode,
+        region,
+        username,
+      };
       api
-        .updateDataUser(dataUser)
-        .then(res => setUser(res))
+        .updateDataUser(id, dataUser)
+        .then(res => {
+          setUser(res)
+        })
         .catch(err => console.log(err))
     }
-    // if (!token) {
-    //   const refreshToken = getCookie('refreshToken');
-    //   dispatch(updateUserDataToken(refreshToken, dataUser));    
-    // } else {
-    //   dispatch(updateUserData(token, dataUser));
-    // }
     setChangeValue(false);
-    // setPasswordValue('');
   };
 
   const onClickCancel = () => {
@@ -152,29 +123,27 @@ export function ProfileProfilePage() {
   return (
     <div className={profileprofileStyles.container}>
       <Form name='profile' onSubmit={updateUserSubmit}>
-        <Input
-          type='text'
+        <InputEdit
+          handleChange={onChangeUsername}
           placeholder='Логин'
           label='Логин'
-          onChange={handleInputChange}
-          value={values.username}
+          value={username}
           inputRef={inputRef}
           name='username'
+          required={true}
         />
-        <Input
-          type='text'
+        <InputEdit
           placeholder='Имя'
           label='Имя'
-          onChange={handleInputChange}
-          value={values.first_name}
+          handleChange={onChangeFirstname}
+          value={firstname}
           name='first_name'
           inputRef={inputRef}
         />
-        <Input
-          type='text'
+        <InputEdit
           placeholder='Фамилия'
-          onChange={handleInputChange}
-          value={values.last_name}
+          handleChange={onChangeLastname}
+          value={lastname}
           name='last_name'
         />
         <Input
@@ -184,53 +153,51 @@ export function ProfileProfilePage() {
           value={user?.email}
           name='email'
         />
-
         <Input
           type='text'
+          placeholder='Дисконтаная скидка'
+          onChange={() => {}}
+          value={`Дисконтаная скидка - ${user?.discount} %`}
+          name='discount'
+        />
+        <InputEdit
           placeholder='Телефон'
-          onChange={handleInputChange}
-          value={values.phoneNumber}
+          handleChange={onChangePhoneNumber}
+          value={phoneNumber}
           name='phoneNumber'
         />
-        <Input
-          type='text'
+        <InputEdit
           placeholder='Индекс'
-          onChange={handleInputChange}
-          value={values.postal_code}
+          handleChange={onChangePostalCode}
+          value={postalCode}
           name='postal_code'
         />
-        <Input
-          type='text'
+        <InputEdit
           placeholder='Регион/Область'
-          onChange={handleInputChange}
-          value={values.region}
+          handleChange={onChangeRegion}
+          value={region}
           name='region'
         />
-        <Input
-          type='text'
+        <InputEdit
           placeholder='Город/Насел.пункт'
-          onChange={handleInputChange}
-          value={values.city}
+          handleChange={onChangeCity}
+          value={city}
           name='city'
         />
-        <Input
-          type='text'
+        <InputEdit
           placeholder='Улица/Дом/Квартира'
-          onChange={handleInputChange}
-          value={values.location}
+          handleChange={onChangeLocation}
+          value={location}
           name='location'
         />
-        {
-          changValue && 
-          <div className={profileprofileStyles.buttons}>
-            <Button type='submit'>
-              Сохранить
-            </Button>
-            <Button type='button' clickHandler={onClickCancel}>
-              Отмена
-            </Button>
-          </div>
-        }
+        <div className={profileprofileStyles.buttons}>
+          <Button type='submit' disabled={!changValue}>
+            Сохранить
+          </Button>
+          <Button type='button' clickHandler={onClickCancel} disabled={!changValue}>
+            Отмена
+          </Button>
+        </div>
       </Form>
     </div>
   );

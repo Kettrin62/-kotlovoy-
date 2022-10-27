@@ -8,6 +8,7 @@ import Input from '../ui/input/input';
 import Button from '../components/button/button';
 import { useFormWithValidation } from '../utils/validation';
 import AuthContext from '../services/contexts/auth-context';
+import InputPassword from '../ui/input-password/input-password';
 
 interface IRegisterPageProps {
   onSignUp: (data: TFormRegister) => void;
@@ -51,13 +52,14 @@ export const RegisterPage: FC<IRegisterPageProps> = ({
             name={'username'}
             required
           />
-          <Input
+          {/* <Input
             type={'password'}
             placeholder={'Пароль'}
             onChange={handleChange}
             name={'password'}
             required
-          />
+          /> */}
+          <InputPassword handleChange={handleChange} />
           <Button 
             type='submit'
             disabled={!isValid}

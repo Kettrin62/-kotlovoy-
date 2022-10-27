@@ -11,7 +11,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import cn from 'classnames';
-import { TDataElement } from '../services/types/data';
+import { TDataCartElement, TDataElement } from '../services/types/data';
 import api from '../api';
 import Text from '../components/text/text';
 import elementStyles from './element.module.css';
@@ -19,6 +19,7 @@ import Button from '../components/button/button';
 import Image from '../components/image/image';
 import InputBox from '../components/input-box/input-box';
 import Divider from '../components/divider/divider';
+import { DataCartContext } from '../services/contexts/app-context';
 
 
 
@@ -26,9 +27,8 @@ export function ElementPage() {
   
   const id = useParams<{ id?: string }>().id;
   const [element, setElement] = useState<TDataElement>();
-  // console.log(element);
+  const { dataCart, setDataCart } = useContext(DataCartContext);
   const [ inputValue, setInputValue ] = useState(1);
-  
 
   const getElement = (id: string) => {
     api
@@ -57,8 +57,18 @@ export function ElementPage() {
     } else setInputValue(1);
   };
 
-  // console.log(inputValue);
-  
+  let arr: TDataCartElement[] = [];
+
+  const onClickButtonCart = () => {
+    arr = dataCart;
+    if (element) {
+      arr.push({
+        element: element,
+        qty: inputValue
+      });
+      setDataCart([...arr]);
+    }
+  };
 
   return (
     <div className={elementStyles.element}>
@@ -100,7 +110,7 @@ export function ElementPage() {
                 onClickButtonUp={onClickButtonUp}
                 onClickButtonDown={onClickButtonDown}
               />
-              <Button clickHandler={() => {}} className={elementStyles.button}>
+              <Button clickHandler={onClickButtonCart} className={elementStyles.button}>
                 Купить
               </Button>
             </div>
@@ -112,12 +122,8 @@ export function ElementPage() {
             <Divider className={elementStyles.divider} />
             <Text class={cn(elementStyles.text, elementStyles.description)} text={element.description} />
           </div>
-          
-          
-
         </div>
       }
-
     </div>
   )
 }

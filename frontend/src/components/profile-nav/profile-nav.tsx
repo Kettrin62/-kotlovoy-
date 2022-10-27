@@ -25,6 +25,16 @@ const ProfileNav: FC<IProfileNavProps> = ({ onClickLogout }) => {
         </li>
         <li>
           <NavLink
+            exact
+            to='/profile/set-password'
+            className={'text text_type_main-medium text_color_inactive ' + profilenavStyles.link}
+            activeClassName={'text text_type_main-medium ' + profilenavStyles.link_active}
+          >
+            Сменить пароль
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
             to='/profile/orders'
             className={'text text_type_main-medium text_color_inactive ' + profilenavStyles.link}
             activeClassName={'text text_type_main-medium ' + profilenavStyles.link_active}

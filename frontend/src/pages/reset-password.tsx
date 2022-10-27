@@ -8,6 +8,7 @@ import Input from '../ui/input/input';
 import Button from '../components/button/button';
 import AuthContext from '../services/contexts/auth-context';
 import api from '../api';
+import InputPassword from '../ui/input-password/input-password';
 
 interface IResetPasswordPageProps {
   successForgot: boolean;
@@ -80,20 +81,25 @@ export const ResetPasswordPage: FC<IResetPasswordPageProps> = ({
         </h2>
         <Form name='reset-password' class={'mt-6 '} onSubmit={resetPasswordSubmit}>
           <Input
+            type='text'
+            placeholder='Введите код из письма'
+            onChange={onChangeCodeValue}
+            value={codeValue}
+            name='code'
+            inputRef={inputRef}
+            required
+          />
+          {/* <Input
             type={'password'}
             placeholder={'Введите новый пароль'}
             onChange={onChangePasswordValue}
             value={passwordValue}
             name={'email'}
             inputRef={inputRef}
-          />
-          <Input
-            type={'text'}
-            placeholder={'Введите код из письма'}
-            onChange={onChangeCodeValue}
-            value={codeValue}
-            name={'code'}
-            inputRef={inputRef}
+          /> */}
+          <InputPassword 
+            placeholder='Введите новый пароль'
+            handleChange={onChangePasswordValue} 
           />
           <Button type='submit'>
             Сохранить

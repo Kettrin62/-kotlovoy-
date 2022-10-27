@@ -18,9 +18,9 @@ const Element: FC<IElementProps> = ({
 }) => {
   const {
     id,
-    title, 
-    cur_price, 
-    article, 
+    title,
+    cur_price,
+    article,
     images,
     stock
   } = element;
@@ -74,7 +74,7 @@ const Element: FC<IElementProps> = ({
 
   return (
     <div className={`${styles.product}`}>
-      <img className={styles.img} src={images[0].image}  alt={title} />
+      <img className={styles.img} src={images[0].image} alt={title} />
       <p className={styles.text}>{title}</p>
       <div className={styles.amountbox}>
         <AmountButton data-testid={`decrease-${id}`} onClick={decrease}>-</AmountButton>
@@ -85,7 +85,6 @@ const Element: FC<IElementProps> = ({
         <p className={styles.price} data-testid={`price-amount-${id}`}>
           {priceFormat(cur_price * qty)}
         </p>
-
       </div>
       <DeleteButton onDelete={onDelete} />
     </div>

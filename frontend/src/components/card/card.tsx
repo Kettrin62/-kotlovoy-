@@ -1,14 +1,10 @@
 import * as React from 'react';
 import { useCallback, useContext, useState, useEffect } from 'react';
 import { 
-  Link,
   useHistory,
-  useLocation,
 } from 'react-router-dom';
 import { FC } from 'react';
 import { TDataCartElement, TDataElement } from '../../services/types/data';
-import { Pagination, Navigation } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -40,16 +36,11 @@ const Card: FC<ICardProps> = ({ element }) => {
 
   const { dataCart, setDataCart } = useContext(DataCartContext);
 
-  // console.log(dataCart);
-
   const [buttonState, setButtonState] = useState<IButtonState>({
     text: '',
     class: '',
     disabled: false,
   })
-
-  // const [textButton, setTextButton] = useState<string>('');
-  // const [classButton, setClassButton] = useState<string>('');
 
 const onClickButton = useCallback(
   () => {
@@ -78,7 +69,6 @@ useEffect(() => {
         text: 'Оформить',
         class: cardStyles.button_active,
       })
-      // setTextButton('Оформить')
     } else setButtonState({
       ...buttonState,
       text: 'В корзину',
@@ -94,9 +84,6 @@ const onClickButtonCart = () => {
       qty: 1
     });
     setDataCart([...arr]);
-    // console.log(dataCart);
-    // setTextButton('Оформить');
-    // setClassButton(cardStyles.button_active);
   } 
   if (buttonState.text === 'Оформить') {
     history.replace({ pathname: '/cart' });

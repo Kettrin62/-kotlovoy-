@@ -12,7 +12,7 @@ interface IInputProps {
   name: string;
   id?: string;
   required?: boolean;
-  label?: string | undefined,
+  label?: string | undefined;
 }
 
 const Input: FC<IInputProps> = ({

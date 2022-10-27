@@ -113,13 +113,14 @@ export type TFormRegister = {
   email: string;
   password: string;
   username: string;
+  current_password: string;
+  new_password: string;
 }
 
 export type TFormAuth = {
   email: string;
   password: string;
 }
-
 
 export type TUser = {
   city: string | null;
@@ -133,4 +134,6 @@ export type TUser = {
   postal_code: string | null;
   region: string | null;
   username: string;
-}
+};
+
+export type TTypeInput = 'text' | 'password';

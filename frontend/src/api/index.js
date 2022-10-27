@@ -211,32 +211,8 @@ class Api {
     ).then(this.checkResponse)
   }
 
-  // change password
-  updateDataUser ({ 
-    id,
-    city,
-    discount,
-    email,
-    first_name,
-    last_name,
-    location,
-    phoneNumber,
-    postal_code,
-    region,
-    username, 
-  }) {
-    console.log(JSON.stringify({ 
-      city,
-      discount,
-      email,
-      first_name,
-      last_name,
-      location,
-      phoneNumber,
-      postal_code,
-      region,
-      username, 
-    }));
+  // update user
+  updateDataUser (id, dataUser) {
     const token = localStorage.getItem('token')
     return fetch(
       `${BASEURL}v1/users/${id}/`,
@@ -246,18 +222,7 @@ class Api {
           ...this._headers,
           'authorization': `Token ${token}`
         },
-        body: JSON.stringify({ 
-          city,
-          discount,
-          email,
-          first_name,
-          last_name,
-          location,
-          phoneNumber,
-          postal_code,
-          region,
-          username, 
-        })
+        body: JSON.stringify(dataUser)
       }
     ).then(this.checkResponse)
   }
@@ -291,12 +256,11 @@ class Api {
       ).then(this.checkResponse)
     }
 
-
   // change password
   changePassword ({ current_password, new_password }) {
     const token = localStorage.getItem('token')
     return fetch(
-      `${BASEURL}v1//users/set_password/`,
+      `${BASEURL}v1/users/set_password/`,
       {
         method: 'POST',
         headers: {

@@ -145,8 +145,6 @@ export function ElementsPage() {
     };
   };
 
-
-
   const groupComponent = (
     <ul className={cn(elementsStyles.list_group, classNameGroups)}>
       {groups.map(item => {
@@ -161,7 +159,6 @@ export function ElementsPage() {
       })}
     </ul>
   )
-
 
   return (
     <main className={elementsStyles.container}>
