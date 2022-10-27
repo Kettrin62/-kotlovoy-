@@ -50,8 +50,8 @@ def password_reset_token_created(
         'Кто-то пытается изменить ваш пароль на сайте Kotlovoy62.ru\nЕсли '
         'это были не Вы, то просто проигнорируйте данное письмо.\nЕсли это Вы '
         'инициировали сброс пароля, то пройдите на сайт по ссылке: '
-        'http://kotlovoy62.ru/password_reset/confirm\n'
-        f'Введите данный токен: {reset_password_token.key} и новый '
+        'http://kotlovoy62.ru/reset-password\n'
+        f'Введите данный код: {reset_password_token.key} и новый '
         'пароль в соответсвующие поля.'
     )
 

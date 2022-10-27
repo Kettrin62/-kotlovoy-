@@ -117,6 +117,9 @@ class Order(models.Model):
     discount = models.PositiveSmallIntegerField(
         default=0, verbose_name="Скидка, %",
     )
+    element_sum = models.PositiveIntegerField(
+        default=0, verbose_name="Стоимость товаров",
+    )
     order_sum = models.PositiveIntegerField(
         default=0, verbose_name="Сумма заказа",
     )

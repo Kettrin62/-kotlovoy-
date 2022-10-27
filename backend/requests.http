@@ -228,7 +228,7 @@ Authorization: Token {{token}}
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/elements/2
+GET http://127.0.0.1:8000/api/v1/elements/5
 Authorization: Token {{token}}
 ###
 
@@ -266,7 +266,7 @@ GET http://127.0.0.1:8000/api/v1/elements/?search=004
 
 
 ###
-GET http://127.0.0.1:8000/api/v1/elements/7/
+GET http://127.0.0.1:8000/api/v1/elements/
 ###
 
 
@@ -594,14 +594,14 @@ Content-Type: application/json
 
 
 ###
-PATCH http://127.0.0.1:8000/api/v1/orders/2/
+PATCH http://127.0.0.1:8000/api/v1/orders/3/
 Authorization: Token {{token}}
 Content-Type: application/json
 
 {
     "status":
     {
-        "id": 3
+        "id": 1
     },
     "delivery":
     {
@@ -625,15 +625,7 @@ Content-Type: application/json
       "elements": [
         {
           "id": 5,
-          "amount": 11
-        },
-        {
-          "id": 7,
-          "amount": 7
-        },
-        {
-          "id": 10,
-          "amount": 80
+          "amount": 2
         }
       ]
 }
