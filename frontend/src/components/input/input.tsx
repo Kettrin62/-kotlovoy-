@@ -19,6 +19,7 @@ interface IInputProps {
   reset?: boolean,
   maxLength?: number,
   handleKeypress?: (e: any) => void,
+  inputRef?: React.Ref<HTMLInputElement>;
 }
 
 const Input: FC<IInputProps> = ({
@@ -35,7 +36,8 @@ const Input: FC<IInputProps> = ({
     value = '',
     reset,
     maxLength,
-    handleKeypress
+    handleKeypress,
+    inputRef
   }) => {
 
   const [ inputValue, setInputValue ] = useState(value);
@@ -66,14 +68,16 @@ const Input: FC<IInputProps> = ({
         required={required}
         name={name}
         className={cn(inputStyles.inputField, inputClassName)}
-        onChange={e => {
-          handleValueChange(e)
-        }}
+        // onChange={e => {
+        //   handleValueChange(e)
+        // }}
+        onChange={onChange}
         onFocus={onFocus}
         value={inputValue}
         onBlur={onBlur}
         maxLength={maxLength}
         onKeyPress={handleKeypress}
+        ref={inputRef}
       />
     </label>
   </div>

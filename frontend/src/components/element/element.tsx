@@ -1,4 +1,7 @@
-import React, { FC, useContext, useState } from 'react';
+import React, { FC, useContext, useCallback } from 'react';
+import { 
+  useHistory,
+} from 'react-router-dom';
 import { AmountButton } from '../../ui/amount-button/amount-button';
 import { DeleteButton } from '../../ui/delete-button/delete-button';
 import styles from './element.module.css';
@@ -24,7 +27,8 @@ const Element: FC<IElementProps> = ({
     images,
     stock
   } = element;
-  
+
+  const history = useHistory();
 
   const { dataCart, setDataCart } = useContext(DataCartContext);
   // const [qty, setQty] = useState<number>(1);
@@ -55,27 +59,36 @@ const Element: FC<IElementProps> = ({
     }
   };
 
-
   const increase = () => {
     arr = dataCart;
     let index: number = -1;
     const el = dataCart.find(el => el.element.id === id);
+
     if (el) {
       index = arr.indexOf(el);
     };
 
-    arr[index] = {
-      element,
-      qty: ++qty
-    };
+    if (arr[index].qty < arr[index].element.stock) {
+      arr[index] = {
+        element,
+        qty: ++qty
+      };
 
-    setDataCart([...arr]);
+      setDataCart([...arr]);
+    }
   };
+
+  const onClickButton = useCallback(
+    () => {
+      history.replace({ pathname: `/elements/${id}` });
+    },
+    [history]
+  );
 
   return (
     <div className={`${styles.product}`}>
-      <img className={styles.img} src={images[0].image} alt={title} />
-      <p className={styles.text}>{title}</p>
+      <img className={styles.img} src={images[0].image} alt={title} onClick={onClickButton} />
+      <p className={styles.text} onClick={onClickButton}>{title}</p>
       <div className={styles.amountbox}>
         <AmountButton data-testid={`decrease-${id}`} onClick={decrease}>-</AmountButton>
         <p className={styles.amount} data-testid={`product-amount-${id}`}>{qty}</p>

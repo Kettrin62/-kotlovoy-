@@ -22,14 +22,9 @@ export const LoginPage: FC<ILoginPageProps> = ({
 }) => {
   const authContext = useContext(AuthContext);
   const { values, handleChange, isValid } = useFormWithValidation();
-  // const [visible, setVisible] = useState(false);
-
-  console.log(values);
-  
 
   const loginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     onLogin(values)
   };
 
@@ -38,10 +33,6 @@ export const LoginPage: FC<ILoginPageProps> = ({
       <Redirect to='/' />
     )
   };
-
-  // const onClickVisible = () => {
-  //   setVisible(!visible);
-  // };
 
   return (
     <section className={loginStyles.container}>
@@ -57,18 +48,6 @@ export const LoginPage: FC<ILoginPageProps> = ({
             name='email'
             required
           />
-          {/* <div className={loginStyles.input}>
-            <Input
-              type={visible ? 'text' : 'password'}
-              placeholder='Пароль'
-              onChange={handleChange}
-              name='password'
-              required
-            />
-            <Button className={loginStyles.icon} clickHandler={onClickVisible}>
-              <img src={visible ? invisibleIcon : visibleIcon} alt='Иконка глаза' />
-            </Button>
-          </div> */}
           <InputPassword handleChange={handleChange} />
           <Button 
             type='submit'

@@ -137,3 +137,9 @@ export type TUser = {
 };
 
 export type TTypeInput = 'text' | 'password';
+
+export type TButtonState = {
+  text: string;
+  class: string;
+  disabled: boolean;
+}

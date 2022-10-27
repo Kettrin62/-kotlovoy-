@@ -78,6 +78,14 @@
   width: 100%;
 }
 
+.button_active {
+  background-color: #fff;
+  color: rgba(247, 109, 10, 1);
+  border-color: rgba(247, 109, 10, 1);
+
+  box-shadow: 0 0 7px rgba(247, 109, 10, 1);
+}
+
 @media screen and (max-width: 1100px) {
   .title {
     font-size: 20px;

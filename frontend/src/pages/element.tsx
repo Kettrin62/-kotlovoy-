@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import { useContext, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import { FC } from 'react';
 import { Pagination, Navigation } from 'swiper';
@@ -11,7 +11,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import cn from 'classnames';
-import { TDataCartElement, TDataElement } from '../services/types/data';
+import { TButtonState, TDataCartElement, TDataElement } from '../services/types/data';
 import api from '../api';
 import Text from '../components/text/text';
 import elementStyles from './element.module.css';
@@ -29,6 +29,16 @@ export function ElementPage() {
   const [element, setElement] = useState<TDataElement>();
   const { dataCart, setDataCart } = useContext(DataCartContext);
   const [ inputValue, setInputValue ] = useState(1);
+  const [buttonState, setButtonState] = useState<TButtonState>({
+    text: '',
+    class: '',
+    disabled: false,
+  });
+  const [reset, setReset] = useState(false);
+
+  const history = useHistory();
+
+  const inputRef = useRef(null);
 
   const getElement = (id: string) => {
     api
@@ -40,33 +50,76 @@ export function ElementPage() {
 
   useEffect(() => {
     if (id) getElement(id);
+
+    if (element && element.stock !== 0) {
+      setButtonState({
+        ...buttonState,
+        text: 'В корзину',
+      })
+    } else {
+      setButtonState({
+        ...buttonState,
+        text: 'В корзину',
+        disabled: true,
+      })
+    }
   }, []);
 
+  useEffect(() => {
+    if (element?.stock !== 0) {
+      if(dataCart.some((el) => `${el.element.id}` === id)) {
+        setButtonState({
+          ...buttonState,
+          text: 'Оформить',
+          class: elementStyles.button_active,
+        })
+      } else setButtonState({
+        ...buttonState,
+        text: 'В корзину',
+      })
+    }
+  }, [dataCart]);
+
+  useEffect(() => {
+    setInputValue(1);
+  }, [reset])
+
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const target: number = + e.target.value;
-    setInputValue(target);
+    const target: number = + e.target.value.replace(/\D/g, '');
+    if (target === 0) {
+      setInputValue(1);
+    } else if (target > element!.stock) {
+      setInputValue(element!.stock)
+    } else setInputValue(target)
   };
 
   const onClickButtonUp = () => {
-    setInputValue(inputValue + 1);
+    if (inputValue < element!.stock) {
+      setInputValue(inputValue + 1)
+    } else setInputValue(element!.stock)
   };
 
   const onClickButtonDown = () => {
     if (inputValue > 1) {
-      setInputValue(inputValue + 0 - 1);
-    } else setInputValue(1);
+      setInputValue(inputValue - 1)
+    } else setInputValue(1)
   };
 
   let arr: TDataCartElement[] = [];
 
   const onClickButtonCart = () => {
-    arr = dataCart;
-    if (element) {
-      arr.push({
-        element: element,
-        qty: inputValue
-      });
-      setDataCart([...arr]);
+    if (buttonState.text === 'В корзину') {
+      arr = dataCart;
+      if (element) {
+        arr.push({
+          element: element,
+          qty: inputValue
+        });
+        setDataCart([...arr]);
+      }
+    } 
+    if (buttonState.text === 'Оформить') {
+      history.replace({ pathname: '/cart' });
     }
   };
 
@@ -105,13 +158,19 @@ export function ElementPage() {
             <div className={elementStyles.input}>
               <InputBox  
                 className=''
-                value={inputValue + ''}
+                value={String(inputValue)}
                 onChange={handleValueChange}
                 onClickButtonUp={onClickButtonUp}
                 onClickButtonDown={onClickButtonDown}
+                reset={reset}
+                inputRef={inputRef}
               />
-              <Button clickHandler={onClickButtonCart} className={elementStyles.button}>
-                Купить
+              <Button 
+                clickHandler={onClickButtonCart} 
+                className={cn(elementStyles.button, buttonState.class)}
+                disabled={buttonState.disabled}
+              >
+                {buttonState.text}
               </Button>
             </div>
 
