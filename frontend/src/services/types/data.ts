@@ -144,3 +144,4 @@ export type TButtonState = {
   class: string;
   disabled: boolean;
 }
+

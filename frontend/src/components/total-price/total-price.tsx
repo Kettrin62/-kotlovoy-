@@ -7,6 +7,8 @@ import { DataCartContext } from '../../services/contexts/app-context';
 import { CartStepContext, DeliveryFormContext, SelectedDeliveryContext, TotalPriceContext } from '../../services/contexts/cart-context';
 import { stepName } from '../../utils/data';
 import Text from '../text/text';
+import { rawListeners } from 'process';
+import api from '../../api';
 
 
 export const TotalPrice = () => {
@@ -60,6 +62,12 @@ export const TotalPrice = () => {
     const delivery = {
       id: selectedDeliveryId
     };
+    const elements = dataCart.map(({ element, amount }) => {
+      return {
+        id: element.id,
+        amount
+      }
+    })
     const dataOrder = {
       delivery,
       comment,
@@ -70,11 +78,16 @@ export const TotalPrice = () => {
       postal_code: index,
       region,
       city,
-      location: address
+      location: address,
+      elements
     }
-    console.log(dataOrder);
-    console.log(dataCart);
-    
+    api
+      .postOrder(dataOrder)
+      .then(res => {
+        console.log(res);
+        
+      })
+      .catch(err => console.log(err))
   };
 
   const nextAction = step === stepName.delivery || step === stepName.cart ? next : confirmOrder;
