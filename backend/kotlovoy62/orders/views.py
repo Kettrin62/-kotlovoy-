@@ -45,7 +45,7 @@ class OrderViewSet(viewsets.ModelViewSet):
             serializer.save(
                 elements={'elements': (self.request.data['elements'])},
                 delivery={'delivery': (self.request.data['delivery'])},
-                payment={'payment': (self.request.data['payment'])},
+                # payment={'payment': (self.request.data['payment'])},
             )
         except KeyError as err:
             raise ValidationError(
@@ -64,7 +64,7 @@ class OrderViewSet(viewsets.ModelViewSet):
                 elements={'elements': (self.request.data['elements'])},
                 status={'status': (self.request.data['status'])},
                 delivery={'delivery': (self.request.data['delivery'])},
-                payment={'payment': (self.request.data['payment'])},
+                # payment={'payment': (self.request.data['payment'])},
             )
         except KeyError as err:
             raise ValidationError(
