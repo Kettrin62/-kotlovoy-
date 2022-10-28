@@ -12,12 +12,12 @@ import { DataCartContext } from '../../services/contexts/app-context';
 
 interface IElementProps {
   element: TDataElement;
-  qty: number;
+  amount: number;
 }
 
 const Element: FC<IElementProps> = ({ 
   element,
-  qty,
+  amount,
 }) => {
   const {
     id,
@@ -40,7 +40,7 @@ const Element: FC<IElementProps> = ({
   };
 
   const decrease = () => {
-    if (qty === 1) {
+    if (amount === 1) {
       onDelete();
     } else {
       arr = dataCart;
@@ -52,7 +52,7 @@ const Element: FC<IElementProps> = ({
 
     arr[index] = {
       element,
-      qty: --qty
+      amount: --amount
     };
 
     setDataCart([...arr]);
@@ -68,10 +68,10 @@ const Element: FC<IElementProps> = ({
       index = arr.indexOf(el);
     };
 
-    if (arr[index].qty < arr[index].element.stock) {
+    if (arr[index].amount < arr[index].element.stock) {
       arr[index] = {
         element,
-        qty: ++qty
+        amount: ++amount
       };
 
       setDataCart([...arr]);
@@ -91,12 +91,12 @@ const Element: FC<IElementProps> = ({
       <p className={styles.text} onClick={onClickButton}>{title}</p>
       <div className={styles.amountbox}>
         <AmountButton data-testid={`decrease-${id}`} onClick={decrease}>-</AmountButton>
-        <p className={styles.amount} data-testid={`product-amount-${id}`}>{qty}</p>
+        <p className={styles.amount} data-testid={`product-amount-${id}`}>{amount}</p>
         <AmountButton data-testid={`increase-${id}`} onClick={increase}>+</AmountButton>
       </div>
       <div className={styles.price}>
         <p className={styles.price} data-testid={`price-amount-${id}`}>
-          {priceFormat(cur_price * qty)}
+          {priceFormat(cur_price * amount)}
         </p>
       </div>
       <DeleteButton onDelete={onDelete} />

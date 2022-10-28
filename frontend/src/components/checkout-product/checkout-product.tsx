@@ -8,7 +8,7 @@ interface ICheckoutProductProps {
 }
 
 const CheckoutProduct: FC<ICheckoutProductProps> = ({ item }) => {
-  const { element, qty } = item;
+  const { element, amount } = item;
   const { id, images, title, cur_price } = element;
   const image = images[0].image;
 
@@ -18,10 +18,10 @@ const CheckoutProduct: FC<ICheckoutProductProps> = ({ item }) => {
         <img className={styles.img} src={image} alt={title} />
         <p className={styles.text}>{title}</p>
       </div>
-      <p className={styles.count}>×{qty}</p>
+      <p className={styles.count}>×{amount}</p>
       <div className={styles.price}>
         <p className={styles.price} data-testid={`price-amount-${id}`}>
-          {priceFormat(cur_price * qty)}
+          {priceFormat(cur_price * amount)}
         </p>
 
       </div>

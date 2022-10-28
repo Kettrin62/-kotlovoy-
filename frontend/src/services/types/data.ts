@@ -66,7 +66,7 @@ export type TDataGroups = {
 
 export type TDataCartElement = {
   readonly element: TDataElement;
-  readonly qty: number;
+  readonly amount: number;
 }
 
 export type TTotalPrice = {

@@ -8,11 +8,9 @@ import { TDeliveryForm } from '../../services/types/data';
 export const InputsBox = () => {
   const { form, setForm } = useContext(DeliveryFormContext);
   const { user } = useContext(UserContext);
-
   const [formChange, setFormChange] = useState(false);
 
   let obj: TDeliveryForm = {};
-  // const { deliveryForm } = useSelector(state => state.delivery);
   const [index, setIndex] = useState('');
   const onChangeIndex = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIndex(e.target.value);
@@ -188,12 +186,7 @@ export const InputsBox = () => {
 
   };
 
-  console.log(form);
-  
-
   const inputRef = useRef(null);
-
-  
 
   useEffect(() => {
     if (form) {
@@ -285,6 +278,7 @@ export const InputsBox = () => {
             id="secondName"
             placeholder="Введите фамилию"
             inputRef={inputRef}
+            required
           />
         </li>
         <li className={styles.input}>
@@ -300,6 +294,7 @@ export const InputsBox = () => {
             id="firstName"
             placeholder="Введите имя"
             inputRef={inputRef}
+            required
           />
         </li>
         <li className={styles.input}>
@@ -315,6 +310,7 @@ export const InputsBox = () => {
             id="phone"
             placeholder="+7"
             inputRef={inputRef}
+            required
           />
         </li>
         <li className={styles.input}>

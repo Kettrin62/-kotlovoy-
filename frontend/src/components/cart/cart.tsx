@@ -19,7 +19,7 @@ function Cart() {
         <Element 
           key={el.element.id} 
           element={el.element}
-          qty={el.qty}
+          amount={el.amount}
         />
       ))
     },

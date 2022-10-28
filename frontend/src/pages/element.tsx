@@ -73,7 +73,7 @@ export function ElementPage() {
           text: 'Оформить',
           class: elementStyles.button_active,
         })
-        const qty = dataCart.find((el) => `${el.element.id}` === id)!.qty;
+        const qty = dataCart.find((el) => `${el.element.id}` === id)!.amount;
         setInputValue(qty);
       } else setButtonState({
         ...buttonState,
@@ -117,7 +117,7 @@ export function ElementPage() {
       if (element) {
         arr.push({
           element: element,
-          qty: inputValue
+          amount: inputValue
         });
         setDataCart([...arr]);
       }

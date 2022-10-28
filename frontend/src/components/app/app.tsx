@@ -68,7 +68,7 @@ function reducer(_totalPrice: TTotalPrice, action: TAction) {
     action.array.reduce((
       acc: number, 
       item: TDataCartElement
-    ) => acc + item.element.cur_price * item.qty, 0);
+    ) => acc + item.element.cur_price * item.amount, 0);
 
   return { price: total };
 }

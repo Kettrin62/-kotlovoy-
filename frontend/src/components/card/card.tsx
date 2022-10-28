@@ -75,7 +75,7 @@ const onClickButtonCart = () => {
     arr = dataCart;
     arr.push({
       element: element,
-      qty: 1
+      amount: 1
     });
     setDataCart([...arr]);
   } 

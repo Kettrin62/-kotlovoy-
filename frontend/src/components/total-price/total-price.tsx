@@ -4,7 +4,7 @@ import styles from './total-price.module.css';
 import { priceFormat, totalPriceSelector } from './utils';
 import { Loader } from '../../ui/loader/loader';
 import { DataCartContext } from '../../services/contexts/app-context';
-import { CartStepContext, SelectedDeliveryContext, TotalPriceContext } from '../../services/contexts/cart-context';
+import { CartStepContext, DeliveryFormContext, SelectedDeliveryContext, TotalPriceContext } from '../../services/contexts/cart-context';
 import { stepName } from '../../utils/data';
 import Text from '../text/text';
 
@@ -14,7 +14,7 @@ export const TotalPrice = () => {
   const { totalPrice, totalDispatcher } = useContext(TotalPriceContext);
   const { step, setStep } = useContext(CartStepContext);
   const { selectedDeliveryId, setSelectedDeliveryId } = useContext(SelectedDeliveryContext);
-
+  const { form } = useContext(DeliveryFormContext);
 
 
   const orderCheckoutRequest = false;
@@ -44,8 +44,36 @@ export const TotalPrice = () => {
     [step]
   );
 
+  const { 
+    comment,
+    email,
+    secondName,
+    firstName,
+    phone,
+    index,
+    region,
+    city,
+    address
+  } = form;
+
   const confirmOrder = () => {
-    console.log();
+    const delivery = {
+      id: selectedDeliveryId
+    };
+    const dataOrder = {
+      delivery,
+      comment,
+      email,
+      last_name: secondName,
+      first_name: firstName,
+      phoneNumber: phone,
+      postal_code: index,
+      region,
+      city,
+      location: address
+    }
+    console.log(dataOrder);
+    console.log(dataCart);
     
   };
 
