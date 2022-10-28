@@ -2,106 +2,212 @@ import React, { useState, useRef, useContext, useEffect } from 'react';
 import styles from './inputs-box.module.css';
 import Input from '../../ui/input/input';
 import { DeliveryFormContext } from '../../services/contexts/cart-context';
+import { UserContext } from '../../services/contexts/user-context';
+import { TDeliveryForm } from '../../services/types/data';
 
 export const InputsBox = () => {
   const { form, setForm } = useContext(DeliveryFormContext);
+  const { user } = useContext(UserContext);
+
+  const [formChange, setFormChange] = useState(false);
+
+  let obj: TDeliveryForm = {};
   // const { deliveryForm } = useSelector(state => state.delivery);
-  const [indexValue, setIndexValue] = useState('');
+  const [index, setIndex] = useState('');
   const onChangeIndex = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIndexValue(e.target.value);
-    setForm({
-      ...form,
-      index: e.target.value
-    })
+    setIndex(e.target.value);
+    obj = form;
+    obj = ({
+      ...obj,
+      index: e.target.value,
+    });
+    setForm(obj);
   };
 
-  const [regionValue, setRegionValue] = useState('');
+  const [region, setRegion] = useState('');
   const onChangeRegion = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRegionValue(e.target.value);
-    setForm({
-      ...form,
-      region: e.target.value
-    })
+    setRegion(e.target.value);
+    obj = form;
+    obj = ({
+      ...obj,
+      region: e.target.value,
+    });
+    setForm(obj);
   };
 
-  const [cityValue, setCityValue] = useState('');
+  const [city, setCity] = useState('');
   const onChangeCity = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCityValue(e.target.value);
-    setForm({
-      ...form,
-      city: e.target.value
-    })
+    setCity(e.target.value);
+    obj = form;
+    obj = ({
+      ...obj,
+      city: e.target.value,
+    });
+    setForm(obj);
   };
-  const [addressValue, setAddressValue] = useState('');
+  const [address, setAddress] = useState('');
   const onChangeAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAddressValue(e.target.value);
-    setForm({
-      ...form,
-      address: e.target.value
-    })
+    setAddress(e.target.value);
+    obj = form;
+    obj = ({
+      ...obj,
+      address: e.target.value,
+    });
+    setForm(obj);
   };
-  const [secondNameValue, setSecondNameValue] = useState('');
+  const [secondName, setSecondName] = useState('');
   const onChangeSecondName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSecondNameValue(e.target.value);
-    setForm({
-      ...form,
-      secondName: e.target.value
-    })
+    setSecondName(e.target.value);
+    obj = form;
+    obj = ({
+      ...obj,
+      secondName: e.target.value,
+    });
+    setForm(obj);
   };
-  const [firstNameValue, setFirstNameValue] = useState('');
+  const [firstName, setFirstName] = useState('');
   const onChangeFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFirstNameValue(e.target.value);
-    setForm({
-      ...form,
-      firstName: e.target.value
-    })
+    setFirstName(e.target.value);
+    obj = form;
+    obj = ({
+      ...obj,
+      firstName: e.target.value,
+    });
+    setForm(obj);
   };
-  const [phoneValue, setPhoneValue] = useState('');
+  const [phone, setPhone] = useState('');
   const onChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhoneValue(e.target.value);
-    setForm({
-      ...form,
-      phone: e.target.value
-    })
+    setPhone(e.target.value);
+    obj = form;
+    obj = ({
+      ...obj,
+      phone: e.target.value,
+    });
+    setForm(obj);
   };
-  const [emailValue, setEmailValue] = useState('');
+  const [email, setEmail] = useState('');
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmailValue(e.target.value);
-    setForm({
-      ...form,
-      email: e.target.value
-    })
+    setEmail(e.target.value);
+    obj = form;
+    obj = ({
+      ...obj,
+      email: e.target.value,
+    });
+    setForm(obj);
   };
-  const [commentValue, setCommentValue] = useState('');
+  const [comment, setComment] = useState('');
   const onChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCommentValue(e.target.value);
-    setForm({
-      ...form,
-      comment: e.target.value
-    })
+    setComment(e.target.value);
+    obj = form;
+    obj = ({
+      ...obj,
+      comment: e.target.value,
+    });
+    setForm(obj);
   };
 
+  useEffect(() => {
+    if (user && form && !form.done) {
+      obj = form;
+      obj = ({
+        ...obj,
+        done: true,
+      })
+      obj = form.email ? ({
+        ...obj,
+        email: form.email,
+      }) : ({
+        email: user.email,
+      });
+      obj = form.firstName ? ({
+        ...obj,
+        firstName: form.firstName,
+      }) : ({
+        ...obj,
+        firstName: user.first_name,
+      })
+      obj = form.secondName ? ({
+        ...obj,
+        secondName: form.secondName,
+      }) : ({
+        ...obj,
+        secondName: user.last_name,
+      })
+      if (user.phoneNumber) {
+        obj = form.phone ? ({
+          ...obj,
+          phone: form.phone,
+        }) : ({
+          ...obj,
+          phone: user.phoneNumber,
+        })
+      };
+      if (user.postal_code) {
+        obj = form.index ? ({
+          ...obj,
+          index: form.index,
+        }) : ({
+          ...obj,
+          index: user.postal_code,
+        })
+      };
+      if (user.region) {
+        obj = form.region ? ({
+          ...obj,
+          region: form.region,
+        }) : ({
+          ...obj,
+          region: user.region,
+        })
+      };
+      if (user.city) {
+        obj = form.city ? ({
+          ...obj,
+          city: form.city,
+        }) : ({
+          ...obj,
+          city: user.city,
+        })
+      };
+      if (user.location) {
+        obj = form.address ? ({
+          ...obj,
+          address: form.address,
+        }) : ({
+          ...obj,
+          address: user.location,
+        })
+      };
+      setForm(obj);
+      setFormChange(true);
+    }
+  }, []);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // dispatch({ type: SET_DELIVERY_FORM_VALUE, field: e.target.name, value: e.target.value });
 
   };
 
+  console.log(form);
+  
+
   const inputRef = useRef(null);
+
+  
 
   useEffect(() => {
     if (form) {
-      form.index && setIndexValue(form.index);
-      form.region && setRegionValue(form.region);
-      form.city && setCityValue(form.city);
-      form.address && setAddressValue(form.address);
-      form.secondName && setSecondNameValue(form.secondName);
-      form.firstName && setFirstNameValue(form.firstName);
-      form.phone && setPhoneValue(form.phone);
-      form.email && setEmailValue(form.email);
-      form.comment && setCommentValue(form.comment);
+      form.index && setIndex(form.index);
+      form.region && setRegion(form.region);
+      form.city && setCity(form.city);
+      form.address && setAddress(form.address);
+      form.secondName && setSecondName(form.secondName);
+      form.firstName && setFirstName(form.firstName);
+      form.phone && setPhone(form.phone);
+      form.email && setEmail(form.email);
+      form.comment && setComment(form.comment);
     }
-  }, []);
+  }, [formChange]);
 
   return (
     <div className={`${styles.container}`}>
@@ -113,8 +219,8 @@ export const InputsBox = () => {
             </label>
             <Input
               onChange={onChangeIndex}
-              name={'index'}
-              value={indexValue}
+              name='index'
+              value={index}
               extraClass={styles.input}
               type="text"
               id="index"
@@ -127,8 +233,8 @@ export const InputsBox = () => {
             </label>
             <Input
               onChange={onChangeRegion}
-              name={'region'}
-              value={regionValue}
+              name='region'
+              value={region}
               extraClass={styles.input}
               type="text"
               id="region"
@@ -141,8 +247,8 @@ export const InputsBox = () => {
             </label>
             <Input
               onChange={onChangeCity}
-              name={'city'}
-              value={cityValue}
+              name='city'
+              value={city}
               extraClass={styles.input}
               type="text"
               id="city"
@@ -156,8 +262,8 @@ export const InputsBox = () => {
           </label>
           <Input
             onChange={onChangeAddress}
-            name={'address'}
-            value={addressValue}
+            name='address'
+            value={address}
             extraClass={styles.input}
             type="text"
             id="address"
@@ -172,8 +278,8 @@ export const InputsBox = () => {
           </label>
           <Input
             onChange={onChangeSecondName}
-            name={'secondName'}
-            value={secondNameValue}
+            name='secondName'
+            value={secondName}
             type="text"
             extraClass={styles.input}
             id="secondName"
@@ -187,8 +293,8 @@ export const InputsBox = () => {
           </label>
           <Input
             onChange={onChangeFirstName}
-            name={'firstName'}
-            value={firstNameValue}
+            name='firstName'
+            value={firstName}
             type="text"
             extraClass={styles.input}
             id="firstName"
@@ -202,8 +308,8 @@ export const InputsBox = () => {
           </label>
           <Input
             onChange={onChangePhone}
-            name={'phone'}
-            value={phoneValue}
+            name='phone'
+            value={phone}
             extraClass={styles.input}
             type="tel"
             id="phone"
@@ -217,8 +323,8 @@ export const InputsBox = () => {
           </label>
           <Input
             onChange={onChangeEmail}
-            name={'email'}
-            value={emailValue}
+            name='email'
+            value={email}
             extraClass={styles.input}
             type="email"
             id="email"
@@ -233,7 +339,7 @@ export const InputsBox = () => {
           <Input
             onChange={onChangeComment}
             name={'comment'}
-            value={commentValue}
+            value={comment}
             extraClass={styles.input}
             type="text"
             id="comment"

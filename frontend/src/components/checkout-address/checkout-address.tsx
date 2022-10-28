@@ -1,6 +1,5 @@
 import React, { FC, useContext, useMemo } from 'react';
 import { DeliveryContext, DeliveryFormContext, SelectedDeliveryContext } from '../../services/contexts/cart-context';
-import { deliveryMethods } from '../../utils/data';
 import { priceFormat } from '../total-price/utils';
 import styles from './checkout-address.module.css';
 
@@ -11,6 +10,7 @@ interface ICheckoutAddressProps {
 const CheckoutAddress: FC<ICheckoutAddressProps> = ({ extraClass }) => {
   const { form } = useContext(DeliveryFormContext);
   const { selectedDeliveryId } = useContext(SelectedDeliveryContext);
+  const deliveryMethods = useContext(DeliveryContext);
 
   const deliveryMethod =
     deliveryMethods.
@@ -76,7 +76,7 @@ const CheckoutAddress: FC<ICheckoutAddressProps> = ({ extraClass }) => {
       </li>
       <li className={styles.textbox}>
         <h3 className={styles.title}>Выбранный тип доставки:</h3>
-        <p className={styles.text}>{deliveryMethod?.text}</p>
+        <p className={styles.text}>{deliveryMethod?.company}</p>
         <p className={styles.text}>{deliveryMethod?.duration}</p>
         {priceContent}
       </li>

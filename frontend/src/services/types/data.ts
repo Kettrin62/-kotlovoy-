@@ -74,9 +74,9 @@ export type TTotalPrice = {
 }
 
 export type TDeliveryMethod = {
-  readonly thumb: string;
+  readonly comment: string;
   readonly id: number;
-  readonly text: string;
+  readonly company: string;
   readonly duration: string;
   readonly price: number;
 }
@@ -90,15 +90,16 @@ export type TAction = {
 }
 
 export type TDeliveryForm = {
-  readonly index?: string,
-  readonly region?: string;
-  readonly city?: string;
-  readonly address?: string;
-  readonly secondName?: string;
-  readonly firstName?: string;
-  readonly phone?: string;
-  readonly email?: string;
-  readonly comment?: string;
+  index?: string,
+  region?: string;
+  city?: string;
+  address?: string;
+  secondName?: string;
+  firstName?: string;
+  phone?: string;
+  email?: string;
+  comment?: string;
+  done?: boolean;
 }
 
 type TLocationObj = {

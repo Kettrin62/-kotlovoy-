@@ -1,5 +1,5 @@
 import React, { Dispatch } from 'react';
-import { totalInitialPrice } from '../../utils/data';
+import { formDeliveryInit, totalInitialPrice } from '../../utils/data';
 import { TAction, TDataCartElement, TDeliveryForm, TDeliveryMethod, TTotalPrice } from '../types/data';
 
 interface ICartStepContext {
@@ -18,12 +18,12 @@ interface ITotalPriceContext {
 }
 
 interface IDeliveryContext {
-  methodDelivery: TDeliveryMethod | null;
-  setMethodDelivery: (method: TDeliveryMethod) => void;
+  deliveryMethods: Array<TDeliveryMethod>;
+  setDeliveryMethods: (methods: Array<TDeliveryMethod>) => void;
 }
 
 interface IDeliveryFormContext {
-  form: TDeliveryForm | null;
+  form: TDeliveryForm;
   setForm: (form: TDeliveryForm) => void;
 }
 
@@ -37,10 +37,7 @@ export const TotalPriceContext = React.createContext<ITotalPriceContext>({
   totalDispatcher: () => {},
 });
 
-export const DeliveryContext = React.createContext<IDeliveryContext>({
-  methodDelivery: null,
-  setMethodDelivery: () => {},
-});
+export const DeliveryContext = React.createContext<Array<TDeliveryMethod>>([]);
 
 export const SelectedDeliveryContext = React.createContext<IselectedDelivery>({
   selectedDeliveryId: 1,
@@ -48,6 +45,6 @@ export const SelectedDeliveryContext = React.createContext<IselectedDelivery>({
 });
 
 export const DeliveryFormContext = React.createContext<IDeliveryFormContext>({
-  form: null,
+  form: formDeliveryInit,
   setForm: () => {},
 })

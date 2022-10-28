@@ -47,19 +47,14 @@ export const titleCart = {
 
 export const totalInitialPrice = { price: 0 };
 
-export const deliveryMethods = [
-  {
-    thumb: express,
-    id: 1,
-    text: 'Экспресс доставка',
-    duration: '7-14 дней',
-    price: 4000
-  },
-  {
-    thumb: standart,
-    id: 2,
-    text: 'Обычная доставка',
-    duration: '30-45 дней',
-    price: 0
-  }
-];
+export const formDeliveryInit = {
+  index: '',
+  region: '',
+  city: '',
+  address: '',
+  secondName: '',
+  firstName: '',
+  phone: '',
+  email: '',
+  comment: '',
+}

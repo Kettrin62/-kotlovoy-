@@ -5,7 +5,7 @@ import { priceFormat, totalPriceSelector } from './utils';
 import { Loader } from '../../ui/loader/loader';
 import { DataCartContext } from '../../services/contexts/app-context';
 import { CartStepContext, SelectedDeliveryContext, TotalPriceContext } from '../../services/contexts/cart-context';
-import { deliveryMethods, stepName } from '../../utils/data';
+import { stepName } from '../../utils/data';
 import Text from '../text/text';
 
 
@@ -18,16 +18,6 @@ export const TotalPrice = () => {
 
 
   const orderCheckoutRequest = false;
-
-  // useEffect(() => {
-  //   totalDispatcher({ 
-  //     array: dataCart, 
-  //     delivery: {
-  //       methods: deliveryMethods,
-  //       selectedMethod: selectedDeliveryId
-  //     }
-  //   })
-  // }, [dataCart, selectedDeliveryId]);
 
   const prev = () => {
     const prevStep = step === stepName.checkout ? stepName.delivery : stepName.cart;
@@ -55,7 +45,8 @@ export const TotalPrice = () => {
   );
 
   const confirmOrder = () => {
-
+    console.log();
+    
   };
 
   const nextAction = step === stepName.delivery || step === stepName.cart ? next : confirmOrder;
@@ -79,9 +70,10 @@ export const TotalPrice = () => {
             {buttonText}
           </MainButton>
         )}
-        {(totalPrice.price !== 0) && (<MainButton onClick={nextAction} type="button">
-          {orderCheckoutRequest ? <Loader size="small" inverse={true} /> : submitButtonText}
-        </MainButton>
+        {(totalPrice.price !== 0) && (
+          <MainButton onClick={nextAction} type="button">
+            {orderCheckoutRequest ? <Loader size="small" inverse={true} /> : submitButtonText}
+          </MainButton>
         )}
       </div>
     </div>

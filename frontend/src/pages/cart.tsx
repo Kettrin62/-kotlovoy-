@@ -1,4 +1,5 @@
 import { useState, useMemo, useReducer, useContext, useEffect } from 'react';
+import api from '../api';
 import Cart from '../components/cart/cart';
 import { Checkout } from '../components/checkout/checkout';
 import Delivery from '../components/delivery/delivery';
@@ -37,11 +38,21 @@ export function CartPage() {
   // const [totalPrice, totalDispatcher] = useReducer(reducer, totalInitialPrice);
   const { step, setStep } = useContext(CartStepContext);
 
-  const [methodDelivery, setMethodDelivery] = useState<TDeliveryMethod | null>(null);
+  const [deliveryMethods, setDeliveryMethods] = useState<Array<TDeliveryMethod>>([]);
   // const [selectedDeliveryId, setSelectedDeliveryId] = useState<number>(1);
   // const [form, setForm] = useState<TDeliveryForm | null>(null);
 
+  const getMethodsDelivery = () => {
+    api
+      .getDeliveryMethods()
+      .then(data =>{
+        setDeliveryMethods(data)
+      })
+      .catch(err => console.log(err))
+  };
+
   useEffect(() => {
+    getMethodsDelivery();
     if(step === '') setStep(stepName.cart);
   }, []);
   
@@ -70,7 +81,7 @@ export function CartPage() {
     <div className={cartStyles.container}>
       {/* <CartStepContext.Provider value={{ step, setStep }}> */}
         {/* <TotalPriceContext.Provider value={{ totalPrice, totalDispatcher }}> */}
-          <DeliveryContext.Provider value={{ methodDelivery, setMethodDelivery }}>
+          <DeliveryContext.Provider value={deliveryMethods}>
             {/* <SelectedDeliveryContext.Provider value={{ selectedDeliveryId, setSelectedDeliveryId }}> */}
               {/* <DeliveryFormContext.Provider value={{ form, setForm }}> */}
                 <TitleCart

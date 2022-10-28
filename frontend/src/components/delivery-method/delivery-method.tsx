@@ -7,13 +7,13 @@ import standart from '../../images/standart.svg';
 import { useContext } from 'react';
 import { DeliveryContext, SelectedDeliveryContext, TotalPriceContext } from '../../services/contexts/cart-context';
 import { DataCartContext } from '../../services/contexts/app-context';
-import { deliveryMethods } from '../../utils/data';
+import api from '../../api';
 
 const DeliveryMethod = () => {
 
   const deliveryMethodsRequest = false;
 
-  const { methodDelivery, setMethodDelivery } = useContext(DeliveryContext);
+  const deliveryMethods = useContext(DeliveryContext);
   const { selectedDeliveryId, setSelectedDeliveryId } = useContext(SelectedDeliveryContext);
 
   const { dataCart, setDataCart } = useContext(DataCartContext);

@@ -4,13 +4,12 @@ import CheckoutProduct from '../checkout-product/checkout-product';
 import Modal from '../modal/modal';
 import CheckoutAddress from '../checkout-address/checkout-address';
 import { DataCartContext } from '../../services/contexts/app-context';
-import { SelectedDeliveryContext, TotalPriceContext } from '../../services/contexts/cart-context';
-import { deliveryMethods } from '../../utils/data';
+import { DeliveryContext, SelectedDeliveryContext, TotalPriceContext } from '../../services/contexts/cart-context';
 
 
 export const Checkout = () => {
   // const { items } = useSelector(state => state.cart);
-  // const { order } = useSelector(state => state.checkout);
+  const deliveryMethods = useContext(DeliveryContext);
   const { dataCart, setDataCart } = useContext(DataCartContext);
   const { totalPrice, totalDispatcher } = useContext(TotalPriceContext);
   const { selectedDeliveryId, setSelectedDeliveryId } = useContext(SelectedDeliveryContext);

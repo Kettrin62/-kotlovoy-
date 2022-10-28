@@ -272,6 +272,30 @@ class Api {
     ).then(this.checkResponse)
   }
 
+  // delivery methods
+  getDeliveryMethods () {
+    return fetch(
+      `${BASEURL}v1/delivery/`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // post orders
+  postOrder (data) {
+    return fetch(
+      `${BASEURL}v1/orders/`,
+      {
+        method: 'POST',
+        headers: this._headers,
+        body: JSON.stringify(data)
+      }
+    ).then(this.checkResponse)
+  }
 
 
 

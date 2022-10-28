@@ -46,7 +46,7 @@ import {
   SelectedDeliveryContext,
   DeliveryFormContext
 } from '../../services/contexts/cart-context';
-import { totalInitialPrice } from '../../utils/data';
+import { formDeliveryInit, totalInitialPrice } from '../../utils/data';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { LoginPage } from '../../pages/login';
 import { RegisterPage } from '../../pages/register';
@@ -86,7 +86,7 @@ function App() {
   const [totalPrice, totalDispatcher] = useReducer(reducer, totalInitialPrice);
 
   const [selectedDeliveryId, setSelectedDeliveryId] = useState<number>(1);
-  const [form, setForm] = useState<TDeliveryForm | null>(null);
+  const [form, setForm] = useState<TDeliveryForm>(formDeliveryInit);
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 

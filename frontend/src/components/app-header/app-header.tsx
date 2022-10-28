@@ -22,6 +22,7 @@ import { pathNames } from '../../utils/data';
 import LinkWhatsApp from '../links-buttons-image/link-whatsapp';
 import LinkMain from '../links-buttons-image/link-main';
 import { DataCartContext } from '../../services/contexts/app-context';
+import AuthContext from '../../services/contexts/auth-context';
 
 function AppHeader() {
 
@@ -32,6 +33,7 @@ function AppHeader() {
   const [inputValue, setInputValue] = useState('');
   const { dataCart, setDataCart } = useContext(DataCartContext);
   const [count, setCount] = useState<number>(0);
+  const authContext = useContext(AuthContext);
 
   useEffect(() => {
     setCount(dataCart.length);
@@ -121,6 +123,8 @@ function AppHeader() {
     [history]
   );
 
+  const login = authContext ? true : false;
+
   return (
     <>
       <header className={appheaderStyles.header}>
@@ -162,7 +166,7 @@ function AppHeader() {
               <LinkCart count={count} />
             </Link>
             <Link class={cn(appheaderStyles.link, classLink)} onClick={onClickProfile}>
-              <LinkAccount />
+              <LinkAccount login={login} />
             </Link>
           </div>
         </Navigation>

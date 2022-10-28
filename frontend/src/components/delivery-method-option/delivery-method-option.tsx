@@ -5,21 +5,21 @@ import { priceFormat } from '../total-price/utils';
 import styles from './delivery-method-option.module.css';
 
 interface IDeliveryMethodOptionProps {
-  thumb: string;
+  comment: string;
   id: number;
-  text: string;
+  company: string;
   duration: string;
   price: number;
   checked: boolean;
 }
 
 const DeliveryMethodOption: FC<IDeliveryMethodOptionProps> = ({ 
-  thumb,
   id, 
-  text, 
+  company, 
   duration, 
   price, 
-  checked
+  checked,
+  comment
 }) => {
 
   const { selectedDeliveryId, setSelectedDeliveryId } = useContext(SelectedDeliveryContext);
@@ -51,11 +51,11 @@ const DeliveryMethodOption: FC<IDeliveryMethodOptionProps> = ({
       />
       <label htmlFor={id + ''}>
         <div className={styles.leftbox}>
-          <img className={styles.img} src={thumb} alt="Изображение способа доставки" />
-          <p className={styles.text}>{text}</p>
+          {/* <img className={styles.img} src={thumb} alt="Изображение способа доставки" /> */}
+          <p className={styles.text}>{company}</p>
         </div>
       </label>
-      <p className={styles.duration}>{duration} дней</p>
+      <p className={styles.duration}>{duration}</p>
       {priceContent}
     </li>
   );
