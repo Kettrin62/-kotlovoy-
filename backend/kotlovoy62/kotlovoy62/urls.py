@@ -28,6 +28,10 @@ urlpatterns = [
     path('api/', include('orders.urls')),
 ]
 
+admin.site.site_header = 'Админка Kotlovoy62.ru'
+admin.site.site_title = 'Админка'
+admin.site.index_title = 'Добро пожаловать в интерфейс администратора!'
+
 # delete after development
 urlpatterns += [
    re_path(r'^swagger(?P<format>\.json|\.yaml)$', 

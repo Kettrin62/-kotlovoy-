@@ -86,13 +86,13 @@ class OrderSerializer(serializers.ModelSerializer):
     number = serializers.CharField(required=False)
     status = OrderStatusSerializer(read_only=True)
     delivery = DeliverySerializer(read_only=True)
-    payment = PaymentSerializer(read_only=True)
+    # payment = PaymentSerializer(read_only=True)
 
     class Meta:
         model = Order
         fields = (
             'id', 'number', 'created', 'status', 'delivery',
-            'payment', 'comment', 'email', 'last_name', 'first_name',
+            'comment', 'email', 'last_name', 'first_name',
             'phoneNumber', 'discount', 'element_sum', 'order_sum',
             'postal_code', 'region', 'city', 'location', 'user', 'elements',
         )
@@ -130,28 +130,28 @@ class OrderSerializer(serializers.ModelSerializer):
                 }
             )
 
-        payment_id = validated_data.pop('payment')
-        if payment_id['payment']:
-            try:
-                payment_id = payment_id['payment']['id']
-                payment = Payment.objects.get(pk=payment_id)
-            except BaseException:
-                raise serializers.ValidationError(
-                    {
-                        'payment': [
-                            "Передан не правильный параметр id: "
-                            f"{payment_id}"
-                        ]
-                    }
-                )
-        else:
-            raise serializers.ValidationError(
-                {
-                    'payment': [
-                        "Поле не может быть пустым!"
-                    ]
-                }
-            )
+        # payment_id = validated_data.pop('payment')
+        # if payment_id['payment']:
+        #     try:
+        #         payment_id = payment_id['payment']['id']
+        #         payment = Payment.objects.get(pk=payment_id)
+        #     except BaseException:
+        #         raise serializers.ValidationError(
+        #             {
+        #                 'payment': [
+        #                     "Передан не правильный параметр id: "
+        #                     f"{payment_id}"
+        #                 ]
+        #             }
+        #         )
+        # else:
+        #     raise serializers.ValidationError(
+        #         {
+        #             'payment': [
+        #                 "Поле не может быть пустым!"
+        #             ]
+        #         }
+        #     )
 
         order_elements = validated_data.pop('elements')
         validated_elements = set()
@@ -222,7 +222,7 @@ class OrderSerializer(serializers.ModelSerializer):
         order.order_sum = elm_sum + delivery.price
         order.status = status
         order.delivery = delivery
-        order.payment = payment
+        # order.payment = payment
         order.save()
 
         return order
@@ -271,28 +271,28 @@ class OrderSerializer(serializers.ModelSerializer):
                 }
             )
 
-        payment_id = validated_data.pop('payment')
-        if payment_id['payment']:
-            try:
-                payment_id = payment_id['payment']['id']
-                payment = Payment.objects.get(pk=payment_id)
-            except BaseException:
-                raise serializers.ValidationError(
-                    {
-                        'payment': [
-                            "Передан не правильный параметр id: "
-                            f"{payment_id}"
-                        ]
-                    }
-                )
-        else:
-            raise serializers.ValidationError(
-                {
-                    'payment': [
-                        "Поле не может быть пустым!"
-                    ]
-                }
-            )
+        # payment_id = validated_data.pop('payment')
+        # if payment_id['payment']:
+        #     try:
+        #         payment_id = payment_id['payment']['id']
+        #         payment = Payment.objects.get(pk=payment_id)
+        #     except BaseException:
+        #         raise serializers.ValidationError(
+        #             {
+        #                 'payment': [
+        #                     "Передан не правильный параметр id: "
+        #                     f"{payment_id}"
+        #                 ]
+        #             }
+        #         )
+        # else:
+        #     raise serializers.ValidationError(
+        #         {
+        #             'payment': [
+        #                 "Поле не может быть пустым!"
+        #             ]
+        #         }
+        #     )
 
         if order.first().status.status in 'отменённый заказ':
             raise serializers.ValidationError(
@@ -432,8 +432,12 @@ class OrderSerializer(serializers.ModelSerializer):
 
         ord_sum = elm_sum + delivery.price
         order.update(
-            element_sum=elm_sum, order_sum=ord_sum, status=status,
-            delivery=delivery, payment=payment, **validated_data
+            element_sum=elm_sum,
+            order_sum=ord_sum,
+            status=status,
+            delivery=delivery,
+            # payment=payment,
+            **validated_data
         )
         instance.refresh_from_db()
         return instance

@@ -94,11 +94,11 @@ class Order(models.Model):
         on_delete=models.SET_NULL, related_name='order_delivery',
         null=True,
     )
-    payment = models.ForeignKey(
-        Payment, verbose_name='Оплата',
-        on_delete=models.SET_NULL, related_name='order_payment',
-        null=True,
-    )
+    # payment = models.ForeignKey(
+    #     Payment, verbose_name='Оплата',
+    #     on_delete=models.SET_NULL, related_name='order_payment',
+    #     null=True,
+    # )
     comment = models.CharField(
         max_length=250, blank=True, null=True, verbose_name='Комментарий',
     )

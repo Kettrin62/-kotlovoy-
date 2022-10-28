@@ -22,7 +22,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_editable = ('comment', 'status')
     search_fields = ('number', 'last_name', 'first_name', 'order_sum')
     list_filter = (
-        'status', 'created', 'delivery', 'payment'
+        'status', 'created', 'delivery',
     )
     inlines = [OrderHasElementInline]
 
@@ -74,4 +74,4 @@ class PaymentAdmin(admin.ModelAdmin):
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderStatus, OrderStatusAdmin)
 admin.site.register(Delivery, DeliveryAdmin)
-admin.site.register(Payment, PaymentAdmin)
+#admin.site.register(Payment, PaymentAdmin)

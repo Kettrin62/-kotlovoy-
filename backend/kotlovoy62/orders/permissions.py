@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AnonymousUser
 from rest_framework import permissions
 
 
@@ -5,7 +6,8 @@ class UserGetAndCreateOnlyOrAdmin(permissions.BasePermission):
     def has_permission(self, request, view):
         return bool(
             request.user.is_superuser or
-            request.user.is_authenticated
+            request.user.is_authenticated or
+            request.method in 'POST'
         )
 
     def has_object_permission(self, request, view, obj):
