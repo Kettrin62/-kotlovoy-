@@ -9,6 +9,7 @@ import { stepName } from '../../utils/data';
 import Text from '../text/text';
 import { rawListeners } from 'process';
 import api from '../../api';
+import validator from 'validator';
 
 
 export const TotalPrice = () => {
@@ -27,8 +28,25 @@ export const TotalPrice = () => {
   };
 
   const next = () => {
-    const nextStep = step === stepName.cart ? stepName.delivery : stepName.checkout
-    setStep(nextStep);
+    if (step === stepName.delivery) {
+      if (form.email && !validator.isEmail(form.email + '')) {
+        console.log(!validator.isEmail(form.email + ''));
+        
+        alert('Некорректный адрес электронной почты')
+      } else if (!form.firstName) {
+        alert('Поле "Имя" должно быть заполнено')
+      } else if (!form.secondName) {
+        alert('Поле "Фамилия" должно быть заполнено')
+      } else if (!form.phone || !validator.isMobilePhone(form.phone, ['ru-RU'])) {
+        alert('Поле "Телефон" должно быть заполнено корректно')
+      } else {
+        const nextStep = step === stepName.cart ? stepName.delivery : stepName.checkout
+        setStep(nextStep);
+      }
+    } else {
+      const nextStep = step === stepName.cart ? stepName.delivery : stepName.checkout
+      setStep(nextStep);
+    }
   };
 
   const submitButtonText = step === stepName.checkout ? 'Оформить заказ' : 'Продолжить оформление';

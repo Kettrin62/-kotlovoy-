@@ -4,16 +4,20 @@ import Input from '../../ui/input/input';
 import { DeliveryFormContext } from '../../services/contexts/cart-context';
 import { UserContext } from '../../services/contexts/user-context';
 import { TDeliveryForm } from '../../services/types/data';
+import validator from 'validator';
 
 export const InputsBox = () => {
   const { form, setForm } = useContext(DeliveryFormContext);
   const { user } = useContext(UserContext);
   const [formChange, setFormChange] = useState(false);
+  const [textError, setTextError] = useState('');
 
   let obj: TDeliveryForm = {};
+  const inputRef = useRef(null);
+
   const [index, setIndex] = useState('');
   const onChangeIndex = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIndex(e.target.value);
+    setIndex(e.target.value.replace(/\D/g, '').slice(0, 6));
     obj = form;
     obj = ({
       ...obj,
@@ -75,7 +79,7 @@ export const InputsBox = () => {
   };
   const [phone, setPhone] = useState('');
   const onChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value);
+    setPhone(e.target.value.replace(/\D/g, '').replace(/^7|8/, '+7').slice(0, 12));
     obj = form;
     obj = ({
       ...obj,
@@ -92,6 +96,9 @@ export const InputsBox = () => {
       email: e.target.value,
     });
     setForm(obj);
+    if (e.target.value && !validator.isEmail(e.target.value)) {
+      setTextError('Введите правильный адрес электронной почты')
+    } else setTextError('');
   };
   const [comment, setComment] = useState('');
   const onChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -180,13 +187,6 @@ export const InputsBox = () => {
       setFormChange(true);
     }
   }, []);
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // dispatch({ type: SET_DELIVERY_FORM_VALUE, field: e.target.name, value: e.target.value });
-
-  };
-
-  const inputRef = useRef(null);
 
   useEffect(() => {
     if (form) {
@@ -315,7 +315,7 @@ export const InputsBox = () => {
         </li>
         <li className={styles.input}>
           <label className={styles.label} htmlFor="email">
-            E-mail
+            {textError ? textError : 'E-mail'}
           </label>
           <Input
             onChange={onChangeEmail}
