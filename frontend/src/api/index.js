@@ -287,15 +287,69 @@ class Api {
 
   // post orders
   postOrder (data) {
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
+    if (token) {
+      return fetch(
+        `${BASEURL}v1/orders/`,
+        {
+          method: 'POST',
+          headers: {
+            ...this._headers,
+            'authorization': `Token ${token}`
+          },
+          body: JSON.stringify(data)
+        }
+      ).then(this.checkResponse)
+    }
     return fetch(
       `${BASEURL}v1/orders/`,
       {
         method: 'POST',
-        headers: this._headers,
+        headers: {
+          ...this._headers,
+        },
         body: JSON.stringify(data)
       }
     ).then(this.checkResponse)
   }
+
+  // get orders
+  getOrders () {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/orders/`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // get order by id
+  getOrderId (id) {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/orders/${id}/`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+
+
+
+
+
+
+
 
 
 

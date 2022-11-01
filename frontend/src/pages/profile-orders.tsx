@@ -1,27 +1,37 @@
 import * as React from 'react';
-import { useEffect } from 'react';
-// import { useDispatch, useSelector } from '../services/hooks';
-// import CardOrder from '../components/card-order/card-order';
-// import { WS_CONNECTION_FINISH, WS_CONNECTION_START_INIT } from '../services/actions/ws';
+import { useEffect, useState } from 'react';
+import api from '../api';
+import CardOrder from '../components/card-order/card-order';
+import { TCardOrderUser } from '../services/types/data';
 import profileordersStyles from './profile-orders.module.css';
 
 
 export function ProfileOrdersPage() {
-  // const { ordersUser } = useSelector(state => state.ws);
-  // const dispatch = useDispatch();
+  const [ordersUser, setOrdersUser] = useState<Array<TCardOrderUser>>([]);
+
+  // console.log(ordersUser);
+
+  const getOrders = () => {
+    api
+      .getOrders()
+      .then(res => setOrdersUser(res.results))
+      .catch(err => {
+        const errors = Object.values(err)
+        if (errors) {
+          alert(errors.join(', '))
+        }
+      })
+  }
 
   useEffect(() => {
-    // dispatch({ type: WS_CONNECTION_START_INIT});
-    // return () => {
-    //   dispatch({ type: WS_CONNECTION_FINISH });
-    // }
+    getOrders()
   }, []);
 
   return (
     <ul className={profileordersStyles.list}>
-      {/* {[...ordersUser].reverse().map(item => (
-        <CardOrder key={item._id} card={item} />
-      ))} */}
+      {[...ordersUser].map(item => (
+        <CardOrder key={item.id} card={item} />
+      ))}
     </ul>
   );
 }

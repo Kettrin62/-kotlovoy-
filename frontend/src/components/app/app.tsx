@@ -56,6 +56,7 @@ import { ProfilePage } from '../../pages/profile';
 import { UserContext } from '../../services/contexts/user-context';
 import { ForgotPasswordPage } from '../../pages/forgot-password';
 import { ResetPasswordPage } from '../../pages/reset-password';
+import { OrderInfoPage } from '../../pages/order-info';
 
 function reducer(_totalPrice: TTotalPrice, action: TAction) {
   const deliveryPrice =
@@ -322,6 +323,27 @@ function App() {
                     >
                       <ProfilePage onLogout={onLogout} />
                     </ProtectedRoute>
+
+                    <ProtectedRoute
+                      path='/profile/orders' 
+                      exact={true}
+                      loggedIn={loggedIn}
+                    >
+                      <ProfilePage onLogout={onLogout} />
+                    </ProtectedRoute>
+
+                    <ProtectedRoute
+                      path='/profile/orders/:id' 
+                      exact={true}
+                      loggedIn={loggedIn}
+                    >
+                      <ProfilePage onLogout={onLogout} />
+                    </ProtectedRoute>
+
+                    {/* <Route path='/profile/orders/:id' exact={true}>
+            <OrderInfoPage />
+          </Route> */}
+
 
                   </Switch>
                 </CartStepContext.Provider>

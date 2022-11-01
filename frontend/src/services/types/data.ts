@@ -145,3 +145,42 @@ export type TButtonState = {
   disabled: boolean;
 }
 
+type TStatus = {
+  comment?: string;
+  id: number;
+  status: string;
+}
+
+export type TCardOrderUser = {
+  readonly id: number;
+  readonly created: Date;
+  // readonly element_sum: number;
+  readonly number: string;
+  readonly order_sum: number;
+  readonly status: TStatus;
+}
+
+type TElementOrder = {
+  readonly amount: number;
+  readonly cur_price: number;
+  readonly element_article: string;
+  readonly element_id: number;
+  readonly element_image: string;
+  readonly element_meas_unit: string;
+  readonly element_price: number;
+  readonly element_title: string;
+}
+
+export type TOrderInfo = TCardOrderUser & {
+  readonly elements: Array<TElementOrder>;
+  readonly discount: number;
+  readonly delivery: TDeliveryMethod;
+  readonly first_name: string;
+  readonly last_name: string;
+  readonly phoneNumber: string;
+  readonly email: string;
+  readonly postal_code?: string;
+  readonly region?: string;
+  readonly city?: string;
+  readonly location?: string;
+}
