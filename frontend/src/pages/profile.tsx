@@ -20,33 +20,10 @@ interface IProfilePageProps {
 }
 
 export const ProfilePage: FC<IProfilePageProps> = ({ onLogout }) => {
-  const [visibleNav, setVisibleNav] = useState(true);
-  const match = useRouteMatch();
-  const history = useHistory();
-  const path = useLocation().pathname;
-
-  
-  
-  // console.log('location', location);
-
-  useEffect(() => {
-    if (path === '/profile/orders/:id') {
-      console.log('ddd');
-      
-      setVisibleNav(false)
-    }
-
-    console.log(window.location);
-    
-  })
-  
-  
-
-
   return (
     <section className={profileStyles.container}>
       <Router>
-        {visibleNav && <ProfileNav onClickLogout={onLogout} />}
+        <ProfileNav onClickLogout={onLogout} />
         <Switch>
           <Route path='/profile' exact={true}>
             <ProfileProfilePage />
