@@ -240,7 +240,7 @@ function App() {
                         </DataSwiperContext.Provider>
                       </DataBrandsContext.Provider>
                     </Route>
-                    <Route path='/elements' exact={true}>
+                    <Route path='/elements'>
                       <ElementsPage />
                     </Route>
                     <Route path='/elements/:id' exact={true}>
@@ -330,6 +330,8 @@ function App() {
                       loggedIn={loggedIn}
                     >
                       <ProfilePage onLogout={onLogout} />
+                      
+
                     </ProtectedRoute>
 
                     <ProtectedRoute

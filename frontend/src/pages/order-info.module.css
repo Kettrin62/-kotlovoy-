@@ -51,6 +51,10 @@
   margin: 0 20px;
 }
 
+.button {
+  border: solid 1px ;
+}
+
 @media (max-width: 500px) {
   .product {
     flex-direction: column;

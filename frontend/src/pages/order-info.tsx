@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams, useRouteMatch } from 'react-router-dom';
 import api from '../api';
+import Button from '../components/button/button';
 import { priceFormat } from '../components/total-price/utils';
 import { TCardOrderUser, TDataCartElement, TOrderInfo } from '../services/types/data';
 import { showMessageDateTime } from '../utils/functions';
@@ -51,7 +52,23 @@ export function OrderInfoPage() {
   const city = order?.city ? order?.city + ',' : '';
   const location = order?.location ? order?.location : '';
 
-  const address = `${index} ${region} ${city} ${location}`
+  const address = `${index} ${region} ${city} ${location}`;
+
+  const saveFile = (id: number) => {
+    api 
+      .downloadFile(id)
+      // .then()
+      .catch(err => {
+        const errors = Object.values(err)
+        if (errors) {
+          alert(errors.join(', '))
+        }
+      })
+  }
+
+  const onClickButton = () => {
+    saveFile(Number(id))
+  }
 
 
   const elementsCardOrder = order?.elements.map(item => {
@@ -119,6 +136,9 @@ export function OrderInfoPage() {
             </p>
           </div>
         </div>
+        <Button className={orderinfoStyles.button} clickHandler={onClickButton}>
+          Сохранить в Exel
+        </Button>
       </div>
     </div>
   )

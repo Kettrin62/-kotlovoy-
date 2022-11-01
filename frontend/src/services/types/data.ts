@@ -135,6 +135,7 @@ export type TUser = {
   postal_code: string | null;
   region: string | null;
   username: string;
+  is_admin: boolean;
 };
 
 export type TTypeInput = 'text' | 'password';
