@@ -3,14 +3,14 @@ import {
   Link,
   useHistory,
 } from 'react-router-dom';
-import { TCardOrderUser } from '../../services/types/data';
+import { TCardOrder } from '../../services/types/data';
 import { showMessageDateTime } from '../../utils/functions';
 import Divider from '../divider/divider';
 import { priceFormat } from '../total-price/utils';
 import cardorderStyles from './card-order.module.css';
 
 interface ICardOrderProps {
-  card: TCardOrderUser;
+  card: TCardOrder;
 }
 
 const CardOrder: FC<ICardOrderProps> = ({ card }) => {

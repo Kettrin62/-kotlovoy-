@@ -152,7 +152,7 @@ type TStatus = {
   status: string;
 }
 
-export type TCardOrderUser = {
+export type TCardOrder = {
   readonly id: number;
   readonly created: Date;
   // readonly element_sum: number;
@@ -172,7 +172,7 @@ type TElementOrder = {
   readonly element_title: string;
 }
 
-export type TOrderInfo = TCardOrderUser & {
+export type TOrderInfo = TCardOrder & {
   readonly elements: Array<TElementOrder>;
   readonly discount: number;
   readonly delivery: TDeliveryMethod;

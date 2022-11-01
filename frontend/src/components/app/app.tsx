@@ -57,6 +57,7 @@ import { UserContext } from '../../services/contexts/user-context';
 import { ForgotPasswordPage } from '../../pages/forgot-password';
 import { ResetPasswordPage } from '../../pages/reset-password';
 import { OrderInfoPage } from '../../pages/order-info';
+import { AdminPanelPage } from '../../pages/admin-panel';
 
 function reducer(_totalPrice: TTotalPrice, action: TAction) {
   const deliveryPrice =
@@ -90,15 +91,12 @@ function App() {
   const [form, setForm] = useState<TDeliveryForm>(formDeliveryInit);
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  const [isAdmin, setIsAdmin] = useState(false);
   const [ loggedIn, setLoggedIn ] = useState<boolean | null>(null);
   const [ user, setUser ] = useState<TUser | null>(null);
   const [successForgotPassword, setSuccessForgotPassword] = useState(false);
 
 
-  // console.log(user);
-  
-  // const [ loading, setLoading ] = useState(false);
   const [ orders, setOrders ] = useState(0);
   // const location = useLocation();
   const history = useHistory();
@@ -193,31 +191,32 @@ function App() {
       .catch(err => console.log(err))
   }
 
-  useEffect(() => {
-    getBrands();
-    getSliders();
-  }, []);
-
   const initUser = () => {
     const token = localStorage.getItem('token');
     if (token && token !== null) {
       return api.getUserData()
-        .then(res => {
-          setUser(res)
-          setLoggedIn(true)
-          // getOrders()
-        })
-        .catch(err => {
-          setLoggedIn(false)
-          history.push('/login')
-        })
+      .then(res => {
+        setUser(res)
+        setLoggedIn(true)
+      })
+      .catch(err => {
+        setLoggedIn(false)
+        history.push('/login')
+      })
     }
     setLoggedIn(false);
   };
-
+  
   useEffect(() => {
+    getBrands();
+    getSliders();
     initUser();
   }, []);
+
+  useEffect(() => {
+    user && setIsAdmin(user.is_admin);
+  }, [user]);
+
 
   if (loggedIn === null) {
     return <Loader size='large' />
@@ -313,7 +312,7 @@ function App() {
                       exact={true}
                       loggedIn={loggedIn}
                     >
-                      <ProfilePage onLogout={onLogout} />
+                      <ProfilePage onLogout={onLogout} isAdmin={isAdmin} />
                     </ProtectedRoute>
 
                     <ProtectedRoute
@@ -321,7 +320,7 @@ function App() {
                       exact={true}
                       loggedIn={loggedIn}
                     >
-                      <ProfilePage onLogout={onLogout} />
+                      <ProfilePage onLogout={onLogout} isAdmin={isAdmin} />
                     </ProtectedRoute>
 
                     <ProtectedRoute
@@ -329,9 +328,7 @@ function App() {
                       exact={true}
                       loggedIn={loggedIn}
                     >
-                      <ProfilePage onLogout={onLogout} />
-                      
-
+                      <ProfilePage onLogout={onLogout} isAdmin={isAdmin} />
                     </ProtectedRoute>
 
                     <ProtectedRoute
@@ -339,7 +336,23 @@ function App() {
                       exact={true}
                       loggedIn={loggedIn}
                     >
-                      <ProfilePage onLogout={onLogout} />
+                      <OrderInfoPage />
+                    </ProtectedRoute>
+
+                    <ProtectedRoute
+                      path='/admin-panel' 
+                      exact={true}
+                      loggedIn={loggedIn}
+                    >
+                      <AdminPanelPage onLogout={onLogout} isAdmin={isAdmin} />
+                    </ProtectedRoute>
+
+                    <ProtectedRoute
+                      path='/admin-panel/orders' 
+                      exact={true}
+                      loggedIn={loggedIn}
+                    >
+                      <AdminPanelPage onLogout={onLogout} isAdmin={isAdmin} />
                     </ProtectedRoute>
 
                     {/* <Route path='/profile/orders/:id' exact={true}>

@@ -4,7 +4,7 @@ import { useParams, useRouteMatch } from 'react-router-dom';
 import api from '../api';
 import Button from '../components/button/button';
 import { priceFormat } from '../components/total-price/utils';
-import { TCardOrderUser, TDataCartElement, TOrderInfo } from '../services/types/data';
+import { TCardOrder, TDataCartElement, TOrderInfo } from '../services/types/data';
 import { showMessageDateTime } from '../utils/functions';
 import orderinfoStyles from './order-info.module.css';
 
