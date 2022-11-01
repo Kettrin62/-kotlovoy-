@@ -1,10 +1,11 @@
 from os import sep
 
 from catalog.permissions import IsAdminOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend
 from django.http.response import HttpResponse
 from openpyxl import load_workbook
 from openpyxl.styles.borders import Border, Side
-from rest_framework import status, viewsets
+from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
@@ -29,6 +30,7 @@ class OrderSetPagination(PageNumberPagination):
 class OrderViewSet(viewsets.ModelViewSet):
     http_method_names = ('get', 'post', 'patch', 'delete',)
     queryset = Order.objects.all()
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     search_fields = ('number', 'email', 'phoneNumber', 'order_sum')
     filterset_fields = ('status',)
     serializer_class = OrderSerializer

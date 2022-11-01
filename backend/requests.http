@@ -552,6 +552,19 @@ Authorization: Token {{token}}
 ###
 
 
+###
+GET http://127.0.0.1:8000/api/v1/orders/?status=2
+Authorization: Token {{token}}
+###
+
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/?search=+79009009090
+Authorization: Token {{token}}
+###
+
+
+
 
 ###
 POST http://127.0.0.1:8000/api/v1/orders/
