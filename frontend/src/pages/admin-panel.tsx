@@ -35,8 +35,8 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({ onLogout, isAdmin }) 
     <section className={profileStyles.container}>
       <ProfileNav onClickLogout={onLogout} isAdmin={isAdmin} />
       {location.pathname === '/admin-panel/orders' && (
-            <OrdersPage />
-          )}
+        <OrdersPage />
+      )}
     </section>
   )
 }

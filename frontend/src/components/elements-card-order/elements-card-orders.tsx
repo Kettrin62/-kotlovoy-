@@ -20,7 +20,6 @@ const ElementsCardOrder: FC<IElementsCardOrderProps> = ({
   setOrderCart 
 }) => {
   const match = useRouteMatch();
-  console.log(match);
   const elementsCardOrder = elements.map(item => {
     const { amount, element_image: image, element_title: title, cur_price, element_id: id } = item;
     return (
@@ -64,16 +63,11 @@ const ElementsCardOrder: FC<IElementsCardOrderProps> = ({
     
     const increase = () => {
       arr = orderCart;
-
       let index: number = -1;
       const el = orderCart.find(el => el.element_id === id);
-
-      
-      
       if (el) {
         index = arr.indexOf(el);
       };
-  
       if (arr[index].amount < arr[index].element_stock + amount) {
         arr[index].amount ++;
         arr[index].element_stock--

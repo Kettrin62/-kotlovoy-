@@ -20,7 +20,6 @@ const CardOrder: FC<ICardOrderProps> = ({ card }) => {
   const date = showMessageDateTime(new Date(created), 'date');
   const history = useHistory();
   const pathname = useLocation().pathname
-  console.log(pathname);
 
   const onClickOrder = useCallback(
     () => {

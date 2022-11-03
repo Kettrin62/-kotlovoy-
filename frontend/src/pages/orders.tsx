@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import api from '../api';
 import CardOrder from '../components/card-order/card-order';
+import OrdersSearch from '../components/orders-search/order-search';
 import { TCardOrder } from '../services/types/data';
 import ordersStyles from './orders.module.css';
 
@@ -10,7 +11,7 @@ export function OrdersPage() {
   const [orders, setOrders] = useState<Array<TCardOrder>>([]);
   
 
-  // console.log(ordersUser);
+  console.log(orders);
 
   const getOrders = () => {
     api
@@ -29,10 +30,13 @@ export function OrdersPage() {
   }, []);
 
   return (
-    <ul className={ordersStyles.list}>
-      {[...orders].map(item => (
-        <CardOrder key={item.id} card={item} />
-      ))}
-    </ul>
+    <div className={ordersStyles.container}>
+      <OrdersSearch orders={orders} />
+      <ul className={ordersStyles.list}>
+        {[...orders].map(item => (
+          <CardOrder key={item.id} card={item} />
+        ))}
+      </ul>
+    </div>
   );
 }

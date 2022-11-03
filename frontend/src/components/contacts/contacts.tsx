@@ -26,9 +26,6 @@ const Contacts: FC<IContactsProps> = ({ change, order, contacts, setContacts }) 
     <>
       {change ? (
     <div>
-    <h4>
-      Контактные данные:
-    </h4>
       <InputEdit
         placeholder='Имя'
         label='Имя'
@@ -69,9 +66,6 @@ const Contacts: FC<IContactsProps> = ({ change, order, contacts, setContacts }) 
   </div>
       ) : (
         <div>
-          <h4>
-            Контактные данные:
-          </h4>
           <p>
             Имя: {order?.first_name}
           </p>

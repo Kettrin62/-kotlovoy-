@@ -131,11 +131,15 @@ export type TContacts = {
   phoneNumber: string;
 }
 
-export type TUser = TContacts & {
+export type TDeliveryInfo = {
   city: string | null;
   location: string | null;
   postal_code: string | null;
   region: string | null;
+  comment: string | null;
+}
+
+export type TUser = TContacts & TDeliveryInfo & {
   id: number;
   username: string;
   is_admin: boolean;
@@ -188,5 +192,6 @@ export type TOrderInfo = TCardOrder & {
   readonly region?: string;
   readonly city?: string;
   readonly location?: string;
+  readonly comment?: string;
 }
 

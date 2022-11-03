@@ -241,20 +241,20 @@ class Api {
     ).then(this.checkResponse)
   }
 
-    // reset password
-    resetPassword (password, token) {
-      return fetch(
-        `${BASEURL}v1/users/password_reset/confirm/`,
-        {
-          method: 'POST',
-          headers: this._headers,
-          body: JSON.stringify({
-            password,
-            token
-          })
-        }
-      ).then(this.checkResponse)
-    }
+  // reset password
+  resetPassword (password, token) {
+    return fetch(
+      `${BASEURL}v1/users/password_reset/confirm/`,
+      {
+        method: 'POST',
+        headers: this._headers,
+        body: JSON.stringify({
+          password,
+          token
+        })
+      }
+    ).then(this.checkResponse)
+  }
 
   // change password
   changePassword ({ current_password, new_password }) {
@@ -285,7 +285,7 @@ class Api {
     ).then(this.checkResponse)
   }
 
-  // post orders
+  // post order
   postOrder (data) {
     const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
     if (token) {
@@ -372,6 +372,38 @@ class Api {
       }
     ).then(this.checkResponse)
   }
+
+  // patch order
+  updateOrder (id, data) {
+    const token = localStorage.getItem('token');
+    return fetch(
+      `${BASEURL}v1/orders/${id}/`,
+      {
+        method: 'PATCH',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        },
+        body: JSON.stringify(data)
+      }
+    ).then(this.checkResponse)
+  }
+
+  // elementsSearch
+  getOrdersSearch (name) {
+    const token = localStorage.getItem('token');
+    return fetch(
+      `${BASEURL}v1/orders/?search=${name}`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
 
 
 }

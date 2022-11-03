@@ -1,58 +1,48 @@
 import * as React from 'react';
 import { FC } from 'react';
-import styles from './input-add-element.module.css';
+import styles from './input-search.module.css';
 import { useCallback } from 'react';
 import { 
   useHistory,
   useLocation,
 } from 'react-router-dom';
-import LinkSearch from '../links-buttons-image/link-search';
 import Input from '../input/input';
 import cn from 'classnames';
 import LinkClose from '../links-buttons-image/link-close';
 import Button from '../button/button';
 
-
-interface ISearchBarProps {
-  className: string,
+interface IInputSearchProps {
+  className?: string,
   onClickClose: () => void;
   inputValue: string;
   onChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onClickSearch: () => void;
+  onClickSearch?: () => void;
   onFocus?: () => void;
+  label?: string;
+  labelClassName?: string;
 }
 
-
-const InputAddElement: FC<ISearchBarProps> = ({ 
+const InputSearch: FC<IInputSearchProps> = ({ 
   className,
   onClickClose,
   inputValue,
   onChangeInput,
   onClickSearch,
-  onFocus
+  onFocus,
+  label,
+  labelClassName
 }) => {
-
-  const history = useHistory();
-  const { pathname } = useLocation();
-
-  const onClickMain = useCallback(
-    () => {
-      history.replace({ pathname: '/' });
-    },
-    [history]
-  );
-
-
 
   return (
     <div className={cn(styles.container, className)}>
       <Input
-        label='Элементы'
+        label={label}
         className={styles.input}
         inputClassName=''
         onChange={onChangeInput}
         value={inputValue}
         onFocus={onFocus}
+        labelClassName={labelClassName}
       />
       <Button clickHandler={onClickClose} className={styles.button}>
         <LinkClose />
@@ -61,4 +51,4 @@ const InputAddElement: FC<ISearchBarProps> = ({
   )
 }
 
-export default InputAddElement;
+export default InputSearch;
