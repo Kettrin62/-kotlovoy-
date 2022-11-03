@@ -128,7 +128,7 @@ export type TContacts = {
   email: string;
   first_name: string;
   last_name: string;
-  phoneNumber: string | null;
+  phoneNumber: string;
 }
 
 export type TUser = TContacts & {

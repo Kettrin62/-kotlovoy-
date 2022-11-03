@@ -19,11 +19,22 @@ import InputAddElement from '../components/input-add-element/input-add-element';
 import ElementsSearch from '../components/elements-search';
 import InputsBox from '../components/inputs-box/inputs-box';
 import Status from '../components/status/status';
+import Contacts from '../components/contacts/contacts';
+import ElementsCardOrder from '../components/elements-card-order/elements-card-orders';
 
 
 export function OrderInfoPage() {
-  // const { ingredients } = useSelector(state => state.ingredients);
-  // const { orders, ordersUser } = useSelector(state => state.ws);
+
+  const [dataContacts, setDataContacts] = useState<TContacts>({
+    discount: 0,
+    email: '',
+    first_name: '',
+    last_name: '',
+    phoneNumber: '',
+  })
+
+
+
   const match = useRouteMatch();
   const [order, setOrder] = useState<TOrderInfo | null>(null);
   const [change, setChange] = useState(false);
@@ -54,41 +65,10 @@ export function OrderInfoPage() {
   })
   const [ showIngredients, setShowIngredients ] = useState(false)
 
-  // const [username, setUsername] = useState('');
-  // const onChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setUsername(e.target.value);
-  //   setChangeValue(true);
-  // };
 
-  const [firstname, setFirstname] = useState('');
-  const onChangeFirstname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFirstname(e.target.value);
-    setChangeValue(true);
-  };
 
-  const [lastname, setLastname] = useState('');
-  const onChangeLastname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLastname(e.target.value);
-    setChangeValue(true);
-  };
 
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const onChangePhoneNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhoneNumber(e.target.value.replace(/\D/g, '').replace(/^7|8/, '+7').slice(0, 12));
-    setChangeValue(true);
-  };
 
-  const [email, setEmail] = useState('');
-  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhoneNumber(e.target.value);
-    setChangeValue(true);
-  };
-
-  const [discount, setDiscount] = useState(0);
-  const onChangeDiscount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDiscount(+ e.target.value);
-    setChangeValue(true);
-  };
 
   // const [postalCode, setPostalCode] = useState('');
   // const onChangePostalCode = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -162,15 +142,24 @@ export function OrderInfoPage() {
   useEffect(() => {
     if (match.path === '/admin-panel/orders/:id') {
       if (order) {
-        setFirstname(order.first_name);
-        setLastname(order.last_name);
-        setPhoneNumber(order.phoneNumber);
-        setEmail(order.email);
+
         setOrderCart(order.elements)
+
+        const { discount, email, first_name, last_name, phoneNumber } = order;
+        setDataContacts({
+          discount,
+          email,
+          first_name,
+          last_name,
+          phoneNumber,
+        })
       }
     }
 
   }, [order]);
+
+  console.log(dataContacts);
+  
 
 
   let dateTime;
@@ -210,155 +199,10 @@ export function OrderInfoPage() {
 
 
 
-  const contacts = !change ? (
-    <div>
-          <h4>
-            Контактные данные:
-          </h4>
-          <p>
-            Имя: {order?.first_name}
-          </p>
-          <p>
-            Фамилия: {order?.last_name}
-          </p>
-          <p>
-            Телефон: {order?.phoneNumber}
-          </p>
-          {order?.email && (<p>
-            E-mail: {order?.email}
-          </p>)}
-        </div>
-  ) : (
-    <div>
-      <h4>
-        Контактные данные:
-      </h4>
-      <Form name='contacts' onSubmit={() => {}}>
-        <InputEdit
-          placeholder='Имя'
-          label='Имя'
-          handleChange={onChangeFirstname}
-          value={firstname}
-          name='first_name'
-          inputRef={inputRef}
-        />
-        <InputEdit
-          placeholder='Фамилия'
-          label='Фамилия'
-          handleChange={onChangeLastname}
-          value={lastname}
-          name='last_name'
-        />
-        <InputEdit
-          placeholder='E-mail'
-          label='E-mail'
-          handleChange={onChangeEmail}
-          value={email}
-          name='email'
-        />
-        <InputEdit
-          placeholder='Дисконтаная скидка'
-          label='Дисконтаная скидка в %'
-          handleChange={onChangeDiscount}
-          value={String(discount)}
-          name='discount'
-        />
-        <InputEdit
-          placeholder='Телефон'
-          label='Телефон'
-          handleChange={onChangePhoneNumber}
-          value={phoneNumber}
-          name='phoneNumber'
-        />
-
-      </Form>
-    </div>
-  )
 
 
-  const elementsCardOrder = order?.elements.map(item => {
-    const { amount, element_image: image, element_title: title, cur_price, element_id: id } = item;
-    return (
-      <li className={orderinfoStyles.product} key={id}>
-        <div className={orderinfoStyles.leftbox}>
-        <img className={orderinfoStyles.img} src={image} alt={title} />
-        <p className={orderinfoStyles.text}>{title}</p>
-      </div>
-      <p className={orderinfoStyles.count}>×{amount}</p>
-      <div className={orderinfoStyles.price}>
-        <p className={orderinfoStyles.price} data-testid={`price-amount-${id}`}>
-          {priceFormat(cur_price * amount)}
-        </p>
-      </div>
-      </li>
-    )
-  })
 
-  const changeElementsCardOrder = orderCart?.map(item => {
-    const { amount, element_image: image, element_title: title, cur_price, element_id: id } = item;
-    let arr: TElementOrder[] = [];
-    
-    const onDelete = () => {
-      setOrderCart(orderCart!.filter(el => el.element_id !== id))
-    };
-    
-    const decrease = () => {
-      if (amount === 1) {
-        onDelete();
-      } else {
-        arr = orderCart;
-        let index: number = -1;
-        const el = orderCart.find(el => el.element_id === id);
-        if (el) {
-          index = arr.indexOf(el);
-        };
-        arr[index].amount = amount - 1;
-        setOrderCart([...arr]);
-      }
-    };
-    
-    const increase = () => {
-      arr = orderCart;
 
-      let index: number = -1;
-      const el = orderCart.find(el => el.element_id === id);
-
-      
-      
-      if (el) {
-        index = arr.indexOf(el);
-      };
-  
-      if (arr[index].amount < arr[index].element_stock + amount) {
-        arr[index].amount ++;
-        arr[index].element_stock--
-  
-        setOrderCart([...arr]);
-      }
-    };
-
-    return (
-      <li className={orderinfoStyles.product} key={id}>
-        <div className={orderinfoStyles.leftbox}>
-        <img className={orderinfoStyles.img} src={image} alt={title} />
-        <p className={orderinfoStyles.text}>{title}</p>
-      </div>
-      {change ? (
-      <div className={orderinfoStyles.amountbox}>
-        <AmountButton data-testid={`decrease-${id}`} onClick={decrease}>-</AmountButton>
-        <p className={orderinfoStyles.amount} data-testid={`product-amount-${id}`}>{amount}</p>
-        <AmountButton data-testid={`increase-${id}`} onClick={increase}>+</AmountButton>
-      </div>
-      ) : (<p className={orderinfoStyles.count}>×{amount}</p>)}
-      <div className={orderinfoStyles.price}>
-        <p className={orderinfoStyles.price} data-testid={`price-amount-${id}`}>
-          {priceFormat(cur_price * amount)}
-        </p>
-      </div>
-      <DeleteButton onDelete={onDelete} />
-      </li>
-    )
-  })
 
   const addElement = () => {
     setSearchVisible(true)
@@ -445,9 +289,21 @@ export function OrderInfoPage() {
           setStatusName={setStatusName}
           statuses={statuses}
         />}
-        {contacts}
+        <Contacts
+          change={change}
+          order={order}
+          contacts={dataContacts}
+          setContacts={setDataContacts}
+        />
         <ul className={orderinfoStyles.ingredients}>
-          {match.path === '/admin-panel/orders/:id' && change ? changeElementsCardOrder : elementsCardOrder}
+          {order && <ElementsCardOrder 
+            change={change}
+            elements={order.elements}
+            orderCart={orderCart}
+            setOrderCart={setOrderCart}
+          />}
+        </ul>
+
           <div>
             {change && (
               <Button className={orderinfoStyles.button} clickHandler={addElement}>
@@ -497,7 +353,7 @@ export function OrderInfoPage() {
               </div>
             )}
           </div>
-        </ul>
+        
         {delivery}
         <div className={'mt-10 ' + orderinfoStyles.total}>
           <span className='text text_type_main-default text_color_inactive'>

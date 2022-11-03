@@ -4,8 +4,10 @@
 
 .icon {
   position: absolute;
-  right: 0;
-  bottom: 8px;
+  /* right: 0; */
+  right: 55%;
+  /* bottom: 8px; */
+  bottom: 11px;
   padding-left: 10px;
   padding-right: 10px;
 }
