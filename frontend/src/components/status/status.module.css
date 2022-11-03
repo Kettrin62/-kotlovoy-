@@ -1,0 +1,54 @@
+.text {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+  color: #292929;
+  margin: 0;
+  margin-right: 20px;
+  max-width: 412px;
+}
+
+.content {
+  display: flex;
+  align-items: flex-start;
+}
+
+.box {
+  border: solid 1px ;
+  width: 200px;
+}
+
+.button {
+  padding: 0 10px;
+}
+
+.button_box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: solid 1px ;
+  height: 30px;
+  cursor: pointer;
+}
+
+.icon {
+  margin-right: 10px;
+  height: 20px;
+}
+
+.list {
+  list-style-type: none;
+  margin: 0 10px;
+  padding: 0;
+}
+
+.item {
+  margin: 0;
+  padding: 0;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+

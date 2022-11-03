@@ -2,6 +2,7 @@ import { FC, useCallback } from 'react';
 import { 
   Link,
   useHistory,
+  useLocation
 } from 'react-router-dom';
 import { TCardOrder } from '../../services/types/data';
 import { showMessageDateTime } from '../../utils/functions';
@@ -18,10 +19,13 @@ const CardOrder: FC<ICardOrderProps> = ({ card }) => {
   const { id, created, number, order_sum: totalPrice, status } = card;
   const date = showMessageDateTime(new Date(created), 'date');
   const history = useHistory();
+  const pathname = useLocation().pathname
+  console.log(pathname);
 
   const onClickOrder = useCallback(
     () => {
-      history.replace({ pathname: `/profile/orders/${id}` });
+      if (pathname === '/profile/orders') history.replace({ pathname: `/profile/orders/${id}` });
+      if (pathname === '/admin-panel/orders') history.replace({ pathname: `/admin-panel/orders/${id}` });
     },
     [history]
   );

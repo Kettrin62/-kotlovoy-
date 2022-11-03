@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  align-items: center;
+  border: 0.5px solid rgba(0, 0, 0, 0.5);
+  border-radius: 6px;
+  padding: 0 5px;
+  max-height: 32px;
+  width: 350px;
+  justify-content: space-between;
+  /* flex: 0 0 300px; */
+}
+
+.button {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+@media screen and (max-width: 680px) {
+  .container {
+    width: 280px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    width: calc(100% - 45px);
+  }
+}
+
+.input {
+  width: calc(100% - 60px);
+}

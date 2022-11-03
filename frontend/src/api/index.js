@@ -358,6 +358,22 @@ class Api {
     ).then(this.checkFileDownloadResponse)
   }
 
+  // get statuses
+  getStatuses () {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/order_status/`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+
 }
 
 export default new Api(process.env.API_URL, { 'content-type': 'application/json' })

@@ -123,17 +123,20 @@ export type TFormAuth = {
   password: string;
 }
 
-export type TUser = {
-  city: string | null;
+export type TContacts = {
   discount: number;
   email: string;
   first_name: string;
-  id: number;
   last_name: string;
-  location: string | null;
   phoneNumber: string | null;
+}
+
+export type TUser = TContacts & {
+  city: string | null;
+  location: string | null;
   postal_code: string | null;
   region: string | null;
+  id: number;
   username: string;
   is_admin: boolean;
 };
@@ -146,7 +149,7 @@ export type TButtonState = {
   disabled: boolean;
 }
 
-type TStatus = {
+export type TStatus = {
   comment?: string;
   id: number;
   status: string;
@@ -161,15 +164,16 @@ export type TCardOrder = {
   readonly status: TStatus;
 }
 
-type TElementOrder = {
-  readonly amount: number;
-  readonly cur_price: number;
-  readonly element_article: string;
-  readonly element_id: number;
-  readonly element_image: string;
-  readonly element_meas_unit: string;
-  readonly element_price: number;
-  readonly element_title: string;
+export type TElementOrder = {
+  amount: number;
+  cur_price: number;
+  element_article: string;
+  element_id: number;
+  element_image: string;
+  element_meas_unit: string;
+  element_price: number;
+  element_title: string;
+  element_stock: number;
 }
 
 export type TOrderInfo = TCardOrder & {
@@ -185,3 +189,4 @@ export type TOrderInfo = TCardOrder & {
   readonly city?: string;
   readonly location?: string;
 }
+
