@@ -22,13 +22,16 @@ import {
   TDeliveryForm,
   TUser,
   TFormRegister,
-  TFormAuth
+  TFormAuth,
+  TAuth,
+  TDelivery
 } from '../../services/types/data';
 import api from '../../api';
 import { 
   DataBrandsContext, 
   DataCartContext,
-  DataSwiperContext 
+  DataSwiperContext,
+  DeliveryContext
 } from '../../services/contexts/app-context';
 import { HomePage } from '../../pages/home';
 import Footer from '../footer/footer';
@@ -89,16 +92,15 @@ function App() {
 
   const [selectedDeliveryId, setSelectedDeliveryId] = useState<number>(1);
   const [form, setForm] = useState<TDeliveryForm>(formDeliveryInit);
+  const [deliveryMethods, setDeliveryMethods] = useState<Array<TDeliveryMethod>>([]);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [ loggedIn, setLoggedIn ] = useState<boolean | null>(null);
+  const [ auth, setAuth ] = useState<TAuth>({
+    loggedIn: null,
+    isAdmin: null,
+  });
   const [ user, setUser ] = useState<TUser | null>(null);
   const [successForgotPassword, setSuccessForgotPassword] = useState(false);
 
-
-  const [ orders, setOrders ] = useState(0);
-  // const location = useLocation();
   const history = useHistory();
 
   const registration = (data: TFormRegister) => {
@@ -113,7 +115,10 @@ function App() {
         if (errors) {
           alert(errors.join(', '))
         }
-        setLoggedIn(false)
+        setAuth({
+          loggedIn: false,
+          isAdmin: false,
+        })
       })
   };
 
@@ -127,15 +132,23 @@ function App() {
           api.getUserData()
             .then(res => {
               setUser(res);
-              setLoggedIn(true);
-              // getOrders()
+              setAuth({
+                loggedIn: true,
+                isAdmin: res.is_admin,
+              })
             })
             .catch(err => {
-              setLoggedIn(false)
+              setAuth({
+                loggedIn: false,
+                isAdmin: false,
+              })
               history.push('/login')
             })
         } else {
-          setLoggedIn(false)
+          setAuth({
+            loggedIn: false,
+            isAdmin: false,
+          })
         }
       })
       .catch(err => {
@@ -143,7 +156,10 @@ function App() {
         if (errors) {
           alert(errors.join(', '))
         }
-        setLoggedIn(false)
+        setAuth({
+          loggedIn: false,
+          isAdmin: false,
+        })
       })
   };
 
@@ -152,7 +168,10 @@ function App() {
       .signout()
       .then(res => {
         localStorage.removeItem('token')
-        setLoggedIn(false)
+        setAuth({
+          loggedIn: false,
+          isAdmin: false,
+        })
       })
       .catch(err => {
         const errors = Object.values(err)
@@ -189,7 +208,27 @@ function App() {
       .getSliders()
       .then(data => setSwiper(data))
       .catch(err => console.log(err))
-  }
+  };
+
+  const getMethodsDelivery = () => {
+    api
+      .getDeliveryMethods()
+      .then(data =>{
+        setDeliveryMethods(data)
+      })
+      .catch(err => console.log(err))
+  };
+
+  const addDeliveryMethod = (data: TDelivery, set: (el: boolean) => void) => {
+    api
+      .addDeliveryMethod(data)
+      .then(res => {
+        alert('Метод доставки добавлен');
+        set(false);
+        getMethodsDelivery()
+      })
+      .catch(err => console.log(err));
+  };
 
   const initUser = () => {
     const token = localStorage.getItem('token');
@@ -197,28 +236,33 @@ function App() {
       return api.getUserData()
       .then(res => {
         setUser(res)
-        setLoggedIn(true)
+        setAuth({
+          loggedIn: true,
+          isAdmin: res.is_admin,
+        })
       })
       .catch(err => {
-        setLoggedIn(false)
+        setAuth({
+          loggedIn: false,
+          isAdmin: false,
+        })
         history.push('/login')
       })
     }
-    setLoggedIn(false);
+    setAuth({
+      loggedIn: false,
+      isAdmin: false,
+    })
   };
   
   useEffect(() => {
     getBrands();
     getSliders();
     initUser();
+    getMethodsDelivery();
   }, []);
 
-  useEffect(() => {
-    user && setIsAdmin(user.is_admin);
-  }, [user]);
-
-
-  if (loggedIn === null) {
+  if (auth.loggedIn === null) {
     return <Loader size='large' />
   }
 
@@ -226,149 +270,161 @@ function App() {
     <ErrorBoundary>
       <div>
         <Router>
-          <AuthContext.Provider value={loggedIn}>
+          <AuthContext.Provider value={auth}>
             <UserContext.Provider value={{user, setUser}}>
               <DataCartContext.Provider value={{ dataCart, setDataCart }}>
                 <CartStepContext.Provider value={{ step, setStep }}>
-                  <AppHeader />
-                  <Switch>
-                    <Route path='/' exact={true}>
-                      <DataBrandsContext.Provider value={brands}>
-                        <DataSwiperContext.Provider value={swiper}>
-                          <HomePage />
-                        </DataSwiperContext.Provider>
-                      </DataBrandsContext.Provider>
-                    </Route>
-                    <Route path='/elements' exact={true}>
-                      <ElementsPage />
-                    </Route>
-                    <Route path='/elements/:id' exact={true}>
-                      <ElementPage />
-                    </Route>
+                  <DeliveryContext.Provider value={deliveryMethods}>
+                    <AppHeader />
+                    <Switch>
+                      <Route path='/' exact={true}>
+                        <DataBrandsContext.Provider value={brands}>
+                          <DataSwiperContext.Provider value={swiper}>
+                            <HomePage />
+                          </DataSwiperContext.Provider>
+                        </DataBrandsContext.Provider>
+                      </Route>
+                      <Route path='/elements' exact={true}>
+                        <ElementsPage />
+                      </Route>
+                      <Route path='/elements/:id' exact={true}>
+                        <ElementPage />
+                      </Route>
 
-                    <Route path='/pay' exact={true}>
-                      <PayPage />
-                    </Route>
+                      <Route path='/pay' exact={true}>
+                        <PayPage />
+                      </Route>
 
-                    <Route path='/delivery' exact={true}>
-                      <DeliveryPage />
-                    </Route>
+                      <Route path='/delivery' exact={true}>
+                        <DeliveryPage />
+                      </Route>
 
-                    <Route path='/about' exact={true}>
-                      <AboutPage />
-                    </Route>
+                      <Route path='/about' exact={true}>
+                        <AboutPage />
+                      </Route>
 
-                    <Route path='/contacts' exact={true}>
-                      <ContactsPage />
-                    </Route>
+                      <Route path='/contacts' exact={true}>
+                        <ContactsPage />
+                      </Route>
 
-                    <Route path='/feedback' exact={true}>
-                      <FeedbackPage />
-                    </Route>
+                      <Route path='/feedback' exact={true}>
+                        <FeedbackPage />
+                      </Route>
 
-                    <Route path='/elements/brand/:id' exact={true}>
-                      <ElementsPage />
-                    </Route>
+                      <Route path='/elements/brand/:id' exact={true}>
+                        <ElementsPage />
+                      </Route>
 
-                    <Route path='/elements/search/:name' exact={true}>
-                      <ElementsPage />
-                    </Route>
+                      <Route path='/elements/search/:name' exact={true}>
+                        <ElementsPage />
+                      </Route>
 
-                    <Route path='/cart' exact={true}>
-                      <TotalPriceContext.Provider value={{ totalPrice, totalDispatcher }}>
-                        <SelectedDeliveryContext.Provider value={{ selectedDeliveryId, setSelectedDeliveryId }}>
-                          <DeliveryFormContext.Provider value={{ form, setForm }}>
-                            <CartPage />
-                          </DeliveryFormContext.Provider>
-                        </SelectedDeliveryContext.Provider>
-                      </TotalPriceContext.Provider>
-                    </Route>
+                      <Route path='/cart' exact={true}>
+                        <TotalPriceContext.Provider value={{ totalPrice, totalDispatcher }}>
+                          <SelectedDeliveryContext.Provider value={{ selectedDeliveryId, setSelectedDeliveryId }}>
+                            <DeliveryFormContext.Provider value={{ form, setForm }}>
+                              <CartPage />
+                            </DeliveryFormContext.Provider>
+                          </SelectedDeliveryContext.Provider>
+                        </TotalPriceContext.Provider>
+                      </Route>
 
-                    <Route path='/register' exact={true}>
-                      <RegisterPage
-                        onSignUp={registration}
-                      />
-                    </Route>
+                      <Route path='/register' exact={true}>
+                        <RegisterPage
+                          onSignUp={registration}
+                        />
+                      </Route>
 
-                    <Route path='/login' exact={true}>
-                      <LoginPage 
-                        onLogin={authorization}
-                      />
-                    </Route>
-                    <Route path='/forgot-password' exact={true}>
-                      <ForgotPasswordPage 
-                        onForgot={forgotPassword} 
-                        success={successForgotPassword}
-                      />
-                    </Route>
-                    <Route path='/reset-password' exact={true}>
-                      <ResetPasswordPage
-                        successForgot={successForgotPassword}
-                      />
-                    </Route>
+                      <Route path='/login' exact={true}>
+                        <LoginPage 
+                          onLogin={authorization}
+                        />
+                      </Route>
+                      <Route path='/forgot-password' exact={true}>
+                        <ForgotPasswordPage 
+                          onForgot={forgotPassword} 
+                          success={successForgotPassword}
+                        />
+                      </Route>
+                      <Route path='/reset-password' exact={true}>
+                        <ResetPasswordPage
+                          successForgot={successForgotPassword}
+                        />
+                      </Route>
 
-                    <ProtectedRoute
-                      path='/profile' 
-                      exact={true}
-                      loggedIn={loggedIn}
-                    >
-                      <ProfilePage onLogout={onLogout} isAdmin={isAdmin} />
-                    </ProtectedRoute>
+                      <ProtectedRoute
+                        path='/profile' 
+                        exact={true}
+                      >
+                        <ProfilePage onLogout={onLogout} />
+                      </ProtectedRoute>
 
-                    <ProtectedRoute
-                      path='/profile/set-password' 
-                      exact={true}
-                      loggedIn={loggedIn}
-                    >
-                      <ProfilePage onLogout={onLogout} isAdmin={isAdmin} />
-                    </ProtectedRoute>
+                      <ProtectedRoute
+                        path='/profile/set-password' 
+                        exact={true}
+                      >
+                        <ProfilePage onLogout={onLogout} />
+                      </ProtectedRoute>
 
-                    <ProtectedRoute
-                      path='/profile/orders' 
-                      exact={true}
-                      loggedIn={loggedIn}
-                    >
-                      <ProfilePage onLogout={onLogout} isAdmin={isAdmin} />
-                    </ProtectedRoute>
+                      <ProtectedRoute
+                        path='/profile/orders' 
+                        exact={true}
+                      >
+                        <ProfilePage onLogout={onLogout} />
+                      </ProtectedRoute>
 
-                    <ProtectedRoute
-                      path='/profile/orders/:id' 
-                      exact={true}
-                      loggedIn={loggedIn}
-                    >
-                      <OrderInfoPage isAdmin={isAdmin} />
-                    </ProtectedRoute>
+                      <ProtectedRoute
+                        path='/profile/orders/:id' 
+                        exact={true}
+                      >
+                        <OrderInfoPage />
+                      </ProtectedRoute>
 
-                    <ProtectedRoute
-                      path='/admin-panel' 
-                      exact={true}
-                      loggedIn={loggedIn}
-                    >
-                      <AdminPanelPage onLogout={onLogout} isAdmin={isAdmin} />
-                    </ProtectedRoute>
+                      {/* <ProtectedRoute
+                        path='/admin-panel' 
+                        exact={true}
+                        loggedIn={loggedIn}
+                      >
+                        <AdminPanelPage onLogout={onLogout} isAdmin={isAdmin} />
+                      </ProtectedRoute> */}
 
-                    <ProtectedRoute
-                      path='/admin-panel/orders' 
-                      exact={true}
-                      loggedIn={loggedIn}
-                    >
-                      <AdminPanelPage onLogout={onLogout} isAdmin={isAdmin} />
-                    </ProtectedRoute>
+                      <ProtectedRoute
+                        path='/admin-panel/orders' 
+                        exact={true}
+                      >
+                        <AdminPanelPage onLogout={onLogout} addDelivery={addDeliveryMethod} />
+                      </ProtectedRoute>
 
-                    <ProtectedRoute
-                      path='/admin-panel/orders/:id' 
-                      exact={true}
-                      loggedIn={loggedIn}
-                    >
-                      <OrderInfoPage isAdmin={isAdmin} />
-                    </ProtectedRoute>
+                      <ProtectedRoute
+                        path='/admin-panel/orders/:id' 
+                        exact={true}
+                      >
+                        <OrderInfoPage />
+                      </ProtectedRoute>
 
-                    {/* <Route path='/profile/orders/:id' exact={true}>
-            <OrderInfoPage />
-          </Route> */}
+                      <ProtectedRoute
+                        path='/admin-panel/users' 
+                        exact={true}
+                      >
+                        <AdminPanelPage onLogout={onLogout} addDelivery={addDeliveryMethod} />
+                      </ProtectedRoute>
 
+                      <ProtectedRoute
+                        path='/admin-panel/delivery' 
+                        exact={true}
+                      >
+                        <AdminPanelPage onLogout={onLogout} addDelivery={addDeliveryMethod} />
+                      </ProtectedRoute>
 
-                  </Switch>
+                      <ProtectedRoute
+                        path='/admin-panel/status' 
+                        exact={true}
+                      >
+                        <AdminPanelPage onLogout={onLogout} addDelivery={addDeliveryMethod} />
+                      </ProtectedRoute>
+
+                    </Switch>
+                  </DeliveryContext.Provider>
                 </CartStepContext.Provider>
               </DataCartContext.Provider>
             </UserContext.Provider>

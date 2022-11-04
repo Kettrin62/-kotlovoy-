@@ -3,8 +3,8 @@ import styles from './checkout.module.css';
 import CheckoutProduct from '../checkout-product/checkout-product';
 import Modal from '../modal/modal';
 import CheckoutAddress from '../checkout-address/checkout-address';
-import { DataCartContext } from '../../services/contexts/app-context';
-import { DeliveryContext, SelectedDeliveryContext, TotalPriceContext } from '../../services/contexts/cart-context';
+import { DataCartContext, DeliveryContext } from '../../services/contexts/app-context';
+import { SelectedDeliveryContext, TotalPriceContext } from '../../services/contexts/cart-context';
 
 
 export const Checkout = () => {

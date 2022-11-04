@@ -3,7 +3,8 @@ import {
   TDataBrand, 
   TDataCartElement, 
   TDataElement, 
-  TDataSwiper
+  TDataSwiper,
+  TDeliveryMethod
 } from '../types/data';
 
 interface IDataCartContext {
@@ -23,6 +24,8 @@ export const DataCartContext = React.createContext<IDataCartContext>({
   dataCart: [],
   setDataCart: () => {},
 });
+
+export const DeliveryContext = React.createContext<Array<TDeliveryMethod>>([]);
 
 // export const CartStepContext = React.createContext<ICartStepContext>({
 //   step: '',

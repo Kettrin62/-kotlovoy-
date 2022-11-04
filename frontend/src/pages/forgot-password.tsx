@@ -19,7 +19,7 @@ export const ForgotPasswordPage: FC<IForgotPasswordProps> = ({
   onForgot,
   success
 }) => {
-  const authContext = useContext(AuthContext);
+  const { loggedIn } = useContext(AuthContext);
   const { state } = useLocation<TUseLocationState>();
 
   const [emailValue, setEmailValue] = useState('');
@@ -39,7 +39,7 @@ export const ForgotPasswordPage: FC<IForgotPasswordProps> = ({
     )
   };
 
-  if (authContext) {
+  if (loggedIn) {
     return (
       <Redirect to={ state?.from || '/' } />
     )

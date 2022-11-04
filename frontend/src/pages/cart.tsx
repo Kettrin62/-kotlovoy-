@@ -5,8 +5,7 @@ import { Checkout } from '../components/checkout/checkout';
 import Delivery from '../components/delivery/delivery';
 import { TotalPrice } from '../components/total-price/total-price';
 import { 
-  CartStepContext, 
-  DeliveryContext, 
+  CartStepContext
 } from '../services/contexts/cart-context';
 import { TDeliveryMethod } from '../services/types/data';
 import { TitleCart } from '../ui/title-cart/title-cart';
@@ -17,19 +16,7 @@ import cartStyles from './cart.module.css';
 export function CartPage() {
   const { step, setStep } = useContext(CartStepContext);
 
-  const [deliveryMethods, setDeliveryMethods] = useState<Array<TDeliveryMethod>>([]);
-
-  const getMethodsDelivery = () => {
-    api
-      .getDeliveryMethods()
-      .then(data =>{
-        setDeliveryMethods(data)
-      })
-      .catch(err => console.log(err))
-  };
-
   useEffect(() => {
-    getMethodsDelivery();
     if (step === '') setStep(stepName.cart);
   }, []);
   
@@ -56,15 +43,13 @@ export function CartPage() {
 
   return (
     <div className={cartStyles.container}>
-      <DeliveryContext.Provider value={deliveryMethods}>
-        <TitleCart
-          text={titleCart.cart}
-          currentStep={Object.keys(titleCart).indexOf(step) + 1}
-          allSteps={Object.keys(titleCart).length}
-        />
-        {content}
-        <TotalPrice />
-      </DeliveryContext.Provider>
+      <TitleCart
+        text={titleCart.cart}
+        currentStep={Object.keys(titleCart).indexOf(step) + 1}
+        allSteps={Object.keys(titleCart).length}
+      />
+      {content}
+      <TotalPrice />
     </div>
   )
 }

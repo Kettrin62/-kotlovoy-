@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useContext } from 'react';
 import { 
   BrowserRouter as Router, 
   Switch, 
@@ -14,15 +14,53 @@ import { ProfileProfilePage } from './profile-profile';
 import { OrdersPage } from './orders';
 import { ProfileSetPasswordPage } from './profile-set-password';
 import { OrderInfoPage } from './order-info';
+import api from '../api';
+import { TDelivery, TDeliveryMethod, TFormStatus, TStatus } from '../services/types/data';
+import AuthContext from '../services/contexts/auth-context';
+import { UsersPage } from './users';
+import { AdminDeliveryPage } from './admin-delivery';
+import { StatusPage } from './status';
 
 interface IAdminPanelPageProps {
   onLogout: () => void;
-  isAdmin: boolean;
+  addDelivery: (data: TDelivery, set: (el: boolean) => void) => void;
 }
 
-export const AdminPanelPage: FC<IAdminPanelPageProps> = ({ onLogout, isAdmin }) => {
+export const AdminPanelPage: FC<IAdminPanelPageProps> = ({ onLogout, addDelivery }) => {
+  const [statuses, setStatuses] = useState<Array<TStatus>>([]);
+  const { isAdmin } = useContext(AuthContext)
+
   const location = useLocation()
-  console.log(location);
+  const match = useRouteMatch();
+
+  const getStatuses = () => {
+    api
+      .getStatuses()
+      .then(res => setStatuses(res))
+      .catch(err => {
+        const errors = Object.values(err)
+        if (errors) {
+          alert(errors.join(', '))
+        }
+      })
+  };
+
+  const createStatus = (data: TFormStatus, set: (el: boolean) => void) => {
+    api
+      .createStatus(data)
+      .then(res => {
+        alert('Статус создан');
+        set(false);
+        getStatuses();
+      })
+      .catch(err => console.log(err));
+  }
+
+  useEffect(() => {
+    if (isAdmin) {
+      getStatuses();
+    }
+  }, [])
 
   if (!isAdmin) {
     return (
@@ -33,9 +71,18 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({ onLogout, isAdmin }) 
 
   return (
     <section className={profileStyles.container}>
-      <ProfileNav onClickLogout={onLogout} isAdmin={isAdmin} />
+      <ProfileNav onClickLogout={onLogout} />
       {location.pathname === '/admin-panel/orders' && (
-        <OrdersPage />
+        <OrdersPage statuses={statuses} />
+      )}
+      {location.pathname === '/admin-panel/users' && (
+        <UsersPage />
+      )}
+      {location.pathname === '/admin-panel/delivery' && (
+        <AdminDeliveryPage addDelivery={addDelivery}/>
+      )}
+      {location.pathname === '/admin-panel/status' && (
+        <StatusPage statuses={statuses} createStatus={createStatus} />
       )}
     </section>
   )

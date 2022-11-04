@@ -389,7 +389,7 @@ class Api {
     ).then(this.checkResponse)
   }
 
-  // elementsSearch
+  // ordersSearch
   getOrdersSearch (name) {
     const token = localStorage.getItem('token');
     return fetch(
@@ -403,6 +403,54 @@ class Api {
       }
     ).then(this.checkResponse)
   }
+
+  // ordersSearchStatus
+  getOrdersStatus (name) {
+    const token = localStorage.getItem('token');
+    return fetch(
+      `${BASEURL}v1/orders/?status=${name}`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // post status
+  createStatus (data) {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/order_status/`,
+      {
+        method: 'POST',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        },
+        body: JSON.stringify(data)
+      }
+    ).then(this.checkResponse)
+  }
+
+  // post delivery
+  addDeliveryMethod (data) {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/delivery/`,
+      {
+        method: 'POST',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        },
+        body: JSON.stringify(data)
+      }
+    ).then(this.checkResponse)
+  }
+
 
 
 

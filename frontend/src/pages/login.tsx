@@ -20,7 +20,7 @@ interface ILoginPageProps {
 export const LoginPage: FC<ILoginPageProps> = ({ 
   onLogin
 }) => {
-  const authContext = useContext(AuthContext);
+  const { loggedIn } = useContext(AuthContext);
   const { values, handleChange, isValid } = useFormWithValidation();
 
   const loginSubmit = (e: React.FormEvent) => {
@@ -28,7 +28,7 @@ export const LoginPage: FC<ILoginPageProps> = ({
     onLogin(values)
   };
 
-  if (authContext) {
+  if (loggedIn) {
     return (
       <Redirect to='/' />
     )

@@ -1,5 +1,4 @@
 import { FC, useRef, useContext, useState } from 'react';
-import { DeliveryContext } from '../../services/contexts/cart-context';
 import { TDeliveryInfo, TDeliveryMethod, TOrderInfo } from '../../services/types/data';
 import Input from '../../ui/input/input';
 import Button from '../button/button';
@@ -7,6 +6,7 @@ import DeliveryMethod from '../delivery-method/delivery-method';
 import { priceFormat } from '../total-price/utils';
 import styles from './delivery-order-info.module.css';
 import DropDownIcon from '../../images/drop-down.svg';
+import { DeliveryContext } from '../../services/contexts/app-context';
 
 interface IDeliveryOrderInfoProps {
   change: boolean;
@@ -15,7 +15,6 @@ interface IDeliveryOrderInfoProps {
   setDeliveryInfo: (item: TDeliveryInfo) => void;
   deliveryMethod: string;
   setDeliveryMethod: (name: string) => void;
-  deliveryMethods: Array<TDeliveryMethod>;
 }
 
 const DeliveryOrderInfo: FC<IDeliveryOrderInfoProps> = ({ 
@@ -25,10 +24,10 @@ const DeliveryOrderInfo: FC<IDeliveryOrderInfoProps> = ({
   setDeliveryInfo,
   deliveryMethod,
   setDeliveryMethod,
-  deliveryMethods
 }) => {
 
   const [methodsVisible, setMethodsVisible] = useState(false);
+  const deliveryMethods = useContext(DeliveryContext);
 
   const index = order.postal_code ? order.postal_code + ',' : '';
   const region = order.region ? order.region + ',' : '';

@@ -73,12 +73,15 @@ export type TTotalPrice = {
   readonly price: number;
 }
 
-export type TDeliveryMethod = {
+export type TDelivery = {
   readonly comment: string;
-  readonly id: number;
   readonly company: string;
   readonly duration: string;
   readonly price: number;
+}
+
+export type TDeliveryMethod = TDelivery & {
+  readonly id: number;
 }
 
 export type TAction = {
@@ -153,10 +156,13 @@ export type TButtonState = {
   disabled: boolean;
 }
 
-export type TStatus = {
+export type TFormStatus = {
   comment?: string;
-  id: number;
   status: string;
+}
+
+export type TStatus = TFormStatus & {
+  id: number;
 }
 
 export type TCardOrder = {
@@ -195,5 +201,10 @@ export type TOrderInfo = TCardOrder & {
   readonly city?: string;
   readonly location?: string;
   readonly comment?: string;
+}
+
+export type TAuth = {
+  loggedIn: boolean | null;
+  isAdmin: boolean | null;
 }
 

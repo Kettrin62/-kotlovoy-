@@ -26,3 +26,42 @@
 ::-webkit-scrollbar-thumb {
   background-color: #8585ad;
 }
+
+.list_group {
+  list-style-type: none;
+  /* display: inline-grid; */
+  /* grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); */
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 5px;
+  width: 70%;
+  /* row-gap: 5px; */
+  padding: 0;
+  margin: 0;
+  justify-items: end;
+  /* justify-content: space-between; */
+  /* grid-auto-flow: dense; */
+}
+
+.button_group {
+  border: 1px solid rgb(170, 170, 170);
+  border-radius: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+  min-height: 20px;
+}
+
+.button_group_active {
+  background-color: rgba(247, 109, 10, 0.3);
+}
+
+.text_group {
+  margin: 0;
+  font-weight: normal;
+  line-height: 20px;
+}
+
+.box {
+  display: flex;
+}

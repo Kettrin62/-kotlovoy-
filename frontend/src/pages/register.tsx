@@ -18,14 +18,14 @@ export const RegisterPage: FC<IRegisterPageProps> = ({
   onSignUp 
 }) => {
   const { values, handleChange, isValid } = useFormWithValidation();
-  const authContext = useContext(AuthContext);
+  const { loggedIn } = useContext(AuthContext);
 
   const registerSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSignUp(values);
   };
 
-  if (authContext) {
+  if (loggedIn) {
     return (
       <Redirect to='/' />
     )

@@ -1,0 +1,8 @@
+.button {
+  border: solid 1px;
+}
+
+.box {
+  display: flex;
+  gap: 10px;
+}

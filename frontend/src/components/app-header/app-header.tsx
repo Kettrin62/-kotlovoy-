@@ -34,7 +34,7 @@ function AppHeader() {
   const [inputValue, setInputValue] = useState('');
   const { dataCart, setDataCart } = useContext(DataCartContext);
   const [count, setCount] = useState<number>(0);
-  const authContext = useContext(AuthContext);
+  const { loggedIn, isAdmin } = useContext(AuthContext);
 
   useEffect(() => {
     setCount(dataCart.length);
@@ -124,7 +124,9 @@ function AppHeader() {
   //   [history]
   // );
 
-  const login = authContext ? true : false;
+  const login = loggedIn ? true : false;
+
+  
 
   return (
     <>
@@ -166,7 +168,7 @@ function AppHeader() {
             <Link className={appheaderStyles.link} to='/cart'>
               <LinkCart count={count} />
             </Link>
-            <Link className={cn(appheaderStyles.link, classLink)} to='/profile'>
+            <Link className={cn(appheaderStyles.link, classLink)} to={isAdmin ? '/admin-panel/orders' : '/profile'}>
               <LinkAccount login={login} />
             </Link>
           </div>

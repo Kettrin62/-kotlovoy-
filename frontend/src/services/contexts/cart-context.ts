@@ -37,7 +37,7 @@ export const TotalPriceContext = React.createContext<ITotalPriceContext>({
   totalDispatcher: () => {},
 });
 
-export const DeliveryContext = React.createContext<Array<TDeliveryMethod>>([]);
+
 
 export const SelectedDeliveryContext = React.createContext<IselectedDelivery>({
   selectedDeliveryId: 1,

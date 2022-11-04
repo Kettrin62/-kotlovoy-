@@ -5,8 +5,8 @@ import DeliveryMethodOption from '../delivery-method-option/delivery-method-opti
 import express from '../../images/express.svg';
 import standart from '../../images/standart.svg';
 import { useContext } from 'react';
-import { DeliveryContext, SelectedDeliveryContext, TotalPriceContext } from '../../services/contexts/cart-context';
-import { DataCartContext } from '../../services/contexts/app-context';
+import { SelectedDeliveryContext, TotalPriceContext } from '../../services/contexts/cart-context';
+import { DataCartContext, DeliveryContext } from '../../services/contexts/app-context';
 import api from '../../api';
 
 const DeliveryMethod = () => {

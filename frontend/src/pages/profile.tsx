@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { 
   BrowserRouter as Router, 
   Switch, 
@@ -15,13 +15,14 @@ import { ProfileProfilePage } from './profile-profile';
 import { OrdersPage } from './orders';
 import { ProfileSetPasswordPage } from './profile-set-password';
 import { OrderInfoPage } from './order-info';
+import AuthContext from '../services/contexts/auth-context';
 
 interface IProfilePageProps {
   onLogout: () => void;
-  isAdmin: boolean;
 }
 
-export const ProfilePage: FC<IProfilePageProps> = ({ onLogout, isAdmin }) => {
+export const ProfilePage: FC<IProfilePageProps> = ({ onLogout }) => {
+  const { isAdmin } = useContext(AuthContext);
   const location = useLocation()
 
   if (isAdmin) {
@@ -32,33 +33,21 @@ export const ProfilePage: FC<IProfilePageProps> = ({ onLogout, isAdmin }) => {
 
   return (
     <section className={profileStyles.container}>
-      {/* <Router> */}
       {location.pathname !== '/profile/orders/:id' && (
-        <ProfileNav onClickLogout={onLogout} isAdmin={isAdmin} />
+        <ProfileNav onClickLogout={onLogout} />
       )}
-        {/* <Switch> */}
-          {/* <Route path='/profile' exact={true}> */}
-          {location.pathname === '/profile' && (
-            <ProfileProfilePage />
-          )}
-          {/* </Route> */}
-          {/* <Route path='/profile/set-password' exact={true}> */}
-          {location.pathname === '/profile/set-password' && (
-            <ProfileSetPasswordPage />
-          )}
-          {/* </Route> */}
-          {/* <Route path='/profile/orders' exact={true}> */}
-          {location.pathname === '/profile/orders' && (
-            <OrdersPage />
-          )}
-          {/* </Route> */}
-          {/* <Route path='/profile/orders/:id' exact={true}> */}
-          {location.pathname === '/profile/orders/:id' && (
-            <OrderInfoPage isAdmin={isAdmin} />
-          )}
-          {/* </Route> */}
-        {/* </Switch> */}
-      {/* </Router> */}
+      {location.pathname === '/profile' && (
+        <ProfileProfilePage />
+      )}
+      {location.pathname === '/profile/set-password' && (
+        <ProfileSetPasswordPage />
+      )}
+      {location.pathname === '/profile/orders' && (
+        <OrdersPage />
+      )}
+      {location.pathname === '/profile/orders/:id' && (
+        <OrderInfoPage />
+      )}
     </section>
   );
 }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState, FC, useRef, useCallback } from 'react';
+import { useEffect, useState, FC, useContext, useCallback } from 'react';
 import { useParams, useRouteMatch, useHistory } from 'react-router-dom';
 import api from '../api';
 import Button from '../components/button/button';
@@ -13,12 +13,13 @@ import Contacts from '../components/contacts/contacts';
 import ElementsCardOrder from '../components/elements-card-order/elements-card-orders';
 import ListElementsSearch from '../components/list-elements-search/list-elements-search';
 import DeliveryOrderInfo from '../components/delivery-order-info/delivery-order-info';
+import AuthContext from '../services/contexts/auth-context';
+import { DeliveryContext } from '../services/contexts/app-context';
 
-interface IOrderInfoPageProps {
-  isAdmin: boolean;
-}
 
-export const OrderInfoPage: FC<IOrderInfoPageProps> = ({ isAdmin }) => {
+export const OrderInfoPage: FC = () => {
+  const { isAdmin } = useContext(AuthContext);
+  const deliveryMethods = useContext(DeliveryContext);
   const history = useHistory();
 
   const [dataContacts, setDataContacts] = useState<TContacts>({
@@ -37,7 +38,6 @@ export const OrderInfoPage: FC<IOrderInfoPageProps> = ({ isAdmin }) => {
     comment: ''
   });
 
-  const [deliveryMethods, setDeliveryMethods] = useState<Array<TDeliveryMethod>>([]);
   const [deliveryMethod, setDeliveryMethod] = useState<string>('');
 
   const match = useRouteMatch();
@@ -65,32 +65,9 @@ export const OrderInfoPage: FC<IOrderInfoPageProps> = ({ isAdmin }) => {
       })
   };
 
-  const getStatuses = () => {
-    api
-      .getStatuses()
-      .then(res => setStatuses(res))
-      .catch(err => {
-        const errors = Object.values(err)
-        if (errors) {
-          alert(errors.join(', '))
-        }
-      })
-  };
-
-  const getMethodsDelivery = () => {
-    api
-      .getDeliveryMethods()
-      .then(data =>{
-        setDeliveryMethods(data)
-      })
-      .catch(err => console.log(err))
-  };
-
   useEffect(() => {
     getOrderById(Number(id));
     if (match.path === '/admin-panel/orders/:id' && isAdmin) {
-      getStatuses();
-      getMethodsDelivery();
     }
     if (match.path === '/admin-panel/orders/:id' && !isAdmin) {
       history.replace({ pathname: `/profile/orders/${id}` });
@@ -275,7 +252,6 @@ export const OrderInfoPage: FC<IOrderInfoPageProps> = ({ isAdmin }) => {
           setDeliveryInfo={setDeliveryInfo}
           deliveryMethod={deliveryMethod}
           setDeliveryMethod={setDeliveryMethod}
-          deliveryMethods={deliveryMethods}
         />}
         {total}
         {!change && 

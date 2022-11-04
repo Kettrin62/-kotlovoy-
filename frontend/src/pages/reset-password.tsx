@@ -17,7 +17,7 @@ interface IResetPasswordPageProps {
 export const ResetPasswordPage: FC<IResetPasswordPageProps> = ({
   successForgot
 }) => {
-  const authContext = useContext(AuthContext);
+  const { loggedIn } = useContext(AuthContext);
   const { state } = useLocation<TUseLocationState>();
   const [success, setSuccess] = useState(false);
 
@@ -61,7 +61,7 @@ export const ResetPasswordPage: FC<IResetPasswordPageProps> = ({
     )
   };
 
-  if (authContext) {
+  if (loggedIn) {
     return (
       <Redirect to={ state?.from || '/' } />
     )

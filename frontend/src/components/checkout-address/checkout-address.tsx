@@ -1,5 +1,6 @@
 import React, { FC, useContext, useMemo } from 'react';
-import { DeliveryContext, DeliveryFormContext, SelectedDeliveryContext } from '../../services/contexts/cart-context';
+import { DeliveryContext } from '../../services/contexts/app-context';
+import { DeliveryFormContext, SelectedDeliveryContext } from '../../services/contexts/cart-context';
 import { priceFormat } from '../total-price/utils';
 import styles from './checkout-address.module.css';
 
