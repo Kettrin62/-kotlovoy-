@@ -54,7 +54,7 @@ export const ProfilePage: FC<IProfilePageProps> = ({ onLogout, isAdmin }) => {
           {/* </Route> */}
           {/* <Route path='/profile/orders/:id' exact={true}> */}
           {location.pathname === '/profile/orders/:id' && (
-            <OrderInfoPage />
+            <OrderInfoPage isAdmin={isAdmin} />
           )}
           {/* </Route> */}
         {/* </Switch> */}

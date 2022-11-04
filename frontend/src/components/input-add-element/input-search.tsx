@@ -20,6 +20,7 @@ interface IInputSearchProps {
   onFocus?: () => void;
   label?: string;
   labelClassName?: string;
+  placeholder?: string;
 }
 
 const InputSearch: FC<IInputSearchProps> = ({ 
@@ -30,7 +31,8 @@ const InputSearch: FC<IInputSearchProps> = ({
   onClickSearch,
   onFocus,
   label,
-  labelClassName
+  labelClassName,
+  placeholder
 }) => {
 
   return (
@@ -43,6 +45,7 @@ const InputSearch: FC<IInputSearchProps> = ({
         value={inputValue}
         onFocus={onFocus}
         labelClassName={labelClassName}
+        placeholder={placeholder}
       />
       <Button clickHandler={onClickClose} className={styles.button}>
         <LinkClose />

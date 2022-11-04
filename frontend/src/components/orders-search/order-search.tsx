@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import api from '../../api';
 import { TCardOrder } from '../../services/types/data';
 import InputSearch from '../input-add-element/input-search';
@@ -10,6 +10,8 @@ interface IOrdersSearchProps {
 }
 
 const OrdersSearch: FC<IOrdersSearchProps> = ({ orders }) => {
+  const { pathname } = useLocation();
+  
   // const [ orders, setOrders ] = useState([]);
   const [ elements, setElements ] = useState<Array<TCardOrder>>([])
 
@@ -50,6 +52,8 @@ const OrdersSearch: FC<IOrdersSearchProps> = ({ orders }) => {
       })
   }, [nameOrder.number]);
 
+  const placeholder = pathname === '/admin-panel/orders' ? '№ заказа, email или телефон' : '№ заказа';
+
 
   return (
     <>
@@ -61,13 +65,20 @@ const OrdersSearch: FC<IOrdersSearchProps> = ({ orders }) => {
         onFocus={() => {
           setShowOrders(true)
         }}
+        placeholder={placeholder}
       />
       {showOrders && elements.length > 0 && 
         <ul className={styles.container}>
           {elements.map(element => (
             <li key={element.id}>
-              <Link to={`/admin-panel/orders/${element.id}`}>
-                № {element.number}
+              <Link to={
+                pathname === '/admin-panel/orders' 
+                  ? `/admin-panel/orders/${element.id}`
+                  : `/profile/orders/${element.id}`
+              }>
+                № {element.number} {pathname === '/admin-panel/orders' 
+                  && element.email} {pathname === '/admin-panel/orders' 
+                  && element.phoneNumber}
               </Link>
             </li>
           ))}

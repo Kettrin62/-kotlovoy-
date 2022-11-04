@@ -20,6 +20,7 @@ interface IInputProps {
   maxLength?: number,
   handleKeypress?: (e: any) => void,
   inputRef?: React.Ref<HTMLInputElement>;
+  placeholder?: string;
 }
 
 const Input: FC<IInputProps> = ({
@@ -37,7 +38,8 @@ const Input: FC<IInputProps> = ({
     reset,
     maxLength,
     handleKeypress,
-    inputRef
+    inputRef,
+    placeholder
   }) => {
 
   const [ inputValue, setInputValue ] = useState(value);
@@ -78,6 +80,7 @@ const Input: FC<IInputProps> = ({
         maxLength={maxLength}
         onKeyPress={handleKeypress}
         ref={inputRef}
+        placeholder={placeholder}
       />
     </label>
   </div>

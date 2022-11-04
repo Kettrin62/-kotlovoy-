@@ -166,6 +166,8 @@ export type TCardOrder = {
   readonly number: string;
   readonly order_sum: number;
   readonly status: TStatus;
+  readonly email?: string;
+  readonly phoneNumber?: string;
 }
 
 export type TElementOrder = {

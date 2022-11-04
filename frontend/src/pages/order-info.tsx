@@ -1,31 +1,25 @@
 import * as React from 'react';
-import { useEffect, useState, useRef } from 'react';
-import { useParams, useRouteMatch, useLocation } from 'react-router-dom';
+import { useEffect, useState, FC, useRef, useCallback } from 'react';
+import { useParams, useRouteMatch, useHistory } from 'react-router-dom';
 import api from '../api';
 import Button from '../components/button/button';
 import { priceFormat } from '../components/total-price/utils';
-import { TCardOrder, TContacts, TDataCartElement, TDataElement, TDeliveryForm, TDeliveryInfo, TDeliveryMethod, TElementOrder, TOrderInfo, TStatus, TUser } from '../services/types/data';
+import { TContacts, TDeliveryInfo, TDeliveryMethod, TElementOrder, TOrderInfo, TStatus } from '../services/types/data';
 import { showMessageDateTime } from '../utils/functions';
 import orderinfoStyles from './order-info.module.css';
-import DropDownIcon from '../images/drop-down.svg';
 import cn from 'classnames';
-import Form from '../components/form/form';
-import InputEdit from '../ui/input-edit/input-edit';
-import Input from '../ui/input/input';
-import { AmountButton } from '../ui/amount-button/amount-button';
-import { DeleteButton } from '../ui/delete-button/delete-button';
-import SearchBar from '../components/search-bar/search-bar';
-import InputAddElement from '../components/input-add-element/input-search';
-import ElementsSearch from '../components/elements-search/elements-search';
-import InputsBox from '../components/inputs-box/inputs-box';
 import Status from '../components/status/status';
 import Contacts from '../components/contacts/contacts';
 import ElementsCardOrder from '../components/elements-card-order/elements-card-orders';
 import ListElementsSearch from '../components/list-elements-search/list-elements-search';
 import DeliveryOrderInfo from '../components/delivery-order-info/delivery-order-info';
 
+interface IOrderInfoPageProps {
+  isAdmin: boolean;
+}
 
-export function OrderInfoPage() {
+export const OrderInfoPage: FC<IOrderInfoPageProps> = ({ isAdmin }) => {
+  const history = useHistory();
 
   const [dataContacts, setDataContacts] = useState<TContacts>({
     discount: 0,
@@ -94,14 +88,17 @@ export function OrderInfoPage() {
 
   useEffect(() => {
     getOrderById(Number(id));
-    if (match.path === '/admin-panel/orders/:id') {
+    if (match.path === '/admin-panel/orders/:id' && isAdmin) {
       getStatuses();
       getMethodsDelivery();
+    }
+    if (match.path === '/admin-panel/orders/:id' && !isAdmin) {
+      history.replace({ pathname: `/profile/orders/${id}` });
     }
   }, []);
 
   useEffect(() => {
-    if (match.path === '/admin-panel/orders/:id') {
+    if (match.path === '/admin-panel/orders/:id' && isAdmin) {
       if (order) {
         setOrderCart(order.elements)
         const { discount, first_name, last_name, phoneNumber } = order;
@@ -136,13 +133,6 @@ export function OrderInfoPage() {
     const date = new Date(order.created);
     dateTime = showMessageDateTime(date, 'time');
   };
-
-  const index = order?.postal_code ? order?.postal_code + ',' : '';
-  const region = order?.region ? order?.region + ',' : '';
-  const city = order?.city ? order?.city + ',' : '';
-  const location = order?.location ? order?.location : '';
-
-  const address = `${index} ${region} ${city} ${location}`;
 
   const saveFile = (id: number) => {
     api 
@@ -190,8 +180,6 @@ export function OrderInfoPage() {
     setChange(false)
   };
 
-
-
   const onChangeSave = () => {
     const status = {
       id: statuses.filter(item => item!.status === statusName)[0]!.id
@@ -230,15 +218,12 @@ export function OrderInfoPage() {
       .catch(err => console.log(err))
   }
 
-  console.log(order);
-  
-
 
   return (
     <div className={orderinfoStyles.container}>
       <h2>№ {order?.number}</h2>
       <h3>от {dateTime}</h3>
-      {match.path === '/admin-panel/orders/:id' && (
+      {match.path === '/admin-panel/orders/:id'  && isAdmin && (
         <Button className={orderinfoStyles.button} clickHandler={onChangeOrder}>
           Редактировать заказ
         </Button>
@@ -277,8 +262,6 @@ export function OrderInfoPage() {
           {searchVisible && (
             <ListElementsSearch
               setSearchVisible={setSearchVisible}
-              // elementValue={elementValue}
-              // setElementValue={setElementValue}
               orderCart={orderCart}
               setOrderCart={setOrderCart}
             />

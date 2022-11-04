@@ -336,7 +336,7 @@ function App() {
                       exact={true}
                       loggedIn={loggedIn}
                     >
-                      <OrderInfoPage />
+                      <OrderInfoPage isAdmin={isAdmin} />
                     </ProtectedRoute>
 
                     <ProtectedRoute
@@ -360,7 +360,7 @@ function App() {
                       exact={true}
                       loggedIn={loggedIn}
                     >
-                      <OrderInfoPage />
+                      <OrderInfoPage isAdmin={isAdmin} />
                     </ProtectedRoute>
 
                     {/* <Route path='/profile/orders/:id' exact={true}>
