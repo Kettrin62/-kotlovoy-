@@ -25,12 +25,12 @@ export const dataFooter: Array<TDataFooter> = [
 
 export const pathNames: TDataPathNames = {
   main: '/',
-  elements: 'elements',
-  pay: 'pay',
-  delivery: 'delivery',
-  about: 'about',
-  contacts: 'contacts',
-  feedback: 'contacts',
+  elements: '/elements',
+  pay: '/pay',
+  delivery: '/delivery',
+  about: '/about',
+  contacts: '/contacts',
+  feedback: '/contacts',
 };
 
 export const stepName = {

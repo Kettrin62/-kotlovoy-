@@ -239,7 +239,7 @@ function App() {
                         </DataSwiperContext.Provider>
                       </DataBrandsContext.Provider>
                     </Route>
-                    <Route path='/elements'>
+                    <Route path='/elements' exact={true}>
                       <ElementsPage />
                     </Route>
                     <Route path='/elements/:id' exact={true}>
