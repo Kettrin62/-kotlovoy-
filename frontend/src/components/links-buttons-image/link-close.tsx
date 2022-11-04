@@ -9,7 +9,7 @@ interface ILinkCloseProps {
 
 const LinkClose: FC<ILinkCloseProps> = (props) => {
   return (
-    <img src={closeIcon} alt='Личный кабинет' className={cn(linksimageStyles.image, props.class)} />
+    <img src={closeIcon} alt='Закрыть' className={cn(linksimageStyles.image, props.class)} />
   )
 }
 

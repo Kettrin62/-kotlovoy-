@@ -1,6 +1,7 @@
 import { FC, useRef } from 'react';
 import { TContacts, TOrderInfo } from '../../services/types/data';
 import InputEdit from '../../ui/input-edit/input-edit';
+import contactsStyles from './contacts.module.css';
 
 interface IContactsProps {
   change: boolean;
@@ -25,7 +26,7 @@ const Contacts: FC<IContactsProps> = ({ change, order, contacts, setContacts }) 
   return (
     <>
       {change ? (
-    <div>
+    <div className={contactsStyles.container}>
       <InputEdit
         placeholder='Имя'
         label='Имя'
