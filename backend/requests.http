@@ -33,6 +33,9 @@ Authorization: Token {{token}}
 GET http://127.0.0.1:8000/api/v1/users/
 Authorization: Token {{token}}
 ###
+GET http://127.0.0.1:8000/api/v1/users/?search=hash
+Authorization: Token {{token}}
+###
 GET http://127.0.0.1:8000/api/v1/users/1/
 Authorization: Token {{token}}
 ###

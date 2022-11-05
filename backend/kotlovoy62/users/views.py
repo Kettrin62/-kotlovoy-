@@ -1,4 +1,4 @@
-from rest_framework import status, viewsets
+from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -20,6 +20,8 @@ class UserSetPagination(PageNumberPagination):
 class UserViewSet(viewsets.ModelViewSet):
     http_method_names = ('get', 'post', 'patch', 'delete',)
     queryset = User.objects.all()
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('email', 'username', 'phoneNumber')
     pagination_class = UserSetPagination
     permission_classes = (IsAdminOrUserHimselfAndNotSafeMethods,)
 
