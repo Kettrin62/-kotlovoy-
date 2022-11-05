@@ -106,7 +106,7 @@
 } */
 
 .button_close {
-  background: url(../../images/menu-button-close.svg) center/cover no-repeat;
+  background: url(../../images/close.svg) center/cover no-repeat;
   border: none;
   cursor: pointer;
   padding: 0;

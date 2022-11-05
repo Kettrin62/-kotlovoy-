@@ -57,4 +57,6 @@ export const formDeliveryInit = {
   phone: '',
   email: '',
   comment: '',
-}
+};
+
+export const statusesImmutable = [1, 2, 3]

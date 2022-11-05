@@ -54,6 +54,26 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({ onLogout, addDelivery
         getStatuses();
       })
       .catch(err => console.log(err));
+  };
+
+  const editStatus = (id: number, data: TFormStatus) => {
+    api 
+      .editStatus(id, data)
+      .then(res => {
+        alert('Статус изменён');
+        getStatuses();
+      })
+      .catch(err => console.log(err));
+  };
+
+  const deleteStatus = (id: number) => {
+    api 
+      .deleteStatus(id)
+      .then(res => {
+        alert('Статус удалён');
+        getStatuses();
+      })
+      .catch(err => console.log(err));
   }
 
   useEffect(() => {
@@ -82,7 +102,12 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({ onLogout, addDelivery
         <AdminDeliveryPage addDelivery={addDelivery}/>
       )}
       {location.pathname === '/admin-panel/status' && (
-        <StatusPage statuses={statuses} createStatus={createStatus} />
+        <StatusPage 
+          statuses={statuses} 
+          createStatus={createStatus} 
+          editStatus={editStatus}
+          deleteStatus={deleteStatus}
+        />
       )}
     </section>
   )

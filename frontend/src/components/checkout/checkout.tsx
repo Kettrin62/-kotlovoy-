@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import styles from './checkout.module.css';
 import CheckoutProduct from '../checkout-product/checkout-product';
-import Modal from '../modal/modal';
+// import Modal from '../modal/modal';
 import CheckoutAddress from '../checkout-address/checkout-address';
 import { DataCartContext, DeliveryContext } from '../../services/contexts/app-context';
 import { SelectedDeliveryContext, TotalPriceContext } from '../../services/contexts/cart-context';
@@ -33,8 +33,7 @@ export const Checkout = () => {
         return <CheckoutProduct key={index} item={item} />;
       })}
       <CheckoutAddress extraClass={styles.address} />
-      {/* {!!order && !!order.id && <Modal number={order.id} price={totalPrice} />} */}
-      {!!order && <Modal number={order} price={totalPrice} />}
+      {/* {!!order && <Modal number={order} price={totalPrice} />} */}
     </section>
   );
 };

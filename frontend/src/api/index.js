@@ -435,6 +435,37 @@ class Api {
     ).then(this.checkResponse)
   }
 
+  // patch status
+  editStatus (id, data) {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/order_status/${id}/`,
+      {
+        method: 'PATCH',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        },
+        body: JSON.stringify(data)
+      }
+    ).then(this.checkResponse)
+  }
+
+  // delete status
+  deleteStatus (id) {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/order_status/${id}/`,
+      {
+        method: 'DELETE',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
   // post delivery
   addDeliveryMethod (data) {
     const token = localStorage.getItem('token')

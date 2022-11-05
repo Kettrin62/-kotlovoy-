@@ -66,8 +66,9 @@ export function useFormWithValidation() {
 export function useFormStatus() {
   const [values, setValues] = React.useState<TFormStatus>({
     status: '',
-    comment: '',
+    comment: ''
   });
+  
   const [errors, setErrors] = React.useState({});
   const [isValid, setIsValid] = React.useState(false);
 
@@ -75,7 +76,9 @@ export function useFormStatus() {
     const target = event.target;
     const name = target.name;
     const value = target.value;
-    setValues({...values, [name]: value});
+    if (name === 'status') {
+      setValues({...values, [name]: value.toLowerCase()})
+    } else setValues({...values, [name]: value});
     setErrors({...errors, [name]: target.validationMessage });
     setIsValid(target?.closest("form")!.checkValidity());
   };
@@ -83,7 +86,7 @@ export function useFormStatus() {
   const resetForm = React.useCallback(
     (newValues = {
       status: '',
-      comment: '',
+      comment: ''
     }, newErrors = {}, newIsValid = false) => {
       setValues(newValues);
       setErrors(newErrors);

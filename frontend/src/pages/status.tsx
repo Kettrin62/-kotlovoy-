@@ -1,19 +1,28 @@
 import { FC, useState } from 'react';
 import Button from '../components/button/button';
-import Form from '../components/form/form';
-import Input from '../ui/input/input';
 import { TFormStatus, TStatus } from '../services/types/data';
 import statusStyles from './status.module.css';
-import { useFormStatus, useFormWithValidation } from '../utils/validation';
-import api from '../api';
+import { useFormStatus } from '../utils/validation';
+import StatusItem from '../components/status-item/status-item';
+import Modal from '../components/modal/modal';
+import FormStatus from '../components/form-status/form-status';
+
 
 interface IStatusPageProps {
   statuses: Array<TStatus>;
   createStatus: (data: TFormStatus, set: (el: boolean) => void) => void;
+  editStatus: (id: number, data: TFormStatus) => void;
+  deleteStatus: (id: number) => void;
 }
 
-export const StatusPage: FC<IStatusPageProps> = ({ statuses, createStatus }) => {
+export const StatusPage: FC<IStatusPageProps> = ({ 
+  statuses, 
+  createStatus, 
+  editStatus,
+  deleteStatus
+}) => {
   const [visible, setVisible] = useState(false);
+
   const { values, handleChange, isValid, resetForm } = useFormStatus();
 
   const onCreateStatus = () => {
@@ -33,14 +42,32 @@ export const StatusPage: FC<IStatusPageProps> = ({ statuses, createStatus }) => 
     setVisible(false);
   }
 
+  const handleCloseModal = () => {
+    setVisible(false);
+  }
+
+  const modal = (
+    <Modal header='Создать статус' onClose={handleCloseModal}>
+      <FormStatus
+        onSubmit={createSubmit}
+        onChange={handleChange}
+        values={values}
+        isValid={isValid}
+        onCancel={cancel}
+      />
+    </Modal>
+  )
+
   return (
     <div>
       <ul>
         {[...statuses].map(item => (
-          <li key={item.id}>
-            <h4>{item.status}</h4>
-            <p>{item.comment}</p>
-          </li>
+          <StatusItem 
+            element={item} 
+            editStatus={editStatus} 
+            deleteStatus={deleteStatus} 
+            key={item.id}
+          />
         ))}
       </ul>
       {!visible && (
@@ -48,40 +75,7 @@ export const StatusPage: FC<IStatusPageProps> = ({ statuses, createStatus }) => 
           Создать статус
         </Button>
       )}
-      {visible && (
-        <Form name='status' onSubmit={createSubmit}>
-          <Input
-            type='text'
-            name='status'
-            onChange={handleChange}
-            label='Наименование статуса'
-            required
-            placeholder='Наименование статуса'
-            value={values.status}
-          />
-          <Input
-            type='text'
-            name='comment'
-            onChange={handleChange}
-            label='Комментарий'
-            placeholder='Комментарий'
-            value={values.comment}
-          />
-          <div className={statusStyles.box}>
-            <Button type='submit' className={statusStyles.button} disabled={!isValid}>
-              Сохранить
-            </Button>
-            <Button 
-              type='button' 
-              className={statusStyles.button} 
-              disabled={!isValid}
-              clickHandler={cancel}
-            >
-              Отменить
-            </Button>
-          </div>
-        </Form>
-      )}
+      {visible && modal}
     </div>
   )
 }
