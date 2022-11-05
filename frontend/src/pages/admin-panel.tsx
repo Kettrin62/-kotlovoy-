@@ -24,9 +24,16 @@ import { StatusPage } from './status';
 interface IAdminPanelPageProps {
   onLogout: () => void;
   addDelivery: (data: TDelivery, set: (el: boolean) => void) => void;
+  editDelivery: (id: number, data: TDelivery) => void;
+  deleteDelivery: (id: number) => void;
 }
 
-export const AdminPanelPage: FC<IAdminPanelPageProps> = ({ onLogout, addDelivery }) => {
+export const AdminPanelPage: FC<IAdminPanelPageProps> = ({ 
+  onLogout,
+  addDelivery,
+  editDelivery,
+  deleteDelivery
+}) => {
   const [statuses, setStatuses] = useState<Array<TStatus>>([]);
   const { isAdmin } = useContext(AuthContext)
 
@@ -99,7 +106,11 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({ onLogout, addDelivery
         <UsersPage />
       )}
       {location.pathname === '/admin-panel/delivery' && (
-        <AdminDeliveryPage addDelivery={addDelivery}/>
+        <AdminDeliveryPage 
+          addDelivery={addDelivery}
+          editDelivery={editDelivery}
+          deleteDelivery={deleteDelivery}
+        />
       )}
       {location.pathname === '/admin-panel/status' && (
         <StatusPage 

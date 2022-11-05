@@ -23,7 +23,7 @@ const StatusItem: FC<IStatusItemProps> = ({ element, editStatus, deleteStatus })
     status,
     comment
   });
-  
+
   const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(false);
 
@@ -69,6 +69,7 @@ const StatusItem: FC<IStatusItemProps> = ({ element, editStatus, deleteStatus })
   }
 
   const handleCloseModal = () => {
+    resetForm();
     setVisible(false);
   }
 

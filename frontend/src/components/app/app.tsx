@@ -213,9 +213,7 @@ function App() {
   const getMethodsDelivery = () => {
     api
       .getDeliveryMethods()
-      .then(data =>{
-        setDeliveryMethods(data)
-      })
+      .then(data => setDeliveryMethods(data))
       .catch(err => console.log(err))
   };
 
@@ -229,6 +227,28 @@ function App() {
       })
       .catch(err => console.log(err));
   };
+
+  const editDeliveryMethod = (id: number, data: TDelivery) => {
+    api
+      .editDeliveryMethod(id, data)
+      .then(res => {
+        alert('Метод доставки изменен');
+        // set(false);
+        getMethodsDelivery()
+      })
+      .catch(err => console.log(err));
+  };
+
+  const deleteDeliveryMethod = (id: number) => {
+    api
+      .deleteDeliveryMethod(id)
+      .then(res => {
+        alert('Метод доставки удалён');
+        // set(false);
+        getMethodsDelivery()
+      })
+      .catch(err => console.log(err));
+  }
 
   const initUser = () => {
     const token = localStorage.getItem('token');
@@ -392,7 +412,12 @@ function App() {
                         path='/admin-panel/orders' 
                         exact={true}
                       >
-                        <AdminPanelPage onLogout={onLogout} addDelivery={addDeliveryMethod} />
+                        <AdminPanelPage
+                          onLogout={onLogout} 
+                          addDelivery={addDeliveryMethod} 
+                          editDelivery={editDeliveryMethod}
+                          deleteDelivery={deleteDeliveryMethod}
+                        />
                       </ProtectedRoute>
 
                       <ProtectedRoute
@@ -406,21 +431,36 @@ function App() {
                         path='/admin-panel/users' 
                         exact={true}
                       >
-                        <AdminPanelPage onLogout={onLogout} addDelivery={addDeliveryMethod} />
+                        <AdminPanelPage
+                          onLogout={onLogout} 
+                          addDelivery={addDeliveryMethod} 
+                          editDelivery={editDeliveryMethod}
+                          deleteDelivery={deleteDeliveryMethod}
+                        />
                       </ProtectedRoute>
 
                       <ProtectedRoute
                         path='/admin-panel/delivery' 
                         exact={true}
                       >
-                        <AdminPanelPage onLogout={onLogout} addDelivery={addDeliveryMethod} />
+                        <AdminPanelPage 
+                          onLogout={onLogout} 
+                          addDelivery={addDeliveryMethod} 
+                          editDelivery={editDeliveryMethod}
+                          deleteDelivery={deleteDeliveryMethod}
+                        />
                       </ProtectedRoute>
 
                       <ProtectedRoute
                         path='/admin-panel/status' 
                         exact={true}
                       >
-                        <AdminPanelPage onLogout={onLogout} addDelivery={addDeliveryMethod} />
+                        <AdminPanelPage
+                          onLogout={onLogout} 
+                          addDelivery={addDeliveryMethod} 
+                          editDelivery={editDeliveryMethod}
+                          deleteDelivery={deleteDeliveryMethod}
+                        />
                       </ProtectedRoute>
 
                     </Switch>

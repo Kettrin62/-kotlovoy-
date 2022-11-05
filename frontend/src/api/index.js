@@ -482,6 +482,37 @@ class Api {
     ).then(this.checkResponse)
   }
 
+  // patch delivery
+  editDeliveryMethod (id, data) {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/delivery/${id}/`,
+      {
+        method: 'PATCH',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        },
+        body: JSON.stringify(data)
+      }
+    ).then(this.checkResponse)
+  }
+
+  // delete delivery
+  deleteDeliveryMethod (id) {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/delivery/${id}/`,
+      {
+        method: 'DELETE',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
 
 
 

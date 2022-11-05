@@ -20,6 +20,7 @@ const FormStatus: FC<IFormStatusProps> = ({
   isValid,
   onCancel
 }) => {
+
   return (
     <Form name='status' onSubmit={onSubmit}>
       <Input

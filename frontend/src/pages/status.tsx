@@ -43,6 +43,7 @@ export const StatusPage: FC<IStatusPageProps> = ({
   }
 
   const handleCloseModal = () => {
+    resetForm();
     setVisible(false);
   }
 
