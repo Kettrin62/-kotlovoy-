@@ -46,11 +46,13 @@ export function ProfileSetPasswordPage() {
             handleChange={handleChange} 
             name='current_password'
             value={values.current_password}
+            placeholder='Текущий пароль'
           />
           <InputPassword 
             handleChange={handleChange} 
             name='new_password'
             value={values.new_password}
+            placeholder='Новый пароль'
           />
           <div className={styles.buttons}>
             <Button 

@@ -6,6 +6,7 @@ import { statusesImmutable } from '../../utils/data';
 import statusitemStyles from './status-item.module.css';
 import Modal from '../../components/modal/modal';
 import FormStatus from '../form-status/form-status';
+import Button from '../button/button';
 
 interface IStatusItemProps {
   element: TStatus;
@@ -15,6 +16,7 @@ interface IStatusItemProps {
 
 const StatusItem: FC<IStatusItemProps> = ({ element, editStatus, deleteStatus }) => {
   const [visible, setVisible] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   const { id, status, comment } = element;
 
   const isLock = statusesImmutable.some(item => item === id);
@@ -97,7 +99,16 @@ const StatusItem: FC<IStatusItemProps> = ({ element, editStatus, deleteStatus })
         <p>{comment}</p>
       </div>
       {!isLock && <EditButton onEdit={()=> setVisible(true)} extraClass={statusitemStyles.button} />}
-      {!isLock && <DeleteButton onDelete={onDeleteStatus} extraClass={statusitemStyles.button} />}
+      {!isLock && <DeleteButton onDelete={()=> setConfirm(true)} extraClass={statusitemStyles.button} />}
+      {confirm && (
+        <div className={statusitemStyles.box}>
+          <p>
+            Статусы в заказах будут также удалены. Всё равно удалить?
+          </p>
+          <Button clickHandler={onDeleteStatus}>Удалить</Button>
+          <Button clickHandler={()=> setConfirm(false)}>Отменить</Button>
+        </div>
+      )}
       {visible && modal}
     </li>
   )

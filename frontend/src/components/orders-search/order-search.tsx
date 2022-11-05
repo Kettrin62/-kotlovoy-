@@ -1,20 +1,13 @@
-import { FC, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import api from '../../api';
 import { TCardOrder } from '../../services/types/data';
 import InputSearch from '../input-add-element/input-search';
 import styles from './order-search.module.css';
 
-interface IOrdersSearchProps {
-  orders: Array<TCardOrder>
-}
-
-const OrdersSearch: FC<IOrdersSearchProps> = ({ orders }) => {
+const OrdersSearch = () => {
   const { pathname } = useLocation();
-  
-  // const [ orders, setOrders ] = useState([]);
   const [ elements, setElements ] = useState<Array<TCardOrder>>([])
-
   const [ showOrders, setShowOrders ] = useState(false);
 
   interface IOrder {

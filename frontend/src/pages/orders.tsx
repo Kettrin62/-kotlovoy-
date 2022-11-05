@@ -5,17 +5,16 @@ import Button from '../components/button/button';
 import CardOrder from '../components/card-order/card-order';
 import OrdersSearch from '../components/orders-search/order-search';
 import Text from '../components/text/text';
-import { TCardOrder, TDeliveryMethod, TStatus } from '../services/types/data';
+import { TCardOrder, TStatus } from '../services/types/data';
 import ordersStyles from './orders.module.css';
 import cn from 'classnames';
 import LinkClose from '../components/links-buttons-image/link-close';
 
 interface IOrdersPage {
   statuses?: Array<TStatus>;
-  deliveryMethods?: Array<TDeliveryMethod>;
 }
 
-export const OrdersPage: FC<IOrdersPage> = ({ statuses, deliveryMethods }) => {
+export const OrdersPage: FC<IOrdersPage> = ({ statuses }) => {
   const [orders, setOrders] = useState<Array<TCardOrder>>([]);
   const [selectStatus, setSelectStatus] = useState<number>(0);
   const [ordersSelect, setOrdersSelect] = useState<Array<TCardOrder>>([]);
@@ -56,7 +55,6 @@ export const OrdersPage: FC<IOrdersPage> = ({ statuses, deliveryMethods }) => {
     }
   }
 
-
   const filter = statuses && (
     <ul className={ordersStyles.list_group}>
       {statuses.map(item => {
@@ -67,7 +65,6 @@ export const OrdersPage: FC<IOrdersPage> = ({ statuses, deliveryMethods }) => {
               <Text text={item!.status} class={ordersStyles.text_group} />
               {selectStatus === item?.id && <LinkClose />}
             </Button>
-
           </li>
         )
       })}
@@ -76,7 +73,7 @@ export const OrdersPage: FC<IOrdersPage> = ({ statuses, deliveryMethods }) => {
 
   return (
     <div className={ordersStyles.container}>
-      <OrdersSearch orders={orders} />
+      <OrdersSearch />
       {filter}
       <ul className={ordersStyles.list}>
         {selectStatus > 0 ? ([...ordersSelect].map(item => (

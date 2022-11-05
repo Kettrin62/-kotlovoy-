@@ -171,7 +171,7 @@ export type TCardOrder = {
   // readonly element_sum: number;
   readonly number: string;
   readonly order_sum: number;
-  readonly status: TStatus;
+  readonly status: TStatus | null;
   readonly email?: string;
   readonly phoneNumber?: string;
 }
@@ -191,7 +191,7 @@ export type TElementOrder = {
 export type TOrderInfo = TCardOrder & {
   readonly elements: Array<TElementOrder>;
   readonly discount: number;
-  readonly delivery: TDeliveryMethod;
+  readonly delivery: TDeliveryMethod | null;
   readonly first_name: string;
   readonly last_name: string;
   readonly phoneNumber: string;

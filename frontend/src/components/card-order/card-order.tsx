@@ -29,6 +29,8 @@ const CardOrder: FC<ICardOrderProps> = ({ card }) => {
     [history]
   );
 
+  const statusName = status?.status ? status?.status : 'не указан'
+
   return (
     <li
         className={cardorderStyles.card}
@@ -40,7 +42,7 @@ const CardOrder: FC<ICardOrderProps> = ({ card }) => {
           {`№ ${number} от ${date}`}
         </h4>
         <p>
-          {`Статус: ${status.status}`}
+          {`Статус: ${statusName}`}
         </p>
         <p>
           {`Сумма: ${priceFormat(totalPrice)}`}

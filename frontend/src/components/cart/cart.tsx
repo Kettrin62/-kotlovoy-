@@ -3,6 +3,7 @@ import { useCallback, useContext, useState, useEffect, useMemo } from 'react';
 import { DataCartContext } from '../../services/contexts/app-context';
 import { TotalPriceContext } from '../../services/contexts/cart-context';
 import Element from '../element/element';
+import cartStyles from './cart.module.css';
 
 function Cart() {
 
@@ -27,9 +28,9 @@ function Cart() {
   );
 
   return (
-    <div>
+    <ul className={cartStyles.list}>
       {content}
-    </div>
+    </ul>
   )
 }
 

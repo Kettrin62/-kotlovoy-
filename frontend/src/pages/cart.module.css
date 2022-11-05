@@ -2,6 +2,6 @@
   width: 100%;
   max-width: 1440px;
   padding: 0 calc(25%/10);
-  margin: 0;
+  margin: 0 0 35px;
   box-sizing: border-box;
 }

@@ -6,7 +6,7 @@ import DropDownIcon from '../../images/drop-down.svg';
 
 interface IStatusProps {
   change: boolean;
-  status: TStatus;
+  status: TStatus | null;
   statusName: string;
   setStatusName: (name: string) => void;
   statuses: Array<TStatus | null>
@@ -22,19 +22,21 @@ const Status: FC<IStatusProps> = ({ change, status, statusName, setStatusName, s
     setStatusesVisible(false);
   }
 
+  const nameStatus = status?.status ? status.status : 'не указан';
+
   return (
     <>
       {
         !change ? (
           <p className={statusStyles.text}>
-            {status.status}
+            {nameStatus}
           </p>
         ) : (
           // <div className={statusStyles.content}>
           <div className={statusStyles.box} >
             <div className={statusStyles.button_box} onClick={onChangeStatus}>
               <Button className={statusStyles.button}>
-                {statusName ? statusName : status.status}
+                {statusName ? statusName : nameStatus}
               </Button>
               <img src={DropDownIcon} alt='Выпадающий список' className={statusStyles.icon} />
             </div>

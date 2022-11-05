@@ -59,13 +59,12 @@ const DeliveryOrderInfo: FC<IDeliveryOrderInfoProps> = ({
     <>
       {!change ? (
         <div>
-          <h4>Доставка:</h4>
           <p>Адрес: {address}</p>
           <p>
-            {order?.delivery.company}
+            {order?.delivery?.company}
           </p>
           <p>
-            Стоимость доставки: {priceFormat(order.delivery.price)}
+            Стоимость доставки: {priceFormat(order.delivery?.price ? order.delivery.price : 0)}
           </p>
         </div>
       ) : (

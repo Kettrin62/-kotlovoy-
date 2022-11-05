@@ -11,19 +11,6 @@ interface IProfileNavProps {
 
 const ProfileNav: FC<IProfileNavProps> = ({ onClickLogout }) => {
   const { isAdmin } = useContext(AuthContext)
-  const { pathname } = useLocation();
-
-  const comment = (
-    (pathname === '/profile' || pathname === '/profile/set-password') ? (
-      <p className=''>
-        В&nbsp;этом разделе вы&nbsp;можете изменить&nbsp;свои персональные данные
-      </p>) : (
-      <p className=''>
-        В&nbsp;этом разделе вы&nbsp;можете просмотреть&nbsp;свою историю заказов
-      </p>
-    )
-  )
-  
 
   return (
     <div className={'mr-15 ' + profilenavStyles.navigation}>
@@ -80,7 +67,6 @@ const ProfileNav: FC<IProfileNavProps> = ({ onClickLogout }) => {
           </p>
         </li>
       </ul>
-      {!isAdmin && comment}
     </div>
   )
 };

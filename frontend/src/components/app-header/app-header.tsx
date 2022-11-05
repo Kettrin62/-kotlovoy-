@@ -149,9 +149,9 @@ function AppHeader() {
                 <Text class={appheaderStyles.text} text='Доставка' />
               </Link>
             </div>
-            <Link className={cn(appheaderStyles.link, classLink, appheaderStyles.indent)} to=''>
+            <a className={cn(appheaderStyles.link, classLink, appheaderStyles.indent)} href='https://wa.me/79106210642'>
               <LinkWhatsApp />
-            </Link>
+            </a>
           </div>
           <div className={cn(appheaderStyles.container, appheaderStyles.indent)}>
             <SearchBar 

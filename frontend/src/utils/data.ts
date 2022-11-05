@@ -45,6 +45,12 @@ export const titleCart = {
   checkout: 'Подтверждение заказа'
 };
 
+export const nameStepCart = {
+  cart: 'Выбор товара',
+  delivery: 'Контактные данные и доставка',
+  checkout: 'Подтверждение заказа',
+}
+
 export const totalInitialPrice = { price: 0 };
 
 export const formDeliveryInit = {

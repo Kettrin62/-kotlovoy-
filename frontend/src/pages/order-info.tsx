@@ -65,9 +65,22 @@ export const OrderInfoPage: FC = () => {
       })
   };
 
+  const getStatuses = () => {
+    api
+      .getStatuses()
+      .then(res => setStatuses(res))
+      .catch(err => {
+        const errors = Object.values(err)
+        if (errors) {
+          alert(errors.join(', '))
+        }
+      })
+  };
+
   useEffect(() => {
     getOrderById(Number(id));
     if (match.path === '/admin-panel/orders/:id' && isAdmin) {
+      getStatuses()
     }
     if (match.path === '/admin-panel/orders/:id' && !isAdmin) {
       history.replace({ pathname: `/profile/orders/${id}` });
@@ -99,7 +112,7 @@ export const OrderInfoPage: FC = () => {
           region,
           comment
         })
-        setDeliveryMethod(order.delivery.company);
+        setDeliveryMethod(order.delivery?.company ? order.delivery.company : '');
       }
     }
 
@@ -158,9 +171,9 @@ export const OrderInfoPage: FC = () => {
   };
 
   const onChangeSave = () => {
-    const status = {
+    const status = statusName ? {
       id: statuses.filter(item => item!.status === statusName)[0]!.id
-    }
+    } : order?.status;
     const delivery = {
       id: deliveryMethods.filter(item => item.company === deliveryMethod)[0].id
     };
@@ -194,7 +207,6 @@ export const OrderInfoPage: FC = () => {
       })
       .catch(err => console.log(err))
   }
-
 
   return (
     <div className={orderinfoStyles.container}>

@@ -1,10 +1,10 @@
-.container {
+/* .item {
   display: flex;
-  align-items: center;
   border-bottom: 1px solid #000;
+  align-items: flex-end;
 }
 
-.container:last-child {
+.item:last-child {
   border-bottom: none;
 }
 
@@ -13,9 +13,4 @@
   margin: 0 10px;
   padding: 5px;
   height: min-content;
-}
-
-.box {
-  display: flex;
-  flex-direction: column;
-}
+} */

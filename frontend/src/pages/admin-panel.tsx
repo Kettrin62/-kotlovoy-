@@ -15,7 +15,7 @@ import { OrdersPage } from './orders';
 import { ProfileSetPasswordPage } from './profile-set-password';
 import { OrderInfoPage } from './order-info';
 import api from '../api';
-import { TDelivery, TDeliveryMethod, TFormStatus, TStatus } from '../services/types/data';
+import { TDelivery, TDeliveryMethod, TFormStatus, TStatus, TUser } from '../services/types/data';
 import AuthContext from '../services/contexts/auth-context';
 import { UsersPage } from './users';
 import { AdminDeliveryPage } from './admin-delivery';
@@ -36,6 +36,7 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({
 }) => {
   const [statuses, setStatuses] = useState<Array<TStatus>>([]);
   const { isAdmin } = useContext(AuthContext)
+  const [users, setUsers] = useState<Array<TUser>>([]);
 
   const location = useLocation()
   const match = useRouteMatch();
@@ -81,11 +82,43 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({
         getStatuses();
       })
       .catch(err => console.log(err));
+  };
+
+  const getUsers = () => {
+    api
+      .getUsers()
+      .then(res => {
+        setUsers(res.results)
+      })
+      .catch(err => {
+        const errors = Object.values(err)
+        if (errors) {
+          alert(errors.join(', '))
+        }
+      })
+  }
+
+  const changeDiscount = (id: number, data: {
+    discount: number
+  }) => {
+    api
+      .changeUserDiscount(id, data)
+      .then(res => {
+        alert('Дисконтная скидка изменена');
+        getUsers();
+      })
+      .catch(err => {
+        const errors = Object.values(err)
+        if (errors) {
+          alert(errors.join(', '))
+        }
+      })
   }
 
   useEffect(() => {
     if (isAdmin) {
       getStatuses();
+      getUsers();
     }
   }, [])
 
@@ -103,7 +136,10 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({
         <OrdersPage statuses={statuses} />
       )}
       {location.pathname === '/admin-panel/users' && (
-        <UsersPage />
+        <UsersPage 
+          users={users} 
+          changeDiscount={changeDiscount}
+        />
       )}
       {location.pathname === '/admin-panel/delivery' && (
         <AdminDeliveryPage 

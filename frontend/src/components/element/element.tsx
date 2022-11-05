@@ -31,7 +31,6 @@ const Element: FC<IElementProps> = ({
   const history = useHistory();
 
   const { dataCart, setDataCart } = useContext(DataCartContext);
-  // const [qty, setQty] = useState<number>(1);
 
   let arr: TDataCartElement[] = [];
 
@@ -86,21 +85,25 @@ const Element: FC<IElementProps> = ({
   );
 
   return (
-    <div className={`${styles.product}`}>
-      <img className={styles.img} src={images[0].image} alt={title} onClick={onClickButton} />
-      <p className={styles.text} onClick={onClickButton}>{title}</p>
-      <div className={styles.amountbox}>
-        <AmountButton data-testid={`decrease-${id}`} onClick={decrease}>-</AmountButton>
-        <p className={styles.amount} data-testid={`product-amount-${id}`}>{amount}</p>
-        <AmountButton data-testid={`increase-${id}`} onClick={increase}>+</AmountButton>
+    <li className={`${styles.product}`}>
+      <div className={styles.container}>
+        <img className={styles.img} src={images[0].image} alt={title} onClick={onClickButton} />
+        <p className={styles.text} onClick={onClickButton}>{title}</p>
       </div>
-      <div className={styles.price}>
-        <p className={styles.price} data-testid={`price-amount-${id}`}>
-          {priceFormat(cur_price * amount)}
-        </p>
+      <div className={cn(styles.container, styles.box)}>
+        <div className={styles.amountbox}>
+          <AmountButton data-testid={`decrease-${id}`} onClick={decrease}>-</AmountButton>
+          <p className={styles.amount} data-testid={`product-amount-${id}`}>{amount}</p>
+          <AmountButton data-testid={`increase-${id}`} onClick={increase}>+</AmountButton>
+        </div>
+        <div className={styles.price}>
+          <p className={styles.price} data-testid={`price-amount-${id}`}>
+            {priceFormat(cur_price * amount)}
+          </p>
+        </div>
+        <DeleteButton onDelete={onDelete} />
       </div>
-      <DeleteButton onDelete={onDelete} />
-    </div>
+    </li>
   );
 };
 

@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Interface } from 'readline';
+import { nameStepCart, titleCart } from '../../utils/data';
 import styles from './title-cart.module.css';
 
 interface ITitleCartProps {
@@ -15,11 +16,22 @@ export const TitleCart: FC<ITitleCartProps>  = ({
   allSteps, 
   extraClass 
 }) => {
+  let title = '';
+  switch (currentStep) {
+    case 1:
+      title = nameStepCart.cart;
+      break;
+    case 2:
+      title = nameStepCart.delivery;
+      break;
+    case 3:
+      title = nameStepCart.checkout;
+  }
+
   return (
     <div className={`${styles.header} ${extraClass}`}>
       <h2 className={styles.title}>{text}</h2>
-      {currentStep && <p className={styles.steps}>{`Шаг ${currentStep} из ${allSteps}`}</p>}
-      {/* {amount && <p className={styles.steps}>{`${amount} товара`}</p>} */}
+      {currentStep && <p className={styles.steps}>{`${title} - Шаг ${currentStep} из ${allSteps}`}</p>}
     </div>
   );
 };

@@ -4,7 +4,14 @@
   border: none;
   outline: none;
   cursor: pointer;
-  background: #EBEBEB;
+  /* background: #EBEBEB; */
+  background-color: rgba(247, 109, 10, 0.3);
   border-radius: 4px;
   font-size: 24px;
+}
+
+@media (max-width: 440px) {
+  .button {
+    font-size: 20px;
+  }
 }

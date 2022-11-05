@@ -513,6 +513,52 @@ class Api {
     ).then(this.checkResponse)
   }
 
+  // get users
+  getUsers () {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/users/`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // get users
+  changeUserDiscount (id, data) {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/users/${id}/`,
+      {
+        method: 'PATCH',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        },
+        body: JSON.stringify(data)
+      }
+    ).then(this.checkResponse)
+  }
+
+  // usersSearch
+  getUsersSearch (name) {
+    const token = localStorage.getItem('token');
+    return fetch(
+      `${BASEURL}v1/users/?search=${name}`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
 
 
 

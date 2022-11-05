@@ -121,8 +121,7 @@ export const TotalPrice = () => {
 
   return (
     <div className={`${styles.container}`}>
-      <p className={styles.text}>Итого:</p>
-      <p className={styles.cost}>{priceFormat(totalPrice.price)}</p>
+      <p className={styles.text}>{`Итого: ${priceFormat(totalPrice.price)}`}</p>
       <div className={styles.buttonbox}>
         {(step === stepName.delivery || step === stepName.checkout) && (
           <MainButton onClick={prev} type="button" secondary={true} extraClass={styles.button}>
