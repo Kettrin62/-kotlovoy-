@@ -6,6 +6,7 @@
 .list {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 .address {
@@ -13,5 +14,6 @@
 }
 
 .title {
-  margin-top: 20px;
+  margin: 0;
 }
+

@@ -18,14 +18,30 @@
 .title {
   font-weight: 600;
   margin-bottom: 20px;
+  font-size: 16px;
 }
 
 .span {
   font-weight: 600;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 760px) {
   .container {
     grid-template-columns: 1fr;
   }
+}
+
+@media (max-width: 440px) {
+  .title {
+    font-size: 14px;
+  }
+
+  .span {
+    font-size: 14px;
+  }
+
+  .text {
+    font-size: 14px;
+  }
+
 }
