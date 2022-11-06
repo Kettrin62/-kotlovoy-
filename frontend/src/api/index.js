@@ -8,6 +8,7 @@ class Api {
 
   checkResponse (res) {
     return new Promise((resolve, reject) => {
+      console.log(res.status);
       if (res.status === 204) {
         return resolve(res)
       }

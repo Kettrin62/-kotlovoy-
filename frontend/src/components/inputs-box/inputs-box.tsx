@@ -11,7 +11,10 @@ export const InputsBox = () => {
   const { form, setForm } = useContext(DeliveryFormContext);
   const { user } = useContext(UserContext);
   const [formChange, setFormChange] = useState(false);
-  const [textError, setTextError] = useState('');
+  const [textError, setTextError] = useState({
+    phoneNumber: '',
+    email: '',
+  });
 
   let obj: TDeliveryForm = {};
   const inputRef = useRef(null);
@@ -80,13 +83,28 @@ export const InputsBox = () => {
   };
   const [phone, setPhone] = useState('+7');
   const onChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value.replace(/\D/g, '').replace(/^7|8/, '+7').slice(0, 12));
+    const value = e.target.value.replace(/[^\+\d]+$/g, '').replace(/^7|^8/, '+7');
+
+    if (value[0] !== '+' || (!value.match(/^(\+7|8)[\d]{10}$/) && value.length < 13)) {
+      setTextError({
+        ...textError,
+        phoneNumber: 'Введите корректный номер телефона'
+      })
+    } else {
+      setTextError({
+        ...textError,
+        phoneNumber: ''
+      });
+    }
+    if (value.length < 13) {
+    setPhone(value);
     obj = form;
     obj = ({
       ...obj,
       phone: e.target.value,
     });
     setForm(obj);
+    }
   };
   const [email, setEmail] = useState('');
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,8 +116,14 @@ export const InputsBox = () => {
     });
     setForm(obj);
     if (e.target.value && !validator.isEmail(e.target.value)) {
-      setTextError('Введите правильный адрес электронной почты')
-    } else setTextError('');
+      setTextError({
+        ...textError,
+        email: 'Введите правильный адрес электронной почты'
+      })
+    } else setTextError({
+      ...textError,
+      email: ''
+    });
   };
   const [comment, setComment] = useState('');
   const onChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -248,8 +272,10 @@ export const InputsBox = () => {
             inputRef={inputRef}
             minLength={12}
             required
-            label='*Телефон - обязательное поле'
-            classLabel={cn(styles.label, styles.required)}
+            // label='*Телефон - обязательное поле'
+            label={textError.phoneNumber ? textError.phoneNumber : '*Телефон - обязательное поле'}
+            // classLabel={cn(styles.label, styles.required)}
+            classLabel={cn(styles.label, textError.phoneNumber ? styles.error : styles.required)}
           />
         </li>
         <li className={styles.input}>
@@ -262,8 +288,8 @@ export const InputsBox = () => {
             id="email"
             placeholder="email@mail.ru"
             inputRef={inputRef}
-            label={textError ? textError : 'E-mail'}
-            classLabel={styles.label}
+            label={textError.email ? textError.email : 'E-mail'}
+            classLabel={cn(styles.label, textError.email ? styles.error : '')}
           />
         </li>
         <li className={styles.input}>

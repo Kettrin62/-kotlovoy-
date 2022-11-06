@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import CloseButton from '../../ui/close-button/close-button';
 import { ModalOverlay } from '../../ui/modal-overlay/modal-overlay';
 import styles from './modal.module.css';
+import cn from 'classnames';
 
 
 const modalRoot = document.getElementById('react-modals')!;
@@ -30,14 +31,13 @@ const Modal: FC<IIModalProps> = ({ header, extraClass, onClose, children }) => {
     }
   }, [onClose])
 
+  const classErr = header === 'Заказ не может быть оформлен!' ? styles.error : '';
 
   return ReactDOM.createPortal (
     <section className={`${styles.container} ${extraClass}`}>
       <div className={styles.modal}>
-        <div className={styles.header}>
-          <h3 className={styles.title}>{header}</h3>
-          <CloseButton onClose={onClose}/>
-        </div>
+        <CloseButton onClose={onClose} extraClass={styles.close} />
+        <h3 className={cn(styles.title, classErr)}>{header}</h3>
         {children}
       </div>
       <ModalOverlay onClose={onClose} />

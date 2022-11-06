@@ -66,6 +66,10 @@
   color: #0c555e;
 }
 
+.error {
+  color: red;
+}
+
 .comment {
   grid-column: 1/4;
 }
