@@ -155,7 +155,7 @@ export function ProfileProfilePage() {
         />
         <Input
           type='text'
-          placeholder='Дисконтаная скидка'
+          placeholder='Дисконтная скидка'
           onChange={() => {}}
           value={`Дисконтаная скидка - ${user?.discount} %`}
           name='discount'

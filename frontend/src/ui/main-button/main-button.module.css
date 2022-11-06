@@ -19,9 +19,10 @@
 }
 
 .secondary {
-  background: #FFFFFF;
-  border: 1px solid #3C39EC;
-  color: #3C39EC;
+  background-color: #fff;
+  color: rgba(247, 109, 10, 1);
+  border-color: rgba(247, 109, 10, 1);
+  box-shadow: 0 0 7px rgb(247 109 10);
 }
 
 @media (max-width: 440px) {

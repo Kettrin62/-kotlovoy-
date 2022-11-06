@@ -71,8 +71,8 @@
   position: fixed;
   left: 0;
   top: 0;
-  /* background-color: inherit; */
-  background-color: #fff;
+  /* background-color: #fff; */
+  background-color: rgb(255, 249, 246);
   padding: 17px calc(25%/10) 5px;
   box-sizing: border-box;
   /* visibility: hidden;

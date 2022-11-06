@@ -3,6 +3,11 @@
   flex-direction: column;
 }
 
+.list {
+  list-style-type: none;
+  padding: 0;
+}
+
 .address {
   margin: 40px 0 20px;
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { 
   useParams,
   useHistory,
@@ -11,6 +11,7 @@ import Card from '../components/card/card';
 import Text from '../components/text/text';
 import { TDataElement, TDataGroups } from '../services/types/data';
 import elementsStyles from './elements.module.css';
+import AuthContext from '../services/contexts/auth-context';
 
 
 export function ElementsPage() {
@@ -18,6 +19,7 @@ export function ElementsPage() {
   const [groups, setGroups] = useState<Array<TDataGroups>>([]);
   const [textButton, setTextButton] = useState('Выбрать категории');
   const [visibleGroups, setVisibleGroups] = useState(false);
+  const { loggedIn } = useContext(AuthContext)
 
   const [fetchUrl, setFetchUrl] = useState<Array<string>>([]);
 

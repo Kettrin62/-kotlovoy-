@@ -12,8 +12,9 @@
   box-sizing: border-box;
   border-radius: 4px;
   margin-right: 20px;
-  width: 80px;
+  /* width: 80px; */
   height: 80px;
+  object-fit: contain;
 }
 
 .text {
@@ -24,12 +25,17 @@
   color: #292929;
   margin: 0;
   margin-right: 20px;
-  max-width: 412px;
+  /* max-width: 412px; */
 }
 
 .leftbox {
   display: flex;
   align-items: center;
+}
+
+.box {
+  display: flex;
+  gap: 20px;
 }
 
 @media (max-width: 500px) {

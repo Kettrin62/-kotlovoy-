@@ -29,9 +29,11 @@ export const Checkout = () => {
   return (
     <section className={styles.container}>
       <h3 className={styles.title}>Товары:</h3>
-      {dataCart.map((item, index) => {
-        return <CheckoutProduct key={index} item={item} />;
-      })}
+      <ul className={styles.list}>
+        {dataCart.map((item, index) => {
+          return <CheckoutProduct key={index} item={item} />;
+        })}
+      </ul>
       <CheckoutAddress extraClass={styles.address} />
       {/* {!!order && <Modal number={order} price={totalPrice} />} */}
     </section>

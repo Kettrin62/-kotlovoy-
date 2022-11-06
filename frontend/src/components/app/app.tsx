@@ -276,9 +276,9 @@ function App() {
   };
   
   useEffect(() => {
+    initUser();
     getBrands();
     getSliders();
-    initUser();
     getMethodsDelivery();
   }, []);
 

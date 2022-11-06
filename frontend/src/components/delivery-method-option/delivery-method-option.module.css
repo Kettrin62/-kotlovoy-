@@ -1,10 +1,11 @@
 .option {
-  display: flex;
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 20px 0;
-
+  padding: 10px 0;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
@@ -31,13 +32,22 @@
   margin-right: 20px;
 }
 
+.text {
+  font-size: 16px;
+  margin: 1em 0;
+}
+
 .duration {
   margin-right: 20px;
+  font-size: 14px;
 }
 
 .price {
-  color: #3C39EC;
   margin-right: 20px;
+  justify-self: end;
+  text-align: right;
+  font-weight: 500;
+  font-size: 16px;
 }
 
 .input {
@@ -69,8 +79,8 @@
   top: 14px;
   width: 20px;
   height: 20px;
-  border: 2px solid #3C39EC;
-  background-color: #ffffff;
+  border: 2px solid rgba(247, 109, 10, 0.7);
+  background-color: #fff;
   border-radius: 100%;
 }
 
@@ -88,8 +98,8 @@
   width: 6px;
   height: 6px;
   border-radius: 100%;
-  background: #3C39EC;
-  border: 1px solid #3C39EC;
+  background: rgba(247, 109, 10, 0.7);
+  border: 1px solid rgba(247, 109, 10, 0.7);
 }
 
 .input:not(:checked) + label:after {
@@ -100,19 +110,44 @@
     opacity: 1;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   .option {
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
 
+  .text {
+    font-size: 14px;
+    margin: 0;
+  }
+
   .duration {
-    margin-top: 20px;
-    margin-left: 40px;
+    margin: 0 0 0 40px;
+    font-size: 12px;
   }
 
   .price {
-    margin-top: 20px;
-    margin-left: 40px;
+    margin: 0 0 0 40px;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  .input:checked + label:before,
+  .input:not(:checked) + label:before
+  {
+    left: 2px;
+    top: 16px;
+    width: 16px;
+    height: 16px;
+  }
+
+    .input:checked + label:after,
+  .input:not(:checked) + label:after
+  {
+    left: 9px;
+    top: 23px;
+    width: 4px;
+    height: 4px;
   }
 }

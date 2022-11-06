@@ -17,3 +17,13 @@
   margin: 0;
   padding: 0;
 }
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 14px;
+  }
+  
+  .options {
+    font-size: 14px;
+  }
+}

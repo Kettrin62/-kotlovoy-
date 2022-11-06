@@ -22,7 +22,7 @@ const DeliveryMethodOption: FC<IDeliveryMethodOptionProps> = ({
   comment
 }) => {
 
-  const { selectedDeliveryId, setSelectedDeliveryId } = useContext(SelectedDeliveryContext);
+  const { setSelectedDeliveryId } = useContext(SelectedDeliveryContext);
 
   const onClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedDeliveryId(id);
@@ -52,7 +52,7 @@ const DeliveryMethodOption: FC<IDeliveryMethodOptionProps> = ({
       <label htmlFor={id + ''}>
         <div className={styles.leftbox}>
           {/* <img className={styles.img} src={thumb} alt="Изображение способа доставки" /> */}
-          <p className={styles.text}>{company}</p>
+          <h5 className={styles.text}>{company}</h5>
         </div>
       </label>
       <p className={styles.duration}>{duration}</p>

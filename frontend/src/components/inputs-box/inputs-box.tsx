@@ -5,6 +5,7 @@ import { DeliveryFormContext } from '../../services/contexts/cart-context';
 import { UserContext } from '../../services/contexts/user-context';
 import { TDeliveryForm } from '../../services/types/data';
 import validator from 'validator';
+import cn from 'classnames';
 
 export const InputsBox = () => {
   const { form, setForm } = useContext(DeliveryFormContext);
@@ -77,7 +78,7 @@ export const InputsBox = () => {
     });
     setForm(obj);
   };
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState('+7');
   const onChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(e.target.value.replace(/\D/g, '').replace(/^7|8/, '+7').slice(0, 12));
     obj = form;
@@ -203,88 +204,9 @@ export const InputsBox = () => {
   }, [formChange]);
 
   return (
-    <div className={`${styles.container}`}>
-      <ul className={styles.row}>
-        <li className={`${styles.input} ${styles.inputFlex}`}>
-          <div className={styles.input}>
-            <label className={styles.label} htmlFor="index">
-              Индекс
-            </label>
-            <Input
-              onChange={onChangeIndex}
-              name='index'
-              value={index}
-              extraClass={styles.input}
-              type="text"
-              id="index"
-              inputRef={inputRef}
-            />
-          </div>
-          <div className={styles.input}>
-            <label className={styles.label} htmlFor="region">
-              Регион/Область
-            </label>
-            <Input
-              onChange={onChangeRegion}
-              name='region'
-              value={region}
-              extraClass={styles.input}
-              type="text"
-              id="region"
-              inputRef={inputRef}
-            />
-          </div>
-          <div className={styles.input}>
-            <label className={styles.label} htmlFor="city">
-              Город/Насел.пункт
-            </label>
-            <Input
-              onChange={onChangeCity}
-              name='city'
-              value={city}
-              extraClass={styles.input}
-              type="text"
-              id="city"
-              inputRef={inputRef}
-            />
-          </div>
-        </li>
-        <li className={`${styles.input} ${styles.floor}`}>
-          <label className={styles.label} htmlFor="address">
-            Улица/Дом/Квартира
-          </label>
-          <Input
-            onChange={onChangeAddress}
-            name='address'
-            value={address}
-            extraClass={styles.input}
-            type="text"
-            id="address"
-            inputRef={inputRef}
-          />
-        </li>
-      </ul>
+    // <div className={`${styles.container}`}>
       <ul className={styles.row}>
         <li className={styles.input}>
-          <label className={styles.label} htmlFor="secondName">
-            Фамилия получателя
-          </label>
-          <Input
-            onChange={onChangeSecondName}
-            name='secondName'
-            value={secondName}
-            type="text"
-            extraClass={styles.input}
-            id="secondName"
-            placeholder="Введите фамилию"
-            inputRef={inputRef}
-            required
-          />
-        </li>
-        <li className={styles.input}>
-          <label className={styles.label} htmlFor="firstName">
-            Имя получателя
-          </label>
           <Input
             onChange={onChangeFirstName}
             name='firstName'
@@ -295,12 +217,26 @@ export const InputsBox = () => {
             placeholder="Введите имя"
             inputRef={inputRef}
             required
+            label='*Имя получателя - обязательное поле'
+            classLabel={cn(styles.label, styles.required)}
           />
         </li>
         <li className={styles.input}>
-          <label className={styles.label} htmlFor="phone">
-            Телефон
-          </label>
+          <Input
+            onChange={onChangeSecondName}
+            name='secondName'
+            value={secondName}
+            type="text"
+            extraClass={styles.input}
+            id="secondName"
+            placeholder="Введите фамилию"
+            inputRef={inputRef}
+            required
+            label='*Фамилия получателя - обязательное поле'
+            classLabel={cn(styles.label, styles.required)}
+          />
+        </li>
+        <li className={styles.input}>
           <Input
             onChange={onChangePhone}
             name='phone'
@@ -308,15 +244,15 @@ export const InputsBox = () => {
             extraClass={styles.input}
             type="tel"
             id="phone"
-            placeholder="+7"
+            // placeholder="+7"
             inputRef={inputRef}
+            minLength={12}
             required
+            label='*Телефон - обязательное поле'
+            classLabel={cn(styles.label, styles.required)}
           />
         </li>
         <li className={styles.input}>
-          <label className={styles.label} htmlFor="email">
-            {textError ? textError : 'E-mail'}
-          </label>
           <Input
             onChange={onChangeEmail}
             name='email'
@@ -326,12 +262,63 @@ export const InputsBox = () => {
             id="email"
             placeholder="email@mail.ru"
             inputRef={inputRef}
+            label={textError ? textError : 'E-mail'}
+            classLabel={styles.label}
           />
         </li>
         <li className={styles.input}>
-          <label className={styles.label} htmlFor="comment">
-            Комментарий
-          </label>
+          <Input
+            onChange={onChangeIndex}
+            name='index'
+            value={index}
+            extraClass={styles.input}
+            type="text"
+            id="index"
+            inputRef={inputRef}
+            label='Индекс'
+            classLabel={styles.label}
+          />
+        </li>
+        <li className={styles.input}>
+          <Input
+            onChange={onChangeRegion}
+            name='region'
+            value={region}
+            extraClass={styles.input}
+            type="text"
+            id="region"
+            inputRef={inputRef}
+            label='Регион/Область'
+            classLabel={styles.label}
+          />
+        </li>
+        <li className={cn(styles.input, styles.city)}>
+          <Input
+            onChange={onChangeCity}
+            name='city'
+            value={city}
+            extraClass={styles.input}
+            type="text"
+            id="city"
+            inputRef={inputRef}
+            label='Город/Насел.пункт'
+            classLabel={styles.label}
+          />
+        </li>
+        <li className={cn(styles.input, styles.floor)}>
+          <Input
+            onChange={onChangeAddress}
+            name='address'
+            value={address}
+            extraClass={styles.input}
+            type="text"
+            id="address"
+            inputRef={inputRef}
+            label='Улица/Дом/Квартира'
+            classLabel={styles.label}
+          />
+        </li>
+        <li className={cn(styles.input, styles.comment)}>
           <Input
             onChange={onChangeComment}
             name={'comment'}
@@ -340,10 +327,12 @@ export const InputsBox = () => {
             type="text"
             id="comment"
             inputRef={inputRef}
+            label='Комментарий'
+            classLabel={styles.label}
           />
         </li>
       </ul>
-    </div>
+    // </div>
   );
 };
 

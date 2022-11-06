@@ -4,10 +4,10 @@ import InputsBox from '../inputs-box/inputs-box';
 function Delivery() {
 
   return (
-    <div>
+    <section>
       <InputsBox />
       <DeliveryMethod />
-    </div>
+    </section>
   )
 }
 

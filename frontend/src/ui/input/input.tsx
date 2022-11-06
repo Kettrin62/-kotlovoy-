@@ -13,6 +13,9 @@ interface IInputProps {
   id?: string;
   required?: boolean;
   label?: string | undefined;
+  minLength?: number;
+  classLabel?: string;
+
 }
 
 const Input: FC<IInputProps> = ({
@@ -24,15 +27,15 @@ const Input: FC<IInputProps> = ({
   value,
   onChange,
   label,
+  minLength,
+  classLabel,
   ...props
 }) => {
   const className = `${styles.input} ${extraClass} ${inputWithBtn ? styles.input_withBtn : ''}`;
   return (
     <div>
-      <label>
-      {label && <div>
-        {label}
-      </div>}
+      <label className={classLabel}>
+      {label}
         <input
           type={type}
           className={className}
@@ -40,6 +43,7 @@ const Input: FC<IInputProps> = ({
           ref={inputRef}
           value={value}
           onChange={onChange}
+          minLength={minLength}
           {...props}
         />
       </label>

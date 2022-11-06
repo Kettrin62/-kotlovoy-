@@ -13,3 +13,12 @@
 .input_withBtn {
   border-radius: 4px 0px 0px 4px;
 }
+
+@media (max-width: 700px) {
+  .input {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 14px;
+  }
+
+}

@@ -47,7 +47,7 @@ export const titleCart = {
 
 export const nameStepCart = {
   cart: 'Выбор товара',
-  delivery: 'Контактные данные и доставка',
+  delivery: 'Данные для доставки',
   checkout: 'Подтверждение заказа',
 }
 

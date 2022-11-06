@@ -13,19 +13,18 @@ const CheckoutProduct: FC<ICheckoutProductProps> = ({ item }) => {
   const image = images[0].image;
 
   return (
-    <div className={styles.product}>
+    <li className={styles.product}>
       <div className={styles.leftbox}>
         <img className={styles.img} src={image} alt={title} />
         <p className={styles.text}>{title}</p>
       </div>
-      <p className={styles.count}>×{amount}</p>
-      <div className={styles.price}>
+      <div className={styles.box}>
+        <p className={styles.count}>×{amount}</p>
         <p className={styles.price} data-testid={`price-amount-${id}`}>
           {priceFormat(cur_price * amount)}
         </p>
-
       </div>
-    </div>
+    </li>
   );
 };
 

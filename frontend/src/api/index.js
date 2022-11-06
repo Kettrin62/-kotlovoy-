@@ -51,6 +51,19 @@ class Api {
 
   // elementsBrand
   getElementsBrand (id) {
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
+    if (token) {
+      return fetch(
+        `${BASEURL}v1/elements/?brand=${id}`,
+        {
+          method: 'GET',
+          headers: {
+            ...this._headers,
+            'authorization': `Token ${token}`
+          }
+        }
+      ).then(this.checkResponse)
+    }
     return fetch(
       `${BASEURL}v1/elements/?brand=${id}`,
       {
@@ -77,6 +90,19 @@ class Api {
 
   // elements
   getElements () {
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
+    if (token) {
+      return fetch(
+        `${BASEURL}v1/elements/`,
+        {
+          method: 'GET',
+          headers: {
+            ...this._headers,
+            'authorization': `Token ${token}`
+          }
+        }
+      ).then(this.checkResponse)
+    }
     return fetch(
       `${BASEURL}v1/elements/`,
       {
@@ -90,6 +116,19 @@ class Api {
 
   // elements
   getElement (id) {
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
+    if (token) {
+      return fetch(
+        `${BASEURL}v1/elements/${id}/`,
+        {
+          method: 'GET',
+          headers: {
+            ...this._headers,
+            'authorization': `Token ${token}`
+          }
+        }
+      ).then(this.checkResponse)
+    }
     return fetch(
       `${BASEURL}v1/elements/${id}/`,
       {
@@ -129,6 +168,19 @@ class Api {
 
   // elementsSearch
   getElementsSearch (name) {
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
+    if (token) {
+      return fetch(
+        `${BASEURL}v1/elements/?search=${name}`,
+        {
+          method: 'GET',
+          headers: {
+            ...this._headers,
+            'authorization': `Token ${token}`
+          }
+        }
+      ).then(this.checkResponse)
+    }
     return fetch(
       `${BASEURL}v1/elements/?search=${name}`,
       {
@@ -142,6 +194,19 @@ class Api {
 
   // elementsByIdGroup
   getElementsGroups (fetchUrl) {
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
+    if (token) {
+      return fetch(
+        `${BASEURL}v1/${fetchUrl}`,
+        {
+          method: 'GET',
+          headers: {
+            ...this._headers,
+            'authorization': `Token ${token}`
+          }
+        }
+      ).then(this.checkResponse)
+    }
     return fetch(
       `${BASEURL}v1/${fetchUrl}`,
       {

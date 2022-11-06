@@ -25,7 +25,7 @@
 .row {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 33%;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
   margin-bottom: 8px;
   box-sizing: border-box;
@@ -39,10 +39,6 @@
   margin-bottom: 0;
 }
 
-.inputFlex {
-  display: flex;
-}
-
 .input {
   width: 100%;
   align-items: flex-end;
@@ -50,6 +46,7 @@
 
 .floor {
   align-self: end;
+  grid-column: 2/4;
 }
 
 .inputFlex .input:first-child {
@@ -65,8 +62,64 @@
   margin: 0 0 4px;
 }
 
-@media (max-width: 500px) {
+.required {
+  color: #0c555e;
+}
+
+.comment {
+  grid-column: 1/4;
+}
+
+@media (max-width: 1050px) {
+  .row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .floor {
+    grid-column: 2/3;
+  }
+
+  .comment {
+    grid-column: 1/3;
+  }
+}
+
+@media (max-width: 700px) {
+  .row {
+    gap: 10px;
+  }
+
+  .label {
+    font-size: 10px;
+  }
+
+  .city {
+    grid-column: 1/3;
+  }
+
+  .floor {
+    grid-column: 1/3;
+  }
+
+  .comment {
+    grid-column: 1/3;
+  }
+}
+
+@media (max-width: 460px) {
   .row {
     grid-template-columns: 1fr;
+  }
+
+  .city {
+    grid-column: 1/2;
+  }
+
+  .floor {
+    grid-column: 1/2;
+  }
+
+  .comment {
+    grid-column: 1/2;
   }
 }
