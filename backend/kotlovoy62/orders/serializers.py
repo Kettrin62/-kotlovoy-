@@ -294,7 +294,8 @@ class OrderSerializer(serializers.ModelSerializer):
         #         }
         #     )
 
-        if order.first().status.status in 'отменённый заказ':
+        if (order.first().status.status
+        and order.first().status.status in 'отменённый заказ'):
             raise serializers.ValidationError(
                 {
                     'order': [
@@ -404,6 +405,18 @@ class OrderSerializer(serializers.ModelSerializer):
                             ]
                         }
                     )
+
+                if amount > element.stock:
+                    raise serializers.ValidationError(
+                        {
+                            'elements': [
+                                f'кол-во заказываемых деталей {element.title}'
+                                f': {amount} единиц(ы), что превышает '
+                                f'остаток в {element.stock} единиц(ы).'
+                            ]
+                        }
+                    )
+
                 cur_price = element.price - round(
                     element.price * usr_discount / 100
                 )
@@ -414,6 +427,8 @@ class OrderSerializer(serializers.ModelSerializer):
                     cur_price=cur_price,
                     amount=amount
                 )
+                element.stock -= amount
+                element.save()
             elm_sum += cur_price * amount
 
         for item in old_order_elements:
@@ -428,6 +443,10 @@ class OrderSerializer(serializers.ModelSerializer):
                         ]
                     }
                 )
+            old_order_elements[item].element.stock += (
+                old_order_elements[item].amount
+            )
+            old_order_elements[item].element.save()
             old_order_elements[item].delete()
 
         ord_sum = elm_sum + delivery.price
