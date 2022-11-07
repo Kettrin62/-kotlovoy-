@@ -37,7 +37,7 @@ export const LoginPage: FC<ILoginPageProps> = ({
   return (
     <section className={loginStyles.container}>
       <div className={loginStyles.content}>
-        <h2 className='text text_type_main-medium'>
+        <h2 className={loginStyles.header}>
           Вход
         </h2>
         <Form name='login' onSubmit={loginSubmit}>

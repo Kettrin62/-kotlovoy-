@@ -11,6 +11,7 @@ interface IInputPasswordProps {
   inputRef?: React.Ref<HTMLInputElement>;
   name?: string;
   value?: string;
+  className?: string;
 }
 
 const InputPassword: FC<IInputPasswordProps> = ({
@@ -18,7 +19,8 @@ const InputPassword: FC<IInputPasswordProps> = ({
   placeholder = 'Пароль',
   inputRef,
   name = 'password',
-  value
+  value, 
+  className
 }) => {
   const [visible, setVisible] = useState(false);
 
@@ -36,6 +38,7 @@ const InputPassword: FC<IInputPasswordProps> = ({
         required
         inputRef={inputRef}
         value={value}
+        extraClass={className}
       />
       <Button className={styles.icon} clickHandler={onClickVisible}>
         <img src={visible ? invisibleIcon : visibleIcon} alt='Иконка глаза' />

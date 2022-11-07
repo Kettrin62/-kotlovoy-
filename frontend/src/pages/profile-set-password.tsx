@@ -6,6 +6,7 @@ import { useFormWithValidation } from '../utils/validation';
 import InputPassword from '../ui/input-password/input-password';
 import styles from './profile-profile.module.css';
 import api from '../api';
+import cn from 'classnames';
 
 export function ProfileSetPasswordPage() {
   const { values, handleChange, isValid, resetForm } = useFormWithValidation();
@@ -38,7 +39,7 @@ export function ProfileSetPasswordPage() {
   return (
     <section className={loginStyles.container}>
       <div className={loginStyles.content}>
-        <h2 className='text text_type_main-medium'>
+        <h2 className={loginStyles.header}>
           Сменить пароль
         </h2>
         <Form name='set-password' onSubmit={changeSubmit}>
@@ -47,17 +48,20 @@ export function ProfileSetPasswordPage() {
             name='current_password'
             value={values.current_password}
             placeholder='Текущий пароль'
+            className={styles.input}
           />
           <InputPassword 
             handleChange={handleChange} 
             name='new_password'
             value={values.new_password}
             placeholder='Новый пароль'
+            className={styles.input}
           />
           <div className={styles.buttons}>
             <Button 
               type='submit'
               disabled={!isValid}
+              className={cn(styles.button, styles.save)}
             >
               Сменить
             </Button>
@@ -65,6 +69,7 @@ export function ProfileSetPasswordPage() {
               type='button' 
               clickHandler={onClickCancel}
               disabled={!isValid}
+              className={cn(styles.button, styles.cancel)}
             >
               Отмена
             </Button>
