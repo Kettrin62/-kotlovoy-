@@ -89,6 +89,9 @@ export const TotalPrice = () => {
     address
   } = form;
 
+  const [error, setError] = useState('');
+
+
   const confirmOrder = () => {
     setOrderCheckoutRequest(true);
     const delivery = {
@@ -113,6 +116,7 @@ export const TotalPrice = () => {
       location: address,
       elements
     }
+    setOrderCheckoutRequest(true);
     api
       .postOrder(dataOrder)
       .then(res => {
@@ -121,9 +125,12 @@ export const TotalPrice = () => {
         setVisible(true);
       })
       .catch(err => {
-        console.log(err);
         if (err.phoneNumber) {
-          console.log('ppp');
+          setError('Введён некорректный номер телефона');
+          setVisible(true);
+        }
+        if (err.elements) {
+          setError('Пока Вы оформляли заказ, некоторые позиции раскупили. Попробуйте оформить заказ заново.');
           setVisible(true);
         }
         setOrderCheckoutRequest(false);
@@ -153,10 +160,9 @@ export const TotalPrice = () => {
 
   const modal = (
     <Modal header={order ? `Заказ № ${order} оформлен` : 'Заказ не может быть оформлен!'} onClose={handleCloseModal}>
-      <p className={styles.modaltext}>{order ? 'В ближайшее время мы с Вами свяжемся!' : 'Введён некорректный номер телефона'}</p>
+      <p className={styles.modaltext}>{order ? 'В ближайшее время мы с Вами свяжемся!' : error}</p>
     </Modal>
   );
-
 
   return (
     <div className={`${styles.container}`}>
@@ -173,6 +179,7 @@ export const TotalPrice = () => {
           </MainButton>
         )}
         {visible && modal}
+
       </div>
     </div>
   );

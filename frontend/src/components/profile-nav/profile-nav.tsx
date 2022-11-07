@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { isDataView } from 'util/types';
 import AuthContext from '../../services/contexts/auth-context';
 import profilenavStyles from './profile-nav.module.css';
+import cn from 'classnames';
 
 interface IProfileNavProps {
   onClickLogout: () => void;
@@ -20,10 +21,9 @@ const ProfileNav: FC<IProfileNavProps> = ({ onClickLogout }) => {
             exact
             to={!isAdmin ? '/profile' : '/admin-panel/orders'}
             className={profilenavStyles.link}
-            activeClassName={profilenavStyles.link_active}
+            activeClassName={cn(profilenavStyles.link, profilenavStyles.link_active)}
           >
             {!isAdmin ? 'Профиль' : 'Заказы'}
-            {/* {!isAdmin ? 'Профиль' : 'Пользователи'} */}
           </NavLink>
         </li>
         <li>

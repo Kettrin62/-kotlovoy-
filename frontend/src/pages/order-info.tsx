@@ -171,6 +171,17 @@ export const OrderInfoPage: FC = () => {
   };
 
   const onChangeSave = () => {
+    if (statusName === 'отменённый заказ') {
+      api
+        .cancelOrder(id)
+        .then(res => {
+          console.log(res);
+          
+        })
+        .catch(err => console.log(err))
+      return;
+      
+    }
     const status = statusName ? {
       id: statuses.filter(item => item!.status === statusName)[0]!.id
     } : order?.status;
@@ -212,7 +223,7 @@ export const OrderInfoPage: FC = () => {
     <div className={orderinfoStyles.container}>
       <h2>№ {order?.number}</h2>
       <h3>от {dateTime}</h3>
-      {match.path === '/admin-panel/orders/:id'  && isAdmin && (
+      {match.path === '/admin-panel/orders/:id'  && isAdmin && order?.status?.status !== 'отменённый заказ' && (
         <Button className={orderinfoStyles.button} clickHandler={onChangeOrder}>
           Редактировать заказ
         </Button>

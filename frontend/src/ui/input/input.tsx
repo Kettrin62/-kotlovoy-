@@ -33,7 +33,7 @@ const Input: FC<IInputProps> = ({
 }) => {
   const className = `${styles.input} ${extraClass} ${inputWithBtn ? styles.input_withBtn : ''}`;
   return (
-    <div>
+    <div className={styles.container}>
       <label className={classLabel}>
       {label}
         <input

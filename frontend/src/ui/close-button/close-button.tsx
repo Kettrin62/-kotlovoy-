@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import styles from '../delete-button/delete-button.module.css';
+import styles from '../close-button/close-button.module.css';
 import cn from 'classnames';
 import closeIcon from '../../images/close.svg';
 
@@ -11,7 +11,7 @@ interface ICloseButtonProps {
 const CloseButton: FC<ICloseButtonProps> = ({ extraClass, onClose }) => {
   return (
     <button type='button' className={cn(styles.button, extraClass)} onClick={onClose}>
-      <img src={closeIcon} alt='Закрыть' />
+      <img src={closeIcon} alt='Закрыть' className={styles.img} />
     </button>
   )
 }

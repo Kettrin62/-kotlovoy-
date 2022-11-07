@@ -8,7 +8,6 @@ class Api {
 
   checkResponse (res) {
     return new Promise((resolve, reject) => {
-      console.log(res.status);
       if (res.status === 204) {
         return resolve(res)
       }
@@ -451,6 +450,21 @@ class Api {
           'authorization': `Token ${token}`
         },
         body: JSON.stringify(data)
+      }
+    ).then(this.checkResponse)
+  }
+
+  // cancel order
+  cancelOrder (id) {
+    const token = localStorage.getItem('token');
+    return fetch(
+      `${BASEURL}v1/orders/${id}/cancel_order/`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        },
       }
     ).then(this.checkResponse)
   }

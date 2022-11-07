@@ -9,6 +9,7 @@ import InputEdit from '../ui/input-edit/input-edit';
 import Input from '../ui/input/input';
 import { useFormWithValidation } from '../utils/validation';
 import profileprofileStyles from './profile-profile.module.css';
+import cn from 'classnames';
 
 export function ProfileProfilePage() {
   const [changValue, setChangeValue] = useState(false);
@@ -122,29 +123,39 @@ export function ProfileProfilePage() {
 
   return (
     <div className={profileprofileStyles.container}>
-      <Form name='profile' onSubmit={updateUserSubmit}>
+      <Form name='profile' onSubmit={updateUserSubmit} class={profileprofileStyles.form}>
+        <Input
+          type='text'
+          placeholder='Дисконтная скидка'
+          onChange={() => {}}
+          value={`Дисконтаная скидка - ${user?.discount} %`}
+          name='discount'
+          extraClass={profileprofileStyles.input}
+          
+        />
         <InputEdit
           handleChange={onChangeUsername}
           placeholder='Логин'
-          label='Логин'
           value={username}
           inputRef={inputRef}
           name='username'
           required={true}
+          className={profileprofileStyles.input}
         />
         <InputEdit
           placeholder='Имя'
-          label='Имя'
           handleChange={onChangeFirstname}
           value={firstname}
           name='first_name'
           inputRef={inputRef}
+          className={profileprofileStyles.input}
         />
         <InputEdit
           placeholder='Фамилия'
           handleChange={onChangeLastname}
           value={lastname}
           name='last_name'
+          className={profileprofileStyles.input}
         />
         <Input
           type='text'
@@ -152,49 +163,57 @@ export function ProfileProfilePage() {
           onChange={() => {}}
           value={user?.email}
           name='email'
-        />
-        <Input
-          type='text'
-          placeholder='Дисконтная скидка'
-          onChange={() => {}}
-          value={`Дисконтаная скидка - ${user?.discount} %`}
-          name='discount'
+          extraClass={profileprofileStyles.input}
         />
         <InputEdit
           placeholder='Телефон'
           handleChange={onChangePhoneNumber}
           value={phoneNumber}
           name='phoneNumber'
+          className={profileprofileStyles.input}
         />
         <InputEdit
           placeholder='Индекс'
           handleChange={onChangePostalCode}
           value={postalCode}
           name='postal_code'
+          className={profileprofileStyles.input}
         />
         <InputEdit
           placeholder='Регион/Область'
           handleChange={onChangeRegion}
           value={region}
           name='region'
+          className={profileprofileStyles.input}
         />
         <InputEdit
           placeholder='Город/Насел.пункт'
           handleChange={onChangeCity}
           value={city}
           name='city'
+          className={profileprofileStyles.input}
         />
         <InputEdit
           placeholder='Улица/Дом/Квартира'
           handleChange={onChangeLocation}
           value={location}
           name='location'
+          className={profileprofileStyles.input}
         />
         <div className={profileprofileStyles.buttons}>
-          <Button type='submit' disabled={!changValue}>
+          <Button 
+            type='submit' 
+            disabled={!changValue} 
+            className={cn(profileprofileStyles.button, profileprofileStyles.save)}
+          >
             Сохранить
           </Button>
-          <Button type='button' clickHandler={onClickCancel} disabled={!changValue}>
+          <Button 
+            type='button' 
+            clickHandler={onClickCancel} 
+            disabled={!changValue} 
+            className={cn(profileprofileStyles.button, profileprofileStyles.cancel)}
+          >
             Отмена
           </Button>
         </div>
