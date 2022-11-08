@@ -6,9 +6,9 @@ import {
 } from 'react-router-dom';
 import { TCardOrder } from '../../services/types/data';
 import { showMessageDateTime } from '../../utils/functions';
-import Divider from '../divider/divider';
 import { priceFormat } from '../total-price/utils';
 import cardorderStyles from './card-order.module.css';
+import cn from 'classnames';
 
 interface ICardOrderProps {
   card: TCardOrder;
@@ -37,13 +37,22 @@ const CardOrder: FC<ICardOrderProps> = ({ card }) => {
       onClick={onClickOrder}
     >
       <h4 className={cardorderStyles.header}>
-        {`№ ${number} от ${date}`}
+        <span>{`№ ${number}`}</span>
+        <span>
+          {`от ${date}`}
+        </span>
       </h4>
-      <p>
-        {`Статус: ${statusName}`}
+      <p className={cardorderStyles.text}>
+        <span>Статус:</span>
+        <span>
+          {statusName}
+        </span>
       </p>
-      <p>
-        {`Сумма: ${priceFormat(totalPrice)}`}
+      <p className={cn(cardorderStyles.text, cardorderStyles.price)}>
+        <span>Сумма:</span>
+        <span>
+          {priceFormat(totalPrice)}
+        </span>
       </p>
     </li>
   )
