@@ -33,33 +33,19 @@ const CardOrder: FC<ICardOrderProps> = ({ card }) => {
 
   return (
     <li
-        className={cardorderStyles.card}
-        onClick={onClickOrder}
-      >
-        {/* <Link to={`/profile/orders/${id}`}> */}
-
-        <h4 className={cardorderStyles.header}>
-          {`№ ${number} от ${date}`}
-        </h4>
-        <p>
-          {`Статус: ${statusName}`}
-        </p>
-        <p>
-          {`Сумма: ${priceFormat(totalPrice)}`}
-        </p>
-        {/* <Divider className={cardorderStyles.divider} /> */}
-
-        {/* <h2 className='mt-6 text text_type_main-medium'>{name}</h2>
-        {(pathname === '/profile/orders') && 
-        (<p className='mt-2 text text_type_main-default' style={{color}}>{status}</p>)} */}
-        {/* <div className={'mt-6 ' + cardorderStyles.main}>
-
-          <div className={'ml-6 ' + cardorderStyles.price}>
-            <p className='text text_type_digits-default'>{totalPrice}</p>
-          </div>
-        </div> */}
-                {/* </Link> */}
-      </li>
+      className={cardorderStyles.card}
+      onClick={onClickOrder}
+    >
+      <h4 className={cardorderStyles.header}>
+        {`№ ${number} от ${date}`}
+      </h4>
+      <p>
+        {`Статус: ${statusName}`}
+      </p>
+      <p>
+        {`Сумма: ${priceFormat(totalPrice)}`}
+      </p>
+    </li>
   )
 }
 

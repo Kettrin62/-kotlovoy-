@@ -9,6 +9,8 @@ import Button from '../components/button/button';
 import AuthContext from '../services/contexts/auth-context';
 import api from '../api';
 import InputPassword from '../ui/input-password/input-password';
+import { useFormWithValidation } from '../utils/validation';
+import cn from 'classnames';
 
 interface IResetPasswordPageProps {
   successForgot: boolean;
@@ -20,15 +22,22 @@ export const ResetPasswordPage: FC<IResetPasswordPageProps> = ({
   const { loggedIn } = useContext(AuthContext);
   const { state } = useLocation<TUseLocationState>();
   const [success, setSuccess] = useState(false);
+  const [isValid, setIsValid] = useState(false);
 
   const [passwordValue, setPasswordValue] = useState('');
   const onChangePasswordValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswordValue(e.target.value);
+    const target = e.target;
+    const value = target.value;
+    setPasswordValue(value);
+    setIsValid(target?.closest('form')!.checkValidity());
   };
 
   const [codeValue, setCodeValue] = React.useState("");
   const onChangeCodeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target;
+    const value = target.value;
     setCodeValue(e.target.value);
+    setIsValid(target?.closest('form')!.checkValidity());
   };
 
   const inputRef = useRef(null);
@@ -76,10 +85,10 @@ export const ResetPasswordPage: FC<IResetPasswordPageProps> = ({
   return (
     <section className={loginStyles.container}>
       <div className={loginStyles.content}>
-        <h2 className='text text_type_main-medium'>
+        <h2 className={loginStyles.header}>
           Восстановление пароля
         </h2>
-        <Form name='reset-password' class={'mt-6 '} onSubmit={resetPasswordSubmit}>
+        <Form name='reset-password' onSubmit={resetPasswordSubmit}>
           <Input
             type='text'
             placeholder='Введите код из письма'
@@ -89,27 +98,23 @@ export const ResetPasswordPage: FC<IResetPasswordPageProps> = ({
             inputRef={inputRef}
             required
           />
-          {/* <Input
-            type={'password'}
-            placeholder={'Введите новый пароль'}
-            onChange={onChangePasswordValue}
-            value={passwordValue}
-            name={'email'}
-            inputRef={inputRef}
-          /> */}
           <InputPassword 
             placeholder='Введите новый пароль'
             handleChange={onChangePasswordValue} 
           />
-          <Button type='submit'>
+          <Button
+            type='submit'
+            disabled={!isValid}
+            className={cn(loginStyles.button, loginStyles.save)}
+          >
             Сохранить
           </Button>
         </Form>
-        <div className={'mt-20 ' + loginStyles.item}>
-          <p className='text text_type_main-default'>
+        <div className={loginStyles.item}>
+          <p className={loginStyles.text}>
             Вспомнили пароль?
           </p>
-          <Link className={'text text_type_main-default ' + loginStyles.link} to='/login'>
+          <Link className={loginStyles.link} to='/login'>
             Войти
           </Link>
         </div>

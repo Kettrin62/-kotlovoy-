@@ -7,7 +7,7 @@ import { TUseLocationState } from '../services/types/data';
 import AuthContext from '../services/contexts/auth-context';
 import Input from '../ui/input/input';
 import Button from '../components/button/button';
-import api from '../api';
+import cn from 'classnames';
 
 interface IForgotPasswordProps {
   onForgot: (email: string) => void;
@@ -23,8 +23,16 @@ export const ForgotPasswordPage: FC<IForgotPasswordProps> = ({
   const { state } = useLocation<TUseLocationState>();
 
   const [emailValue, setEmailValue] = useState('');
+  const [isValid, setIsValid] = useState(false);
 
   const inputRef = useRef(null);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const target = event.target;
+    const value = target.value;
+    setEmailValue(value.toLowerCase());
+    setIsValid(target?.closest('form')!.checkValidity());
+  };
 
   const forgotPasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,29 +56,31 @@ export const ForgotPasswordPage: FC<IForgotPasswordProps> = ({
   return (
     <section className={loginStyles.container}>
       <div className={loginStyles.content}>
-        <h2 className='text text_type_main-medium'>
+        <h2 className={loginStyles.header}>
           Восстановление пароля
         </h2>
-        <Form name='forgot-password' class={'mt-6 '} onSubmit={forgotPasswordSubmit}>
+        <Form name='forgot-password' onSubmit={forgotPasswordSubmit}>
           <Input
             type={'email'}
             placeholder={'Укажите e-mail'}
-            onChange={e => setEmailValue(e.target.value)}
+            onChange={handleChange}
             value={emailValue}
             name={'email'}
-            // error={false}
             inputRef={inputRef}
-            // errorText={'Ошибка'}
           />
-          <Button type='submit'>
+          <Button 
+            type='submit'
+            disabled={!isValid}
+            className={cn(loginStyles.button, loginStyles.save)}
+          >
             Восстановить
           </Button>
         </Form>
-        <div className={'mt-20 ' + loginStyles.item}>
-          <p className='text text_type_main-default'>
+        <div className={loginStyles.item}>
+          <p className={loginStyles.text}>
             Вспомнили пароль?
           </p>
-          <Link className={'text text_type_main-default ' + loginStyles.link} to='/login'>
+          <Link className={loginStyles.link} to='/login'>
             Войти
           </Link>
         </div>

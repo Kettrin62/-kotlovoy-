@@ -9,6 +9,7 @@ import Button from '../components/button/button';
 import { useFormWithValidation } from '../utils/validation';
 import AuthContext from '../services/contexts/auth-context';
 import InputPassword from '../ui/input-password/input-password';
+import cn from 'classnames';
 
 interface IRegisterPageProps {
   onSignUp: (data: TFormRegister) => void;
@@ -34,7 +35,7 @@ export const RegisterPage: FC<IRegisterPageProps> = ({
   return (
     <section className={loginStyles.container}>
       <div className={loginStyles.content}>
-        <h2>
+        <h2 className={loginStyles.header}>
           Регистрация
         </h2>
         <Form name='register' onSubmit={registerSubmit}>
@@ -52,23 +53,17 @@ export const RegisterPage: FC<IRegisterPageProps> = ({
             name={'username'}
             required
           />
-          {/* <Input
-            type={'password'}
-            placeholder={'Пароль'}
-            onChange={handleChange}
-            name={'password'}
-            required
-          /> */}
           <InputPassword handleChange={handleChange} />
           <Button 
             type='submit'
             disabled={!isValid}
+            className={cn(loginStyles.button, loginStyles.save)}
           >
             Зарегистрироваться
           </Button>
         </Form>
         <div className={loginStyles.item}>
-          <p>
+          <p className={loginStyles.text}>
             Уже зарегистрированы?
           </p>
           <Link className={loginStyles.link} to='/login'>

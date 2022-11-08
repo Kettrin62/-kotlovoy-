@@ -1,17 +1,15 @@
 import * as React from 'react';
-import { FC, useContext, useState, useEffect } from 'react';
+import { FC, useContext } from 'react';
 import Form from '../components/form/form';
 import { Link,  Redirect } from 'react-router-dom';
 import loginStyles from './login.module.css';
-import { TFormAuth, TTypeInput } from '../services/types/data';
+import { TFormAuth } from '../services/types/data';
 import Input from '../ui/input/input';
 import Button from '../components/button/button';
 import { useFormWithValidation } from '../utils/validation';
 import AuthContext from '../services/contexts/auth-context';
-import InputBox from '../components/input-box/input-box';
-import visibleIcon from '../images/visible.svg';
-import invisibleIcon from '../images/invisible.svg';
 import InputPassword from '../ui/input-password/input-password';
+import cn from 'classnames';
 
 interface ILoginPageProps {
   onLogin: (data: TFormAuth) => void;
@@ -52,20 +50,21 @@ export const LoginPage: FC<ILoginPageProps> = ({
           <Button 
             type='submit'
             disabled={!isValid}
+            className={cn(loginStyles.button, loginStyles.save)}
           >
             Войти
           </Button>
         </Form>
-        <div className={loginStyles.item}>
-          <p>
+        <div className={cn(loginStyles.item, loginStyles.column)}>
+          <p className={loginStyles.text}>
             Вы — новый пользователь?
           </p>
           <Link className={loginStyles.link} to='/register'>
             Зарегистрироваться
           </Link>
         </div>
-        <div className={loginStyles.item}>
-          <p>
+        <div className={cn(loginStyles.item, loginStyles.column)}>
+          <p className={loginStyles.text}>
             Забыли пароль?
           </p>
           <Link className={loginStyles.link} to='/forgot-password'>

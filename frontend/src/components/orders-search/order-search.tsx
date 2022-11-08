@@ -50,7 +50,7 @@ const OrdersSearch = () => {
 
   return (
     <>
-      <p>Найти заказ</p>
+      <p className={styles.title}>Найти заказ</p>
       <InputSearch
         inputValue={nameOrder.number}
         onChangeInput={onChangeInput}
