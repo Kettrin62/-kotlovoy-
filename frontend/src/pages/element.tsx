@@ -51,19 +51,14 @@ export function ElementPage() {
   useEffect(() => {
     if (id) getElement(id);
 
-    if (element && element.stock !== 0) {
-      setButtonState({
-        ...buttonState,
-        text: 'В корзину',
-      })
-    } else {
+    if (element && element.stock === 0) {
       setButtonState({
         ...buttonState,
         text: 'В корзину',
         disabled: true,
       })
     }
-  }, []);
+  }, [element]);
 
   useEffect(() => {
     if (element?.stock !== 0) {
@@ -83,10 +78,6 @@ export function ElementPage() {
 
     if (reset) setInputValue(1)
   }, [dataCart, reset]);
-
-  // useEffect(() => {
-  //   setInputValue(1);
-  // }, [reset])
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target: number = + e.target.value.replace(/\D/g, '');

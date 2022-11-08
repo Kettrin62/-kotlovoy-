@@ -8,7 +8,7 @@
 
 .list {
   padding: 0;
-  margin: 40px 0 0;
+  margin: 20px 0 0;
   display: flex;
   flex-direction: column;
   /* flex-wrap: wrap; */
@@ -23,6 +23,10 @@
   gap: 10px;
   width: 100%;
   position: relative;
+}
+
+.filter {
+  margin-top: 20px;
 }
 
 

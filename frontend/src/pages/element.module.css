@@ -56,7 +56,7 @@
 }
 
 .button {
-  border: 1px solid rgba(247, 109, 10, 0.7);
+  /* border: 1px solid rgba(247, 109, 10, 0.7); */
   border-radius: 6px;
   padding-left: 30px;
   padding-right: 30px;

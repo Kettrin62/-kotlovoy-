@@ -9,6 +9,7 @@ import { TCardOrder, TStatus } from '../services/types/data';
 import ordersStyles from './orders.module.css';
 import cn from 'classnames';
 import LinkClose from '../components/links-buttons-image/link-close';
+import filterStyles from './elements.module.css';
 
 interface IOrdersPage {
   statuses?: Array<TStatus>;
@@ -56,13 +57,13 @@ export const OrdersPage: FC<IOrdersPage> = ({ statuses }) => {
   }
 
   const filter = statuses && (
-    <ul className={ordersStyles.list_group}>
+    <ul className={cn(filterStyles.list_group, filterStyles.show, ordersStyles.filter)}>
       {statuses.map(item => {
-        const classActive = selectStatus === item?.id ? ordersStyles.button_group_active : '';
+        const classActive = selectStatus === item?.id ? filterStyles.button_group_active : '';
         return (
           <li key={item!.id} className={ordersStyles.box}>
-            <Button clickHandler={() => {onClickHandler(item!.id)}} className={cn(ordersStyles.button_group, classActive)}>
-              <Text text={item!.status} class={ordersStyles.text_group} />
+            <Button clickHandler={() => {onClickHandler(item!.id)}} className={cn(filterStyles.button_group, classActive)}>
+              <Text text={item!.status} class={filterStyles.text_group} />
               {selectStatus === item?.id && <LinkClose />}
             </Button>
           </li>
