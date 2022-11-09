@@ -8,17 +8,19 @@ interface IInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   label?: string | undefined,
   type?: 'text',
-  inputClassName: string | undefined,
+  inputClassName?: string | undefined,
   labelClassName?: string | undefined,
-  className: string | undefined,
+  className?: string | undefined,
   name?: string | undefined,
   required?: boolean,
   onFocus?: any,
   onBlur?: any,
-  value: string,
+  value?: string,
   reset?: boolean,
   maxLength?: number,
   handleKeypress?: (e: any) => void,
+  inputRef?: React.Ref<HTMLInputElement>;
+  placeholder?: string;
 }
 
 const Input: FC<IInputProps> = ({
@@ -35,7 +37,9 @@ const Input: FC<IInputProps> = ({
     value = '',
     reset,
     maxLength,
-    handleKeypress
+    handleKeypress,
+    inputRef,
+    placeholder
   }) => {
 
   const [ inputValue, setInputValue ] = useState(value);
@@ -66,14 +70,17 @@ const Input: FC<IInputProps> = ({
         required={required}
         name={name}
         className={cn(inputStyles.inputField, inputClassName)}
-        onChange={e => {
-          handleValueChange(e)
-        }}
+        // onChange={e => {
+        //   handleValueChange(e)
+        // }}
+        onChange={onChange}
         onFocus={onFocus}
         value={inputValue}
         onBlur={onBlur}
         maxLength={maxLength}
         onKeyPress={handleKeypress}
+        ref={inputRef}
+        placeholder={placeholder}
       />
     </label>
   </div>

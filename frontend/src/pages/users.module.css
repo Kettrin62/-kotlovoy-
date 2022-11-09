@@ -1,0 +1,16 @@
+/* .item {
+  display: flex;
+  border-bottom: 1px solid #000;
+  align-items: flex-end;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.button {
+  border: solid 1px;
+  margin: 0 10px;
+  padding: 5px;
+  height: min-content;
+} */

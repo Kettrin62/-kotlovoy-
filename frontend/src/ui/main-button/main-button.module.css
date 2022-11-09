@@ -1,0 +1,32 @@
+.button {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+  /* color: #FFFFFF; */
+  cursor: pointer;
+  outline: none;
+  background: rgba(247, 109, 10, 0.7);
+  border-radius: 4px;
+  border: none;
+  padding: 8px 15px;
+  box-sizing: border-box;
+}
+
+.input {
+  padding: 10px 16px;
+  border-radius: 0px 4px 4px 0px;
+}
+
+.secondary {
+  background-color: #fff;
+  color: rgba(247, 109, 10, 1);
+  border-color: rgba(247, 109, 10, 1);
+  box-shadow: 0 0 7px rgb(247 109 10);
+}
+
+@media (max-width: 440px) {
+  .button {
+    font-size: 14px;
+  }
+}

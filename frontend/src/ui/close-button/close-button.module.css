@@ -1,0 +1,18 @@
+.button {
+  background-color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .button {
+    width: 30px;
+    height: 30px;
+  }
+
+  .img {
+    width: 30px;
+    height: 30px;
+  }
+}

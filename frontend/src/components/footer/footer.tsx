@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { dataFooter, pathNames } from '../../utils/data';
 import Divider from '../divider/divider';
 import Image from '../image/image';
-import Link from '../link/link';
+// import Link from '../link/link';
 import Navigation from '../navigation/navigation';
 import Text from '../text/text';
 import footerStyles from './footer.module.css';
@@ -24,13 +24,13 @@ function Footer() {
         <Text class={footerStyles.copy} text='&copy; Котловой62' />
         <div className={footerStyles.container}>
           <Navigation className={footerStyles.nav}>
-            <Link class={footerStyles.link} onClick={() => onClickLink(pathNames.about)}>
+            <Link className={footerStyles.link} to={pathNames.about}>
               <Text class={footerStyles.text} text='О нас' />
             </Link>
-            <Link class={footerStyles.link} onClick={() => onClickLink(pathNames.contacts)}>
+            <Link className={footerStyles.link} to={pathNames.contacts}>
               <Text class={footerStyles.text} text='Контакты' />
             </Link>
-            <Link class={footerStyles.link} onClick={() => onClickLink(pathNames.feedback)}>
+            <Link className={footerStyles.link} to={pathNames.feedback}>
               <Text class={footerStyles.text} text='Написать нам' />
             </Link>
           </Navigation>

@@ -23,23 +23,23 @@ class Api {
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = url;
-          a.download = "shopping-list";
-          document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+          a.setAttribute(
+            'download',
+            `order-list.xlsx`,
+          );
+          document.body.appendChild(a);
           a.click();    
-          a.remove();  //afterwards we remove the element again 
+          a.remove();
         })
       }
       reject()
     })
   }
 
-
-
-
   // brands
   getBrands () {
     return fetch(
-      `${BASEURL}brands/`,
+      `${BASEURL}v1/brands/`,
       {
         method: 'GET',
         headers: {
@@ -51,8 +51,21 @@ class Api {
 
   // elementsBrand
   getElementsBrand (id) {
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
+    if (token) {
+      return fetch(
+        `${BASEURL}v1/elements/?brand=${id}`,
+        {
+          method: 'GET',
+          headers: {
+            ...this._headers,
+            'authorization': `Token ${token}`
+          }
+        }
+      ).then(this.checkResponse)
+    }
     return fetch(
-      `${BASEURL}elements/?brand=${id}`,
+      `${BASEURL}v1/elements/?brand=${id}`,
       {
         method: 'GET',
         headers: {
@@ -65,7 +78,7 @@ class Api {
   // slides
   getSliders () {
     return fetch(
-      `${BASEURL}swipers/`,
+      `${BASEURL}v1/swipers/`,
       {
         method: 'GET',
         headers: {
@@ -77,8 +90,21 @@ class Api {
 
   // elements
   getElements () {
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
+    if (token) {
+      return fetch(
+        `${BASEURL}v1/elements/`,
+        {
+          method: 'GET',
+          headers: {
+            ...this._headers,
+            'authorization': `Token ${token}`
+          }
+        }
+      ).then(this.checkResponse)
+    }
     return fetch(
-      `${BASEURL}elements/`,
+      `${BASEURL}v1/elements/`,
       {
         method: 'GET',
         headers: {
@@ -90,8 +116,21 @@ class Api {
 
   // elements
   getElement (id) {
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
+    if (token) {
+      return fetch(
+        `${BASEURL}v1/elements/${id}/`,
+        {
+          method: 'GET',
+          headers: {
+            ...this._headers,
+            'authorization': `Token ${token}`
+          }
+        }
+      ).then(this.checkResponse)
+    }
     return fetch(
-      `${BASEURL}elements/${id}/`,
+      `${BASEURL}v1/elements/${id}/`,
       {
         method: 'GET',
         headers: {
@@ -104,7 +143,7 @@ class Api {
   // groups
   getGroups () {
     return fetch(
-      `${BASEURL}groups/`,
+      `${BASEURL}v1/groups/`,
       {
         method: 'GET',
         headers: {
@@ -117,7 +156,7 @@ class Api {
   // groupsByIdBrand
   getGroupsById (id) {
     return fetch(
-      `${BASEURL}groups/${id}/related_to_brand/`,
+      `${BASEURL}v1/groups/${id}/related_to_brand/`,
       {
         method: 'GET',
         headers: {
@@ -129,8 +168,21 @@ class Api {
 
   // elementsSearch
   getElementsSearch (name) {
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
+    if (token) {
+      return fetch(
+        `${BASEURL}v1/elements/?search=${name}`,
+        {
+          method: 'GET',
+          headers: {
+            ...this._headers,
+            'authorization': `Token ${token}`
+          }
+        }
+      ).then(this.checkResponse)
+    }
     return fetch(
-      `${BASEURL}elements/?search=${name}`,
+      `${BASEURL}v1/elements/?search=${name}`,
       {
         method: 'GET',
         headers: {
@@ -142,8 +194,21 @@ class Api {
 
   // elementsByIdGroup
   getElementsGroups (fetchUrl) {
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
+    if (token) {
+      return fetch(
+        `${BASEURL}v1/${fetchUrl}`,
+        {
+          method: 'GET',
+          headers: {
+            ...this._headers,
+            'authorization': `Token ${token}`
+          }
+        }
+      ).then(this.checkResponse)
+    }
     return fetch(
-      `${BASEURL}${fetchUrl}`,
+      `${BASEURL}v1/${fetchUrl}`,
       {
         method: 'GET',
         headers: {
@@ -153,12 +218,24 @@ class Api {
     ).then(this.checkResponse)
   }
 
+  // register
+  signup ({ email, password, username }) {
+    return fetch(
+      `${BASEURL}v1/users/`,
+      {
+        method: 'POST',
+        headers: this._headers,
+        body: JSON.stringify({
+          email, password, username
+        })
+      }
+    ).then(this.checkResponse)
+  }
 
-
-
+  // authorization
   signin ({ email, password }) {
     return fetch(
-      '/api/auth/token/login/',
+      `${BASEURL}auth/token/login/`,
       {
         method: 'POST',
         headers: this._headers,
@@ -169,37 +246,11 @@ class Api {
     ).then(this.checkResponse)
   }
 
-  signout () {
-    const token = localStorage.getItem('token')
-    return fetch(
-      '/api/auth/token/logout/',
-      {
-        method: 'POST',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
-  signup ({ email, password, username, first_name, last_name }) {
-    return fetch(
-      `/api/users/`,
-      {
-        method: 'POST',
-        headers: this._headers,
-        body: JSON.stringify({
-          email, password, username, first_name, last_name
-        })
-      }
-    ).then(this.checkResponse)
-  }
-
+  // userData
   getUserData () {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/users/me/`,
+      `${BASEURL}v1/users/me/`,
       {
         method: 'GET',
         headers: {
@@ -210,10 +261,71 @@ class Api {
     ).then(this.checkResponse)
   }
 
+  // logout
+  signout () {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}auth/token/logout/`,
+      {
+        method: 'POST',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // update user
+  updateDataUser (id, dataUser) {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/users/${id}/`,
+      {
+        method: 'PATCH',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        },
+        body: JSON.stringify(dataUser)
+      }
+    ).then(this.checkResponse)
+  }
+
+  // forgot password
+  forgotPassword (email) {
+    return fetch(
+      `${BASEURL}v1/users/password_reset/`,
+      {
+        method: 'POST',
+        headers: this._headers,
+        body: JSON.stringify({
+          email
+        })
+      }
+    ).then(this.checkResponse)
+  }
+
+  // reset password
+  resetPassword (password, token) {
+    return fetch(
+      `${BASEURL}v1/users/password_reset/confirm/`,
+      {
+        method: 'POST',
+        headers: this._headers,
+        body: JSON.stringify({
+          password,
+          token
+        })
+      }
+    ).then(this.checkResponse)
+  }
+
+  // change password
   changePassword ({ current_password, new_password }) {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/users/set_password/`,
+      `${BASEURL}v1/users/set_password/`,
       {
         method: 'POST',
         headers: {
@@ -225,141 +337,52 @@ class Api {
     ).then(this.checkResponse)
   }
 
+  // delivery methods
+  getDeliveryMethods () {
+    return fetch(
+      `${BASEURL}v1/delivery/`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+        }
+      }
+    ).then(this.checkResponse)
+  }
 
-  // recipes
-
-  getRecipes ({
-    page = 1,
-    limit = 6,
-    is_favorited = 0,
-    is_in_shopping_cart = 0,
-    author,
-    tags
-  } = {}) {
-      const token = localStorage.getItem('token')
-      const authorization = token ? { 'authorization': `Token ${token}` } : {}
-      const tagsString = tags ? tags.filter(tag => tag.value).map(tag => `&tags=${tag.slug}`).join('') : ''
+  // post order
+  postOrder (data) {
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
+    if (token) {
       return fetch(
-        `/api/recipes/?page=${page}&limit=${limit}${author ? `&author=${author}` : ''}${is_favorited ? `&is_favorited=${is_favorited}` : ''}${is_in_shopping_cart ? `&is_in_shopping_cart=${is_in_shopping_cart}` : ''}${tagsString}`,
+        `${BASEURL}v1/orders/`,
         {
-          method: 'GET',
+          method: 'POST',
           headers: {
             ...this._headers,
-            ...authorization
-          }
+            'authorization': `Token ${token}`
+          },
+          body: JSON.stringify(data)
         }
       ).then(this.checkResponse)
-  }
-
-  getRecipe ({
-    recipe_id
-  }) {
-    const token = localStorage.getItem('token')
-    const authorization = token ? { 'authorization': `Token ${token}` } : {}
+    }
     return fetch(
-      `/api/recipes/${recipe_id}/`,
-      {
-        method: 'GET',
-        headers: {
-          ...this._headers,
-          ...authorization
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
-  createRecipe ({
-    name = '',
-    image,
-    tags = [],
-    cooking_time = 0,
-    text = '',
-    ingredients = []
-  }) {
-    const token = localStorage.getItem('token')
-    return fetch(
-      '/api/recipes/',
+      `${BASEURL}v1/orders/`,
       {
         method: 'POST',
         headers: {
           ...this._headers,
-          'authorization': `Token ${token}`
         },
-        body: JSON.stringify({
-          name,
-          image,
-          tags,
-          cooking_time,
-          text,
-          ingredients
-        })
+        body: JSON.stringify(data)
       }
     ).then(this.checkResponse)
   }
 
-  updateRecipe ({
-    name,
-    recipe_id,
-    image,
-    tags,
-    cooking_time,
-    text,
-    ingredients
-  }, wasImageUpdated) { // image was changed
+  // get orders
+  getOrders () {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/recipes/${recipe_id}/`,
-      {
-        method: 'PATCH',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        },
-        body: JSON.stringify({
-          name,
-          id: recipe_id,
-          image: wasImageUpdated ? image : undefined,
-          tags,
-          cooking_time: Number(cooking_time),
-          text,
-          ingredients
-        })
-      }
-    ).then(this.checkResponse)
-  }
-
-  addToFavorites ({ id }) {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/recipes/${id}/favorite/`,
-      {
-        method: 'POST',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
-  removeFromFavorites ({ id }) {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/recipes/${id}/favorite/`,
-      {
-        method: 'DELETE',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
-  getUser ({ id }) {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/users/${id}/`,
+      `${BASEURL}v1/orders/`,
       {
         method: 'GET',
         headers: {
@@ -370,13 +393,11 @@ class Api {
     ).then(this.checkResponse)
   }
 
-  getUsers ({
-    page = 1,
-    limit = 6
-  }) {
+  // get order by id
+  getOrderId (id) {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/users/?page=${page}&limit=${limit}`,
+      `${BASEURL}v1/orders/${id}/`,
       {
         method: 'GET',
         headers: {
@@ -387,133 +408,11 @@ class Api {
     ).then(this.checkResponse)
   }
 
-  // subscriptions
-
-  getSubscriptions ({
-    page, 
-    limit = 6,
-    recipes_limit = 3
-  }) {
+  // get file
+  downloadFile (id) {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/users/subscriptions/?page=${page}&limit=${limit}&recipes_limit=${recipes_limit}`,
-      {
-        method: 'GET',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
-  deleteSubscriptions ({
-    author_id
-  }) {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/users/${author_id}/subscribe/`,
-      {
-        method: 'DELETE',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
-  subscribe ({
-    author_id
-  }) {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/users/${author_id}/subscribe/`,
-      {
-        method: 'POST',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
-  // ingredients
-  getIngredients ({ name }) {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/ingredients/?name=${name}`,
-      {
-        method: 'GET',
-        headers: {
-          ...this._headers
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
-  // tags
-  getTags () {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/tags/`,
-      {
-        method: 'GET',
-        headers: {
-          ...this._headers
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
-
-  addToOrders ({ id }) {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/recipes/${id}/shopping_cart/`,
-      {
-        method: 'POST',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
-  removeFromOrders ({ id }) {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/recipes/${id}/shopping_cart/`,
-      {
-        method: 'DELETE',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
-  deleteRecipe ({ recipe_id }) {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/recipes/${recipe_id}/`,
-      {
-        method: 'DELETE',
-        headers: {
-          ...this._headers,
-          'authorization': `Token ${token}`
-        }
-      }
-    ).then(this.checkResponse)
-  }
-
-  downloadFile () {
-    const token = localStorage.getItem('token')
-    return fetch(
-      `/api/recipes/download_shopping_cart/`,
+      `${BASEURL}v1/orders/${id}/get_report/`,
       {
         method: 'GET',
         headers: {
@@ -523,6 +422,226 @@ class Api {
       }
     ).then(this.checkFileDownloadResponse)
   }
+
+  // get statuses
+  getStatuses () {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/order_status/`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // patch order
+  updateOrder (id, data) {
+    const token = localStorage.getItem('token');
+    return fetch(
+      `${BASEURL}v1/orders/${id}/`,
+      {
+        method: 'PATCH',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        },
+        body: JSON.stringify(data)
+      }
+    ).then(this.checkResponse)
+  }
+
+  // cancel order
+  cancelOrder (id) {
+    const token = localStorage.getItem('token');
+    return fetch(
+      `${BASEURL}v1/orders/${id}/cancel_order/`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        },
+      }
+    ).then(this.checkResponse)
+  }
+
+  // ordersSearch
+  getOrdersSearch (name) {
+    const token = localStorage.getItem('token');
+    return fetch(
+      `${BASEURL}v1/orders/?search=${name}`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // ordersSearchStatus
+  getOrdersStatus (name) {
+    const token = localStorage.getItem('token');
+    return fetch(
+      `${BASEURL}v1/orders/?status=${name}`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // post status
+  createStatus (data) {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/order_status/`,
+      {
+        method: 'POST',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        },
+        body: JSON.stringify(data)
+      }
+    ).then(this.checkResponse)
+  }
+
+  // patch status
+  editStatus (id, data) {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/order_status/${id}/`,
+      {
+        method: 'PATCH',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        },
+        body: JSON.stringify(data)
+      }
+    ).then(this.checkResponse)
+  }
+
+  // delete status
+  deleteStatus (id) {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/order_status/${id}/`,
+      {
+        method: 'DELETE',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // post delivery
+  addDeliveryMethod (data) {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/delivery/`,
+      {
+        method: 'POST',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        },
+        body: JSON.stringify(data)
+      }
+    ).then(this.checkResponse)
+  }
+
+  // patch delivery
+  editDeliveryMethod (id, data) {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/delivery/${id}/`,
+      {
+        method: 'PATCH',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        },
+        body: JSON.stringify(data)
+      }
+    ).then(this.checkResponse)
+  }
+
+  // delete delivery
+  deleteDeliveryMethod (id) {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/delivery/${id}/`,
+      {
+        method: 'DELETE',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // get users
+  getUsers () {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/users/`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+  // get users
+  changeUserDiscount (id, data) {
+    const token = localStorage.getItem('token')
+    return fetch(
+      `${BASEURL}v1/users/${id}/`,
+      {
+        method: 'PATCH',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        },
+        body: JSON.stringify(data)
+      }
+    ).then(this.checkResponse)
+  }
+
+  // usersSearch
+  getUsersSearch (name) {
+    const token = localStorage.getItem('token');
+    return fetch(
+      `${BASEURL}v1/users/?search=${name}`,
+      {
+        method: 'GET',
+        headers: {
+          ...this._headers,
+          'authorization': `Token ${token}`
+        }
+      }
+    ).then(this.checkResponse)
+  }
+
+
+
+
 }
 
-export default new Api(process.env.API_URL || 'http://localhost', { 'content-type': 'application/json' })
+export default new Api(process.env.API_URL, { 'content-type': 'application/json' })

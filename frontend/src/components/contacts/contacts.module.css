@@ -1,0 +1,54 @@
+.container {
+  width: 286px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.text {
+  font-size: 16px;
+  line-height: 20px;
+  margin: 0;
+  color: #292929;
+}
+
+.input {
+  min-width: 300px;
+}
+
+.label {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: #292929;
+  margin: 0 0 4px;
+}
+
+@media (max-width: 700px) {
+  .input {
+    font-size: 14px;
+  }
+
+  .label {
+    font-size: 12px;
+  }
+
+  .text {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 500px) {
+  .box {
+    margin-bottom: 10px;
+  }
+}

@@ -2,6 +2,8 @@ import { TDataFooter, TDataPathNames } from "../services/types/data";
 import map from '../images/map.svg';
 import mail from '../images/mail.svg';
 import telephoneIcon from '../images/telephone-icon.svg';
+import express from '../images/express.svg';
+import standart from '../images/standart.svg';
 
 export const dataFooter: Array<TDataFooter> = [
   {
@@ -19,7 +21,7 @@ export const dataFooter: Array<TDataFooter> = [
     image: `${map}`,
     text: '390044, г.Рязань, ул.Новая, д.20',
   }
-]
+];
 
 export const pathNames: TDataPathNames = {
   main: '/',
@@ -29,4 +31,38 @@ export const pathNames: TDataPathNames = {
   about: '/about',
   contacts: '/contacts',
   feedback: '/contacts',
+};
+
+export const stepName = {
+  cart: 'cart',
+  delivery: 'delivery',
+  checkout: 'checkout',
 }
+
+export const titleCart = {
+  cart: 'Корзина', 
+  delivery: 'Доставка', 
+  checkout: 'Подтверждение заказа'
+};
+
+export const nameStepCart = {
+  cart: 'Выбор товара',
+  delivery: 'Данные для доставки',
+  checkout: 'Подтверждение заказа',
+}
+
+export const totalInitialPrice = { price: 0 };
+
+export const formDeliveryInit = {
+  index: '',
+  region: '',
+  city: '',
+  address: '',
+  secondName: '',
+  firstName: '',
+  phone: '',
+  email: '',
+  comment: '',
+};
+
+export const statusesImmutable = [1, 2, 3]

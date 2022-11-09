@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.list {
+  padding: 0;
+  list-style-type: none;
+  margin: 0;
+}
+
+.button {
+  margin: 0;
+  padding: 5px 10px;
+  height: min-content;
+  background-color: #fff;
+  color: rgba(247, 109, 10, 1);
+  border-color: rgba(247, 109, 10, 1);
+  box-shadow: 0 0 7px rgb(247 109 10);
+  border-radius: 6px;
+}
+
+@media screen and (max-width: 500px) {
+  .button {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}

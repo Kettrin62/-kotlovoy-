@@ -4,7 +4,6 @@
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
-
 }
 
 .inputLabel {
@@ -43,6 +42,7 @@
   }
 
   .inputField {
-    width: 90%;
+    width: 100%;
+    font-size: 12px;
   }
 }
