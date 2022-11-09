@@ -60,8 +60,8 @@ export const StatusPage: FC<IStatusPageProps> = ({
   )
 
   return (
-    <div>
-      <ul>
+    <div className={statusStyles.container}>
+      <ul className={statusStyles.list}>
         {[...statuses].map(item => (
           <StatusItem 
             element={item} 

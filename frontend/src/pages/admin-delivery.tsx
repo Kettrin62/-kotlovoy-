@@ -62,8 +62,8 @@ export const AdminDeliveryPage: FC<IAdminDeliveryPageProps> = ({
   )
 
   return (
-    <div>
-      <ul>
+    <div className={styles.container}>
+      <ul className={styles.list}>
         {[...deliveryMethods].map(item => (
           <AdminDeliveryItem
             key={item.id}

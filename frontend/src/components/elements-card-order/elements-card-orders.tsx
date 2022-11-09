@@ -28,11 +28,13 @@ const ElementsCardOrder: FC<IElementsCardOrderProps> = ({
           <img className={elementsStyles.img} src={image} alt={title} />
           <p className={elementsStyles.text}>{title}</p>
         </div>
-        <p className={elementsStyles.count}>×{amount}</p>
-        <div className={elementsStyles.price}>
-          <p className={elementsStyles.price} data-testid={`price-amount-${id}`}>
-            {priceFormat(cur_price * amount)}
-          </p>
+        <div className={elementsStyles.rightbox}>
+          <p className={elementsStyles.count}>×{amount}</p>
+          <div className={elementsStyles.price}>
+            <p className={elementsStyles.price} data-testid={`price-amount-${id}`}>
+              {priceFormat(cur_price * amount)}
+            </p>
+          </div>
         </div>
       </li>
     )

@@ -22,7 +22,7 @@ const FormStatus: FC<IFormStatusProps> = ({
 }) => {
 
   return (
-    <Form name='status' onSubmit={onSubmit}>
+    <Form name='status' onSubmit={onSubmit} class={styles.form}>
       <Input
         type='text'
         name='status'
@@ -31,6 +31,8 @@ const FormStatus: FC<IFormStatusProps> = ({
         required
         placeholder='Наименование статуса'
         value={values.status}
+        extraClass={styles.input}
+        classLabel={styles.label}
       />
       <Input
         type='text'
@@ -39,6 +41,8 @@ const FormStatus: FC<IFormStatusProps> = ({
         label='Комментарий'
         placeholder='Комментарий'
         value={values.comment}
+        extraClass={styles.input}
+        classLabel={styles.label}
       />
       <div className={styles.box}>
         <Button type='submit' className={styles.button} disabled={!isValid}>

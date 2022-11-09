@@ -23,7 +23,7 @@ const FormDelivery: FC<IFormDeliveryProps> = ({
 }) => {
 
   return (
-    <Form name='delivery' onSubmit={onSubmit}>
+    <Form name='delivery' onSubmit={onSubmit} class={styles.form}>
       <Input
         type='text'
         name='company'
@@ -32,6 +32,8 @@ const FormDelivery: FC<IFormDeliveryProps> = ({
         required
         placeholder='Наименование метода доставки'
         value={values.company}
+        extraClass={styles.input}
+        classLabel={styles.label}
       />
       <Input
         type='text'
@@ -41,6 +43,8 @@ const FormDelivery: FC<IFormDeliveryProps> = ({
         required
         placeholder='Срок доставки'
         value={values.duration}
+        extraClass={styles.input}
+        classLabel={styles.label}
       />
       <Input
         type='text'
@@ -50,6 +54,8 @@ const FormDelivery: FC<IFormDeliveryProps> = ({
         required
         placeholder='Стоимость доставки'
         value={values.price !== 0 ? String(values.price) : ''}
+        extraClass={styles.input}
+        classLabel={styles.label}
       />
       <Input
         type='text'
@@ -58,6 +64,8 @@ const FormDelivery: FC<IFormDeliveryProps> = ({
         label='Комментарий'
         placeholder='Комментарий'
         value={values.comment}
+        extraClass={styles.input}
+        classLabel={styles.label}
       />
       <div className={styles.box}>
         <Button type='submit' className={styles.button} disabled={!isValid}>

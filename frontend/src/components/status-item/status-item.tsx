@@ -73,6 +73,7 @@ const StatusItem: FC<IStatusItemProps> = ({ element, editStatus, deleteStatus })
   const handleCloseModal = () => {
     resetForm();
     setVisible(false);
+    setConfirm(false);
   }
 
   const cancel = () => {
@@ -92,23 +93,32 @@ const StatusItem: FC<IStatusItemProps> = ({ element, editStatus, deleteStatus })
     </Modal>
   )
 
+  const modalConfirm = (
+    <Modal header='' onClose={handleCloseModal}>
+      <div className={statusitemStyles.box}>
+        <p className={statusitemStyles.text}>
+          Статусы в заказах будут также удалены.
+        </p>
+        <p className={statusitemStyles.text}>
+          Всё равно удалить?
+        </p>
+        <div className={statusitemStyles.row}>
+          <Button clickHandler={onDeleteStatus} className={statusitemStyles.buttonModal}>Удалить</Button>
+          <Button clickHandler={()=> setConfirm(false)} className={statusitemStyles.buttonModal}>Отменить</Button>
+        </div>
+      </div>
+    </Modal>
+  )
+
   return (
     <li className={statusitemStyles.container}>
-      <div>
-        <h4>{status}</h4>
-        <p>{comment}</p>
+      <div className={statusitemStyles.content}>
+        <h4 className={statusitemStyles.title}>{status}</h4>
+        <p className={statusitemStyles.comment}>{comment}</p>
       </div>
       {!isLock && <EditButton onEdit={()=> setVisible(true)} extraClass={statusitemStyles.button} />}
       {!isLock && <DeleteButton onDelete={()=> setConfirm(true)} extraClass={statusitemStyles.button} />}
-      {confirm && (
-        <div className={statusitemStyles.box}>
-          <p>
-            Статусы в заказах будут также удалены. Всё равно удалить?
-          </p>
-          <Button clickHandler={onDeleteStatus}>Удалить</Button>
-          <Button clickHandler={()=> setConfirm(false)}>Отменить</Button>
-        </div>
-      )}
+      {confirm && modalConfirm}
       {visible && modal}
     </li>
   )

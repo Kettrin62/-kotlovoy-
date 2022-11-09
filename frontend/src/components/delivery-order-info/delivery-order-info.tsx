@@ -61,7 +61,7 @@ const DeliveryOrderInfo: FC<IDeliveryOrderInfoProps> = ({
   return (
     <>
       {!change ? (
-        <div>
+        <div className={styles.block}>
           <p className={styles.text}>Адрес: {address}</p>
           <p className={styles.text}>
             {order?.delivery?.company}

@@ -6,6 +6,7 @@ import { priceFormat } from '../total-price/utils';
 import styles from '../status-item/status-item.module.css';
 import EditButton from '../../ui/edit-button/edit-button';
 import { DeleteButton } from '../../ui/delete-button/delete-button';
+import Button from '../button/button';
 
 interface IAdminDeliveryItemProps {
   element: TDeliveryMethod;
@@ -16,7 +17,7 @@ interface IAdminDeliveryItemProps {
 const AdminDeliveryItem: FC<IAdminDeliveryItemProps> = ({ element, ediMethod, deleteMethod }) => {
   const [visible, setVisible] = useState(false);
   const { id, company, duration, price, comment } = element;
-
+  const [confirm, setConfirm] = useState(false);
   const [values, setValues] = useState<TDelivery>({
     company,
     duration,
@@ -73,6 +74,7 @@ const AdminDeliveryItem: FC<IAdminDeliveryItemProps> = ({ element, ediMethod, de
   const handleCloseModal = () => {
     resetForm();
     setVisible(false);
+    setConfirm(false);
   }
 
   const cancel = () => {
@@ -92,16 +94,36 @@ const AdminDeliveryItem: FC<IAdminDeliveryItemProps> = ({ element, ediMethod, de
     </Modal>
   )
 
+  const modalConfirm = (
+    <Modal header='' onClose={handleCloseModal}>
+      <div className={styles.box}>
+        <p className={styles.text}>
+        Доставка в заказах будет также удалена.
+        </p>
+        <p className={styles.text}>
+          Всё равно удалить?
+        </p>
+        <div className={styles.row}>
+          <Button clickHandler={onDeleteMethod} className={styles.buttonModal}>Удалить</Button>
+          <Button clickHandler={()=> setConfirm(false)} className={styles.buttonModal}>Отменить</Button>
+        </div>
+      </div>
+    </Modal>
+  )
+
   return (
     <li className={styles.container}>
-      <div>
-        <h4>{company}</h4>
-        <p>{duration}</p>
-        <p>{priceFormat(price)}</p>
-        <p>{comment}</p>
+      <div className={styles.content}>
+        <h4 className={styles.title}>{company}</h4>
+        <div className={styles.description}>
+          <p className={styles.comment}>{duration}</p>
+          <p className={styles.comment}>{priceFormat(price)}</p>
+          <p className={styles.comment}>{comment}</p>
+        </div>
       </div>
       <EditButton onEdit={()=> setVisible(true)} extraClass={styles.button} />
-      <DeleteButton onDelete={onDeleteMethod} extraClass={styles.button} />
+      <DeleteButton onDelete={()=> setConfirm(true)} extraClass={styles.button} />
+      {confirm && modalConfirm}
       {visible && modal}
     </li>
   )
