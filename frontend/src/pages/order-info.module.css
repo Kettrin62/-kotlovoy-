@@ -2,33 +2,42 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 122px;
+  margin: 50px auto;
+  gap: 20px;
+
+}
+
+.header {
+  margin: 0;
+  font-size: 22px;
+}
+
+.date {
+  margin: 0;
 }
 
 .content {
   width: 640px;
-}
-
-.text {
-  color: #00CCCC;
-}
-
-.product {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  box-shadow: inset 0px -1px 0px rgba(41, 41, 41, 0.13);
-  padding: 20px 0;
+  flex-direction: column;
+  /* gap: 15px; */
 }
 
-.img {
-  border: 1px solid #EBEBEB;
-  box-sizing: border-box;
-  border-radius: 4px;
-  margin-right: 20px;
-  width: 80px;
-  height: 80px;
+.status {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.title {
+  margin: 0;
+  line-height: 33px;
+}
+
+.elements {
+  margin: 0 0 15px 0;
+  padding: 0;
 }
 
 .text {
@@ -42,31 +51,29 @@
   max-width: 412px;
 }
 
-.leftbox {
+.total {
   display: flex;
-  align-items: center;
+  gap: 5px;
 }
 
 .price {
   margin: 0 20px;
 }
 
-.status_content {
-  display: flex;
-  align-items: flex-start;
+.span {
+  font-weight: 600;
 }
 
 .button {
-  border: solid 1px ;
+  color: #0c555e;
+  border-color: #0c555e;
+  box-shadow: 0 0 7px #0c555e;
+  border-radius: 6px;
+  margin-bottom: 15px;
 }
 
 .button_change {
   padding: 0 10px;
-}
-
-.box_status {
-  border: solid 1px ;
-  width: 200px;
 }
 
 .change_button {
@@ -79,61 +86,44 @@
   cursor: pointer;
 }
 
-.icon {
-  margin-right: 10px;
-  height: 20px;
-}
-
-.list {
-  list-style-type: none;
-  margin: 0 10px;
-  padding: 0;
-  
-}
-
-.item {
-  margin: 0;
-  padding: 0;
-  min-height: 30px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.amountbox {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 128px;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 20px;
-  color: #292929;
-  margin-right: 20px;
-}
-
-.amount {
-  margin: 0 10px;
-}
-
 .buttons {
   display: flex;
   gap: 24px;
 }
 
+@media (max-width: 700px) {
+  .content {
+    width: calc(100% - 25%/5);
+  }
+
+  .header {
+    font-size: 18px;
+  }
+
+  .date {
+    font-size: 14px;
+  }
+
+  .title {
+    font-size: 14px;
+  }
+
+  .total {
+    font-size: 14px;
+  }
+}
+
 @media (max-width: 500px) {
-  .product {
-    flex-direction: column;
-    align-items: flex-start;
+  .container {
+    gap: 10px;
   }
 
-  .leftbox {
-    flex-direction: column;
-    align-items: flex-start;
+  .status {
+    margin-bottom: 5px;
   }
 
-  .text {
-    margin: 20px 0;
+  .button {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }

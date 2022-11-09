@@ -9,11 +9,14 @@ interface IElementSearchProps {
 
 const ElementsSearch: FC<IElementSearchProps> = ({ elements, onClick }) => {
   return (
-    <div className={styles.container}>
+    <ul className={styles.container}>
     {elements.map((element) => {
-      return <div key={element.id} onClick={_ => onClick(element)}>{element.title}</div>
+      return (
+      <li key={element.id} onClick={_ => onClick(element)} className={styles.item}>
+        {element.title}
+      </li>)
     })}
-  </div>
+  </ul>
   )
 }
 

@@ -15,5 +15,10 @@
   min-width: 220px;
   text-align: left;
   cursor: pointer;
+}
 
+@media all and (max-width: 600px) {
+  .title {
+    font-size: 14px;
+  }
 }

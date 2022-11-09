@@ -7,6 +7,7 @@ import { priceFormat } from '../total-price/utils';
 import styles from './delivery-order-info.module.css';
 import DropDownIcon from '../../images/drop-down.svg';
 import { DeliveryContext } from '../../services/contexts/app-context';
+import cn from 'classnames';
 
 interface IDeliveryOrderInfoProps {
   change: boolean;
@@ -55,69 +56,63 @@ const DeliveryOrderInfo: FC<IDeliveryOrderInfoProps> = ({
     setMethodsVisible(false);
   };
 
+  const classBorder = methodsVisible ? styles.border : '';
+
   return (
     <>
       {!change ? (
         <div>
-          <p>Адрес: {address}</p>
-          <p>
+          <p className={styles.text}>Адрес: {address}</p>
+          <p className={styles.text}>
             {order?.delivery?.company}
           </p>
-          <p>
+          <p className={styles.text}>
             Стоимость доставки: {priceFormat(order.delivery?.price ? order.delivery.price : 0)}
           </p>
         </div>
       ) : (
-        <div className={`${styles.container}`}>
+        <div className={styles.container}>
           <ul className={styles.row}>
-            <li className={`${styles.input} ${styles.inputFlex}`}>
-              <div className={styles.input}>
-                <label className={styles.label} htmlFor="index">
-                  Индекс
-                </label>
-                <Input
-                  onChange={onChange}
-                  name='postal_code'
-                  value={String(deliveryInfo.postal_code)}
-                  extraClass={styles.input}
-                  type="text"
-                  id="postal_code"
-                  inputRef={inputRef}
-                />
-              </div>
-              <div className={styles.input}>
-                <label className={styles.label} htmlFor="region">
-                  Регион/Область
-                </label>
-                <Input
-                  onChange={onChange}
-                  name='region'
-                  value={String(deliveryInfo.region)}
-                  extraClass={styles.input}
-                  type="text"
-                  id="region"
-                  inputRef={inputRef}
-                />
-              </div>
-              <div className={styles.input}>
-                <label className={styles.label} htmlFor="city">
-                  Город/Насел.пункт
-                </label>
-                <Input
-                  onChange={onChange}
-                  name='city'
-                  value={String(deliveryInfo.city)}
-                  extraClass={styles.input}
-                  type="text"
-                  id="city"
-                  inputRef={inputRef}
-                />
-              </div>
+            <li className={styles.input}>
+              <Input
+                onChange={onChange}
+                name='postal_code'
+                value={String(deliveryInfo.postal_code)}
+                extraClass={styles.input}
+                type="text"
+                id="postal_code"
+                inputRef={inputRef}
+                label='Индекс'
+                classLabel={styles.label}
+              />
             </li>
-            <li className={`${styles.input} ${styles.floor}`}>
-              <label className={styles.label} htmlFor="address">
-                Улица/Дом/Квартира
-              </label>
+            <li className={styles.input}>
+              <Input
+                onChange={onChange}
+                name='region'
+                value={String(deliveryInfo.region)}
+                extraClass={styles.input}
+                type="text"
+                id="region"
+                label='Регион/Область'
+                inputRef={inputRef}
+                classLabel={styles.label}
+              />
+            </li>
+            <li className={styles.input}>
+              <Input
+                onChange={onChange}
+                name='city'
+                value={String(deliveryInfo.city)}
+                extraClass={styles.input}
+                type="text"
+                id="city"
+                label='Город/Насел.пункт'
+                inputRef={inputRef}
+                classLabel={styles.label}
+              />
+            </li>
+            <li className={cn(styles.input, styles.floor)}>
               <Input
                 onChange={onChange}
                 name='location'
@@ -125,13 +120,12 @@ const DeliveryOrderInfo: FC<IDeliveryOrderInfoProps> = ({
                 extraClass={styles.input}
                 type="text"
                 id="location"
+                label='Улица/Дом/Квартира'
                 inputRef={inputRef}
+                classLabel={styles.label}
               />
             </li>
             <li className={styles.input}>
-              <label className={styles.label} htmlFor="comment">
-                Комментарий
-              </label>
               <Input
                 onChange={onChange}
                 name={'comment'}
@@ -139,6 +133,8 @@ const DeliveryOrderInfo: FC<IDeliveryOrderInfoProps> = ({
                 extraClass={styles.input}
                 type="text"
                 id="comment"
+                label='Комментарий'
+                classLabel={styles.label}
                 inputRef={inputRef}
               />
             </li>
@@ -146,7 +142,7 @@ const DeliveryOrderInfo: FC<IDeliveryOrderInfoProps> = ({
           <h4>Варианты доставки:
           </h4>
           <div className={styles.box}>
-            <div className={styles.button_box} onClick={onChangeMethod}>
+            <div className={cn(styles.button_box, classBorder)} onClick={onChangeMethod}>
               <Button className={styles.button}>
                 {deliveryMethod}
               </Button>

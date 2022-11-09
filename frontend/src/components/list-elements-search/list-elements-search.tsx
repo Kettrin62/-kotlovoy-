@@ -3,6 +3,7 @@ import api from '../../api';
 import { TDataElement, TElementOrder } from '../../services/types/data';
 import ElementsSearch from '../elements-search/elements-search';
 import InputSearch from '../input-add-element/input-search';
+import styles from './list-elements-search.module.css';
 
 interface IListElementsSearchProps {
   setSearchVisible: (item: boolean) => void;
@@ -109,7 +110,7 @@ const ListElementsSearch: FC<IListElementsSearchProps> = ({
   }
 
   return (
-    <div>
+    <div className={styles.container}>
       <InputSearch
         onClickClose={onClickClose}
         inputValue={elementValue.element_title}

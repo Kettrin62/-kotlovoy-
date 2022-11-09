@@ -1,12 +1,17 @@
 .text {
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 16px;
   line-height: 20px;
   color: #292929;
   margin: 0;
   margin-right: 20px;
   max-width: 412px;
+  line-height: 33px;
+}
+
+.active {
+  color: rgba(247, 109, 10, 1);
 }
 
 .content {
@@ -21,15 +26,20 @@
 
 .button {
   padding: 0 10px;
+  color: rgba(247, 109, 10, 1);
+  font-weight: 600;
 }
 
 .button_box {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: solid 1px ;
   height: 30px;
   cursor: pointer;
+}
+
+.border {
+  border-bottom: solid 1px;
 }
 
 .icon {
@@ -50,5 +60,15 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .text {
+    font-size: 14px;
+  }
+  
+  .icon {
+    height: 14px;
+  }
 }
 

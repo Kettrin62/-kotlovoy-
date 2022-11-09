@@ -2,8 +2,9 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-right: calc(25%/10);
+  padding: calc(25%/10);
   overflow: hidden;
+  align-items: flex-end;
 }
 
 .list {

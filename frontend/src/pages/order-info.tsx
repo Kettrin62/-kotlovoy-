@@ -157,10 +157,10 @@ export const OrderInfoPage: FC = () => {
     ) => acc + item.cur_price * item.amount, 0);
 
   const total = (
-    <div className={'mt-10 ' + orderinfoStyles.total}>
+    <div>
       <div className={orderinfoStyles.price}>
-        <p className='text text_type_digits-default pr-2'>
-          Итого: {change ? priceFormat(totalPriceChange) : priceFormat(order?.order_sum)}
+        <p className={orderinfoStyles.total}>
+          <span className={orderinfoStyles.span}>Итого:</span>{change ? priceFormat(totalPriceChange) : priceFormat(order?.order_sum)}
         </p>
       </div>
     </div>
@@ -221,31 +221,33 @@ export const OrderInfoPage: FC = () => {
 
   return (
     <div className={orderinfoStyles.container}>
-      <h2>№ {order?.number}</h2>
-      <h3>от {dateTime}</h3>
+      <h2 className={orderinfoStyles.header}>№ {order?.number}</h2>
+      <h3 className={orderinfoStyles.date}>от {dateTime}</h3>
       {match.path === '/admin-panel/orders/:id'  && isAdmin && order?.status?.status !== 'отменённый заказ' && (
         <Button className={orderinfoStyles.button} clickHandler={onChangeOrder}>
-          Редактировать заказ
+          Редактировать
         </Button>
       )} 
       <div className={orderinfoStyles.content}>
-        <h4>Статус:</h4>
-        {order && statuses && <Status 
-          change={change}
-          status={order?.status}
-          statusName={statusName}
-          setStatusName={setStatusName}
-          statuses={statuses}
-        />}
-        <h4>Контактные данные:</h4>
+        <div className={orderinfoStyles.status}>
+          <h4 className={orderinfoStyles.title}>Статус:</h4>
+          {order && statuses && <Status 
+            change={change}
+            status={order?.status}
+            statusName={statusName}
+            setStatusName={setStatusName}
+            statuses={statuses}
+          />}
+        </div>
+        <h4 className={orderinfoStyles.title}>Контактные данные:</h4>
         <Contacts
           change={change}
           order={order}
           contacts={dataContacts}
           setContacts={setDataContacts}
         />
-        <h4>Детали заказа:</h4>
-        <ul className={orderinfoStyles.ingredients}>
+        <h4 className={orderinfoStyles.title}>Детали заказа:</h4>
+        <ul className={orderinfoStyles.elements}>
           {order && <ElementsCardOrder 
             change={change}
             elements={order.elements}
@@ -267,7 +269,7 @@ export const OrderInfoPage: FC = () => {
             />
           )}
         </div>
-        <h4>Доставка:</h4>
+        <h4 className={orderinfoStyles.title}>Доставка:</h4>
         {order && <DeliveryOrderInfo
           change={change}
           order={order}

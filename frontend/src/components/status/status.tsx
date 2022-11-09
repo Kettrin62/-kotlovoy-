@@ -3,6 +3,7 @@ import { TStatus } from '../../services/types/data';
 import Button from '../button/button';
 import statusStyles from './status.module.css';
 import DropDownIcon from '../../images/drop-down.svg';
+import cn from 'classnames';
 
 interface IStatusProps {
   change: boolean;
@@ -23,18 +24,19 @@ const Status: FC<IStatusProps> = ({ change, status, statusName, setStatusName, s
   }
 
   const nameStatus = status?.status ? status.status : 'не указан';
+  const classBorder = statusesVisible ? statusStyles.border : '';
 
   return (
     <>
       {
         !change ? (
-          <p className={statusStyles.text}>
+          <p className={cn(statusStyles.text, statusStyles.active)}>
             {nameStatus}
           </p>
         ) : (
           // <div className={statusStyles.content}>
           <div className={statusStyles.box} >
-            <div className={statusStyles.button_box} onClick={onChangeStatus}>
+            <div className={cn(statusStyles.button_box, classBorder)} onClick={onChangeStatus}>
               <Button className={statusStyles.button}>
                 {statusName ? statusName : nameStatus}
               </Button>

@@ -14,6 +14,7 @@ interface IInputEditProps {
   value: string;
   name: string;
   className?: string;
+  classLabel?: string;
 }
 
 const InputEdit: FC<IInputEditProps> = ({
@@ -24,7 +25,8 @@ const InputEdit: FC<IInputEditProps> = ({
   label,
   value,
   name,
-  className
+  className,
+  classLabel
 }) => {
 
   return (
@@ -39,6 +41,7 @@ const InputEdit: FC<IInputEditProps> = ({
         label={label}
         value={value}
         extraClass={className}
+        classLabel={classLabel}
       />
       <img src={editIcon} alt='Иконка-карандаш' className={styles.icon} />
     </div>

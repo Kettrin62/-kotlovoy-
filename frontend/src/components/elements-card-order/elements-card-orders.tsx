@@ -81,19 +81,21 @@ const ElementsCardOrder: FC<IElementsCardOrderProps> = ({
           <img className={elementsStyles.img} src={image} alt={title} />
           <p className={elementsStyles.text}>{title}</p>
         </div>
-        {change ? (
-        <div className={elementsStyles.amountbox}>
-          <AmountButton data-testid={`decrease-${id}`} onClick={decrease}>-</AmountButton>
-          <p className={elementsStyles.amount} data-testid={`product-amount-${id}`}>{amount}</p>
-          <AmountButton data-testid={`increase-${id}`} onClick={increase}>+</AmountButton>
+        <div className={elementsStyles.rightbox}>
+          {change ? (
+          <div className={elementsStyles.amountbox}>
+            <AmountButton data-testid={`decrease-${id}`} onClick={decrease}>-</AmountButton>
+            <p className={elementsStyles.amount} data-testid={`product-amount-${id}`}>{amount}</p>
+            <AmountButton data-testid={`increase-${id}`} onClick={increase}>+</AmountButton>
+          </div>
+          ) : (<p className={elementsStyles.count}>×{amount}</p>)}
+          <div className={elementsStyles.price}>
+            <p className={elementsStyles.price} data-testid={`price-amount-${id}`}>
+              {priceFormat(cur_price * amount)}
+            </p>
+          </div>
+          {change && <DeleteButton onDelete={onDelete} />}
         </div>
-        ) : (<p className={elementsStyles.count}>×{amount}</p>)}
-        <div className={elementsStyles.price}>
-          <p className={elementsStyles.price} data-testid={`price-amount-${id}`}>
-            {priceFormat(cur_price * amount)}
-          </p>
-        </div>
-        {change && <DeleteButton onDelete={onDelete} />}
       </li>
     )
   })
