@@ -2,15 +2,15 @@
 POST http://127.0.0.1:8000/api/auth/token/login/
 Content-Type: application/json
 
-{
-    "email": "vpupkin@yandex.ru",
-    "password": "ieurhfieufi1"
-}
-
 # {
-#     "email": "admin@admin.admin",
-#     "password": "admin"
+#     "email": "vpupkin@yandex.ru",
+#     "password": "ieurhfieufi1"
 # }
+
+{
+    "email": "admin@admin.admin",
+    "password": "admin"
+}
 
 ###
 
@@ -18,7 +18,7 @@ Content-Type: application/json
 #@token = cf35fe5bafa1e25d4c86f0a522165dfbc0990871
 
 # Админ
-@token = c8403b61502cd18ba8b6cce92b2de3ea9c97e549
+@token = bccdb01d3e3ab3519de4171e89a9804f0ab5ef05
 
 
 ###
@@ -452,7 +452,7 @@ Content-Type: application/json
 ###
 
 ###
-DELETE http://127.0.0.1:8000/api/v1/delivery/2/
+DELETE http://127.0.0.1:8000/api/v1/delivery/1/
 Authorization: Token {{token}}
 
 ###
@@ -535,7 +535,7 @@ Content-Type: application/json
 ###
 
 ###
-DELETE http://127.0.0.1:8000/api/v1/order_status/2/
+DELETE http://127.0.0.1:8000/api/v1/order_status/5/
 Authorization: Token {{token}}
 
 ###
@@ -576,7 +576,7 @@ Content-Type: application/json
 {
     "delivery":
     {
-        "id": 1
+        "id": 2
     },
     "comment": "wedwd",
     "email": "h46h@mail.ru",
@@ -605,7 +605,7 @@ Content-Type: application/json
 
 
 ###
-PATCH http://127.0.0.1:8000/api/v1/orders/9/
+PATCH http://127.0.0.1:8000/api/v1/orders/1/
 Authorization: Token {{token}}
 Content-Type: application/json
 
@@ -616,7 +616,7 @@ Content-Type: application/json
     },
     "delivery":
     {
-        "id": 1
+        "id": 2
     },
     "payment":
     {
