@@ -294,9 +294,13 @@ class OrderSerializer(serializers.ModelSerializer):
         #         }
         #     )
 
+        try:
+            order_status = order.first().status.status
+        except BaseException:
+            order_status = None
+
         if (
-            order.first().status.status and
-            order.first().status.status in [
+            order_status and order_status in [
                 'выполненный заказ', 'отменённый заказ'
             ]
         ):
@@ -308,7 +312,7 @@ class OrderSerializer(serializers.ModelSerializer):
                     ]
                 }
             )
-        if status.status in 'отменённый заказ':
+        if order_status and order_status in 'отменённый заказ':
             raise serializers.ValidationError(
                 {
                     'order': [
