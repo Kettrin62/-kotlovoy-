@@ -10,7 +10,7 @@ import orderinfoStyles from './order-info.module.css';
 import cn from 'classnames';
 import Status from '../components/status/status';
 import Contacts from '../components/contacts/contacts';
-import ElementsCardOrder from '../components/elements-card-order/elements-card-orders';
+import ElementsCardOrder from '../components/elements-card-order/elements-card-order';
 import ListElementsSearch from '../components/list-elements-search/list-elements-search';
 import DeliveryOrderInfo from '../components/delivery-order-info/delivery-order-info';
 import AuthContext from '../services/contexts/auth-context';
@@ -89,7 +89,7 @@ export const OrderInfoPage: FC = () => {
     if (match.path === '/admin-panel/orders/:id' && !isAdmin) {
       history.replace({ pathname: `/profile/orders/${id}` });
     }
-  }, []);
+  }, [change]);
 
   useEffect(() => {
     if (match.path === '/admin-panel/orders/:id' && isAdmin) {
