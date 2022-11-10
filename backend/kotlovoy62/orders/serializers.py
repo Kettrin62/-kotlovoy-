@@ -294,12 +294,17 @@ class OrderSerializer(serializers.ModelSerializer):
         #         }
         #     )
 
-        if (order.first().status.status
-        and order.first().status.status in 'отменённый заказ'):
+        if (
+            order.first().status.status and
+            order.first().status.status in [
+                'выполненный заказ', 'отменённый заказ'
+            ]
+        ):
             raise serializers.ValidationError(
                 {
                     'order': [
-                        'Отменённый заказ изменению не подлежит!'
+                        'Выполненный или отменённый заказ изменению '
+                        'не подлежит!'
                     ]
                 }
             )
@@ -361,17 +366,6 @@ class OrderSerializer(serializers.ModelSerializer):
                     elm_to_ord.amount != amount and
                     amount <= cnt_amount
                 ):
-                    if order.first().status.status in [
-                        'выполненный заказ', 'отменённый заказ'
-                    ]:
-                        raise serializers.ValidationError(
-                            {
-                                'order': [
-                                    'Нельзя менять состав выполненного '
-                                    'или отменённого заказа!'
-                                ]
-                            }
-                        )
                     delta = elm_to_ord.amount - amount
                     element.stock += delta
                     element.save()
@@ -394,18 +388,6 @@ class OrderSerializer(serializers.ModelSerializer):
                     elm_to_ord.save()
 
             else:
-                if order.first().status.status in [
-                        'выполненный заказ', 'отменённый заказ'
-                ]:
-                    raise serializers.ValidationError(
-                        {
-                            'order': [
-                                'Нельзя менять состав выполненного '
-                                'или отменённого заказа!'
-                            ]
-                        }
-                    )
-
                 if amount > element.stock:
                     raise serializers.ValidationError(
                         {
@@ -432,17 +414,6 @@ class OrderSerializer(serializers.ModelSerializer):
             elm_sum += cur_price * amount
 
         for item in old_order_elements:
-            if order.first().status.status in [
-                        'выполненный заказ', 'отменённый заказ'
-            ]:
-                raise serializers.ValidationError(
-                    {
-                        'order': [
-                            'Нельзя менять состав выполненного '
-                            'или отменённого заказа!'
-                        ]
-                    }
-                )
             old_order_elements[item].element.stock += (
                 old_order_elements[item].amount
             )
