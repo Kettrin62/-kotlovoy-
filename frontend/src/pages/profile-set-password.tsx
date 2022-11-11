@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Form from '../components/form/form';
 import loginStyles from './login.module.css';
 import Button from '../components/button/button';
@@ -7,9 +8,14 @@ import InputPassword from '../ui/input-password/input-password';
 import styles from './profile-profile.module.css';
 import api from '../api';
 import cn from 'classnames';
+import Modal from '../components/modal/modal';
+import modalStyles from './order-info.module.css';
 
 export function ProfileSetPasswordPage() {
   const { values, handleChange, isValid, resetForm } = useFormWithValidation();
+  const [visible, setVisible] = useState(false);
+  const [text, setText] = useState('');
+
 
   const onChangePassword = (data: {
     current_password: string;
@@ -18,11 +24,16 @@ export function ProfileSetPasswordPage() {
     const { current_password, new_password } = data;
     api
       .changePassword({ current_password, new_password })
-      .then(res => {})
+      .then(res => {
+        setText('Пароль изменён');
+        setVisible(true);
+      })
       .catch(err => {
         const errors = Object.values(err)
         if (errors) {
-          alert(errors.join(', '))
+          setText(errors.join(', '));
+          setVisible(true);
+          // alert(errors.join(', '))
         }
       })
   }
@@ -35,6 +46,19 @@ export function ProfileSetPasswordPage() {
   const onClickCancel = () => {
     resetForm();
   };
+
+  const handleCloseModal = () => {
+    setVisible(false);
+    setText('');
+    resetForm();
+  };
+
+
+  const modal = (
+    <Modal header='Смена пароля' onClose={handleCloseModal}>
+      <p className={modalStyles.modaltext}>{text}</p>
+    </Modal>
+  )
 
   return (
     <section className={loginStyles.container}>
@@ -76,6 +100,7 @@ export function ProfileSetPasswordPage() {
           </div>
         </Form>
       </div>
+      {visible && modal}
     </section>
   );
 }

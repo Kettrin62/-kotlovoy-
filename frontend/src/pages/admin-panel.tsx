@@ -81,40 +81,40 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({
       .catch(err => console.log(err));
   };
 
-  const getUsers = () => {
-    api
-      .getUsers()
-      .then(res => {
-        setUsers(res.results)
-      })
-      .catch(err => {
-        const errors = Object.values(err)
-        if (errors) {
-          alert(errors.join(', '))
-        }
-      })
-  }
+  // const getUsers = () => {
+  //   api
+  //     .getUsers()
+  //     .then(res => {
+  //       setUsers(res.results)
+  //     })
+  //     .catch(err => {
+  //       const errors = Object.values(err)
+  //       if (errors) {
+  //         alert(errors.join(', '))
+  //       }
+  //     })
+  // }
 
-  const changeDiscount = (id: number, data: {
-    discount: number
-  }) => {
-    api
-      .changeUserDiscount(id, data)
-      .then(res => {
-        getUsers();
-      })
-      .catch(err => {
-        const errors = Object.values(err)
-        if (errors) {
-          alert(errors.join(', '))
-        }
-      })
-  }
+  // const changeDiscount = (id: number, data: {
+  //   discount: number
+  // }) => {
+  //   api
+  //     .changeUserDiscount(id, data)
+  //     .then(res => {
+  //       getUsers();
+  //     })
+  //     .catch(err => {
+  //       const errors = Object.values(err)
+  //       if (errors) {
+  //         alert(errors.join(', '))
+  //       }
+  //     })
+  // }
 
   useEffect(() => {
     if (isAdmin) {
       getStatuses();
-      getUsers();
+      // getUsers();
     }
   }, [])
 
@@ -133,8 +133,8 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({
       )}
       {location.pathname === '/admin-panel/users' && (
         <UsersPage 
-          users={users} 
-          changeDiscount={changeDiscount}
+          // users={users} 
+          // changeDiscount={changeDiscount}
         />
       )}
       {location.pathname === '/admin-panel/delivery' && (

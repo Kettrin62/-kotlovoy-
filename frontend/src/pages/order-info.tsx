@@ -52,6 +52,7 @@ export const OrderInfoPage: FC = () => {
   const [searchVisible, setSearchVisible] = useState(false);
   const [visible, setVisible] = useState(false);
   const [ checkoutRequest, setCheckoutRequest] = useState(false);
+  const [text, setText] = useState('');
 
   const id = useParams<{ id?: string }>().id;
 
@@ -176,15 +177,23 @@ export const OrderInfoPage: FC = () => {
 
   const onChangeSave = () => {
     if (statusName === 'отменённый заказ') {
+      setCheckoutRequest(true);
       api
         .cancelOrder(id)
         .then(res => {
-          console.log(res);
-          
+          setCheckoutRequest(false);
+          setText('Изменения сохранены');
+          setVisible(true);
+          })
+        .catch(err => {
+          setCheckoutRequest(false);
+          const errors = Object.values(err)
+          if (errors) {
+            setText(errors.join(', '));
+            setVisible(true);
+          }  
         })
-        .catch(err => console.log(err))
       return;
-      
     }
     const status = statusName ? {
       id: statuses.filter(item => item!.status === statusName)[0]!.id
@@ -219,27 +228,31 @@ export const OrderInfoPage: FC = () => {
     api
       .updateOrder(id, dataOrder)
       .then(res => {
-        console.log('res', res);
-        
         setCheckoutRequest(false);
+        setText('Изменения сохранены');
         setVisible(true);
       })
       .catch(err => {
-        console.log('err', err)
         setCheckoutRequest(false);
+        const errors = Object.values(err)
+        if (errors) {
+          setText(errors.join(', '));
+          setVisible(true);
+        }
       })
   }
 
   const handleCloseModal = () => {
     setVisible(false);
     setChange(false);
-    window.history.back()
+    setText('');
+    // window.history.back()
   };
 
 
   const modal = (
     <Modal header='Редактирование заказа' onClose={handleCloseModal}>
-      <p className={orderinfoStyles.modaltext}>Изменения сохранены</p>
+      <p className={orderinfoStyles.modaltext}>{text}</p>
     </Modal>
   )
 

@@ -27,7 +27,7 @@ export const ProfilePage: FC<IProfilePageProps> = ({ onLogout }) => {
 
   if (isAdmin) {
     return (
-      <Redirect to='/admin-panel' />
+      <Redirect to='/admin-panel/orders' />
     )
   };
 

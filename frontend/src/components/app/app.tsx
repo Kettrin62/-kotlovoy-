@@ -221,7 +221,7 @@ function App() {
     api
       .addDeliveryMethod(data)
       .then(res => {
-        alert('Метод доставки добавлен');
+        // alert('Метод доставки добавлен');
         set(false);
         getMethodsDelivery()
       })
@@ -232,7 +232,7 @@ function App() {
     api
       .editDeliveryMethod(id, data)
       .then(res => {
-        alert('Метод доставки изменен');
+        // alert('Метод доставки изменен');
         // set(false);
         getMethodsDelivery()
       })
@@ -243,7 +243,7 @@ function App() {
     api
       .deleteDeliveryMethod(id)
       .then(res => {
-        alert('Метод доставки удалён');
+        // alert('Метод доставки удалён');
         // set(false);
         getMethodsDelivery()
       })
