@@ -160,7 +160,7 @@ const DeliveryOrderInfo: FC<IDeliveryOrderInfoProps> = ({
           </div>
           <p>
             Стоимость доставки: {
-              priceFormat(deliveryMethods.filter(item => item.company === deliveryMethod)[0].price)
+              priceFormat(deliveryMethods?.filter(item => item.company === deliveryMethod)[0]?.price)
             }
           </p>
         </div>

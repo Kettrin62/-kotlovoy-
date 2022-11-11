@@ -9,6 +9,7 @@
   min-width: 220px;
   text-align: left;
   cursor: pointer;
+  list-style-type: none;
 }
 
 .item {

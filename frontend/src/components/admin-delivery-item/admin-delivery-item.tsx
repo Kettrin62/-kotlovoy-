@@ -74,7 +74,6 @@ const AdminDeliveryItem: FC<IAdminDeliveryItemProps> = ({ element, ediMethod, de
   const handleCloseModal = () => {
     resetForm();
     setVisible(false);
-    setConfirm(false);
   }
 
   const cancel = () => {

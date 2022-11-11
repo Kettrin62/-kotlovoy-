@@ -400,14 +400,6 @@ function App() {
                         <OrderInfoPage />
                       </ProtectedRoute>
 
-                      {/* <ProtectedRoute
-                        path='/admin-panel' 
-                        exact={true}
-                        loggedIn={loggedIn}
-                      >
-                        <AdminPanelPage onLogout={onLogout} isAdmin={isAdmin} />
-                      </ProtectedRoute> */}
-
                       <ProtectedRoute
                         path='/admin-panel/orders' 
                         exact={true}

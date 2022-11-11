@@ -23,8 +23,10 @@ const CardOrder: FC<ICardOrderProps> = ({ card }) => {
 
   const onClickOrder = useCallback(
     () => {
-      if (pathname === '/profile/orders') history.replace({ pathname: `/profile/orders/${id}` });
-      if (pathname === '/admin-panel/orders') history.replace({ pathname: `/admin-panel/orders/${id}` });
+      // if (pathname === '/profile/orders') history.replace({ pathname: `/profile/orders/${id}` });
+      // if (pathname === '/admin-panel/orders') history.replace({ pathname: `/admin-panel/orders/${id}` });
+      if (pathname === '/profile/orders') history.push({ pathname: `/profile/orders/${id}` });
+      if (pathname === '/admin-panel/orders') history.push({ pathname: `/admin-panel/orders/${id}` });
     },
     [history]
   );

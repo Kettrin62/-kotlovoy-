@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState, FC, useContext, useCallback } from 'react';
-import { useParams, useRouteMatch, useHistory } from 'react-router-dom';
+import { useParams, useRouteMatch, useHistory, Redirect } from 'react-router-dom';
 import api from '../api';
 import Button from '../components/button/button';
 import { priceFormat } from '../components/total-price/utils';
@@ -10,11 +10,13 @@ import orderinfoStyles from './order-info.module.css';
 import cn from 'classnames';
 import Status from '../components/status/status';
 import Contacts from '../components/contacts/contacts';
-import ElementsCardOrder from '../components/elements-card-order/elements-card-orders';
+import ElementsCardOrder from '../components/elements-card-order/elements-card-order';
 import ListElementsSearch from '../components/list-elements-search/list-elements-search';
 import DeliveryOrderInfo from '../components/delivery-order-info/delivery-order-info';
 import AuthContext from '../services/contexts/auth-context';
 import { DeliveryContext } from '../services/contexts/app-context';
+import Modal from '../components/modal/modal';
+import { Loader } from '../ui/loader/loader';
 
 
 export const OrderInfoPage: FC = () => {
@@ -48,6 +50,8 @@ export const OrderInfoPage: FC = () => {
 
   const [orderCart, setOrderCart] = useState<Array<TElementOrder>>([]);
   const [searchVisible, setSearchVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [ checkoutRequest, setCheckoutRequest] = useState(false);
 
   const id = useParams<{ id?: string }>().id;
 
@@ -85,7 +89,7 @@ export const OrderInfoPage: FC = () => {
     if (match.path === '/admin-panel/orders/:id' && !isAdmin) {
       history.replace({ pathname: `/profile/orders/${id}` });
     }
-  }, []);
+  }, [change]);
 
   useEffect(() => {
     if (match.path === '/admin-panel/orders/:id' && isAdmin) {
@@ -141,7 +145,7 @@ export const OrderInfoPage: FC = () => {
   }
 
   const onChangeOrder = () => {
-    setChange(true);
+    setChange(!change);
   }
 
   const onClickAddElement = () => {
@@ -211,23 +215,46 @@ export const OrderInfoPage: FC = () => {
       discount,
       elements
     };
+    setCheckoutRequest(true);
     api
       .updateOrder(id, dataOrder)
       .then(res => {
-        console.log(res);
+        console.log('res', res);
+        
+        setCheckoutRequest(false);
+        setVisible(true);
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log('err', err)
+        setCheckoutRequest(false);
+      })
   }
+
+  const handleCloseModal = () => {
+    setVisible(false);
+    setChange(false);
+    window.history.back()
+  };
+
+
+  const modal = (
+    <Modal header='Редактирование заказа' onClose={handleCloseModal}>
+      <p className={orderinfoStyles.modaltext}>Изменения сохранены</p>
+    </Modal>
+  )
 
   return (
     <div className={orderinfoStyles.container}>
       <h2 className={orderinfoStyles.header}>№ {order?.number}</h2>
       <h3 className={orderinfoStyles.date}>от {dateTime}</h3>
-      {match.path === '/admin-panel/orders/:id'  && isAdmin && order?.status?.status !== 'отменённый заказ' && (
-        <Button className={orderinfoStyles.button} clickHandler={onChangeOrder}>
-          Редактировать
-        </Button>
-      )} 
+      {match.path === '/admin-panel/orders/:id'  && 
+        isAdmin && 
+        order?.status?.status !== 'отменённый заказ' && 
+        order?.status?.status !== 'выполненный заказ' &&
+        (<Button className={orderinfoStyles.button} clickHandler={onChangeOrder}>
+          {!change ? 'Редактировать' : 'Отменить редактирование'}
+        </Button>)
+      } 
       <div className={orderinfoStyles.content}>
         <div className={orderinfoStyles.status}>
           <h4 className={orderinfoStyles.title}>Статус:</h4>
@@ -290,7 +317,7 @@ export const OrderInfoPage: FC = () => {
               className={orderinfoStyles.button}
               clickHandler={onChangeSave}
             >
-              Применить изменения
+              {checkoutRequest ? <Loader size="small" inverse={true} /> : 'Применить изменения'}
             </Button>
             <Button
               type='button'
@@ -301,6 +328,7 @@ export const OrderInfoPage: FC = () => {
             </Button>
           </div>
         )}
+        {visible && modal}
       </div>
     </div>
   )

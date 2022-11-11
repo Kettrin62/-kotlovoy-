@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { TStatus } from '../../services/types/data';
 import Button from '../button/button';
 import statusStyles from './status.module.css';
@@ -25,6 +25,10 @@ const Status: FC<IStatusProps> = ({ change, status, statusName, setStatusName, s
 
   const nameStatus = status?.status ? status.status : 'не указан';
   const classBorder = statusesVisible ? statusStyles.border : '';
+
+  useEffect(() => {
+    setStatusName(nameStatus)
+  }, [change])
 
   return (
     <>

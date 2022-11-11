@@ -104,7 +104,7 @@ const ElementsCardOrder: FC<IElementsCardOrderProps> = ({
 
   return(
     <>
-      {match.path === '/admin-panel/orders/:id' ? changeElementsCardOrder : elementsCardOrder}
+      {change ? changeElementsCardOrder : elementsCardOrder}
     </>
   )
 }

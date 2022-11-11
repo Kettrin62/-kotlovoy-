@@ -9,6 +9,7 @@ import FormStatus from '../form-status/form-status';
 import Form from '../form/form';
 import Input from '../../ui/input/input';
 import Button from '../button/button';
+import modalStyles from '../form-status/form-status.module.css';
 
 interface IUserProps {
   user: TUser;
@@ -23,7 +24,7 @@ const User: FC<IUserProps> = ({ user, changeDiscount }) => {
   const [visible, setVisible] = useState(false);
 
 
-  const isLock = statusesImmutable.some(item => item === id);
+  // const isLock = statusesImmutable.some(item => item === id);
 
   interface IValues {
     discount: number
@@ -80,8 +81,8 @@ const User: FC<IUserProps> = ({ user, changeDiscount }) => {
   }
 
   const modal = (
-    <Modal header='Изменить статус' onClose={handleCloseModal}>
-      <Form name='discount' onSubmit={editSubmit}>
+    <Modal header='Изменить дисконтную скидку' onClose={handleCloseModal}>
+      <Form name='discount' onSubmit={editSubmit} class={modalStyles.form}>
         <Input
           type='text'
           name='discount'
@@ -90,16 +91,18 @@ const User: FC<IUserProps> = ({ user, changeDiscount }) => {
           required
           placeholder='Дисконтная скидка'
           value={String(values.discount)}
+          extraClass={modalStyles.input}
+          classLabel={modalStyles.label}
         />
         <div className={userStyles.box}>
-          <Button type='submit' className={userStyles.button} disabled={!isValid}>
+          <Button type='submit' className={modalStyles.button} disabled={!isValid}>
             Сохранить
           </Button>
           <Button 
             type='button' 
-            className={userStyles.button} 
             disabled={!isValid}
             clickHandler={cancel}
+            className={modalStyles.button}
           >
             Отменить
           </Button>
@@ -110,14 +113,14 @@ const User: FC<IUserProps> = ({ user, changeDiscount }) => {
 
   return (
     <li key={id} className={userStyles.item}>
-      <div>
-        <h4>{username}</h4>
-        <p>{`${first_name} ${last_name}`}</p>
-        <p>{email}</p>
-        <p>{phoneNumber}</p>
-        <p>{`Дисконтная скидка ${discount}%`}</p>
+      <h4 className={userStyles.header}>{username}</h4>
+      {(first_name || last_name) && <p className={userStyles.text}>{`${first_name} ${last_name}`}</p>}
+      <p className={userStyles.text}>{email}</p>
+      {phoneNumber && <p className={userStyles.text}>{phoneNumber}</p>}
+      <div className={userStyles.discount}>
+        <p className={userStyles.text}>{`Дисконтная скидка ${discount}%`}</p>
+        <EditButton onEdit={()=> setVisible(true)} extraClass={userStyles.button} />
       </div>
-      <EditButton onEdit={()=> setVisible(true)} extraClass={userStyles.button} />
       {visible && modal}
     </li>
   )

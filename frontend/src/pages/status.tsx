@@ -22,6 +22,7 @@ export const StatusPage: FC<IStatusPageProps> = ({
   deleteStatus
 }) => {
   const [visible, setVisible] = useState(false);
+  const [text, setText] = useState<string>('');
 
   const { values, handleChange, isValid, resetForm } = useFormStatus();
 
@@ -33,29 +34,39 @@ export const StatusPage: FC<IStatusPageProps> = ({
     e.preventDefault();
     if (!statuses.some(item => item.status === values.status)) {
       createStatus(values, setVisible)
-    } else alert('Такой статус уже существует')
+    } else {
+      setText('Такой статус уже существует');
+    }
     resetForm();
   };
 
   const cancel = () => {
     resetForm();
     setVisible(false);
+    setText('');
   }
 
   const handleCloseModal = () => {
     resetForm();
     setVisible(false);
+    setText('');
+  };
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setText('');
+    handleChange(event);
   }
 
   const modal = (
     <Modal header='Создать статус' onClose={handleCloseModal}>
       <FormStatus
         onSubmit={createSubmit}
-        onChange={handleChange}
+        onChange={onChange}
         values={values}
         isValid={isValid}
         onCancel={cancel}
       />
+      {text && <p className={statusStyles.text}>{text}</p>}
     </Modal>
   )
 

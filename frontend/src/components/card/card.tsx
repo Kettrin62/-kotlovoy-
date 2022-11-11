@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useCallback, useContext, useState, useEffect } from 'react';
 import { 
+  Link,
   useHistory,
 } from 'react-router-dom';
 import { FC } from 'react';
@@ -38,7 +39,8 @@ const Card: FC<ICardProps> = ({ element }) => {
 
 const onClickButton = useCallback(
   () => {
-    history.replace({ pathname: `/elements/${id}` });
+    // history.replace({ pathname: `/elements/${id}` });
+    history.push({ pathname: `/elements/${id}` })
   },
   [history]
 );
@@ -86,7 +88,9 @@ const onClickButtonCart = () => {
 
   return (
     <li className={cardStyles.card}>
+      {/* <Link to={`/elements/${id}`}> */}
       <img src={images[0].image} alt={title} className={cardStyles.image} onClick={onClickButton} />
+      {/* </Link> */}
       <div className={cardStyles.container}>
         <p className={cardStyles.title} onClick={onClickButton}>
           {title}
