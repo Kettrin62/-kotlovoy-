@@ -3,6 +3,7 @@ import api from '../../api';
 import { TDataElement, TElementOrder } from '../../services/types/data';
 import ElementsSearch from '../elements-search/elements-search';
 import InputSearch from '../input-add-element/input-search';
+import Modal from '../modal/modal';
 import styles from './list-elements-search.module.css';
 
 interface IListElementsSearchProps {
@@ -17,7 +18,9 @@ const ListElementsSearch: FC<IListElementsSearchProps> = ({
   setOrderCart
 }) => {
   const [ elements, setElements ] = useState([])
-  const [ showElements, setShowElements ] = useState(false)
+  const [ showElements, setShowElements ] = useState(false);
+  const [visible, setVisible] = useState(false);
+
 
   interface IElement {
     element_title: string;
@@ -73,7 +76,8 @@ const ListElementsSearch: FC<IListElementsSearchProps> = ({
   const onClick = (element: TDataElement) => {
     const { id, title, cur_price, article, images, measurement_unit, price, stock } = element;
     if (stock === 0) {
-      alert('Товар закончился');
+      setVisible(true);
+      // alert('Товар закончился');
       return
     }
     handleIngredientAutofill({ id, title })
@@ -109,6 +113,16 @@ const ListElementsSearch: FC<IListElementsSearchProps> = ({
     onClickClose();
   }
 
+  const handleCloseModal = () => {
+    setVisible(false);
+  };
+
+  const modal = (
+    <Modal header='Добавление деталей' onClose={handleCloseModal}>
+      <p className={styles.modaltext}>Товар закончился</p>
+    </Modal>
+  )
+
   return (
     <div className={styles.container}>
       <InputSearch
@@ -124,7 +138,9 @@ const ListElementsSearch: FC<IListElementsSearchProps> = ({
       <ElementsSearch
         elements={elements}
         onClick={(element: TDataElement) => onClick(element)}
-/>}
+      />
+    }
+    {visible && modal}
   </div>
   )
 }
