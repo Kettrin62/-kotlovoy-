@@ -20,7 +20,7 @@ export const UsersPage: FC<IUsersPageProps> = ({ users, changeDiscount }) => {
   return (
     <div>
       <UsersSearch />
-      <ul>
+      <ul className={usersStyles.list}>
         {[...users].map(item => {
           return (
           <User key={item.id} user={item} changeDiscount={changeDiscount} />

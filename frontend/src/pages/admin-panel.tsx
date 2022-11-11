@@ -57,7 +57,6 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({
     api
       .createStatus(data)
       .then(res => {
-        alert('Статус создан');
         set(false);
         getStatuses();
       })
@@ -68,7 +67,6 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({
     api 
       .editStatus(id, data)
       .then(res => {
-        alert('Статус изменён');
         getStatuses();
       })
       .catch(err => console.log(err));
@@ -78,7 +76,6 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({
     api 
       .deleteStatus(id)
       .then(res => {
-        alert('Статус удалён');
         getStatuses();
       })
       .catch(err => console.log(err));
@@ -104,7 +101,6 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({
     api
       .changeUserDiscount(id, data)
       .then(res => {
-        alert('Дисконтная скидка изменена');
         getUsers();
       })
       .catch(err => {

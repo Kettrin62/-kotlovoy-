@@ -63,12 +63,12 @@ const OrdersSearch = () => {
       {showOrders && elements.length > 0 && 
         <ul className={styles.container}>
           {elements.map(element => (
-            <li key={element.id}>
+            <li key={element.id} className={styles.item}>
               <Link to={
                 pathname === '/admin-panel/orders' 
                   ? `/admin-panel/orders/${element.id}`
                   : `/profile/orders/${element.id}`
-              }>
+              } className={styles.link}>
                 № {element.number} {pathname === '/admin-panel/orders' 
                   && element.email} {pathname === '/admin-panel/orders' 
                   && element.phoneNumber}

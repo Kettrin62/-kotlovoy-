@@ -33,14 +33,14 @@ const SearchBar: FC<ISearchBarProps> = ({
 }) => {
 
   const history = useHistory();
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
 
-  const onClickMain = useCallback(
-    () => {
-      history.replace({ pathname: '/' });
-    },
-    [history]
-  );
+  // const onClickMain = useCallback(
+  //   () => {
+  //     history.replace({ pathname: '/' });
+  //   },
+  //   [history]
+  // );
 
 
 

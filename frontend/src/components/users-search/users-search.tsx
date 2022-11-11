@@ -4,6 +4,7 @@ import api from '../../api';
 import { TUser } from '../../services/types/data';
 import InputSearch from '../input-add-element/input-search';
 import styles from '../orders-search/order-search.module.css';
+import searchStyles from '../elements-search/styles.module.css';
 
 const UsersSearch= () => {
   const [ elements, setElements ] = useState<Array<TUser>>([]);
@@ -59,8 +60,8 @@ const UsersSearch= () => {
       {showElements && elements.length > 0 && 
         <ul className={styles.container}>
           {elements.map(element => (
-            <li key={element.id}>
-              <Link to={`/profile/orders/${element.id}`}>
+            <li key={element.id} className={styles.item}>
+              <Link to={`/profile/orders/${element.id}`} className={styles.link}>
                 {element.username} {element.email} {element.phoneNumber}
               </Link>
             </li>

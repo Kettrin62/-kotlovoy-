@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { FC, useContext } from 'react';
 import Form from '../components/form/form';
-import { Link,  Redirect } from 'react-router-dom';
+import { Link,  Redirect, useLocation } from 'react-router-dom';
 import loginStyles from './login.module.css';
-import { TFormAuth } from '../services/types/data';
+import { TFormAuth, TUseLocationState } from '../services/types/data';
 import Input from '../ui/input/input';
 import Button from '../components/button/button';
 import { useFormWithValidation } from '../utils/validation';
@@ -20,6 +20,7 @@ export const LoginPage: FC<ILoginPageProps> = ({
 }) => {
   const { loggedIn } = useContext(AuthContext);
   const { values, handleChange, isValid } = useFormWithValidation();
+  const { state } = useLocation<TUseLocationState>();
 
   const loginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +29,7 @@ export const LoginPage: FC<ILoginPageProps> = ({
 
   if (loggedIn) {
     return (
-      <Redirect to='/' />
+      <Redirect to={state?.from || '/'} />
     )
   };
 

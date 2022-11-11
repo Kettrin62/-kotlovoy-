@@ -247,11 +247,14 @@ export const OrderInfoPage: FC = () => {
     <div className={orderinfoStyles.container}>
       <h2 className={orderinfoStyles.header}>№ {order?.number}</h2>
       <h3 className={orderinfoStyles.date}>от {dateTime}</h3>
-      {match.path === '/admin-panel/orders/:id'  && isAdmin && order?.status?.status !== 'отменённый заказ' && (
-        <Button className={orderinfoStyles.button} clickHandler={onChangeOrder}>
+      {match.path === '/admin-panel/orders/:id'  && 
+        isAdmin && 
+        order?.status?.status !== 'отменённый заказ' && 
+        order?.status?.status !== 'выполненный заказ' &&
+        (<Button className={orderinfoStyles.button} clickHandler={onChangeOrder}>
           {!change ? 'Редактировать' : 'Отменить редактирование'}
-        </Button>
-      )} 
+        </Button>)
+      } 
       <div className={orderinfoStyles.content}>
         <div className={orderinfoStyles.status}>
           <h4 className={orderinfoStyles.title}>Статус:</h4>

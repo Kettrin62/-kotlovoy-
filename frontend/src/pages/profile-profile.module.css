@@ -43,6 +43,12 @@
   color: rgba(170, 170, 170, 1);
 }
 
+.modaltext {
+  margin-top: 20px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
 @media screen and (max-width: 860px) {
   .container {
     padding-left: 50px;
@@ -66,5 +72,9 @@
 @media screen and (max-width: 500px) {
   .button {
     padding-left: 0;
+  }
+
+  .modaltext {
+    font-size: 14px;
   }
 }

@@ -10,12 +10,14 @@ import Input from '../ui/input/input';
 import { useFormWithValidation } from '../utils/validation';
 import profileprofileStyles from './profile-profile.module.css';
 import cn from 'classnames';
+import Modal from '../components/modal/modal';
 
 export function ProfileProfilePage() {
   const [changValue, setChangeValue] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const [id, setId] = useState<number | null>(null);
   const [cancel, setCancel] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const [username, setUsername] = useState('');
   const onChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,7 +111,8 @@ export function ProfileProfilePage() {
       api
         .updateDataUser(id, dataUser)
         .then(res => {
-          setUser(res)
+          setUser(res);
+          setVisible(true);
         })
         .catch(err => console.log(err))
     }
@@ -120,6 +123,17 @@ export function ProfileProfilePage() {
     setCancel(!cancel);
     setChangeValue(false);
   };
+
+  const handleCloseModal = () => {
+    setVisible(false);
+    setChangeValue(false);
+  };
+
+  const modal = (
+    <Modal header='Редактирование профиля' onClose={handleCloseModal}>
+      <p className={profileprofileStyles.modaltext}>Изменения сохранены</p>
+    </Modal>
+  )
 
   return (
     <div className={profileprofileStyles.container}>
@@ -218,6 +232,7 @@ export function ProfileProfilePage() {
           </Button>
         </div>
       </Form>
+      {visible && modal}
     </div>
   );
 }

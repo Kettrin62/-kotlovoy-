@@ -44,14 +44,22 @@ export const TotalPrice = () => {
   const next = () => {
     if (step === stepName.delivery) {
       if (form.email && !validator.isEmail(form.email + '')) {
-        alert('Некорректный адрес электронной почты')
+        setError('Введён некорректный адрес электронной почты');
+        setVisible(true);
+        // alert('Некорректный адрес электронной почты')
       } else if (!form.firstName) {
-        alert('Поле "Имя" должно быть заполнено')
+        setError('Поле "Имя" должно быть заполнено');
+        setVisible(true);
+        // alert('Поле "Имя" должно быть заполнено')
       } else if (!form.secondName) {
-        alert('Поле "Фамилия" должно быть заполнено')
+        setError('Поле "Фамилия" должно быть заполнено');
+        setVisible(true);
+        // alert('Поле "Фамилия" должно быть заполнено')
       } else if (!form.phone ||
         (form.phone && !form.phone.match(/^(\+7|8)[\d]{10}$/))) {
-        alert('Поле "Телефон" должно быть заполнено корректно')
+        setError('Поле "Телефон" должно быть заполнено корректно');
+        setVisible(true);
+        // alert('Поле "Телефон" должно быть заполнено корректно')
       } else {
         const nextStep = step === stepName.cart ? stepName.delivery : stepName.checkout
         setStep(nextStep);
@@ -155,6 +163,13 @@ export const TotalPrice = () => {
       setStep('');
       setForm(formDeliveryInit)
       onClickMain();
+    }
+    if (step === stepName.checkout) {
+      setForm({
+        ...form,
+        phone: '',
+      })
+      setStep(stepName.delivery)
     }
   };
 
