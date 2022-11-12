@@ -36,7 +36,7 @@ const Element: FC<IElementProps> = ({
   // let arr: TDataCartElement[] = [];
 
   const onDelete = () => {
-    setDataCart(dataCart.filter(el => el.element.id !== id))
+    setDataCart(dataCart.filter(el => el.element !== id))
   };
 
   const decrease = () => {
@@ -44,33 +44,33 @@ const Element: FC<IElementProps> = ({
       onDelete();
     } else {
       // arr = dataCart;
-    let index: number = -1;
-    const el = dataCart.find(el => el.element.id === id);
-    if (el) {
-      index = dataCart.indexOf(el);
-    };
+      let index: number = -1;
+      const el = dataCart.find(el => el.element === id);
+      if (el) {
+        index = dataCart.indexOf(el);
+      };
 
-    dataCart[index] = {
-      element,
-      amount: --amount
-    };
+      dataCart[index] = {
+        element: id,
+        amount: --amount
+      };
 
-    setDataCart([...dataCart]);
+      setDataCart([...dataCart]);
     }
   };
 
   const increase = () => {
     // arr = dataCart;
     let index: number = -1;
-    const el = dataCart.find(el => el.element.id === id);
+    const el = dataCart.find(el => el.element === id);
 
     if (el) {
       index = dataCart.indexOf(el);
     };
 
-    if (dataCart[index].amount < dataCart[index].element.stock) {
+    if (dataCart[index].amount < stock) {
       dataCart[index] = {
-        element,
+        element: id,
         amount: ++amount
       };
 

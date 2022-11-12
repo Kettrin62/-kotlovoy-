@@ -45,7 +45,7 @@ const onClickButton = useCallback(
   [history]
 );
 
-let arr: TDataCartElement[] = [];
+// let arr: TDataCartElement[] = [];
 
 useEffect(() => {
   if (stock === 0) {
@@ -59,7 +59,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (stock !== 0) {
-    if(dataCart.some((el) => el.element.id === id)) {
+    if(dataCart.some((el) => el.element === id)) {
       setButtonState({
         ...buttonState,
         text: 'Оформить',
@@ -81,7 +81,7 @@ const onClickButtonCart = () => {
     // });
     // setDataCart([...arr]);
     dataCart.push({
-      element: element,
+      element: element.id,
       amount: 1
     });
     setDataCart([...dataCart]);

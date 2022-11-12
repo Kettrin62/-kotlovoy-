@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { TDataCartElement } from './types/data';
 
-function useLocalStorage(key: string, initialValue: Array<TDataCartElement>) {
+function useLocalStorage(key: string, initialValue: Array<TDataCartElement<number>>) {
   // состояние для хранения значения
   // передаем функцию инициализации useState для однократного выполнения
   const [storedValue, setStoredValue] = React.useState(() => {
@@ -19,7 +19,7 @@ function useLocalStorage(key: string, initialValue: Array<TDataCartElement>) {
 
   // возвращаем обернутую версию сеттера useState,
   // которая помещает новое значение в локальное хранилище
-  const setValue = (value: Array<TDataCartElement>) => {
+  const setValue = (value: Array<TDataCartElement<number>>) => {
     try {
       // значение может быть функцией
       const valueToStore =

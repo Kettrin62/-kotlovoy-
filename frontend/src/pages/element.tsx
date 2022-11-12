@@ -64,13 +64,13 @@ export function ElementPage() {
 
   useEffect(() => {
     if (element?.stock !== 0) {
-      if(dataCart.some((el) => `${el.element.id}` === id)) {
+      if(dataCart.some((el) => `${el.element}` === id)) {
         setButtonState({
           ...buttonState,
           text: 'Оформить',
           class: elementStyles.button_active,
         })
-        const qty = dataCart.find((el) => `${el.element.id}` === id)!.amount;
+        const qty = dataCart.find((el) => `${el.element}` === id)!.amount;
         setInputValue(qty);
       } else setButtonState({
         ...buttonState,
@@ -109,7 +109,7 @@ export function ElementPage() {
       // arr = dataCart;
       if (element) {
         dataCart.push({
-          element: element,
+          element: element.id,
           amount: inputValue
         });
         setDataCart([...dataCart]);
@@ -119,26 +119,27 @@ export function ElementPage() {
 
       // arr = dataCart;
       let index: number = -1;
-      const el = dataCart.find(el => el.element.id === Number(id));
+      const el = dataCart.find(el => el.element === Number(id));
 
       if (el) {
         index = dataCart.indexOf(el);
       };
 
-      if (dataCart[index].amount < dataCart[index].element.stock && element) {
+      if (dataCart[index].amount <= element!.stock && element) {
         dataCart[index] = {
-          element,
+          element: element.id,
           amount: inputValue
         };
 
         setDataCart([...dataCart]);
       }
 
-
-
       history.push({ pathname: '/cart' });
     }
   };
+
+  // console.log(dataCart);
+  
 
   return (
     <div className={elementStyles.element}>

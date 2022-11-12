@@ -4,12 +4,14 @@ import Input from '../../ui/input/input';
 import { DeliveryFormContext } from '../../services/contexts/cart-context';
 import { UserContext } from '../../services/contexts/user-context';
 import { TDeliveryForm } from '../../services/types/data';
+import AuthContext from '../../services/contexts/auth-context';
 import validator from 'validator';
 import cn from 'classnames';
 
 export const InputsBox = () => {
   const { form, setForm } = useContext(DeliveryFormContext);
   const { user } = useContext(UserContext);
+  const { loggedIn } = useContext(AuthContext)
   const [formChange, setFormChange] = useState(false);
   const [textError, setTextError] = useState({
     phoneNumber: '',
@@ -211,7 +213,7 @@ export const InputsBox = () => {
       setForm(obj);
       setFormChange(true);
     }
-  }, []);
+  }, [loggedIn]);
 
   useEffect(() => {
     if (form) {

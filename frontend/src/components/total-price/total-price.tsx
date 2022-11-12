@@ -15,9 +15,14 @@ import { rawListeners } from 'process';
 import api from '../../api';
 import validator from 'validator';
 import Modal from '../modal/modal';
+import { TDataCartElement, TDataElement } from '../../services/types/data';
+
+interface TotalPriceProps {
+  cartElements: TDataCartElement<TDataElement>[];
+}
 
 
-export const TotalPrice = () => {
+export const TotalPrice: FC<TotalPriceProps> = ({ cartElements }) => {
   const { dataCart, setDataCart } = useContext(DataCartContext);
   const { totalPrice, totalDispatcher } = useContext(TotalPriceContext);
   const { step, setStep } = useContext(CartStepContext);
@@ -105,7 +110,7 @@ export const TotalPrice = () => {
     const delivery = {
       id: selectedDeliveryId
     };
-    const elements = dataCart.map(({ element, amount }) => {
+    const elements = cartElements.map(({ element, amount }) => {
       return {
         id: element.id,
         amount
@@ -164,7 +169,7 @@ export const TotalPrice = () => {
       setForm(formDeliveryInit)
       onClickMain();
     }
-    if (step === stepName.checkout) {
+    if (step === stepName.checkout && !order) {
       setForm({
         ...form,
         phone: '',

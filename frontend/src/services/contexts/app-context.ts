@@ -8,8 +8,8 @@ import {
 } from '../types/data';
 
 interface IDataCartContext {
-  dataCart: Array<TDataCartElement>,
-  setDataCart: (data: Array<TDataCartElement>) => void,
+  dataCart: Array<TDataCartElement<number>>,
+  setDataCart: (data: Array<TDataCartElement<number>>) => void,
 }
 
 // interface ICartStepContext {

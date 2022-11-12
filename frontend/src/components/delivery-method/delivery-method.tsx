@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
 import styles from './delivery-method.module.css';
 import { Loader } from '../../ui/loader/loader';
 import DeliveryMethodOption from '../delivery-method-option/delivery-method-option';
@@ -7,9 +7,15 @@ import standart from '../../images/standart.svg';
 import { useContext } from 'react';
 import { SelectedDeliveryContext, TotalPriceContext } from '../../services/contexts/cart-context';
 import { DataCartContext, DeliveryContext } from '../../services/contexts/app-context';
+import { TDataCartElement, TDataElement } from '../../services/types/data';
+
 import api from '../../api';
 
-const DeliveryMethod = () => {
+interface DeliveryMethodProps {
+  elements: TDataCartElement<TDataElement>[];
+}
+
+const DeliveryMethod: FC<DeliveryMethodProps> = ({ elements }) => {
 
   const deliveryMethodsRequest = false;
 
@@ -22,13 +28,13 @@ const DeliveryMethod = () => {
 
   useEffect(() => {
     totalDispatcher({ 
-      array: dataCart, 
+      array: elements, 
       delivery: {
         methods: deliveryMethods,
         selectedMethod: selectedDeliveryId
       }
     })
-  }, [dataCart, selectedDeliveryId]);
+  }, [dataCart, selectedDeliveryId, elements]);
 
 
   const content = useMemo(
@@ -49,7 +55,7 @@ const DeliveryMethod = () => {
         </ul>
       );
     },
-    [deliveryMethodsRequest, deliveryMethods, selectedDeliveryId]
+    [deliveryMethodsRequest, deliveryMethods, selectedDeliveryId, elements]
   );
   return (
     <div className={`${styles.container}`}>

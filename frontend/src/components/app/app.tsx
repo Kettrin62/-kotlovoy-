@@ -24,7 +24,8 @@ import {
   TFormRegister,
   TFormAuth,
   TAuth,
-  TDelivery
+  TDelivery,
+  TDataElement
 } from '../../services/types/data';
 import api from '../../api';
 import { 
@@ -49,7 +50,7 @@ import {
   SelectedDeliveryContext,
   DeliveryFormContext
 } from '../../services/contexts/cart-context';
-import { formDeliveryInit, totalInitialPrice } from '../../utils/data';
+import { formDeliveryInit, stepName, totalInitialPrice } from '../../utils/data';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { LoginPage } from '../../pages/login';
 import { RegisterPage } from '../../pages/register';
@@ -73,7 +74,7 @@ function reducer(_totalPrice: TTotalPrice, action: TAction) {
   const total = deliveryPrice +
     action.array.reduce((
       acc: number, 
-      item: TDataCartElement
+      item: TDataCartElement<TDataElement>
     ) => acc + item.element.cur_price * item.amount, 0);
 
   return { price: total };
@@ -176,6 +177,7 @@ function App() {
       .then(res => {
         localStorage.removeItem('token');
         setDataCart([]);
+        setStep('')
         setAuth({
           loggedIn: false,
           isAdmin: false,
