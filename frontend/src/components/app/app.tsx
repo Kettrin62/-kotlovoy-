@@ -174,7 +174,8 @@ function App() {
     api
       .signout()
       .then(res => {
-        localStorage.removeItem('token')
+        localStorage.removeItem('token');
+        setDataCart([]);
         setAuth({
           loggedIn: false,
           isAdmin: false,
