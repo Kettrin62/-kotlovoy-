@@ -26,10 +26,11 @@ export function CartPage() {
       .getElement(id)
       .then(data => {
         const el = dataCartElements.find(el => el.element.id === data.id);
+        const count = amount <= data.stock ? amount : data.stock;
         if (!el) {
           dataCartElements.push({
             element: data,
-            amount: amount
+            amount: count
           });
           setDataCartElements([...dataCartElements])
         } else {
@@ -40,7 +41,7 @@ export function CartPage() {
             const index = dataCartElements.indexOf(el);
             dataCartElements[index] = {
               element: data,
-              amount
+              amount: count
             };
       
             setDataCartElements([...dataCartElements]);
@@ -57,7 +58,7 @@ export function CartPage() {
       getElement(String(item.element), item.amount);
     })
 
-  }, [dataCart])
+  }, [dataCart, step])
 
   // console.log(dataCart);
   

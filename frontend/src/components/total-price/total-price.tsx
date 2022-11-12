@@ -174,7 +174,9 @@ export const TotalPrice: FC<TotalPriceProps> = ({ cartElements }) => {
         ...form,
         phone: '',
       })
-      setStep(stepName.delivery)
+      if (error === 'Введён некорректный номер телефона') {
+        setStep(stepName.delivery)
+      } else setStep(stepName.cart);
     }
   };
 

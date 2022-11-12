@@ -306,6 +306,7 @@ export const OrderInfoPage: FC = () => {
               setSearchVisible={setSearchVisible}
               orderCart={orderCart}
               setOrderCart={setOrderCart}
+              discount={dataContacts.discount}
             />
           )}
         </div>
