@@ -33,7 +33,7 @@ const Element: FC<IElementProps> = ({
   const { dataCart, setDataCart } = useContext(DataCartContext);
   const [text, setText] = useState('');
 
-  let arr: TDataCartElement[] = [];
+  // let arr: TDataCartElement[] = [];
 
   const onDelete = () => {
     setDataCart(dataCart.filter(el => el.element.id !== id))
@@ -43,38 +43,38 @@ const Element: FC<IElementProps> = ({
     if (amount === 1) {
       onDelete();
     } else {
-      arr = dataCart;
+      // arr = dataCart;
     let index: number = -1;
     const el = dataCart.find(el => el.element.id === id);
     if (el) {
-      index = arr.indexOf(el);
+      index = dataCart.indexOf(el);
     };
 
-    arr[index] = {
+    dataCart[index] = {
       element,
       amount: --amount
     };
 
-    setDataCart([...arr]);
+    setDataCart([...dataCart]);
     }
   };
 
   const increase = () => {
-    arr = dataCart;
+    // arr = dataCart;
     let index: number = -1;
     const el = dataCart.find(el => el.element.id === id);
 
     if (el) {
-      index = arr.indexOf(el);
+      index = dataCart.indexOf(el);
     };
 
-    if (arr[index].amount < arr[index].element.stock) {
-      arr[index] = {
+    if (dataCart[index].amount < dataCart[index].element.stock) {
+      dataCart[index] = {
         element,
         amount: ++amount
       };
 
-      setDataCart([...arr]);
+      setDataCart([...dataCart]);
     } else {
       setText(`Доступно ${stock}шт.`);
     }
@@ -82,7 +82,7 @@ const Element: FC<IElementProps> = ({
 
   const onClickButton = useCallback(
     () => {
-      history.replace({ pathname: `/elements/${id}` });
+      history.push({ pathname: `/elements/${id}` });
     },
     [history]
   );

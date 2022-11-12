@@ -77,6 +77,8 @@ export function ElementsPage() {
       .catch(err => console.log(err))
   };
 
+
+
   useEffect(() => {
     if (pathname === '/elements') {
       getElements();

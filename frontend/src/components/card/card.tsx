@@ -74,15 +74,20 @@ useEffect(() => {
 
 const onClickButtonCart = () => {
   if (buttonState.text === 'В корзину') {
-    arr = dataCart;
-    arr.push({
+    // arr = dataCart;
+    // arr.push({
+    //   element: element,
+    //   amount: 1
+    // });
+    // setDataCart([...arr]);
+    dataCart.push({
       element: element,
       amount: 1
     });
-    setDataCart([...arr]);
+    setDataCart([...dataCart]);
   } 
   if (buttonState.text === 'Оформить') {
-    history.replace({ pathname: '/cart' });
+    history.push({ pathname: '/cart' });
   }
 };
 
