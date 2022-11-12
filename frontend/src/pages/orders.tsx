@@ -10,6 +10,7 @@ import ordersStyles from './orders.module.css';
 import cn from 'classnames';
 import LinkClose from '../components/links-buttons-image/link-close';
 import filterStyles from './elements.module.css';
+import { Loader } from '../ui/loader/loader';
 
 interface IOrdersPage {
   statuses?: Array<TStatus>;
@@ -19,16 +20,22 @@ export const OrdersPage: FC<IOrdersPage> = ({ statuses }) => {
   const [orders, setOrders] = useState<Array<TCardOrder>>([]);
   const [selectStatus, setSelectStatus] = useState<number>(0);
   const [ordersSelect, setOrdersSelect] = useState<Array<TCardOrder>>([]);
+  const [ ordersRequest, setOrdersRequest] = useState(false);
 
   const getOrders = () => {
+    setOrdersRequest(true)
     api
       .getOrders()
-      .then(res => setOrders(res.results))
+      .then(res => {
+        setOrders(res.results)
+        setOrdersRequest(false);
+      })
       .catch(err => {
         const errors = Object.values(err)
         if (errors) {
           alert(errors.join(', '))
         }
+        setOrdersRequest(false);
       })
   }
 
@@ -71,6 +78,10 @@ export const OrdersPage: FC<IOrdersPage> = ({ statuses }) => {
       })}
     </ul>
   )
+
+  if (ordersRequest) {
+    return <Loader size='large' />
+  }
 
   return (
     <div className={ordersStyles.container}>

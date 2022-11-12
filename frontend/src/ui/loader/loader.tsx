@@ -13,7 +13,7 @@ const loaderSizes = {
   large: 40
 };
 export const Loader: FC<ILoaderProps> = ({ size, inverse = false }) => {
-  const loaderColor = inverse ? '#fff' : '#3C39EC';
+  const loaderColor = inverse ? '#fff' : '#292929';
 
   const wrapperStyleKey = 'wrapper_' + size;
   return (

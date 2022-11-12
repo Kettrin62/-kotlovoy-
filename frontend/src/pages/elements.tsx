@@ -12,6 +12,7 @@ import Text from '../components/text/text';
 import { TDataElement, TDataGroups } from '../services/types/data';
 import elementsStyles from './elements.module.css';
 import AuthContext from '../services/contexts/auth-context';
+import { Loader } from '../ui/loader/loader';
 
 
 export function ElementsPage() {
@@ -20,6 +21,7 @@ export function ElementsPage() {
   const [textButton, setTextButton] = useState('Выбрать категории');
   const [visibleGroups, setVisibleGroups] = useState(false);
   const { loggedIn } = useContext(AuthContext)
+  const [ elementsRequest, setElementsRequest] = useState(false);
 
   const [fetchUrl, setFetchUrl] = useState<Array<string>>([]);
 
@@ -34,47 +36,76 @@ export function ElementsPage() {
   const {name } = useParams<{ name?: string}>();
 
   const getElements = () => {
+    setElementsRequest(true);
     api
       .getElements()
       .then(data => {
         const { results, count } = data;
         setElementsData(results)
+        setElementsRequest(false)
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+        setElementsRequest(false)
+      })
   }
 
   const getElementsBrand = (id: string) => {
+    setElementsRequest(true);
     api
       .getElementsBrand(id)
       .then(data => {
         const { results, count } = data;
         setElementsData(results)
+        setElementsRequest(false)
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+        setElementsRequest(false)
+      })
   };
 
   const getGroups = () => {
+    setElementsRequest(true);
     api
       .getGroups()
-      .then(data => setGroups(data))
-      .catch(err => console.log(err))
+      .then(data => {
+        setGroups(data)
+        setElementsRequest(false)
+      })
+      .catch(err => {
+        console.log(err)
+        setElementsRequest(false)
+      })
   };
 
   const getGroupsById = (id: string) => {
+    setElementsRequest(true);
     api
       .getGroupsById(id)
-      .then(data => setGroups(data))
-      .catch(err => console.log(err))
+      .then(data => {
+        setGroups(data)
+        setElementsRequest(false)
+      })
+      .catch(err => {
+        console.log(err)
+        setElementsRequest(false)
+      })
   };
 
   const getElementsBySearch = (name: string) => {
+    setElementsRequest(true);
     api
       .getElementsSearch(name)
       .then(data => {
         const { results, count } = data;
         setElementsData(results)
+        setElementsRequest(false)
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+        setElementsRequest(false)
+      })
   };
 
 
@@ -163,6 +194,10 @@ export function ElementsPage() {
       })}
     </ul>
   )
+
+  if (elementsRequest) {
+    return <Loader size='large' />
+  }
 
   return (
     <main className={elementsStyles.container}>

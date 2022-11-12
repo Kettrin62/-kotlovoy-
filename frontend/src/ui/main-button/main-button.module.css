@@ -11,6 +11,7 @@
   border: none;
   padding: 8px 15px;
   box-sizing: border-box;
+  min-width: 156px;
 }
 
 .input {

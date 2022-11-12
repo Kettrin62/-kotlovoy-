@@ -7,6 +7,7 @@ import User from '../components/user/user';
 import { TUser } from '../services/types/data';
 import EditButton from '../ui/edit-button/edit-button';
 import Input from '../ui/input/input';
+import { Loader } from '../ui/loader/loader';
 import usersStyles from './users.module.css';
 
 interface IUsersPageProps {
@@ -18,6 +19,7 @@ interface IUsersPageProps {
 
 export const UsersPage: FC<IUsersPageProps> = () => {
   const [users, setUsers] = useState<Array<TUser>>([]);
+
 
   interface IUser {
     id: number | null;

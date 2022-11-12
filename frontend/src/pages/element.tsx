@@ -20,6 +20,7 @@ import Image from '../components/image/image';
 import InputBox from '../components/input-box/input-box';
 import Divider from '../components/divider/divider';
 import { DataCartContext } from '../services/contexts/app-context';
+import { Loader } from '../ui/loader/loader';
 
 
 
@@ -34,6 +35,7 @@ export function ElementPage() {
     class: '',
     disabled: false,
   });
+  const [ elementRequest, setElementRequest] = useState(false);
   // const [reset, setReset] = useState(false);
 
   const history = useHistory();
@@ -41,11 +43,17 @@ export function ElementPage() {
   const inputRef = useRef(null);
 
   const getElement = (id: string) => {
+    setElementRequest(true);
     api
       .getElement(id)
-      .then(data => setElement(data))
-      .catch(err => console.log(err)
-      )
+      .then(data => {
+        setElement(data)
+        setElementRequest(false);
+      })
+      .catch(err => {
+        console.log(err)
+        setElementRequest(false);
+      })
   };
 
   useEffect(() => {
@@ -138,7 +146,9 @@ export function ElementPage() {
     }
   };
 
-  // console.log(dataCart);
+  if (elementRequest) {
+    return <Loader size='large' />
+  }
   
 
   return (

@@ -115,11 +115,7 @@ function App() {
         authorization(data)
       })
       .catch(err => {
-        console.log(err);
-        
         const errors = Object.values(err)
-        console.log(errors);
-        
         if (errors.length > 0) {
           alert(errors.join(', '))
         }

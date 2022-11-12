@@ -10,11 +10,13 @@ import api from '../api';
 import cn from 'classnames';
 import Modal from '../components/modal/modal';
 import modalStyles from './order-info.module.css';
+import { Loader } from '../ui/loader/loader';
 
 export function ProfileSetPasswordPage() {
   const { values, handleChange, isValid, resetForm } = useFormWithValidation();
   const [visible, setVisible] = useState(false);
   const [text, setText] = useState('');
+  const [ changRequest, setChangeRequest] = useState(false);
 
 
   const onChangePassword = (data: {
@@ -22,11 +24,13 @@ export function ProfileSetPasswordPage() {
     new_password: string;
   }) => {
     const { current_password, new_password } = data;
+    setChangeRequest(true);
     api
       .changePassword({ current_password, new_password })
       .then(res => {
         setText('Пароль изменён');
         setVisible(true);
+        setChangeRequest(false)
       })
       .catch(err => {
         const errors = Object.values(err)
@@ -35,6 +39,7 @@ export function ProfileSetPasswordPage() {
           setVisible(true);
           // alert(errors.join(', '))
         }
+        setChangeRequest(false)
       })
   }
 
@@ -87,7 +92,7 @@ export function ProfileSetPasswordPage() {
               disabled={!isValid}
               className={cn(styles.button, styles.save)}
             >
-              Сменить
+              {changRequest ? <Loader size='small' /> : 'Сменить'}
             </Button>
             <Button 
               type='button' 

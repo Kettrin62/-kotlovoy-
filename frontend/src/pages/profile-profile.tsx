@@ -11,6 +11,7 @@ import { useFormWithValidation } from '../utils/validation';
 import profileprofileStyles from './profile-profile.module.css';
 import cn from 'classnames';
 import Modal from '../components/modal/modal';
+import { Loader } from '../ui/loader/loader';
 
 export function ProfileProfilePage() {
   const [changValue, setChangeValue] = useState(false);
@@ -18,6 +19,7 @@ export function ProfileProfilePage() {
   const [id, setId] = useState<number | null>(null);
   const [cancel, setCancel] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [ changRequest, setChangeRequest] = useState(false);
 
 
   const [username, setUsername] = useState('');
@@ -111,13 +113,18 @@ export function ProfileProfilePage() {
         region,
         username,
       };
+      setChangeRequest(true);
       api
         .updateDataUser(id, dataUser)
         .then(res => {
           setUser(res);
           setVisible(true);
+          setChangeRequest(false)
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          console.log(err)
+          setChangeRequest(false)
+        })
     }
     setChangeValue(false);
   };
@@ -223,7 +230,7 @@ export function ProfileProfilePage() {
             disabled={!changValue} 
             className={cn(profileprofileStyles.button, profileprofileStyles.save)}
           >
-            Сохранить
+            {changRequest ? <Loader size='small' /> : 'Сохранить'}
           </Button>
           <Button 
             type='button' 

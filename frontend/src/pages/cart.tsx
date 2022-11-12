@@ -9,6 +9,7 @@ import {
   CartStepContext
 } from '../services/contexts/cart-context';
 import { TDataCartElement, TDataElement, TDeliveryMethod } from '../services/types/data';
+import { Loader } from '../ui/loader/loader';
 import { TitleCart } from '../ui/title-cart/title-cart';
 import { stepName, titleCart } from '../utils/data';
 import cartStyles from './cart.module.css';
@@ -18,8 +19,6 @@ export function CartPage() {
   const { step, setStep } = useContext(CartStepContext);
   const { dataCart, setDataCart } = useContext(DataCartContext);
   const [dataCartElements, setDataCartElements] = useState<Array<TDataCartElement<TDataElement>>>([])
-  const [element, setElement] = useState<TDataElement>();
-
 
   const getElement = async (id: string, amount: number) => {
     await api
@@ -49,8 +48,7 @@ export function CartPage() {
           }
         }
       })
-      .catch(err => console.log(err)
-      )
+      .catch(err => console.log(err))
   };
 
   useEffect(() => {
@@ -59,11 +57,6 @@ export function CartPage() {
     })
 
   }, [dataCart, step])
-
-  // console.log(dataCart);
-  
-
-
 
   useEffect(() => {
     if (step === '') setStep(stepName.cart);
