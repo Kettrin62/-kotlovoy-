@@ -61,6 +61,7 @@ import { ForgotPasswordPage } from '../../pages/forgot-password';
 import { ResetPasswordPage } from '../../pages/reset-password';
 import { OrderInfoPage } from '../../pages/order-info';
 import { AdminPanelPage } from '../../pages/admin-panel';
+import useLocalStorage from '../../services/hooks';
 
 function reducer(_totalPrice: TTotalPrice, action: TAction) {
   const deliveryPrice =
@@ -84,7 +85,8 @@ function App() {
 
   const [swiper, setSwiper] = useState<Array<TDataSwiper>>([]);
 
-  const [dataCart, setDataCart] = useState<Array<TDataCartElement>>([]);
+  // const [dataCart, setDataCart] = useState<Array<TDataCartElement>>([]);
+  const [dataCart, setDataCart] = useLocalStorage('cart', []);
 
   const [step, setStep] = useState<string>('');
 
@@ -108,11 +110,16 @@ function App() {
     api
       .signup({ email, password, username })
       .then(res => {
-        history.push('/login')
+        // history.push('/login')
+        authorization(data)
       })
       .catch(err => {
+        console.log(err);
+        
         const errors = Object.values(err)
-        if (errors) {
+        console.log(errors);
+        
+        if (errors.length > 0) {
           alert(errors.join(', '))
         }
         setAuth({

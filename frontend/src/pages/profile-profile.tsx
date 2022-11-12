@@ -19,6 +19,7 @@ export function ProfileProfilePage() {
   const [cancel, setCancel] = useState(false);
   const [visible, setVisible] = useState(false);
 
+
   const [username, setUsername] = useState('');
   const onChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -73,8 +74,12 @@ export function ProfileProfilePage() {
     if(user) {
       setId(user.id);
       setUsername(user.username);
-      setFirstname(user.first_name);
-      setLastname(user.last_name);
+      if (user.first_name) {
+        setFirstname(user.first_name);
+      } else setFirstname('');
+      if (user.last_name) {
+        setLastname(user.last_name);
+      } else setLastname('');
       if (user.phoneNumber) {
         setPhoneNumber(user.phoneNumber);
       } else setPhoneNumber('');
@@ -92,8 +97,6 @@ export function ProfileProfilePage() {
       } else setLocation('');
     }
   }, [user, cancel]);
-
-
 
   const updateUserSubmit = (e: React.FormEvent) => {
     e.preventDefault();

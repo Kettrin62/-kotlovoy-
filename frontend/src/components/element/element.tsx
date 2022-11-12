@@ -1,4 +1,4 @@
-import React, { FC, useContext, useCallback } from 'react';
+import React, { FC, useContext, useCallback, useState } from 'react';
 import { 
   useHistory,
 } from 'react-router-dom';
@@ -31,6 +31,7 @@ const Element: FC<IElementProps> = ({
   const history = useHistory();
 
   const { dataCart, setDataCart } = useContext(DataCartContext);
+  const [text, setText] = useState('');
 
   let arr: TDataCartElement[] = [];
 
@@ -74,6 +75,8 @@ const Element: FC<IElementProps> = ({
       };
 
       setDataCart([...arr]);
+    } else {
+      setText(`Доступно ${stock}шт.`);
     }
   };
 
@@ -91,11 +94,14 @@ const Element: FC<IElementProps> = ({
         <p className={styles.text} onClick={onClickButton}>{title}</p>
       </div>
       <div className={cn(styles.container, styles.box)}>
-        <div className={styles.amountbox}>
-          <AmountButton data-testid={`decrease-${id}`} onClick={decrease}>-</AmountButton>
-          <p className={styles.amount} data-testid={`product-amount-${id}`}>{amount}</p>
-          <AmountButton data-testid={`increase-${id}`} onClick={increase}>+</AmountButton>
-        </div>
+        {/* <div className={styles.column}> */}
+          <div className={styles.amountbox}>
+            <AmountButton data-testid={`decrease-${id}`} onClick={decrease}>-</AmountButton>
+            <p className={styles.amount} data-testid={`product-amount-${id}`}>{amount}</p>
+            <AmountButton data-testid={`increase-${id}`} onClick={increase}>+</AmountButton>
+          </div>
+          {text && <p className={styles.alert}>{text}</p>}
+        {/* </div> */}
         <div className={styles.price}>
           <p className={styles.price} data-testid={`price-amount-${id}`}>
             {priceFormat(cur_price * amount)}
