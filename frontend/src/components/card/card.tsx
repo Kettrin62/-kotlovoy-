@@ -94,7 +94,7 @@ const onClickButtonCart = () => {
   return (
     <li className={cardStyles.card}>
       {/* <Link to={`/elements/${id}`}> */}
-      <img src={images[0].image} alt={title} className={cardStyles.image} onClick={onClickButton} />
+      <img src={images.length > 0 ? images[0].image : ''} alt={title} className={cardStyles.image} onClick={onClickButton} />
       {/* </Link> */}
       <div className={cardStyles.container}>
         <p className={cardStyles.title} onClick={onClickButton}>
