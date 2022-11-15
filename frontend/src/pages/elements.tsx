@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef, createRef } from 'react';
 import { 
   useParams,
   useHistory,
@@ -14,20 +14,45 @@ import elementsStyles from './elements.module.css';
 import AuthContext from '../services/contexts/auth-context';
 import { Loader } from '../ui/loader/loader';
 
+interface IData {
+  elements: Array<TDataElement>;
+  page: number;
+  name?: string;
+}
+
 
 export function ElementsPage() {
-  const [elementsData, setElementsData] = useState<Array<TDataElement>>([]);
+  const [elementsData, setElementsData] = useState<IData>({
+    elements: [],
+    page: 1
+  });
+  const [elementsSearchData, setElementsSearchData] = useState<IData>({
+    elements: [],
+    page: 1,
+    name: ''
+  });
+
   const [groups, setGroups] = useState<Array<TDataGroups>>([]);
   const [textButton, setTextButton] = useState('Выбрать категории');
   const [visibleGroups, setVisibleGroups] = useState(false);
   const { loggedIn } = useContext(AuthContext)
   const [ elementsRequest, setElementsRequest] = useState(false);
+  const [totalCount, setTotalCount] = useState(0);
+  const portion = 10;
 
   const [fetchUrl, setFetchUrl] = useState<Array<string>>([]);
 
-  const elements = elementsData.filter(item => {
+  const elements = elementsData.elements.filter(item => {
     return item.available === true
   });
+
+  const elementsSearch = elementsSearchData.elements.filter(item => {
+    return item.available === true
+  });
+
+
+
+
 
   const history = useHistory();
   const { pathname } = useLocation();
@@ -36,12 +61,19 @@ export function ElementsPage() {
   const {name } = useParams<{ name?: string}>();
 
   const getElements = () => {
-    setElementsRequest(true);
+    // setElementsRequest(true);
     api
-      .getElements()
+      .getElements({
+        page: elementsData.page,
+        limit: portion
+      })
       .then(data => {
         const { results, count } = data;
-        setElementsData(results)
+        setTotalCount(count);
+        setElementsData({
+          elements: [...elementsData.elements, ...results],
+          page: elementsData.page + 1,
+        })
         setElementsRequest(false)
       })
       .catch(err => {
@@ -51,12 +83,20 @@ export function ElementsPage() {
   }
 
   const getElementsBrand = (id: string) => {
-    setElementsRequest(true);
+    // setElementsRequest(true);
     api
-      .getElementsBrand(id)
+      .getElementsBrand({
+        page: elementsData.page,
+        limit: portion,
+        id
+      })
       .then(data => {
         const { results, count } = data;
-        setElementsData(results)
+        setTotalCount(count);
+        setElementsData({
+          elements: [...elementsData.elements, ...results],
+          page: elementsData.page + 1
+        })
         setElementsRequest(false)
       })
       .catch(err => {
@@ -93,13 +133,32 @@ export function ElementsPage() {
       })
   };
 
-  const getElementsBySearch = (name: string) => {
-    setElementsRequest(true);
+  const getElementsBySearch = (name: string, page = 1) => {
+    console.log('1');
+    
     api
-      .getElementsSearch(name)
+      .getElementsSearch({
+        page,
+        limit: portion,
+        name
+      })
       .then(data => {
         const { results, count } = data;
-        setElementsData(results)
+        setTotalCount(count);
+        if (page === 1) {
+          setElementsSearchData({
+            elements: [...results],
+            page: page + 1,
+            name
+          })
+        } else {
+          setElementsSearchData({
+            elements: [...elementsSearchData.elements, ...results],
+            page: page + 1,
+            name
+          })
+        }
+
         setElementsRequest(false)
       })
       .catch(err => {
@@ -109,9 +168,14 @@ export function ElementsPage() {
   };
 
 
+  
+  
+
+
 
   useEffect(() => {
     if (pathname === '/elements') {
+      
       getElements();
       // arrUrl.push('elements/?&');
       getGroups();
@@ -128,11 +192,37 @@ export function ElementsPage() {
       }
     };
     if (pathname === `/elements/search/${name}`) {
+      console.log('kkkk');
+      
       if (name) {
         getElementsBySearch(name);
       }
     }
   }, [pathname]);
+
+  const lastItem = createRef<HTMLLIElement>();
+  const observerLoader = useRef<IntersectionObserver | null>();
+  const actionInSight = (entries: IntersectionObserverEntry[]) => {
+    if (entries[0].isIntersecting && elementsData.elements.length < totalCount  && pathname === '/elements') {
+      getElements();
+    } else if (
+      entries[0].isIntersecting && 
+      elementsSearchData.elements.length < totalCount && 
+      pathname === `/elements/search/${name}`
+    ) {
+      if (name && name === elementsSearchData.name) {
+        console.log('2');
+        
+        getElementsBySearch(name, elementsSearchData.page)
+      };
+    }
+  };
+
+  useEffect(() => {
+    if (observerLoader.current) observerLoader.current.disconnect();
+    observerLoader.current = new IntersectionObserver(actionInSight);
+    if (lastItem.current) observerLoader.current.observe(lastItem.current);
+  }, [lastItem])
 
   const onClickHandlerButton = () => {
     if (!visibleGroups) setVisibleGroups(true)
@@ -147,11 +237,20 @@ export function ElementsPage() {
 
   const [activeButton, setActiveButton] = useState<Array<number>>([]);
 
-  const getElementsGroups = (url: string) => {
+  const getElementsGroups = (fetchUrl: string) => {
     api
-      .getElementsGroups(url)
+      .getElementsGroups({
+        page: elementsData.page,
+        limit: portion,
+        fetchUrl
+      })
       .then(data => {
-        setElementsData(data.results);
+        const { results, count } = data;
+        setTotalCount(count);
+        setElementsData({
+          elements: [...results],
+          page: 1
+        })
 
       })
       .catch(err => console.log(err))
@@ -199,6 +298,13 @@ export function ElementsPage() {
     return <Loader size='large' />
   }
 
+
+  if (pathname === `/elements/search/${name}`) {
+    console.log(elementsSearch);
+    
+  }
+  
+
   return (
     <main className={elementsStyles.container}>
       <Button clickHandler={onClickHandlerButton} className={elementsStyles.button}>
@@ -206,9 +312,18 @@ export function ElementsPage() {
       </Button>
       {groupComponent}
       <ul className={elementsStyles.list}>
-        {elements.map(el => (
-          <Card key={el.id} element={el} />
-        ))}
+        {(pathname === '/elements') && elements.map((el, index) => {
+          if (index + 1 === elements.length) {
+            return <Card key={el.id} element={el} ref={lastItem} />
+          }
+          return <Card key={el.id} element={el} />
+        })}
+        {(pathname === `/elements/search/${name}`) && elementsSearch.map((el, index) => {
+          if (index + 1 === elementsSearch.length) {
+            return <Card key={el.id} element={el} ref={lastItem} />
+          }
+          return <Card key={el.id} element={el} />
+        })}
       </ul>
     </main>
   )

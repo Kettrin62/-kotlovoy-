@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useContext, useState, useEffect } from 'react';
+import { useCallback, useContext, useState, useEffect, forwardRef } from 'react';
 import { 
   Link,
   useHistory,
@@ -13,12 +13,15 @@ import Button from '../button/button';
 import cardStyles from './card.module.css';
 import cn from 'classnames';
 import { DataCartContext } from '../../services/contexts/app-context';
+import { type } from '@testing-library/user-event/dist/type';
 
-interface ICardProps {
+type TRef = HTMLLIElement;
+
+type TCardProps = {
   element: TDataElement;
 };
 
-const Card: FC<ICardProps> = ({ element }) => {
+const Card = forwardRef<TRef, TCardProps>(({ element }, ref) => {
   const { 
     id,
     title, 
@@ -92,7 +95,7 @@ const onClickButtonCart = () => {
 };
 
   return (
-    <li className={cardStyles.card}>
+    <li className={cardStyles.card} ref={ref}>
       {/* <Link to={`/elements/${id}`}> */}
       <img src={images.length > 0 ? images[0].image : ''} alt={title} className={cardStyles.image} onClick={onClickButton} />
       {/* </Link> */}
@@ -123,6 +126,6 @@ const onClickButtonCart = () => {
       </div>
     </li>
   )
-}
+})
 
 export default Card;

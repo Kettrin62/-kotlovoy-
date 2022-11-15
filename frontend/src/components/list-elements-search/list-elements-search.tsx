@@ -55,7 +55,7 @@ const ListElementsSearch: FC<IListElementsSearchProps> = ({
       return setElements([])
     }
     api
-      .getElementsSearch(elementValue.element_title)
+      .getElementsSearch({ name: elementValue.element_title })
       .then(res => {
         setElements(res.results)
       })

@@ -50,26 +50,20 @@ class Api {
   }
 
   // elementsBrand
-  getElementsBrand (id) {
-    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
-    if (token) {
-      return fetch(
-        `${BASEURL}v1/elements/?brand=${id}`,
-        {
-          method: 'GET',
-          headers: {
-            ...this._headers,
-            'authorization': `Token ${token}`
-          }
-        }
-      ).then(this.checkResponse)
-    }
+  getElementsBrand ({
+    page = 1,
+    limit = 15,
+    id
+  } = {}) {
+    const token = localStorage.getItem('token');
+    const authorization = token ? { 'authorization': `Token ${token}` } : {};
     return fetch(
-      `${BASEURL}v1/elements/?brand=${id}`,
+      `${BASEURL}v1/elements/?page=${page}&limit=${limit}&brand=${id}`,
       {
         method: 'GET',
         headers: {
           ...this._headers,
+          ...authorization
         }
       }
     ).then(this.checkResponse)
@@ -89,26 +83,19 @@ class Api {
   }
 
   // elements
-  getElements () {
-    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
-    if (token) {
-      return fetch(
-        `${BASEURL}v1/elements/`,
-        {
-          method: 'GET',
-          headers: {
-            ...this._headers,
-            'authorization': `Token ${token}`
-          }
-        }
-      ).then(this.checkResponse)
-    }
+  getElements ({
+    page = 1,
+    limit = 15,
+  } = {}) {
+    const token = localStorage.getItem('token');
+    const authorization = token ? { 'authorization': `Token ${token}` } : {};
     return fetch(
-      `${BASEURL}v1/elements/`,
+      `${BASEURL}v1/elements/?page=${page}&limit=${limit}`,
       {
         method: 'GET',
         headers: {
           ...this._headers,
+          ...authorization
         }
       }
     ).then(this.checkResponse)
@@ -116,25 +103,15 @@ class Api {
 
   // elements
   getElement (id) {
-    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
-    if (token) {
-      return fetch(
-        `${BASEURL}v1/elements/${id}/`,
-        {
-          method: 'GET',
-          headers: {
-            ...this._headers,
-            'authorization': `Token ${token}`
-          }
-        }
-      ).then(this.checkResponse)
-    }
+    const token = localStorage.getItem('token');
+    const authorization = token ? { 'authorization': `Token ${token}` } : {};
     return fetch(
       `${BASEURL}v1/elements/${id}/`,
       {
         method: 'GET',
         headers: {
           ...this._headers,
+          ...authorization
         }
       }
     ).then(this.checkResponse)
@@ -167,52 +144,40 @@ class Api {
   }
 
   // elementsSearch
-  getElementsSearch (name) {
-    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
-    if (token) {
-      return fetch(
-        `${BASEURL}v1/elements/?search=${name}`,
-        {
-          method: 'GET',
-          headers: {
-            ...this._headers,
-            'authorization': `Token ${token}`
-          }
-        }
-      ).then(this.checkResponse)
-    }
+  getElementsSearch ({
+    page = 1,
+    limit = 15,
+    name
+  } = {}) {
+    const token = localStorage.getItem('token');
+    const authorization = token ? { 'authorization': `Token ${token}` } : {};
     return fetch(
-      `${BASEURL}v1/elements/?search=${name}`,
+      `${BASEURL}v1/elements/?page=${page}&limit=${limit}&search=${name}`,
       {
         method: 'GET',
         headers: {
           ...this._headers,
+          ...authorization
         }
       }
     ).then(this.checkResponse)
   }
 
   // elementsByIdGroup
-  getElementsGroups (fetchUrl) {
-    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
-    if (token) {
-      return fetch(
-        `${BASEURL}v1/${fetchUrl}`,
-        {
-          method: 'GET',
-          headers: {
-            ...this._headers,
-            'authorization': `Token ${token}`
-          }
-        }
-      ).then(this.checkResponse)
-    }
+  getElementsGroups ({
+    page = 1,
+    limit = 15,
+    fetchUrl
+  } = {}) {
+    const token = localStorage.getItem('token');
+    const authorization = token ? { 'authorization': `Token ${token}` } : {};
     return fetch(
       `${BASEURL}v1/${fetchUrl}`,
       {
         method: 'GET',
         headers: {
           ...this._headers,
+          ...authorization
         }
       }
     ).then(this.checkResponse)
@@ -352,26 +317,15 @@ class Api {
 
   // post order
   postOrder (data) {
-    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
-    if (token) {
-      return fetch(
-        `${BASEURL}v1/orders/`,
-        {
-          method: 'POST',
-          headers: {
-            ...this._headers,
-            'authorization': `Token ${token}`
-          },
-          body: JSON.stringify(data)
-        }
-      ).then(this.checkResponse)
-    }
+    const token = localStorage.getItem('token');
+    const authorization = token ? { 'authorization': `Token ${token}` } : {}
     return fetch(
       `${BASEURL}v1/orders/`,
       {
         method: 'POST',
         headers: {
           ...this._headers,
+          ...authorization
         },
         body: JSON.stringify(data)
       }
