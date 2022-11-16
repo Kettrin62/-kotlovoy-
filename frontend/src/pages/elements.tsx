@@ -24,14 +24,9 @@ interface IData {
 export function ElementsPage() {
   const [elementsData, setElementsData] = useState<IData>({
     elements: [],
-    page: 1
-  });
-  const [elementsSearchData, setElementsSearchData] = useState<IData>({
-    elements: [],
     page: 1,
     name: ''
   });
-
   const [groups, setGroups] = useState<Array<TDataGroups>>([]);
   const [textButton, setTextButton] = useState('Выбрать категории');
   const [visibleGroups, setVisibleGroups] = useState(false);
@@ -46,13 +41,6 @@ export function ElementsPage() {
     return item.available === true
   });
 
-  const elementsSearch = elementsSearchData.elements.filter(item => {
-    return item.available === true
-  });
-
-
-
-
 
   const history = useHistory();
   const { pathname } = useLocation();
@@ -60,20 +48,29 @@ export function ElementsPage() {
   const { id } = useParams<{ id?: string }>();
   const {name } = useParams<{ name?: string}>();
 
-  const getElements = () => {
+  const getElements = (page = 1) => {
     // setElementsRequest(true);
     api
       .getElements({
-        page: elementsData.page,
+        page,
         limit: portion
       })
       .then(data => {
         const { results, count } = data;
         setTotalCount(count);
-        setElementsData({
-          elements: [...elementsData.elements, ...results],
-          page: elementsData.page + 1,
-        })
+        if (page === 1) {
+          setElementsData({
+            elements: [...results],
+            page: page + 1,
+            name
+          })
+        } else {
+          setElementsData({
+            elements: [...elementsData.elements, ...results],
+            page: page + 1,
+            name
+          })
+        }
         setElementsRequest(false)
       })
       .catch(err => {
@@ -82,7 +79,7 @@ export function ElementsPage() {
       })
   }
 
-  const getElementsBrand = (id: string) => {
+  const getElementsBrand = (id: string, page = 1) => {
     // setElementsRequest(true);
     api
       .getElementsBrand({
@@ -93,10 +90,19 @@ export function ElementsPage() {
       .then(data => {
         const { results, count } = data;
         setTotalCount(count);
-        setElementsData({
-          elements: [...elementsData.elements, ...results],
-          page: elementsData.page + 1
-        })
+        if (page === 1) {
+          setElementsData({
+            elements: [...results],
+            page: page + 1,
+            name
+          })
+        } else {
+          setElementsData({
+            elements: [...elementsData.elements, ...results],
+            page: page + 1,
+            name
+          })
+        }
         setElementsRequest(false)
       })
       .catch(err => {
@@ -134,8 +140,6 @@ export function ElementsPage() {
   };
 
   const getElementsBySearch = (name: string, page = 1) => {
-    console.log('1');
-    
     api
       .getElementsSearch({
         page,
@@ -146,14 +150,14 @@ export function ElementsPage() {
         const { results, count } = data;
         setTotalCount(count);
         if (page === 1) {
-          setElementsSearchData({
+          setElementsData({
             elements: [...results],
             page: page + 1,
             name
           })
         } else {
-          setElementsSearchData({
-            elements: [...elementsSearchData.elements, ...results],
+          setElementsData({
+            elements: [...elementsData.elements, ...results],
             page: page + 1,
             name
           })
@@ -168,55 +172,37 @@ export function ElementsPage() {
   };
 
 
-  
-  
-
-
 
   useEffect(() => {
     if (pathname === '/elements') {
-      
       getElements();
-      // arrUrl.push('elements/?&');
       getGroups();
       setFetchUrl(['elements/?&']);
-      // setFetchUrl('elements/?&');
     };
     if (pathname === `/elements/brand/${id}`) {
       if (id) {
         getElementsBrand(id);
         getGroupsById(id);
-        // arrUrl.push(`elements/?brand=${id}&`);
         setFetchUrl([`elements/?brand=${id}&`]);
-        // setFetchUrl(`elements/?brand=${id}&`);
       }
     };
     if (pathname === `/elements/search/${name}`) {
-      console.log('kkkk');
-      
-      if (name) {
-        getElementsBySearch(name);
-      }
+      if (name) getElementsBySearch(name);
     }
   }, [pathname]);
 
   const lastItem = createRef<HTMLLIElement>();
   const observerLoader = useRef<IntersectionObserver | null>();
   const actionInSight = (entries: IntersectionObserverEntry[]) => {
-    if (entries[0].isIntersecting && elementsData.elements.length < totalCount  && pathname === '/elements') {
-      getElements();
-    } else if (
-      entries[0].isIntersecting && 
-      elementsSearchData.elements.length < totalCount && 
-      pathname === `/elements/search/${name}`
-    ) {
-      if (name && name === elementsSearchData.name) {
-        console.log('2');
-        
-        getElementsBySearch(name, elementsSearchData.page)
-      };
+    if (entries[0].isIntersecting && elementsData.elements.length < totalCount) {
+      if (pathname === '/elements') getElements(elementsData.page)
+      if (pathname === `/elements/search/${name}` && name && name === elementsData.name) {
+        getElementsBySearch(name, elementsData.page)
+      }
+      if (pathname === `/elements/brand/${id}` && id) getElementsBrand(id, elementsData.page)
     }
   };
+
 
   useEffect(() => {
     if (observerLoader.current) observerLoader.current.disconnect();
@@ -299,12 +285,6 @@ export function ElementsPage() {
   }
 
 
-  if (pathname === `/elements/search/${name}`) {
-    console.log(elementsSearch);
-    
-  }
-  
-
   return (
     <main className={elementsStyles.container}>
       <Button clickHandler={onClickHandlerButton} className={elementsStyles.button}>
@@ -312,14 +292,8 @@ export function ElementsPage() {
       </Button>
       {groupComponent}
       <ul className={elementsStyles.list}>
-        {(pathname === '/elements') && elements.map((el, index) => {
+        {elements.map((el, index) => {
           if (index + 1 === elements.length) {
-            return <Card key={el.id} element={el} ref={lastItem} />
-          }
-          return <Card key={el.id} element={el} />
-        })}
-        {(pathname === `/elements/search/${name}`) && elementsSearch.map((el, index) => {
-          if (index + 1 === elementsSearch.length) {
             return <Card key={el.id} element={el} ref={lastItem} />
           }
           return <Card key={el.id} element={el} />
