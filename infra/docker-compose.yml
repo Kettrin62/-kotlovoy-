@@ -32,6 +32,7 @@ services:
       - ../frontend/build:/usr/share/nginx/html/
       - static_value:/var/www/django/static:ro
       - media_value:/var/www/django/media:ro
+      - /etc/ssl_kotlovoy62:/etc/ssl_kotlovoy62
     depends_on:
       - frontend
   
