@@ -10,12 +10,14 @@ interface IListElementsSearchProps {
   setSearchVisible: (item: boolean) => void;
   orderCart: Array<TElementOrder>;
   setOrderCart: (arr: Array<TElementOrder>) => void;
+  discount: number;
 }
 
 const ListElementsSearch: FC<IListElementsSearchProps> = ({
   setSearchVisible,
   orderCart,
-  setOrderCart
+  setOrderCart,
+  discount
 }) => {
   const [ elements, setElements ] = useState([])
   const [ showElements, setShowElements ] = useState(false);
@@ -53,7 +55,7 @@ const ListElementsSearch: FC<IListElementsSearchProps> = ({
       return setElements([])
     }
     api
-      .getElementsSearch(elementValue.element_title)
+      .getElementsSearch({ name: elementValue.element_title })
       .then(res => {
         setElements(res.results)
       })
@@ -94,7 +96,7 @@ const ListElementsSearch: FC<IListElementsSearchProps> = ({
     } else {
       arr.push({
         amount: 1,
-        cur_price,
+        cur_price: Math.floor(cur_price*discount/100),
         element_article: article,
         element_id: id,
         element_image: images[0].image,

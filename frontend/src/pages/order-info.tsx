@@ -24,6 +24,7 @@ export const OrderInfoPage: FC = () => {
   const deliveryMethods = useContext(DeliveryContext);
   const history = useHistory();
 
+
   const [dataContacts, setDataContacts] = useState<TContacts>({
     discount: 0,
     email: '',
@@ -306,6 +307,7 @@ export const OrderInfoPage: FC = () => {
               setSearchVisible={setSearchVisible}
               orderCart={orderCart}
               setOrderCart={setOrderCart}
+              discount={dataContacts.discount}
             />
           )}
         </div>

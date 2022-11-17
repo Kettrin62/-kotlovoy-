@@ -24,7 +24,8 @@ import {
   TFormRegister,
   TFormAuth,
   TAuth,
-  TDelivery
+  TDelivery,
+  TDataElement
 } from '../../services/types/data';
 import api from '../../api';
 import { 
@@ -49,7 +50,7 @@ import {
   SelectedDeliveryContext,
   DeliveryFormContext
 } from '../../services/contexts/cart-context';
-import { formDeliveryInit, totalInitialPrice } from '../../utils/data';
+import { formDeliveryInit, stepName, totalInitialPrice } from '../../utils/data';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { LoginPage } from '../../pages/login';
 import { RegisterPage } from '../../pages/register';
@@ -61,6 +62,7 @@ import { ForgotPasswordPage } from '../../pages/forgot-password';
 import { ResetPasswordPage } from '../../pages/reset-password';
 import { OrderInfoPage } from '../../pages/order-info';
 import { AdminPanelPage } from '../../pages/admin-panel';
+import useLocalStorage from '../../services/hooks';
 
 function reducer(_totalPrice: TTotalPrice, action: TAction) {
   const deliveryPrice =
@@ -72,7 +74,7 @@ function reducer(_totalPrice: TTotalPrice, action: TAction) {
   const total = deliveryPrice +
     action.array.reduce((
       acc: number, 
-      item: TDataCartElement
+      item: TDataCartElement<TDataElement>
     ) => acc + item.element.cur_price * item.amount, 0);
 
   return { price: total };
@@ -84,7 +86,8 @@ function App() {
 
   const [swiper, setSwiper] = useState<Array<TDataSwiper>>([]);
 
-  const [dataCart, setDataCart] = useState<Array<TDataCartElement>>([]);
+  // const [dataCart, setDataCart] = useState<Array<TDataCartElement>>([]);
+  const [dataCart, setDataCart] = useLocalStorage('cart', []);
 
   const [step, setStep] = useState<string>('');
 
@@ -108,11 +111,12 @@ function App() {
     api
       .signup({ email, password, username })
       .then(res => {
-        history.push('/login')
+        // history.push('/login')
+        authorization(data)
       })
       .catch(err => {
         const errors = Object.values(err)
-        if (errors) {
+        if (errors.length > 0) {
           alert(errors.join(', '))
         }
         setAuth({
@@ -129,6 +133,7 @@ function App() {
       .then(res => {
         if (res.auth_token) {
           localStorage.setItem('token', res.auth_token)
+          // localStorage.setItem('token', res.auth_token + '1')
           api.getUserData()
             .then(res => {
               setUser(res);
@@ -138,6 +143,8 @@ function App() {
               })
             })
             .catch(err => {
+              console.log(err);
+              
               setAuth({
                 loggedIn: false,
                 isAdmin: false,
@@ -152,6 +159,8 @@ function App() {
         }
       })
       .catch(err => {
+        console.log(err);
+        
         const errors = Object.values(err)
         if (errors) {
           alert(errors.join(', '))
@@ -167,7 +176,9 @@ function App() {
     api
       .signout()
       .then(res => {
-        localStorage.removeItem('token')
+        localStorage.removeItem('token');
+        setDataCart([]);
+        setStep('')
         setAuth({
           loggedIn: false,
           isAdmin: false,

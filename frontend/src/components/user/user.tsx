@@ -1,5 +1,5 @@
-import { FC, useCallback, useEffect, useState } from 'react';
-import { TFormStatus, TStatus, TUser } from '../../services/types/data';
+import { FC, useCallback, useEffect, useState, forwardRef } from 'react';
+import { TFormStatus, TRef, TStatus, TUser } from '../../services/types/data';
 import { DeleteButton } from '../../ui/delete-button/delete-button';
 import EditButton from '../../ui/edit-button/edit-button';
 import { statusesImmutable } from '../../utils/data';
@@ -11,15 +11,14 @@ import Input from '../../ui/input/input';
 import Button from '../button/button';
 import modalStyles from '../form-status/form-status.module.css';
 
-interface IUserProps {
+type TUserProps = {
   user: TUser;
   changeDiscount: (id: number, data: {
     discount: number
   }) => void;
-  // deleteStatus: (id: number) => void;
 }
 
-const User: FC<IUserProps> = ({ user, changeDiscount }) => {
+const User = forwardRef<TRef, TUserProps>(({ user, changeDiscount }, ref) => {
   const { id, username, last_name, first_name, email, discount, phoneNumber } = user
   const [visible, setVisible] = useState(false);
 
@@ -112,7 +111,7 @@ const User: FC<IUserProps> = ({ user, changeDiscount }) => {
   )
 
   return (
-    <li key={id} className={userStyles.item}>
+    <li key={id} className={userStyles.item} ref={ref}>
       <h4 className={userStyles.header}>{username}</h4>
       {(first_name || last_name) && <p className={userStyles.text}>{`${first_name} ${last_name}`}</p>}
       <p className={userStyles.text}>{email}</p>
@@ -124,6 +123,6 @@ const User: FC<IUserProps> = ({ user, changeDiscount }) => {
       {visible && modal}
     </li>
   )
-}
+})
 
 export default User

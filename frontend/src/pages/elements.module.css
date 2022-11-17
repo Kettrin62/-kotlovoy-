@@ -19,6 +19,7 @@
   padding: 0;
   /* max-width: 1220px; */
   max-width: calc(100vw - 5%);
+  width: 100%;
 }
 
 .button {

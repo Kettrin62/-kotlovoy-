@@ -20,6 +20,7 @@ import Image from '../components/image/image';
 import InputBox from '../components/input-box/input-box';
 import Divider from '../components/divider/divider';
 import { DataCartContext } from '../services/contexts/app-context';
+import { Loader } from '../ui/loader/loader';
 
 
 
@@ -34,23 +35,32 @@ export function ElementPage() {
     class: '',
     disabled: false,
   });
-  const [reset, setReset] = useState(false);
+  const [ elementRequest, setElementRequest] = useState(false);
+  // const [reset, setReset] = useState(false);
 
   const history = useHistory();
 
   const inputRef = useRef(null);
 
   const getElement = (id: string) => {
+    setElementRequest(true);
     api
       .getElement(id)
-      .then(data => setElement(data))
-      .catch(err => console.log(err)
-      )
-  }
+      .then(data => {
+        setElement(data)
+        setElementRequest(false);
+      })
+      .catch(err => {
+        console.log(err)
+        setElementRequest(false);
+      })
+  };
 
   useEffect(() => {
     if (id) getElement(id);
+  }, []);
 
+  useEffect(() => {
     if (element && element.stock === 0) {
       setButtonState({
         ...buttonState,
@@ -62,13 +72,13 @@ export function ElementPage() {
 
   useEffect(() => {
     if (element?.stock !== 0) {
-      if(dataCart.some((el) => `${el.element.id}` === id)) {
+      if(dataCart.some((el) => `${el.element}` === id)) {
         setButtonState({
           ...buttonState,
           text: 'Оформить',
           class: elementStyles.button_active,
         })
-        const qty = dataCart.find((el) => `${el.element.id}` === id)!.amount;
+        const qty = dataCart.find((el) => `${el.element}` === id)!.amount;
         setInputValue(qty);
       } else setButtonState({
         ...buttonState,
@@ -76,8 +86,8 @@ export function ElementPage() {
       })
     }
 
-    if (reset) setInputValue(1)
-  }, [dataCart, reset]);
+    // if (reset) setInputValue(1)
+  }, [dataCart]);
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target: number = + e.target.value.replace(/\D/g, '');
@@ -100,23 +110,46 @@ export function ElementPage() {
     } else setInputValue(1)
   };
 
-  let arr: TDataCartElement[] = [];
+  // let arr: TDataCartElement[] = [];
 
   const onClickButtonCart = () => {
     if (buttonState.text === 'В корзину') {
-      arr = dataCart;
+      // arr = dataCart;
       if (element) {
-        arr.push({
-          element: element,
+        dataCart.push({
+          element: element.id,
           amount: inputValue
         });
-        setDataCart([...arr]);
+        setDataCart([...dataCart]);
       }
     } 
     if (buttonState.text === 'Оформить') {
-      history.replace({ pathname: '/cart' });
+
+      // arr = dataCart;
+      let index: number = -1;
+      const el = dataCart.find(el => el.element === Number(id));
+
+      if (el) {
+        index = dataCart.indexOf(el);
+      };
+
+      if (dataCart[index].amount <= element!.stock && element) {
+        dataCart[index] = {
+          element: element.id,
+          amount: inputValue
+        };
+
+        setDataCart([...dataCart]);
+      }
+
+      history.push({ pathname: '/cart' });
     }
   };
+
+  if (elementRequest) {
+    return <Loader size='large' />
+  }
+  
 
   return (
     <div className={elementStyles.element}>
@@ -157,7 +190,6 @@ export function ElementPage() {
                 onChange={handleValueChange}
                 onClickButtonUp={onClickButtonUp}
                 onClickButtonDown={onClickButtonDown}
-                reset={reset}
                 inputRef={inputRef}
               />
               <Button 

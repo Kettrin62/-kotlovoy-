@@ -64,8 +64,9 @@ export type TDataGroups = {
   readonly title: string;
 }
 
-export type TDataCartElement = {
-  readonly element: TDataElement;
+export type TDataCartElement<B> = {
+  // readonly element: TDataElement;
+  readonly element: B;
   readonly amount: number;
 }
 
@@ -85,7 +86,7 @@ export type TDeliveryMethod = TDelivery & {
 }
 
 export type TAction = {
-  readonly array: Array<TDataCartElement>;
+  readonly array: Array<TDataCartElement<TDataElement>>;
   readonly delivery?: {
     methods: Array<TDeliveryMethod>;
     selectedMethod: number;
@@ -207,4 +208,6 @@ export type TAuth = {
   loggedIn: boolean | null;
   isAdmin: boolean | null;
 }
+
+export type TRef = HTMLLIElement;
 

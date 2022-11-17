@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { useCallback, useContext, useState, useEffect } from 'react';
+import { useCallback, useContext, useState, useEffect, forwardRef } from 'react';
 import { 
   Link,
   useHistory,
 } from 'react-router-dom';
 import { FC } from 'react';
-import { TButtonState, TDataCartElement, TDataElement } from '../../services/types/data';
+import { TButtonState, TDataCartElement, TDataElement, TRef } from '../../services/types/data';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -13,12 +13,13 @@ import Button from '../button/button';
 import cardStyles from './card.module.css';
 import cn from 'classnames';
 import { DataCartContext } from '../../services/contexts/app-context';
+import { type } from '@testing-library/user-event/dist/type';
 
-interface ICardProps {
+type TCardProps = {
   element: TDataElement;
 };
 
-const Card: FC<ICardProps> = ({ element }) => {
+const Card = forwardRef<TRef, TCardProps>(({ element }, ref) => {
   const { 
     id,
     title, 
@@ -45,7 +46,7 @@ const onClickButton = useCallback(
   [history]
 );
 
-let arr: TDataCartElement[] = [];
+// let arr: TDataCartElement[] = [];
 
 useEffect(() => {
   if (stock === 0) {
@@ -59,7 +60,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (stock !== 0) {
-    if(dataCart.some((el) => el.element.id === id)) {
+    if(dataCart.some((el) => el.element === id)) {
       setButtonState({
         ...buttonState,
         text: 'Оформить',
@@ -74,22 +75,27 @@ useEffect(() => {
 
 const onClickButtonCart = () => {
   if (buttonState.text === 'В корзину') {
-    arr = dataCart;
-    arr.push({
-      element: element,
+    // arr = dataCart;
+    // arr.push({
+    //   element: element,
+    //   amount: 1
+    // });
+    // setDataCart([...arr]);
+    dataCart.push({
+      element: element.id,
       amount: 1
     });
-    setDataCart([...arr]);
+    setDataCart([...dataCart]);
   } 
   if (buttonState.text === 'Оформить') {
-    history.replace({ pathname: '/cart' });
+    history.push({ pathname: '/cart' });
   }
 };
 
   return (
-    <li className={cardStyles.card}>
+    <li className={cardStyles.card} ref={ref}>
       {/* <Link to={`/elements/${id}`}> */}
-      <img src={images[0].image} alt={title} className={cardStyles.image} onClick={onClickButton} />
+      <img src={images.length > 0 ? images[0].image : ''} alt={title} className={cardStyles.image} onClick={onClickButton} />
       {/* </Link> */}
       <div className={cardStyles.container}>
         <p className={cardStyles.title} onClick={onClickButton}>
@@ -118,6 +124,6 @@ const onClickButtonCart = () => {
       </div>
     </li>
   )
-}
+})
 
 export default Card;

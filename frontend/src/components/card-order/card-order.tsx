@@ -1,20 +1,20 @@
-import { FC, useCallback } from 'react';
+import { FC, useCallback, forwardRef } from 'react';
 import { 
   Link,
   useHistory,
   useLocation
 } from 'react-router-dom';
-import { TCardOrder } from '../../services/types/data';
+import { TCardOrder, TRef } from '../../services/types/data';
 import { showMessageDateTime } from '../../utils/functions';
 import { priceFormat } from '../total-price/utils';
 import cardorderStyles from './card-order.module.css';
 import cn from 'classnames';
 
-interface ICardOrderProps {
+type TCardOrderProps = {
   card: TCardOrder;
-}
+};
 
-const CardOrder: FC<ICardOrderProps> = ({ card }) => {
+const CardOrder = forwardRef<TRef, TCardOrderProps>(({ card }, ref) => {
 
   const { id, created, number, order_sum: totalPrice, status } = card;
   const date = showMessageDateTime(new Date(created), 'date');
@@ -23,8 +23,6 @@ const CardOrder: FC<ICardOrderProps> = ({ card }) => {
 
   const onClickOrder = useCallback(
     () => {
-      // if (pathname === '/profile/orders') history.replace({ pathname: `/profile/orders/${id}` });
-      // if (pathname === '/admin-panel/orders') history.replace({ pathname: `/admin-panel/orders/${id}` });
       if (pathname === '/profile/orders') history.push({ pathname: `/profile/orders/${id}` });
       if (pathname === '/admin-panel/orders') history.push({ pathname: `/admin-panel/orders/${id}` });
     },
@@ -37,6 +35,7 @@ const CardOrder: FC<ICardOrderProps> = ({ card }) => {
     <li
       className={cardorderStyles.card}
       onClick={onClickOrder}
+      ref={ref}
     >
       <h4 className={cardorderStyles.header}>
         <span>{`№ ${number}`}</span>
@@ -58,6 +57,6 @@ const CardOrder: FC<ICardOrderProps> = ({ card }) => {
       </p>
     </li>
   )
-}
+})
 
 export default CardOrder;

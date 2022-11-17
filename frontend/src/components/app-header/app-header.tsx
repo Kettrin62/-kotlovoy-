@@ -70,7 +70,7 @@ function AppHeader() {
 
   const onClickSearchElements = useCallback(
     () => {
-      history.replace({ pathname: `/elements/search/${inputValue}` });
+      inputValue && history.replace({ pathname: `/elements/search/${inputValue}` });
     },
     [history, inputValue]
   );
