@@ -1,1 +1,1 @@
-export const BASEURL= 'http://kotlovoy62.ru/api/';
+export const BASEURL= 'https://kotlovoy62.ru/api/';
