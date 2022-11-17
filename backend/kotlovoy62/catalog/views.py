@@ -1,6 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status, viewsets
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
@@ -118,3 +118,9 @@ class ElementViewSet(viewsets.ModelViewSet):
         self.perform_destroy(instance)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET',])
+@permission_classes([AllowAny])
+def say_to_us(request):
+    return Response(status=status.HTTP_200_OK)
