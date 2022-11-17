@@ -5,7 +5,7 @@ import {
   useHistory,
 } from 'react-router-dom';
 import { FC } from 'react';
-import { TButtonState, TDataCartElement, TDataElement } from '../../services/types/data';
+import { TButtonState, TDataCartElement, TDataElement, TRef } from '../../services/types/data';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -14,8 +14,6 @@ import cardStyles from './card.module.css';
 import cn from 'classnames';
 import { DataCartContext } from '../../services/contexts/app-context';
 import { type } from '@testing-library/user-event/dist/type';
-
-type TRef = HTMLLIElement;
 
 type TCardProps = {
   element: TDataElement;

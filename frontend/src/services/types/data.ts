@@ -209,3 +209,5 @@ export type TAuth = {
   isAdmin: boolean | null;
 }
 
+export type TRef = HTMLLIElement;
+

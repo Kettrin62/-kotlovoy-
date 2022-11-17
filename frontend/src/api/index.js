@@ -172,7 +172,7 @@ class Api {
     const token = localStorage.getItem('token');
     const authorization = token ? { 'authorization': `Token ${token}` } : {};
     return fetch(
-      `${BASEURL}v1/${fetchUrl}`,
+      `${BASEURL}v1/${fetchUrl}&page=${page}&limit=${limit}`,
       {
         method: 'GET',
         headers: {
@@ -555,10 +555,13 @@ class Api {
   }
 
   // get users
-  getUsers () {
+  getUsers ({
+    page = 1,
+    limit = 15,
+  } = {}) {
     const token = localStorage.getItem('token')
     return fetch(
-      `${BASEURL}v1/users/`,
+      `${BASEURL}v1/users/?page=${page}&limit=${limit}`,
       {
         method: 'GET',
         headers: {
@@ -586,10 +589,14 @@ class Api {
   }
 
   // usersSearch
-  getUsersSearch (name) {
+  getUsersSearch ({
+    page = 1,
+    limit = 15,
+    name
+  } = {}) {
     const token = localStorage.getItem('token');
     return fetch(
-      `${BASEURL}v1/users/?search=${name}`,
+      `${BASEURL}v1/users/?page=${page}&limit=${limit}&search=${name}`,
       {
         method: 'GET',
         headers: {

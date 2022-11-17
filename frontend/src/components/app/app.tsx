@@ -133,6 +133,7 @@ function App() {
       .then(res => {
         if (res.auth_token) {
           localStorage.setItem('token', res.auth_token)
+          // localStorage.setItem('token', res.auth_token + '1')
           api.getUserData()
             .then(res => {
               setUser(res);
@@ -142,6 +143,8 @@ function App() {
               })
             })
             .catch(err => {
+              console.log(err);
+              
               setAuth({
                 loggedIn: false,
                 isAdmin: false,
@@ -156,6 +159,8 @@ function App() {
         }
       })
       .catch(err => {
+        console.log(err);
+        
         const errors = Object.values(err)
         if (errors) {
           alert(errors.join(', '))

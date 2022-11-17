@@ -4,13 +4,11 @@ import {
   useHistory,
   useLocation
 } from 'react-router-dom';
-import { TCardOrder } from '../../services/types/data';
+import { TCardOrder, TRef } from '../../services/types/data';
 import { showMessageDateTime } from '../../utils/functions';
 import { priceFormat } from '../total-price/utils';
 import cardorderStyles from './card-order.module.css';
 import cn from 'classnames';
-
-type TRef = HTMLLIElement;
 
 type TCardOrderProps = {
   card: TCardOrder;

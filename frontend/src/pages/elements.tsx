@@ -29,6 +29,7 @@ export function ElementsPage() {
   });
   const [groups, setGroups] = useState<Array<TDataGroups>>([]);
   const [textButton, setTextButton] = useState('Выбрать категории');
+  const [activeButton, setActiveButton] = useState<Array<number>>([]);
   const [visibleGroups, setVisibleGroups] = useState(false);
   const { loggedIn } = useContext(AuthContext)
   const [ elementsRequest, setElementsRequest] = useState(false);
@@ -191,11 +192,38 @@ export function ElementsPage() {
     }
   }, [pathname]);
 
+  let arrIdGroup: number[] = activeButton;
+  // let fetchUrl = '';
+  let arrUrl: string[] = fetchUrl;
+
+
+  const onClickHandler = (idGroup: number) => {
+    
+    if(!activeButton.some(el => el === idGroup)) {
+      arrIdGroup.push(idGroup);
+      setActiveButton([...arrIdGroup]);
+      arrUrl.push(`groups=${idGroup}&`);
+      setFetchUrl([...arrUrl]);
+      getElementsGroups(fetchUrl.join(''));
+    } else {
+      arrIdGroup = activeButton.filter(el => el !== idGroup);
+      setActiveButton([...arrIdGroup]);
+      arrUrl = fetchUrl.filter(el => el !== `groups=${idGroup}&`);
+      setFetchUrl([...arrUrl]);
+      getElementsGroups(arrUrl.join(''));
+    };
+  };
+
+
   const lastItem = createRef<HTMLLIElement>();
   const observerLoader = useRef<IntersectionObserver | null>();
   const actionInSight = (entries: IntersectionObserverEntry[]) => {
     if (entries[0].isIntersecting && elementsData.elements.length < totalCount) {
-      if (pathname === '/elements') getElements(elementsData.page)
+      if (pathname === '/elements') {
+        if (activeButton.length === 0) {
+          getElements(elementsData.page)
+        } else getElementsGroups(fetchUrl.join(''), elementsData.page)
+      }
       if (pathname === `/elements/search/${name}` && name && name === elementsData.name) {
         getElementsBySearch(name, elementsData.page)
       }
@@ -220,49 +248,39 @@ export function ElementsPage() {
 
 
 
-  const [activeButton, setActiveButton] = useState<Array<number>>([]);
 
-  const getElementsGroups = (fetchUrl: string) => {
+
+  const getElementsGroups = (fetchUrl: string, page = 1) => {
     api
       .getElementsGroups({
-        page: elementsData.page,
+        page,
         limit: portion,
         fetchUrl
       })
       .then(data => {
         const { results, count } = data;
         setTotalCount(count);
-        setElementsData({
-          elements: [...results],
-          page: 1
-        })
+        if (page === 1) {
+          setElementsData({
+            elements: [...results],
+            page: page + 1,
+          })
+        } else {
+          setElementsData({
+            elements: [...elementsData.elements, ...results],
+            page: page + 1,
+          })
+        }
+        // setElementsData({
+        //   elements: [...results],
+        //   page: 1
+        // })
 
       })
       .catch(err => console.log(err))
   }
 
-  let arrIdGroup: number[] = activeButton;
-  // let fetchUrl = '';
-  let arrUrl: string[] = fetchUrl;
 
-
-
-
-  const onClickHandler = (idGroup: number) => {
-    if(!activeButton.some(el => el === idGroup)) {
-      arrIdGroup.push(idGroup);
-      setActiveButton([...arrIdGroup]);
-      arrUrl.push(`groups=${idGroup}&`);
-      setFetchUrl([...arrUrl]);
-      getElementsGroups(fetchUrl.join(''));
-    } else {
-      arrIdGroup = activeButton.filter(el => el !== idGroup);
-      setActiveButton([...arrIdGroup]);
-      arrUrl = fetchUrl.filter(el => el !== `groups=${idGroup}&`);
-      setFetchUrl([...arrUrl]);
-      getElementsGroups(arrUrl.join(''));
-    };
-  };
 
   const groupComponent = (
     <ul className={cn(elementsStyles.list_group, classNameGroups)}>

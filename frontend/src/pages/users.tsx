@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useRef, createRef } from 'react';
 import api from '../api';
 import Form from '../components/form/form';
 import InputSearch from '../components/input-add-element/input-search';
@@ -10,15 +10,20 @@ import Input from '../ui/input/input';
 import { Loader } from '../ui/loader/loader';
 import usersStyles from './users.module.css';
 
-interface IUsersPageProps {
-  // users: Array<TUser>;
-  // changeDiscount: (id: number, data: {
-  //   discount: number
-  // }) => void;
+interface IData {
+  users: Array<TUser>;
+  page: number;
+  name: string;
 }
 
-export const UsersPage: FC<IUsersPageProps> = () => {
-  const [users, setUsers] = useState<Array<TUser>>([]);
+export const UsersPage = () => {
+  const [usersData, setUsersData] = useState<IData>({
+    users: [],
+    page: 1,
+    name: ''
+  });
+  const [totalCount, setTotalCount] = useState(0);
+  const limit = 10;
 
 
   interface IUser {
@@ -45,11 +50,60 @@ export const UsersPage: FC<IUsersPageProps> = () => {
     });
   };
 
-  const getUsers = () => {
+  const getUsers = (page = 1) => {
     api
-      .getUsers()
-      .then(res => {
-        setUsers(res.results)
+      .getUsers({
+        page,
+        limit
+      })
+      .then(data => {
+        const { results, count } = data;
+        setTotalCount(count);
+        if (page === 1) {
+          setUsersData({
+            ...usersData,
+            users: [...results],
+            page: page + 1,
+          })
+        } else {
+          setUsersData({
+            ...usersData,
+            users: [...usersData.users, ...results],
+            page: page + 1,
+          })
+        }
+      })
+      .catch(err => {
+        const errors = Object.values(err)
+        if (errors) {
+          alert(errors.join(', '))
+        }
+      })
+  };
+
+  const getUsersBySearch = (name: string, page = 1) => {
+    api
+      .getUsersSearch({
+        page,
+        limit,
+        name
+      })
+      .then(data => {
+        const { results, count } = data;
+        setTotalCount(count);
+        if (page === 1) {
+          setUsersData({
+            users: [...results],
+            page: page + 1,
+            name
+          })
+        } else {
+          setUsersData({
+            users: [...usersData.users, ...results],
+            page: page + 1,
+            name
+          })
+        }
       })
       .catch(err => {
         const errors = Object.values(err)
@@ -69,12 +123,26 @@ export const UsersPage: FC<IUsersPageProps> = () => {
     if (nameUser.name === '') {
       return getUsers();
     }
-    api
-      .getUsersSearch(nameUser.name)
-      .then(res => {
-        setUsers(res.results)
-      })
+    getUsersBySearch(nameUser.name)
   }, [nameUser.name]);
+
+  const lastItem = createRef<HTMLLIElement>();
+  const observerLoader = useRef<IntersectionObserver | null>();
+  const actionInSight = (entries: IntersectionObserverEntry[]) => {
+    if (entries[0].isIntersecting && usersData.users.length < totalCount) {
+      if (nameUser.name === '') {
+        getUsers(usersData.page)
+      } else {
+        getUsersBySearch(nameUser.name, usersData.page)
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (observerLoader.current) observerLoader.current.disconnect();
+    observerLoader.current = new IntersectionObserver(actionInSight);
+    if (lastItem.current) observerLoader.current.observe(lastItem.current);
+  }, [lastItem])
 
   const changeDiscount = (id: number, data: {
     discount: number
@@ -94,7 +162,6 @@ export const UsersPage: FC<IUsersPageProps> = () => {
 
   return (
     <div>
-      {/* <UsersSearch /> */}
       <div>
         <p>Найти пользователя</p>
         <InputSearch
@@ -104,15 +171,16 @@ export const UsersPage: FC<IUsersPageProps> = () => {
           placeholder='Логин, email или телефон'
         />
       </div>
-      {nameUser.name && users.length === 0 && (
+      {nameUser.name && usersData.users.length === 0 && (
         <p>Поиск не дал результата</p>
       )}
       <ul className={usersStyles.list}>
-        {[...users].map(item => {
-          return (
-          <User key={item.id} user={item} changeDiscount={changeDiscount} />
-          )}
-        )}
+        {[...usersData.users].map((item, index) => {
+          if (index + 1 === usersData.users.length) {
+            return <User key={item.id} user={item} changeDiscount={changeDiscount} ref={lastItem} />
+          }
+          return <User key={item.id} user={item} changeDiscount={changeDiscount} />
+        })}
       </ul>
     </div>
   )

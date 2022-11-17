@@ -28,7 +28,7 @@ export const OrdersPage: FC<IOrdersPage> = ({ statuses }) => {
     page: 1,
     selectStatus: 0
   });
-  const [selectStatus, setSelectStatus] = useState<number>(0);
+  // const [selectStatus, setSelectStatus] = useState<number>(0);
   const [ordersSelect, setOrdersSelect] = useState<Array<TCardOrder>>([]);
   const [ ordersRequest, setOrdersRequest] = useState(false);
 
@@ -50,13 +50,13 @@ export const OrdersPage: FC<IOrdersPage> = ({ statuses }) => {
           setOrdersData({
             orders: [...results],
             page: page + 1,
-            selectStatus
+            selectStatus: 0
           })
         } else {
           setOrdersData({
             orders: [...ordersData.orders, ...results],
             page: page + 1,
-            selectStatus
+            selectStatus: 0
           })
         }
         setOrdersRequest(false);
@@ -134,6 +134,11 @@ export const OrdersPage: FC<IOrdersPage> = ({ statuses }) => {
     if (ordersData.selectStatus !== idStatus) {
       getOrdersStatus(idStatus)
     } else {
+      // setOrdersData({
+      //   orders: [],
+      //   page: 1,
+      //   selectStatus: 0
+      // })
       getOrders()
 
 
@@ -150,7 +155,7 @@ export const OrdersPage: FC<IOrdersPage> = ({ statuses }) => {
           <li key={item!.id} className={ordersStyles.box}>
             <Button clickHandler={() => {onClickHandler(item!.id)}} className={cn(filterStyles.button_group, classActive)}>
               <Text text={item!.status} class={filterStyles.text_group} />
-              {selectStatus === item?.id && <LinkClose />}
+              {ordersData.selectStatus === item?.id && <LinkClose />}
             </Button>
           </li>
         )
