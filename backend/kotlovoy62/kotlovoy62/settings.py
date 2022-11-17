@@ -153,7 +153,10 @@ CANT_DELETE_STATUS = [
     'выполненный заказ',
 ]
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # delete after development
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'https://localhost:3000',
 ]
