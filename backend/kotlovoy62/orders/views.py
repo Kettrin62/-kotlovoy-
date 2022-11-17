@@ -31,7 +31,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     http_method_names = ('get', 'post', 'patch', 'delete',)
     queryset = Order.objects.all()
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
-    search_fields = ('number', 'email', 'phoneNumber', 'order_sum')
+    search_fields = ('number', 'email', 'phoneNumber')
     filterset_fields = ('status',)
     serializer_class = OrderSerializer
     permission_classes = (UserGetAndCreateOnlyOrAdmin,)

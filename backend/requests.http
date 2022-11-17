@@ -152,7 +152,14 @@ Authorization: Token {{token}}
 ###################################################################
 
 ###
-GET http://127.0.0.1:8000/api/v1/say_to_us/
+POST http://127.0.0.1:8000/api/v1/say_to_us/
+Content-Type: application/json
+
+{
+    "name": "Козлина Тестовый",
+    "feedback": "+79209746653",
+    "text": "Текст 2"
+}
 ###
 
 
