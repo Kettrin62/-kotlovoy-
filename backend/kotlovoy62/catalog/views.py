@@ -1,14 +1,21 @@
+from django.core.mail import send_mail
 from django_filters.rest_framework import DjangoFilterBackend
+
 from rest_framework import filters, status, viewsets
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
+from rest_framework.permissions import AllowAny
 
-from kotlovoy62.settings import CUSTOM_SETTINGS_DRF
+from kotlovoy62.settings import (
+    CUSTOM_SETTINGS_DRF, DEFAULT_FROM_EMAIL, FEEDBACK_BOX
+)
 
 from .custom_utils import file_delete
-from .models import Element, ElementHasProductPhoto, Group, ProductPhoto, Вrand
+from .models import (
+    Element, ElementHasProductPhoto, Group, ProductPhoto, Вrand
+)
 from .permissions import IsAdminOrReadOnly
 from .serializers import (ElementSerializer, GroupSerializer,
                           ProductPhotoSerializer, ВrandSerializer)
@@ -118,3 +125,23 @@ class ElementViewSet(viewsets.ModelViewSet):
         self.perform_destroy(instance)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def say_to_us__view(request):
+    name = request.data.get('name')
+    feedback = request.data.get('feedback')
+    msg_text = request.data.get('text')
+    if not (name and feedback and msg_text):
+        raise ValidationError(
+                {'message': ['Все поля обязательны к заполнению!']}
+            )
+
+    title = (f'У вас новое сообщение от {name} с сайта Kotlovoy62.ru')
+    message = (
+        f'Текст обращения:\n{msg_text}\n\nДля связи {name} указал(а): '
+        f'{feedback}'
+    )
+    send_mail(title, message, DEFAULT_FROM_EMAIL, [FEEDBACK_BOX])
+    return Response(status=status.HTTP_200_OK)
