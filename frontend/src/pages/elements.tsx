@@ -203,7 +203,6 @@ export function ElementsPage() {
     }
   };
 
-
   useEffect(() => {
     if (observerLoader.current) observerLoader.current.disconnect();
     observerLoader.current = new IntersectionObserver(actionInSight);

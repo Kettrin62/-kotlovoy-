@@ -52,6 +52,7 @@ export function CartPage() {
   };
 
   useEffect(() => {
+    if (dataCart.length === 0) setDataCartElements([]);
     dataCart.forEach(item => {
       getElement(String(item.element), item.amount);
     })

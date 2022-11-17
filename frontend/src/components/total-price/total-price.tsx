@@ -152,7 +152,7 @@ export const TotalPrice: FC<TotalPriceProps> = ({ cartElements }) => {
 
   const nextAction = step === stepName.delivery || step === stepName.cart ? next : confirmOrder;
 
-  if (totalPrice.price === 0) {
+  if (cartElements.length === 0) {
     return (
       <Text
         class=''
@@ -195,7 +195,7 @@ export const TotalPrice: FC<TotalPriceProps> = ({ cartElements }) => {
             {buttonText}
           </MainButton>
         )}
-        {(totalPrice.price !== 0) && (
+        {(cartElements.length !== 0) && (
           <MainButton onClick={nextAction} type="button">
             {orderCheckoutRequest ? <Loader size="small" inverse={true} /> : submitButtonText}
           </MainButton>

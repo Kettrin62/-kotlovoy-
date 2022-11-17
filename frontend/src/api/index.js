@@ -333,10 +333,13 @@ class Api {
   }
 
   // get orders
-  getOrders () {
-    const token = localStorage.getItem('token')
+  getOrders ({
+    page = 1,
+    limit = 15,
+  } = {}) {
+    const token = localStorage.getItem('token');
     return fetch(
-      `${BASEURL}v1/orders/`,
+      `${BASEURL}v1/orders/?page=${page}&limit=${limit}`,
       {
         method: 'GET',
         headers: {
@@ -439,10 +442,14 @@ class Api {
   }
 
   // ordersSearchStatus
-  getOrdersStatus (name) {
+  getOrdersStatus ({
+    page = 1,
+    limit = 15,
+    name
+  } = {}) {
     const token = localStorage.getItem('token');
     return fetch(
-      `${BASEURL}v1/orders/?status=${name}`,
+      `${BASEURL}v1/orders/?status=${name}&page=${page}&limit=${limit}`,
       {
         method: 'GET',
         headers: {
