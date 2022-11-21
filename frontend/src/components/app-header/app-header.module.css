@@ -1,9 +1,7 @@
 .header {
   min-height: 56px;
-  /* min-height: 50px; */
   display: flex;
   align-items: center;
-  /* align-items: flex-end; */
   justify-content: space-between;
   width: 100%;
   background-color: inherit;
@@ -21,14 +19,10 @@
 .link {
   color: inherit;
   text-decoration: none;
-  /* font-size: 18px; */
-  /* line-height: 129%;
-  font-weight: 500; */
   transition: opacity .3s linear;
   position: relative;
   cursor: pointer;
 }
-
 
 .link:hover {
   opacity: .75;

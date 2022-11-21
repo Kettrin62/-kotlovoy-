@@ -2,7 +2,7 @@ import { FC, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import { isDataView } from 'util/types';
-import AuthContext from '../../services/contexts/auth-context';
+import { AuthContext } from '../../services/contexts/auth-context';
 import profilenavStyles from './profile-nav.module.css';
 import cn from 'classnames';
 
@@ -11,7 +11,8 @@ interface IProfileNavProps {
 }
 
 const ProfileNav: FC<IProfileNavProps> = ({ onClickLogout }) => {
-  const { isAdmin } = useContext(AuthContext)
+  const { auth } = useContext(AuthContext);
+  const { isAdmin } = auth;
 
   return (
     <div className={'mr-15 ' + profilenavStyles.navigation}>

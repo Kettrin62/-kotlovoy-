@@ -4,17 +4,13 @@ import appheaderStyles from './app-header.module.css';
 import { useCallback, useState, useEffect, useContext } from 'react';
 import { 
   useHistory,
-  useLocation
 } from 'react-router-dom';
-import Title from '../title/title';
-import LinkComponent from '../link/link';
 import { Link} from 'react-router-dom';
 import LinkCart from '../links-buttons-image/link-cart';
 import LinkAccount from '../links-buttons-image/link-account';
 import LinkSearch from '../links-buttons-image/link-search';
 import Menu from '../menu/menu';
 import Divider from '../divider/divider';
-import Input from '../input/input';
 import SearchBar from '../search-bar/search-bar';
 import Button from '../button/button';
 import cn from 'classnames';
@@ -23,27 +19,27 @@ import { pathNames } from '../../utils/data';
 import LinkWhatsApp from '../links-buttons-image/link-whatsapp';
 import LinkMain from '../links-buttons-image/link-main';
 import { DataCartContext } from '../../services/contexts/app-context';
-import AuthContext from '../../services/contexts/auth-context';
+import { AuthContext } from '../../services/contexts/auth-context';
+import { hrefWhatsApp } from '../../utils/constants';
 
 function AppHeader() {
 
   const history = useHistory();
-  const { pathname } = useLocation();
   const [visibleSearchBar, setVisibleSearchBar] = useState(false);
   const [visibleButton, setVisibleButton] = useState(true);
   const [inputValue, setInputValue] = useState('');
-  const { dataCart, setDataCart } = useContext(DataCartContext);
+  const { dataCart } = useContext(DataCartContext);
   const [count, setCount] = useState<number>(0);
-  const { loggedIn, isAdmin } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
+
+  const { loggedIn, isAdmin } = auth;
 
   useEffect(() => {
     setCount(dataCart.length);
   }, [dataCart]);
 
-
   const onClickMain = useCallback(
     () => {
-      // history.replace({ pathname: '/' });
       onClickClose();
     },
     [history]
@@ -84,20 +80,6 @@ function AppHeader() {
     ? ''
     : appheaderStyles.link_hide;
 
-  // const onClickLink = useCallback(
-  //   (path: string) => {
-  //     history.replace({ pathname: path });
-  //   },
-  //   [history]
-  // );
-
-  // const onClickCart = useCallback(
-  //   () => {
-  //     history.replace({ pathname: '/cart' });
-  //   },
-  //   [history]
-  // );
-
   const classBox = visibleButton
   ? ''
   : appheaderStyles.box_hide;
@@ -109,24 +91,12 @@ function AppHeader() {
         onClickSearchElements();
       }
     };
-
     document.addEventListener('keydown', keyDownHandler);
 
     return () => {
       document.removeEventListener('keydown', keyDownHandler);
     };
   }, [inputValue]);
-
-  // const onClickProfile = useCallback(
-  //   () => {
-  //     history.replace({ pathname: '/profile' });
-  //   },
-  //   [history]
-  // );
-
-  const login = loggedIn ? true : false;
-
-  
 
   return (
     <>
@@ -136,20 +106,16 @@ function AppHeader() {
           <div className={appheaderStyles.container}>
             <Link className={cn(appheaderStyles.link, classLink)} to={pathNames.main} onClick={onClickMain}>
               <LinkMain />
-              {/* <Title /> */}
             </Link>
             <div className={cn(appheaderStyles.box, classBox, appheaderStyles.indent)}>
               <Link className={appheaderStyles.link} to={pathNames.elements}>
                 <Text class={appheaderStyles.text} text='Каталог' />
               </Link>
-              <Link className={appheaderStyles.link} to={pathNames.pay}>
-                <Text class={appheaderStyles.text} text='Оплата' />
-              </Link>
-              <Link className={appheaderStyles.link} to={pathNames.delivery}>
-                <Text class={appheaderStyles.text} text='Доставка' />
+              <Link className={appheaderStyles.link} to={pathNames.payDelivery}>
+                <Text class={appheaderStyles.text} text='Оплата и доставка' />
               </Link>
             </div>
-            <a className={cn(appheaderStyles.link, classLink, appheaderStyles.indent)} href='https://wa.me/79106210642'>
+            <a className={cn(appheaderStyles.link, classLink, appheaderStyles.indent)} href={hrefWhatsApp}>
               <LinkWhatsApp />
             </a>
           </div>
@@ -157,7 +123,6 @@ function AppHeader() {
             <SearchBar 
               className={classSearchBar} 
               onClickClose={onClickClose} 
-              // reset={inputClear}
               inputValue={inputValue}
               onChangeInput={onChangeInputValue}
               onClickSearch={onClickSearchElements}
@@ -169,7 +134,7 @@ function AppHeader() {
               <LinkCart count={count} />
             </Link>
             <Link className={cn(appheaderStyles.link, classLink)} to={isAdmin ? '/admin-panel/orders' : '/profile'}>
-              <LinkAccount login={login} />
+              <LinkAccount login={loggedIn} />
             </Link>
           </div>
         </Navigation>

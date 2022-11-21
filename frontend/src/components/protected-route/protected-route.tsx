@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { FC, useContext } from 'react';
 import { RouteProps } from 'react-router-dom';
-import AuthContext from '../../services/contexts/auth-context';
+import { AuthContext } from '../../services/contexts/auth-context';
 
 interface IProtectedRouteProps {
   path: RouteProps['path'];
@@ -13,13 +13,13 @@ interface IProtectedRouteProps {
 
 export const ProtectedRoute: FC<IProtectedRouteProps> = ({ children, ...rest }) => {
   // const { isAuthenticated } = useSelector(state => state.user);
-  const { loggedIn } = useContext(AuthContext)
+  const { auth } = useContext(AuthContext)
 
   return (
     <Route
       {...rest}
       render={({ location }) =>
-      loggedIn ? (
+      auth.loggedIn ? (
           children
         ) : (
           <Redirect

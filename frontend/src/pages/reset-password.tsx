@@ -6,7 +6,7 @@ import loginStyles from './login.module.css';
 import { TUseLocationState } from '../services/types/data';
 import Input from '../ui/input/input';
 import Button from '../components/button/button';
-import AuthContext from '../services/contexts/auth-context';
+import { AuthContext } from '../services/contexts/auth-context';
 import api from '../api';
 import InputPassword from '../ui/input-password/input-password';
 import { useFormWithValidation } from '../utils/validation';
@@ -19,7 +19,7 @@ interface IResetPasswordPageProps {
 export const ResetPasswordPage: FC<IResetPasswordPageProps> = ({
   successForgot
 }) => {
-  const { loggedIn } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
   const { state } = useLocation<TUseLocationState>();
   const [success, setSuccess] = useState(false);
   const [isValid, setIsValid] = useState(false);
@@ -70,7 +70,7 @@ export const ResetPasswordPage: FC<IResetPasswordPageProps> = ({
     )
   };
 
-  if (loggedIn) {
+  if (auth.loggedIn) {
     return (
       <Redirect to={ state?.from || '/' } />
     )

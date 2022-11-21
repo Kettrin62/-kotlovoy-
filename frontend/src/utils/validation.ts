@@ -1,5 +1,5 @@
 import React from "react";
-import { TDelivery, TFormRegister, TFormStatus, TStatus } from "../services/types/data";
+import { TDelivery, TFeedback, TFormRegister, TFormStatus, TStatus } from "../services/types/data";
 
 //хук управления формой
 export function useForm() {
@@ -124,6 +124,41 @@ export function useFormDelivery() {
       comment: '',
       duration: '',
       price: 0,
+    }, newErrors = {}, newIsValid = false) => {
+      setValues(newValues);
+      setErrors(newErrors);
+      setIsValid(newIsValid);
+    },
+    [setValues, setErrors, setIsValid]
+  );
+
+  return { values, handleChange, errors, isValid, resetForm };
+}
+
+//хук управления формой и валидации формы
+export function useFormFeedback() {
+  const [values, setValues] = React.useState<TFeedback>({
+    name: '',
+    feedback: '',
+    text: '',
+  });
+  const [errors, setErrors] = React.useState({});
+  const [isValid, setIsValid] = React.useState(false);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const target = event.target;
+    const name = target.name;
+    const value = target.value;
+    setValues({...values, [name]: value});
+    setErrors({...errors, [name]: target.validationMessage });
+    setIsValid(target?.closest("form")!.checkValidity());
+  };
+
+  const resetForm = React.useCallback(
+    (newValues = {
+      name: '',
+      feedback: '',
+      text: '',
     }, newErrors = {}, newIsValid = false) => {
       setValues(newValues);
       setErrors(newErrors);

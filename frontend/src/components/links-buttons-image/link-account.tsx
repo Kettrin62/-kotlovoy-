@@ -4,7 +4,7 @@ import accountIcon from '../../images/account.svg';
 import loginIcon from '../../images/login.svg';
 
 interface ILinkAccountProps {
-  login: boolean;
+  login: boolean | null;
 }
 
 const LinkAccount: FC<ILinkAccountProps> = ({ login }) => {

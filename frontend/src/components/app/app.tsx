@@ -7,7 +7,6 @@ import {
   BrowserRouter as Router, 
   Switch, 
   Route,
-  useLocation,
   useHistory
 } from 'react-router-dom';
 import ErrorBoundary from '../error-boundary/error-boundary';
@@ -37,8 +36,7 @@ import {
 import { HomePage } from '../../pages/home';
 import Footer from '../footer/footer';
 import { ElementsPage } from '../../pages/elements';
-import { PayPage } from '../../pages/pay';
-import { DeliveryPage } from '../../pages/delivery';
+import { PayDeliveryPage } from '../../pages/pay-delivery';
 import { AboutPage } from '../../pages/about';
 import { ContactsPage } from '../../pages/contacts';
 import { FeedbackPage } from '../../pages/feedback';
@@ -50,11 +48,11 @@ import {
   SelectedDeliveryContext,
   DeliveryFormContext
 } from '../../services/contexts/cart-context';
-import { formDeliveryInit, stepName, totalInitialPrice } from '../../utils/data';
+import { formDeliveryInit, totalInitialPrice } from '../../utils/data';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { LoginPage } from '../../pages/login';
 import { RegisterPage } from '../../pages/register';
-import AuthContext from '../../services/contexts/auth-context';
+import { AuthContext } from '../../services/contexts/auth-context';
 import { Loader } from '../../ui/loader/loader';
 import { ProfilePage } from '../../pages/profile';
 import { UserContext } from '../../services/contexts/user-context';
@@ -63,40 +61,34 @@ import { ResetPasswordPage } from '../../pages/reset-password';
 import { OrderInfoPage } from '../../pages/order-info';
 import { AdminPanelPage } from '../../pages/admin-panel';
 import useLocalStorage from '../../services/hooks';
+import { reducer } from '../../utils/functions';
 
-function reducer(_totalPrice: TTotalPrice, action: TAction) {
-  const deliveryPrice =
-    (action.delivery?.selectedMethod &&
-      action.delivery?.methods.
-      find(method => method.id === action.delivery?.selectedMethod)?.price) || 
-    0;
+// function reducer(_totalPrice: TTotalPrice, action: TAction) {
+//   const deliveryPrice =
+//     (action.delivery?.selectedMethod &&
+//       action.delivery?.methods.
+//       find(method => method.id === action.delivery?.selectedMethod)?.price) || 
+//     0;
 
-  const total = deliveryPrice +
-    action.array.reduce((
-      acc: number, 
-      item: TDataCartElement<TDataElement>
-    ) => acc + item.element.cur_price * item.amount, 0);
+//   const total = deliveryPrice +
+//     action.array.reduce((
+//       acc: number, 
+//       item: TDataCartElement<TDataElement>
+//     ) => acc + item.element.cur_price * item.amount, 0);
 
-  return { price: total };
-}
+//   return { price: total };
+// }
 
 function App() {
 
   const [brands, setBrands] = useState<Array<TDataBrand>>([]);
-
   const [swiper, setSwiper] = useState<Array<TDataSwiper>>([]);
-
-  // const [dataCart, setDataCart] = useState<Array<TDataCartElement>>([]);
   const [dataCart, setDataCart] = useLocalStorage('cart', []);
-
   const [step, setStep] = useState<string>('');
-
   const [totalPrice, totalDispatcher] = useReducer(reducer, totalInitialPrice);
-
   const [selectedDeliveryId, setSelectedDeliveryId] = useState<number>(1);
   const [form, setForm] = useState<TDeliveryForm>(formDeliveryInit);
   const [deliveryMethods, setDeliveryMethods] = useState<Array<TDeliveryMethod>>([]);
-
   const [ auth, setAuth ] = useState<TAuth>({
     loggedIn: null,
     isAdmin: null,
@@ -133,8 +125,7 @@ function App() {
       .then(res => {
         if (res.auth_token) {
           localStorage.setItem('token', res.auth_token)
-          // localStorage.setItem('token', res.auth_token + '1')
-          api.getUserData()
+          api.getUserData(res.auth_token)
             .then(res => {
               setUser(res);
               setAuth({
@@ -143,8 +134,6 @@ function App() {
               })
             })
             .catch(err => {
-              console.log(err);
-              
               setAuth({
                 loggedIn: false,
                 isAdmin: false,
@@ -159,12 +148,11 @@ function App() {
         }
       })
       .catch(err => {
-        console.log(err);
-        
-        const errors = Object.values(err)
-        if (errors) {
-          alert(errors.join(', '))
-        }
+        setUser(null)
+        // const errors = Object.values(err)
+        // if (errors) {
+        //   alert(errors.join(', '))
+        // }
         setAuth({
           loggedIn: false,
           isAdmin: false,
@@ -232,7 +220,6 @@ function App() {
     api
       .addDeliveryMethod(data)
       .then(res => {
-        // alert('Метод доставки добавлен');
         set(false);
         getMethodsDelivery()
       })
@@ -243,8 +230,6 @@ function App() {
     api
       .editDeliveryMethod(id, data)
       .then(res => {
-        // alert('Метод доставки изменен');
-        // set(false);
         getMethodsDelivery()
       })
       .catch(err => console.log(err));
@@ -254,8 +239,6 @@ function App() {
     api
       .deleteDeliveryMethod(id)
       .then(res => {
-        // alert('Метод доставки удалён');
-        // set(false);
         getMethodsDelivery()
       })
       .catch(err => console.log(err));
@@ -264,7 +247,7 @@ function App() {
   const initUser = () => {
     const token = localStorage.getItem('token');
     if (token && token !== null) {
-      return api.getUserData()
+      return api.getUserData(token)
       .then(res => {
         setUser(res)
         setAuth({
@@ -273,11 +256,15 @@ function App() {
         })
       })
       .catch(err => {
+        localStorage.removeItem('token');
+        setUser(null);
+        setDataCart([]);
+        setStep('')
         setAuth({
           loggedIn: false,
           isAdmin: false,
         })
-        history.push('/login')
+        // history.replace('/login')
       })
     }
     setAuth({
@@ -287,11 +274,17 @@ function App() {
   };
   
   useEffect(() => {
-    initUser();
+    // initUser();
     getBrands();
     getSliders();
     getMethodsDelivery();
   }, []);
+
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    initUser();
+  }, [token]);
 
   if (auth.loggedIn === null) {
     return <Loader size='large' />
@@ -301,7 +294,7 @@ function App() {
     <ErrorBoundary>
       <div>
         <Router>
-          <AuthContext.Provider value={auth}>
+          <AuthContext.Provider value={{auth, setAuth}}>
             <UserContext.Provider value={{user, setUser}}>
               <DataCartContext.Provider value={{ dataCart, setDataCart }}>
                 <CartStepContext.Provider value={{ step, setStep }}>
@@ -322,12 +315,8 @@ function App() {
                         <ElementPage />
                       </Route>
 
-                      <Route path='/pay' exact={true}>
-                        <PayPage />
-                      </Route>
-
-                      <Route path='/delivery' exact={true}>
-                        <DeliveryPage />
+                      <Route path='/pay-delivery' exact={true}>
+                        <PayDeliveryPage />
                       </Route>
 
                       <Route path='/about' exact={true}>

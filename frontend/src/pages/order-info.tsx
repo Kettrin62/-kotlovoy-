@@ -13,14 +13,15 @@ import Contacts from '../components/contacts/contacts';
 import ElementsCardOrder from '../components/elements-card-order/elements-card-order';
 import ListElementsSearch from '../components/list-elements-search/list-elements-search';
 import DeliveryOrderInfo from '../components/delivery-order-info/delivery-order-info';
-import AuthContext from '../services/contexts/auth-context';
+import { AuthContext } from '../services/contexts/auth-context';
 import { DeliveryContext } from '../services/contexts/app-context';
 import Modal from '../components/modal/modal';
 import { Loader } from '../ui/loader/loader';
 
 
 export const OrderInfoPage: FC = () => {
-  const { isAdmin } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
+  const { isAdmin } = auth;
   const deliveryMethods = useContext(DeliveryContext);
   const history = useHistory();
 
