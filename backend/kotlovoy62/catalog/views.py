@@ -144,4 +144,7 @@ def say_to_us__view(request):
         f'{feedback}'
     )
     send_mail(title, message, DEFAULT_FROM_EMAIL, [FEEDBACK_BOX])
-    return Response(status=status.HTTP_200_OK)
+    return Response(
+        data={'message': ['Сообщение успешно отправлено на почту']},
+        status=status.HTTP_200_OK
+    )
