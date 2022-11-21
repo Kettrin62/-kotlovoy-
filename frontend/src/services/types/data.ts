@@ -49,16 +49,6 @@ export type TDataElement = {
   readonly cur_price: number;
 }
 
-export type TDataPathNames = {
-  readonly main: string;
-  readonly elements: string;
-  readonly pay: string;
-  readonly delivery: string;
-  readonly about: string;
-  readonly contacts: string;
-  readonly feedback: string;
-}
-
 export type TDataGroups = {
   readonly id: number;
   readonly title: string;
@@ -210,4 +200,10 @@ export type TAuth = {
 }
 
 export type TRef = HTMLLIElement;
+
+export type TFeedback = {
+  name: string;
+  feedback: string;
+  text: string;
+}
 

@@ -1,3 +1,10 @@
+import { 
+  TAction, 
+  TDataCartElement, 
+  TDataElement, 
+  TTotalPrice 
+} from '../services/types/data';
+
 // export function checkResponse(res: Response): Promise<any> {
 //   if (res.ok) {
 //     return res.json();
@@ -41,6 +48,22 @@
 //   setCookie(name, '', { expires: -1 });
 // };
 
+export function reducer(_totalPrice: TTotalPrice, action: TAction) {
+  const deliveryPrice =
+    (action.delivery?.selectedMethod &&
+      action.delivery?.methods.
+      find(method => method.id === action.delivery?.selectedMethod)?.price) || 
+    0;
+
+  const total = deliveryPrice +
+    action.array.reduce((
+      acc: number, 
+      item: TDataCartElement<TDataElement>
+    ) => acc + item.element.cur_price * item.amount, 0);
+
+  return { price: total };
+}
+
 const months = [
   'января',
   'февраля',
@@ -56,17 +79,9 @@ const months = [
   'декабря'
 ];
 
-// функция для создания адекватной даты в ленте заказов
-// function dropHMS(date: Date) {
-//   date.setHours(0);
-//   date.setMinutes(0);
-//   date.setSeconds(0, 0);
-// };
-
 export function showMessageDateTime(dateTime: Date, type: 'date' | 'time') {
   
   const dateMins = ('0'+ dateTime.getMinutes()).slice(-2);
-  // const timeZone = dateTime.getTimezoneOffset()/60 < 0 ? `i-GMT+${-dateTime.getTimezoneOffset()/60}` : `i-GMT-${-dateTime.getTimezoneOffset()/60}`;
   const monthName = months[dateTime.getMonth()];
 
   if (type === 'date') 

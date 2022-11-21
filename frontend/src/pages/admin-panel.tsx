@@ -16,7 +16,7 @@ import { ProfileSetPasswordPage } from './profile-set-password';
 import { OrderInfoPage } from './order-info';
 import api from '../api';
 import { TDelivery, TDeliveryMethod, TFormStatus, TStatus, TUser } from '../services/types/data';
-import AuthContext from '../services/contexts/auth-context';
+import { AuthContext } from '../services/contexts/auth-context';
 import { UsersPage } from './users';
 import { AdminDeliveryPage } from './admin-delivery';
 import { StatusPage } from './status';
@@ -35,7 +35,7 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({
   deleteDelivery
 }) => {
   const [statuses, setStatuses] = useState<Array<TStatus>>([]);
-  const { isAdmin } = useContext(AuthContext)
+  const { auth } = useContext(AuthContext)
   const [users, setUsers] = useState<Array<TUser>>([]);
 
   const location = useLocation()
@@ -112,13 +112,13 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({
   // }
 
   useEffect(() => {
-    if (isAdmin) {
+    if (auth.isAdmin) {
       getStatuses();
       // getUsers();
     }
   }, [])
 
-  if (!isAdmin) {
+  if (!auth.isAdmin) {
     return (
       <Redirect to='/profile' />
     )

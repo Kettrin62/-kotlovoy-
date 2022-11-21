@@ -15,17 +15,17 @@ import { ProfileProfilePage } from './profile-profile';
 import { OrdersPage } from './orders';
 import { ProfileSetPasswordPage } from './profile-set-password';
 import { OrderInfoPage } from './order-info';
-import AuthContext from '../services/contexts/auth-context';
+import { AuthContext } from '../services/contexts/auth-context';
 
 interface IProfilePageProps {
   onLogout: () => void;
 }
 
 export const ProfilePage: FC<IProfilePageProps> = ({ onLogout }) => {
-  const { isAdmin } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
   const location = useLocation()
 
-  if (isAdmin) {
+  if (auth.isAdmin) {
     return (
       <Redirect to='/admin-panel/orders' />
     )

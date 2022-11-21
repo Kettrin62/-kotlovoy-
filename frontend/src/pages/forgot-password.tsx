@@ -4,7 +4,7 @@ import { Link, Redirect, useLocation } from 'react-router-dom';
 import Form from '../components/form/form';
 import loginStyles from './login.module.css';
 import { TUseLocationState } from '../services/types/data';
-import AuthContext from '../services/contexts/auth-context';
+import { AuthContext } from '../services/contexts/auth-context';
 import Input from '../ui/input/input';
 import Button from '../components/button/button';
 import cn from 'classnames';
@@ -19,7 +19,7 @@ export const ForgotPasswordPage: FC<IForgotPasswordProps> = ({
   onForgot,
   success
 }) => {
-  const { loggedIn } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
   const { state } = useLocation<TUseLocationState>();
 
   const [emailValue, setEmailValue] = useState('');
@@ -47,7 +47,7 @@ export const ForgotPasswordPage: FC<IForgotPasswordProps> = ({
     )
   };
 
-  if (loggedIn) {
+  if (auth.loggedIn) {
     return (
       <Redirect to={ state?.from || '/' } />
     )

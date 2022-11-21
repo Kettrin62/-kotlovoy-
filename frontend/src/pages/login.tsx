@@ -7,7 +7,7 @@ import { TFormAuth, TUseLocationState } from '../services/types/data';
 import Input from '../ui/input/input';
 import Button from '../components/button/button';
 import { useFormWithValidation } from '../utils/validation';
-import AuthContext from '../services/contexts/auth-context';
+import { AuthContext } from '../services/contexts/auth-context';
 import InputPassword from '../ui/input-password/input-password';
 import cn from 'classnames';
 
@@ -18,7 +18,7 @@ interface ILoginPageProps {
 export const LoginPage: FC<ILoginPageProps> = ({ 
   onLogin
 }) => {
-  const { loggedIn } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
   const { values, handleChange, isValid } = useFormWithValidation();
   const { state } = useLocation<TUseLocationState>();
 
@@ -27,7 +27,7 @@ export const LoginPage: FC<ILoginPageProps> = ({
     onLogin(values)
   };
 
-  if (loggedIn) {
+  if (auth.loggedIn) {
     return (
       <Redirect to={state?.from || '/'} />
     )

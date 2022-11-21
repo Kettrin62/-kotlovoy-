@@ -51,11 +51,12 @@ class Api {
 
   // elementsBrand
   getElementsBrand ({
+    token,
     page = 1,
     limit = 15,
     id
   } = {}) {
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
     const authorization = token ? { 'authorization': `Token ${token}` } : {};
     return fetch(
       `${BASEURL}v1/elements/?page=${page}&limit=${limit}&brand=${id}`,
@@ -84,10 +85,11 @@ class Api {
 
   // elements
   getElements ({
+    token,
     page = 1,
     limit = 15,
   } = {}) {
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
     const authorization = token ? { 'authorization': `Token ${token}` } : {};
     return fetch(
       `${BASEURL}v1/elements/?page=${page}&limit=${limit}`,
@@ -212,8 +214,8 @@ class Api {
   }
 
   // userData
-  getUserData () {
-    const token = localStorage.getItem('token')
+  getUserData (token) {
+    // const token = localStorage.getItem('token')
     return fetch(
       `${BASEURL}v1/users/me/`,
       {
@@ -605,6 +607,32 @@ class Api {
         }
       }
     ).then(this.checkResponse)
+  }
+
+  // feedback
+  postFeedback (data) {
+    const { name, feedback, text } = data;
+    return fetch(
+      `${BASEURL}v1/say_to_us/`,
+      {
+        method: 'POST',
+        headers: {
+          ...this._headers,
+        },
+        body: JSON.stringify({
+          name,
+          feedback,
+          text
+        })
+      }
+    ).then(function (res) {
+      if (res.ok) {
+        return res.json();
+      } 
+      return Promise.reject(`Ошибка: ${res.statusText}`);
+    })
+    .then((data) => console.log('data'))
+    .catch((err) => console.log(err));
   }
 
 

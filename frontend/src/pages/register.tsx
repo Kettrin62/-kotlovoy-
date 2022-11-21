@@ -7,7 +7,7 @@ import { TFormRegister } from '../services/types/data';
 import Input from '../ui/input/input';
 import Button from '../components/button/button';
 import { useFormWithValidation } from '../utils/validation';
-import AuthContext from '../services/contexts/auth-context';
+import { AuthContext } from '../services/contexts/auth-context';
 import InputPassword from '../ui/input-password/input-password';
 import cn from 'classnames';
 
@@ -19,14 +19,14 @@ export const RegisterPage: FC<IRegisterPageProps> = ({
   onSignUp 
 }) => {
   const { values, handleChange, isValid } = useFormWithValidation();
-  const { loggedIn } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
 
   const registerSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSignUp(values);
   };
 
-  if (loggedIn) {
+  if (auth.loggedIn) {
     return (
       <Redirect to='/' />
     )

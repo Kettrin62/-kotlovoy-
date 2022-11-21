@@ -1,9 +1,14 @@
+import { FC } from 'react';
 import titleStyles from './title.module.css';
 
-function Title() {
+interface ITitleProps {
+  text: string;
+}
+
+const Title: FC<ITitleProps> = ({ text }) => {
   return (
     <h1 className={titleStyles.title}>
-      Котловой62
+      {text}
     </h1>
   )
 }

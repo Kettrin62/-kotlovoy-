@@ -1,4 +1,4 @@
-import { TDataFooter, TDataPathNames } from "../services/types/data";
+import { TDataFooter } from "../services/types/data";
 import map from '../images/map.svg';
 import mail from '../images/mail.svg';
 import telephoneIcon from '../images/telephone-icon.svg';
@@ -23,14 +23,13 @@ export const dataFooter: Array<TDataFooter> = [
   }
 ];
 
-export const pathNames: TDataPathNames = {
+export const pathNames = {
   main: '/',
   elements: '/elements',
-  pay: '/pay',
-  delivery: '/delivery',
+  payDelivery: '/pay-delivery',
   about: '/about',
   contacts: '/contacts',
-  feedback: '/contacts',
+  feedback: '/feedback',
 };
 
 export const stepName = {

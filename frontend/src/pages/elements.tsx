@@ -11,15 +11,15 @@ import Card from '../components/card/card';
 import Text from '../components/text/text';
 import { TDataElement, TDataGroups } from '../services/types/data';
 import elementsStyles from './elements.module.css';
-import AuthContext from '../services/contexts/auth-context';
+import { AuthContext } from '../services/contexts/auth-context';
 import { Loader } from '../ui/loader/loader';
+import { UserContext } from '../services/contexts/user-context';
 
 interface IData {
   elements: Array<TDataElement>;
   page: number;
   name?: string;
 }
-
 
 export function ElementsPage() {
   const [elementsData, setElementsData] = useState<IData>({
@@ -31,10 +31,10 @@ export function ElementsPage() {
   const [textButton, setTextButton] = useState('Выбрать категории');
   const [activeButton, setActiveButton] = useState<Array<number>>([]);
   const [visibleGroups, setVisibleGroups] = useState(false);
-  const { loggedIn } = useContext(AuthContext)
   const [ elementsRequest, setElementsRequest] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const portion = 10;
+  const { auth, setAuth } = useContext(AuthContext);
 
   const [fetchUrl, setFetchUrl] = useState<Array<string>>([]);
 
@@ -42,17 +42,18 @@ export function ElementsPage() {
     return item.available === true
   });
 
-
   const history = useHistory();
   const { pathname } = useLocation();
 
   const { id } = useParams<{ id?: string }>();
   const {name } = useParams<{ name?: string}>();
 
+  const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
+
   const getElements = (page = 1) => {
-    // setElementsRequest(true);
     api
       .getElements({
+        token,
         page,
         limit: portion
       })
@@ -75,15 +76,18 @@ export function ElementsPage() {
         setElementsRequest(false)
       })
       .catch(err => {
-        console.log(err)
-        setElementsRequest(false)
+        localStorage.removeItem('token');
+        setAuth({
+          loggedIn: false,
+          isAdmin: false,
+        })
       })
   }
 
   const getElementsBrand = (id: string, page = 1) => {
-    // setElementsRequest(true);
     api
       .getElementsBrand({
+        token,
         page: elementsData.page,
         limit: portion,
         id
@@ -108,7 +112,11 @@ export function ElementsPage() {
       })
       .catch(err => {
         console.log(err)
-        setElementsRequest(false)
+        localStorage.removeItem('token');
+        setAuth({
+          loggedIn: false,
+          isAdmin: false,
+        })
       })
   };
 
@@ -190,7 +198,7 @@ export function ElementsPage() {
     if (pathname === `/elements/search/${name}`) {
       if (name) getElementsBySearch(name);
     }
-  }, [pathname]);
+  }, [pathname, token]);
 
   let arrIdGroup: number[] = activeButton;
   // let fetchUrl = '';
