@@ -5,11 +5,8 @@ import { Checkout } from '../components/checkout/checkout';
 import Delivery from '../components/delivery/delivery';
 import { TotalPrice } from '../components/total-price/total-price';
 import { DataCartContext } from '../services/contexts/app-context';
-import { 
-  CartStepContext
-} from '../services/contexts/cart-context';
-import { TDataCartElement, TDataElement, TDeliveryMethod } from '../services/types/data';
-import { Loader } from '../ui/loader/loader';
+import { CartStepContext } from '../services/contexts/cart-context';
+import { TDataCartElement, TDataElement } from '../services/types/data';
 import { TitleCart } from '../ui/title-cart/title-cart';
 import { stepName, titleCart } from '../utils/data';
 import cartStyles from './cart.module.css';
@@ -17,7 +14,7 @@ import cartStyles from './cart.module.css';
 
 export function CartPage() {
   const { step, setStep } = useContext(CartStepContext);
-  const { dataCart, setDataCart } = useContext(DataCartContext);
+  const { dataCart } = useContext(DataCartContext);
   const [dataCartElements, setDataCartElements] = useState<Array<TDataCartElement<TDataElement>>>([])
 
   const getElement = async (id: string, amount: number) => {

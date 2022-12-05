@@ -1,5 +1,10 @@
-import * as React from 'react';
-import { FC, useEffect, useState, useRef, createRef } from 'react';
+import { 
+  FC, 
+  useEffect, 
+  useState, 
+  useRef, 
+  createRef 
+} from 'react';
 import api from '../api';
 import Button from '../components/button/button';
 import CardOrder from '../components/card-order/card-order';
@@ -28,16 +33,11 @@ export const OrdersPage: FC<IOrdersPage> = ({ statuses }) => {
     page: 1,
     selectStatus: 0
   });
-  // const [selectStatus, setSelectStatus] = useState<number>(0);
-  const [ordersSelect, setOrdersSelect] = useState<Array<TCardOrder>>([]);
   const [ ordersRequest, setOrdersRequest] = useState(false);
-
   const [totalCount, setTotalCount] = useState(0);
-  const [next, setNext] = useState<string>('');
   const limit = 10;
 
   const getOrders = (page = 1) => {
-    // setOrdersRequest(true)
     api
       .getOrders({
         page,
@@ -94,12 +94,6 @@ export const OrdersPage: FC<IOrdersPage> = ({ statuses }) => {
         })
       }
     })
-
-    // .then(res => {
-    //   setOrdersSelect(res.results)
-    //   setSelectStatus(idStatus)
-    // })
-
     .catch(err => {
       const errors = Object.values(err)
       if (errors) {
@@ -134,16 +128,7 @@ export const OrdersPage: FC<IOrdersPage> = ({ statuses }) => {
     if (ordersData.selectStatus !== idStatus) {
       getOrdersStatus(idStatus)
     } else {
-      // setOrdersData({
-      //   orders: [],
-      //   page: 1,
-      //   selectStatus: 0
-      // })
       getOrders()
-
-
-      // setSelectStatus(0);
-      // setOrdersSelect([]);
     }
   }
 
@@ -178,16 +163,7 @@ export const OrdersPage: FC<IOrdersPage> = ({ statuses }) => {
           }
           return <CardOrder key={item.id} card={item} />
         })}
-        {/* {selectStatus > 0 ? ([...ordersSelect].map(item => (
-          <CardOrder key={item.id} card={item} />
-        ))) : (ordersData.orders.map((item, index) => {
-          if (index + 1 === ordersData.orders.length) {
-            return <CardOrder key={item.id} card={item} ref={lastItem} />
-          }
-          return <CardOrder key={item.id} card={item} />
-        }))} */}
       </ul>
     </div>
   );
 }
-

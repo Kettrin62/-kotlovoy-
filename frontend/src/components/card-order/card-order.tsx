@@ -1,6 +1,5 @@
-import { FC, useCallback, forwardRef } from 'react';
+import { useCallback, forwardRef } from 'react';
 import { 
-  Link,
   useHistory,
   useLocation
 } from 'react-router-dom';

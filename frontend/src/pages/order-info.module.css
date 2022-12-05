@@ -4,7 +4,6 @@
   align-items: center;
   margin: 50px auto;
   gap: 20px;
-
 }
 
 .header {
@@ -20,7 +19,6 @@
   width: 640px;
   display: flex;
   flex-direction: column;
-  /* gap: 15px; */
 }
 
 .status {

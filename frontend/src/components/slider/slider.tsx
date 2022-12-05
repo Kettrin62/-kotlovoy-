@@ -1,8 +1,5 @@
-import * as React from 'react';
 import { useContext } from 'react';
-// import sliderStyles from './slider.module.css';
 import './slider.css'
-import { FC } from 'react';
 import { DataSwiperContext } from '../../services/contexts/app-context';
 import { Autoplay, Pagination, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';

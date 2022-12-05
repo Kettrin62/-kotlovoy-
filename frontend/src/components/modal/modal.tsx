@@ -5,7 +5,6 @@ import { ModalOverlay } from '../../ui/modal-overlay/modal-overlay';
 import styles from './modal.module.css';
 import cn from 'classnames';
 
-
 const modalRoot = document.getElementById('react-modals')!;
 
 interface IIModalProps {

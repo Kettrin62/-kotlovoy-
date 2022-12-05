@@ -1,7 +1,11 @@
-import React from "react";
-import { TDelivery, TFeedback, TFormRegister, TFormStatus, TStatus } from "../services/types/data";
+import React from 'react';
+import { 
+  TDelivery, 
+  TFeedback,
+  TFormRegister, 
+  TFormStatus 
+} from '../services/types/data';
 
-//хук управления формой
 export function useForm() {
   const [values, setValues] = React.useState<TFormRegister>({
     email: '',
@@ -21,7 +25,6 @@ export function useForm() {
   return {values, handleChange, setValues};
 }
 
-//хук управления формой и валидации формы
 export function useFormWithValidation() {
   const [values, setValues] = React.useState<TFormRegister>({
     email: '',
@@ -41,7 +44,7 @@ export function useFormWithValidation() {
       setValues({...values, [name]: value.toLowerCase()});
     } else setValues({...values, [name]: value});
     setErrors({...errors, [name]: target.validationMessage });
-    setIsValid(target?.closest("form")!.checkValidity());
+    setIsValid(target?.closest('form')!.checkValidity());
   };
 
   const resetForm = React.useCallback(
@@ -62,7 +65,6 @@ export function useFormWithValidation() {
   return { values, handleChange, errors, isValid, resetForm };
 }
 
-//хук управления формой и валидации формы
 export function useFormStatus() {
   const [values, setValues] = React.useState<TFormStatus>({
     status: '',
@@ -80,7 +82,7 @@ export function useFormStatus() {
       setValues({...values, [name]: value.toLowerCase()})
     } else setValues({...values, [name]: value});
     setErrors({...errors, [name]: target.validationMessage });
-    setIsValid(target?.closest("form")!.checkValidity());
+    setIsValid(target?.closest('form')!.checkValidity());
   };
 
   const resetForm = React.useCallback(
@@ -98,7 +100,6 @@ export function useFormStatus() {
   return { values, handleChange, errors, isValid, resetForm };
 }
 
-//хук управления формой и валидации формы
 export function useFormDelivery() {
   const [values, setValues] = React.useState<TDelivery>({
     company: '',
@@ -115,7 +116,7 @@ export function useFormDelivery() {
     const value = target.value;
     setValues({...values, [name]: value});
     setErrors({...errors, [name]: target.validationMessage });
-    setIsValid(target?.closest("form")!.checkValidity());
+    setIsValid(target?.closest('form')!.checkValidity());
   };
 
   const resetForm = React.useCallback(
@@ -135,7 +136,6 @@ export function useFormDelivery() {
   return { values, handleChange, errors, isValid, resetForm };
 }
 
-//хук управления формой и валидации формы
 export function useFormFeedback() {
   const [values, setValues] = React.useState<TFeedback>({
     name: '',
@@ -151,7 +151,7 @@ export function useFormFeedback() {
     const value = target.value;
     setValues({...values, [name]: value});
     setErrors({...errors, [name]: target.validationMessage });
-    setIsValid(target?.closest("form")!.checkValidity());
+    setIsValid(target?.closest('form')!.checkValidity());
   };
 
   const resetForm = React.useCallback(

@@ -5,12 +5,11 @@ interface ITitleProps {
   text: string;
 }
 
-const Title: FC<ITitleProps> = ({ text }) => {
-  return (
-    <h1 className={titleStyles.title}>
-      {text}
-    </h1>
-  )
-}
+const Title: FC<ITitleProps> = ({ text }) => (
+  <h1 className={titleStyles.title}>
+    {text}
+  </h1>
+)
+
 
 export default Title;

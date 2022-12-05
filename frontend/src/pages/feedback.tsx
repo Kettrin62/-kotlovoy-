@@ -13,7 +13,7 @@ import Modal from '../components/modal/modal';
 
 export function FeedbackPage() {
 
-  const { values, handleChange, errors, isValid, resetForm } = useFormFeedback();
+  const { values, handleChange, isValid, resetForm } = useFormFeedback();
   const [visible, setVisible] = useState(false);
 
   const inputRef = useRef(null);
@@ -27,8 +27,6 @@ export function FeedbackPage() {
         
       })
       .catch(err => {
-        console.log('lll');
-        
         const errors = Object.values(err)
         if (errors.length > 0) {
           alert(errors.join(', '))
@@ -52,10 +50,6 @@ export function FeedbackPage() {
       <p>Сообщение отправлено</p>
     </Modal>
   )
-
-  console.log(visible);
-  
-  
 
   return (
     <div className={styles.container}>

@@ -1,17 +1,24 @@
-import React, { useMemo, FC, useContext, useCallback, useState } from 'react';
 import { 
-  useHistory,
-  useLocation
-} from 'react-router-dom';
+  useMemo, 
+  FC, 
+  useContext, 
+  useCallback, 
+  useState 
+} from 'react';
+import { useHistory } from 'react-router-dom';
 import { MainButton } from '../../ui/main-button/main-button';
 import styles from './total-price.module.css';
-import { priceFormat, totalPriceSelector } from './utils';
+import { priceFormat } from './utils';
 import { Loader } from '../../ui/loader/loader';
 import { DataCartContext } from '../../services/contexts/app-context';
-import { CartStepContext, DeliveryFormContext, SelectedDeliveryContext, TotalPriceContext } from '../../services/contexts/cart-context';
+import { 
+  CartStepContext, 
+  DeliveryFormContext, 
+  SelectedDeliveryContext, 
+  TotalPriceContext 
+} from '../../services/contexts/cart-context';
 import { formDeliveryInit, stepName } from '../../utils/data';
 import Text from '../text/text';
-import { rawListeners } from 'process';
 import api from '../../api';
 import validator from 'validator';
 import Modal from '../modal/modal';
@@ -21,12 +28,11 @@ interface TotalPriceProps {
   cartElements: TDataCartElement<TDataElement>[];
 }
 
-
 export const TotalPrice: FC<TotalPriceProps> = ({ cartElements }) => {
-  const { dataCart, setDataCart } = useContext(DataCartContext);
-  const { totalPrice, totalDispatcher } = useContext(TotalPriceContext);
+  const { setDataCart } = useContext(DataCartContext);
+  const { totalPrice } = useContext(TotalPriceContext);
   const { step, setStep } = useContext(CartStepContext);
-  const { selectedDeliveryId, setSelectedDeliveryId } = useContext(SelectedDeliveryContext);
+  const { selectedDeliveryId } = useContext(SelectedDeliveryContext);
   const { form, setForm } = useContext(DeliveryFormContext);
   const [ orderCheckoutRequest, setOrderCheckoutRequest] = useState(false);
   const [ order, setOrder ] = useState('');
@@ -51,20 +57,16 @@ export const TotalPrice: FC<TotalPriceProps> = ({ cartElements }) => {
       if (form.email && !validator.isEmail(form.email + '')) {
         setError('Введён некорректный адрес электронной почты');
         setVisible(true);
-        // alert('Некорректный адрес электронной почты')
       } else if (!form.firstName) {
         setError('Поле "Имя" должно быть заполнено');
         setVisible(true);
-        // alert('Поле "Имя" должно быть заполнено')
       } else if (!form.secondName) {
         setError('Поле "Фамилия" должно быть заполнено');
         setVisible(true);
-        // alert('Поле "Фамилия" должно быть заполнено')
       } else if (!form.phone ||
         (form.phone && !form.phone.match(/^(\+7|8)[\d]{10}$/))) {
         setError('Поле "Телефон" должно быть заполнено корректно');
         setVisible(true);
-        // alert('Поле "Телефон" должно быть заполнено корректно')
       } else {
         const nextStep = step === stepName.cart ? stepName.delivery : stepName.checkout
         setStep(nextStep);
@@ -103,7 +105,6 @@ export const TotalPrice: FC<TotalPriceProps> = ({ cartElements }) => {
   } = form;
 
   const [error, setError] = useState('');
-
 
   const confirmOrder = () => {
     setOrderCheckoutRequest(true);
@@ -201,7 +202,6 @@ export const TotalPrice: FC<TotalPriceProps> = ({ cartElements }) => {
           </MainButton>
         )}
         {visible && modal}
-
       </div>
     </div>
   );

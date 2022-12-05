@@ -7,7 +7,6 @@ import StatusItem from '../components/status-item/status-item';
 import Modal from '../components/modal/modal';
 import FormStatus from '../components/form-status/form-status';
 
-
 interface IStatusPageProps {
   statuses: Array<TStatus>;
   createStatus: (data: TFormStatus, set: (el: boolean) => void) => void;
@@ -23,7 +22,6 @@ export const StatusPage: FC<IStatusPageProps> = ({
 }) => {
   const [visible, setVisible] = useState(false);
   const [text, setText] = useState<string>('');
-
   const { values, handleChange, isValid, resetForm } = useFormStatus();
 
   const onCreateStatus = () => {

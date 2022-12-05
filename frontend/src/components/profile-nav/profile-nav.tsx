@@ -1,7 +1,5 @@
 import { FC, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useLocation } from "react-router-dom";
-import { isDataView } from 'util/types';
 import { AuthContext } from '../../services/contexts/auth-context';
 import profilenavStyles from './profile-nav.module.css';
 import cn from 'classnames';

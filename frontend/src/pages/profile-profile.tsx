@@ -1,13 +1,16 @@
 import * as React from 'react';
-import { useState, useRef, useContext, useEffect, useCallback } from 'react';
+import { 
+  useState, 
+  useRef, 
+  useContext, 
+  useEffect 
+} from 'react';
 import api from '../api';
 import Button from '../components/button/button';
 import Form from '../components/form/form';
 import { UserContext } from '../services/contexts/user-context';
-import { TUser } from '../services/types/data';
 import InputEdit from '../ui/input-edit/input-edit';
 import Input from '../ui/input/input';
-import { useFormWithValidation } from '../utils/validation';
 import profileprofileStyles from './profile-profile.module.css';
 import cn from 'classnames';
 import Modal from '../components/modal/modal';

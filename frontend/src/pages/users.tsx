@@ -1,18 +1,23 @@
-import { FC, useState, useEffect, useRef, createRef } from 'react';
+import { 
+  useState, 
+  useEffect, 
+  useRef, 
+  createRef 
+} from 'react';
 import api from '../api';
-import Form from '../components/form/form';
 import InputSearch from '../components/input-add-element/input-search';
-import Modal from '../components/modal/modal';
 import User from '../components/user/user';
 import { TUser } from '../services/types/data';
-import EditButton from '../ui/edit-button/edit-button';
-import Input from '../ui/input/input';
-import { Loader } from '../ui/loader/loader';
 import usersStyles from './users.module.css';
 
 interface IData {
   users: Array<TUser>;
   page: number;
+  name: string;
+}
+
+interface IUser {
+  id: number | null;
   name: string;
 }
 
@@ -24,13 +29,6 @@ export const UsersPage = () => {
   });
   const [totalCount, setTotalCount] = useState(0);
   const limit = 10;
-
-
-  interface IUser {
-    id: number | null;
-    name: string;
-  }
-
   const [nameUser, setNameUser] = useState<IUser>({
     id: null,
     name: ''
@@ -114,9 +112,7 @@ export const UsersPage = () => {
   };
 
   useEffect(() => {
-    // if (isAdmin) {
-      getUsers();
-    // }
+    getUsers();
   }, [])
 
   useEffect(() => {

@@ -56,7 +56,6 @@
 }
 
 .button {
-  /* border: 1px solid rgba(247, 109, 10, 0.7); */
   border-radius: 6px;
   padding-left: 30px;
   padding-right: 30px;
@@ -82,7 +81,6 @@
   background-color: #fff;
   color: rgba(247, 109, 10, 1);
   border-color: rgba(247, 109, 10, 1);
-
   box-shadow: 0 0 7px rgba(247, 109, 10, 1);
 }
 

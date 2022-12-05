@@ -1,7 +1,12 @@
-import { useEffect, useState, useContext, useRef, createRef } from 'react';
+import { 
+  useEffect, 
+  useState, 
+  useContext, 
+  useRef, 
+  createRef 
+} from 'react';
 import { 
   useParams,
-  useHistory,
   useLocation,
 } from 'react-router-dom';
 import cn from 'classnames';
@@ -13,7 +18,6 @@ import { TDataElement, TDataGroups } from '../services/types/data';
 import elementsStyles from './elements.module.css';
 import { AuthContext } from '../services/contexts/auth-context';
 import { Loader } from '../ui/loader/loader';
-import { UserContext } from '../services/contexts/user-context';
 
 interface IData {
   elements: Array<TDataElement>;
@@ -34,7 +38,7 @@ export function ElementsPage() {
   const [ elementsRequest, setElementsRequest] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const portion = 10;
-  const { auth, setAuth } = useContext(AuthContext);
+  const { setAuth } = useContext(AuthContext);
 
   const [fetchUrl, setFetchUrl] = useState<Array<string>>([]);
 
@@ -42,9 +46,7 @@ export function ElementsPage() {
     return item.available === true
   });
 
-  const history = useHistory();
   const { pathname } = useLocation();
-
   const { id } = useParams<{ id?: string }>();
   const {name } = useParams<{ name?: string}>();
 
@@ -180,8 +182,6 @@ export function ElementsPage() {
       })
   };
 
-
-
   useEffect(() => {
     if (pathname === '/elements') {
       getElements();
@@ -201,7 +201,6 @@ export function ElementsPage() {
   }, [pathname, token]);
 
   let arrIdGroup: number[] = activeButton;
-  // let fetchUrl = '';
   let arrUrl: string[] = fetchUrl;
 
 
@@ -221,7 +220,6 @@ export function ElementsPage() {
       getElementsGroups(arrUrl.join(''));
     };
   };
-
 
   const lastItem = createRef<HTMLLIElement>();
   const observerLoader = useRef<IntersectionObserver | null>();
@@ -254,10 +252,6 @@ export function ElementsPage() {
 
   const classNameGroups = visibleGroups ? elementsStyles.show : '';
 
-
-
-
-
   const getElementsGroups = (fetchUrl: string, page = 1) => {
     api
       .getElementsGroups({
@@ -279,16 +273,9 @@ export function ElementsPage() {
             page: page + 1,
           })
         }
-        // setElementsData({
-        //   elements: [...results],
-        //   page: 1
-        // })
-
       })
       .catch(err => console.log(err))
   }
-
-
 
   const groupComponent = (
     <ul className={cn(elementsStyles.list_group, classNameGroups)}>
@@ -308,7 +295,6 @@ export function ElementsPage() {
   if (elementsRequest) {
     return <Loader size='large' />
   }
-
 
   return (
     <main className={elementsStyles.container}>

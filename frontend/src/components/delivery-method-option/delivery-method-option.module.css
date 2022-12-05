@@ -1,5 +1,4 @@
 .option {
-  /* display: flex; */
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   justify-content: space-between;
@@ -55,15 +54,13 @@
 }
 
 .input:checked,
-.input:not(:checked)
-{
+.input:not(:checked) {
   position: absolute;
   left: -9999px;
 }
 
 .input:checked + label,
-.input:not(:checked) + label
-{
+.input:not(:checked) + label {
   position: relative;
   padding-left: 40px;
   line-height: 20px;
@@ -71,8 +68,7 @@
 }
 
 .input:checked + label:before,
-.input:not(:checked) + label:before
-{
+.input:not(:checked) + label:before {
   content: "";
   position: absolute;
   left: 0px;
@@ -85,8 +81,7 @@
 }
 
 .input:checked + label:after,
-.input:not(:checked) + label:after
-{
+.input:not(:checked) + label:after {
   content: "";
   position: absolute;
   -webkit-transition: all 0.2s ease;
@@ -103,11 +98,11 @@
 }
 
 .input:not(:checked) + label:after {
-    opacity: 0;
+  opacity: 0;
 }
 
 .input:checked + label:after {
-    opacity: 1;
+  opacity: 1;
 }
 
 @media (max-width: 600px) {
@@ -134,17 +129,15 @@
   }
 
   .input:checked + label:before,
-  .input:not(:checked) + label:before
-  {
+  .input:not(:checked) + label:before {
     left: 2px;
     top: 16px;
     width: 16px;
     height: 16px;
   }
 
-    .input:checked + label:after,
-  .input:not(:checked) + label:after
-  {
+  .input:checked + label:after,
+  .input:not(:checked) + label:after {
     left: 9px;
     top: 23px;
     width: 4px;

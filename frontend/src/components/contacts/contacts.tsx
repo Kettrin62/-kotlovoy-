@@ -9,7 +9,6 @@ interface IContactsProps {
   order: TOrderInfo | null;
   contacts: TContacts;
   setContacts: (data: TContacts) => void;
-  
 }
 
 const Contacts: FC<IContactsProps> = ({ change, order, contacts, setContacts }) => {
@@ -27,55 +26,54 @@ const Contacts: FC<IContactsProps> = ({ change, order, contacts, setContacts }) 
   return (
     <>
       {change ? (
-    <div className={contactsStyles.container}>
-      <InputEdit
-        placeholder='Имя'
-        label='Имя'
-        handleChange={onChange}
-        value={contacts.first_name}
-        name='first_name'
-        inputRef={inputRef}
-        className={contactsStyles.input}
-        classLabel={contactsStyles.label}
-      />
-      <InputEdit
-        placeholder='Фамилия'
-        label='Фамилия'
-        handleChange={onChange}
-        value={contacts.last_name}
-        name='last_name'
-        className={contactsStyles.input}
-        classLabel={contactsStyles.label}
-      />
-      <InputEdit
-        placeholder='E-mail'
-        label='E-mail'
-        handleChange={onChange}
-        value={contacts.email}
-        name='email'
-        className={contactsStyles.input}
-        classLabel={contactsStyles.label}
-      />
-      <InputEdit
-        placeholder='Телефон'
-        label='Телефон'
-        handleChange={onChange}
-        value={contacts.phoneNumber}
-        name='phoneNumber'
-        className={contactsStyles.input}
-        classLabel={contactsStyles.label}
-      />
-      <InputEdit
-        placeholder='Дисконтаная скидка'
-        label='Дисконтаная скидка в %'
-        handleChange={onChange}
-        value={String(contacts.discount)}
-        name='discount'
-        className={contactsStyles.input}
-        classLabel={contactsStyles.label}
-      />
-
-  </div>
+        <div className={contactsStyles.container}>
+          <InputEdit
+            placeholder='Имя'
+            label='Имя'
+            handleChange={onChange}
+            value={contacts.first_name}
+            name='first_name'
+            inputRef={inputRef}
+            className={contactsStyles.input}
+            classLabel={contactsStyles.label}
+          />
+          <InputEdit
+            placeholder='Фамилия'
+            label='Фамилия'
+            handleChange={onChange}
+            value={contacts.last_name}
+            name='last_name'
+            className={contactsStyles.input}
+            classLabel={contactsStyles.label}
+          />
+          <InputEdit
+            placeholder='E-mail'
+            label='E-mail'
+            handleChange={onChange}
+            value={contacts.email}
+            name='email'
+            className={contactsStyles.input}
+            classLabel={contactsStyles.label}
+          />
+          <InputEdit
+            placeholder='Телефон'
+            label='Телефон'
+            handleChange={onChange}
+            value={contacts.phoneNumber}
+            name='phoneNumber'
+            className={contactsStyles.input}
+            classLabel={contactsStyles.label}
+          />
+          <InputEdit
+            placeholder='Дисконтаная скидка'
+            label='Дисконтаная скидка в %'
+            handleChange={onChange}
+            value={String(contacts.discount)}
+            name='discount'
+            className={contactsStyles.input}
+            classLabel={contactsStyles.label}
+          />
+        </div>
       ) : (
         <div className={contactsStyles.box}>
           <p className={contactsStyles.text}>

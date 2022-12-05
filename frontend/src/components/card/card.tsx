@@ -1,11 +1,7 @@
 import * as React from 'react';
 import { useCallback, useContext, useState, useEffect, forwardRef } from 'react';
-import { 
-  Link,
-  useHistory,
-} from 'react-router-dom';
-import { FC } from 'react';
-import { TButtonState, TDataCartElement, TDataElement, TRef } from '../../services/types/data';
+import { useHistory } from 'react-router-dom';
+import { TButtonState, TDataElement, TRef } from '../../services/types/data';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -13,7 +9,6 @@ import Button from '../button/button';
 import cardStyles from './card.module.css';
 import cn from 'classnames';
 import { DataCartContext } from '../../services/contexts/app-context';
-import { type } from '@testing-library/user-event/dist/type';
 
 type TCardProps = {
   element: TDataElement;
@@ -40,13 +35,10 @@ const Card = forwardRef<TRef, TCardProps>(({ element }, ref) => {
 
 const onClickButton = useCallback(
   () => {
-    // history.replace({ pathname: `/elements/${id}` });
     history.push({ pathname: `/elements/${id}` })
   },
   [history]
 );
-
-// let arr: TDataCartElement[] = [];
 
 useEffect(() => {
   if (stock === 0) {
@@ -75,12 +67,6 @@ useEffect(() => {
 
 const onClickButtonCart = () => {
   if (buttonState.text === 'В корзину') {
-    // arr = dataCart;
-    // arr.push({
-    //   element: element,
-    //   amount: 1
-    // });
-    // setDataCart([...arr]);
     dataCart.push({
       element: element.id,
       amount: 1
@@ -94,9 +80,7 @@ const onClickButtonCart = () => {
 
   return (
     <li className={cardStyles.card} ref={ref}>
-      {/* <Link to={`/elements/${id}`}> */}
       <img src={images.length > 0 ? images[0].image : ''} alt={title} className={cardStyles.image} onClick={onClickButton} />
-      {/* </Link> */}
       <div className={cardStyles.container}>
         <p className={cardStyles.title} onClick={onClickButton}>
           {title}

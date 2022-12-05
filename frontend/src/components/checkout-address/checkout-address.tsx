@@ -1,4 +1,4 @@
-import React, { FC, useContext, useMemo } from 'react';
+import { FC, useContext, useMemo } from 'react';
 import { DeliveryContext } from '../../services/contexts/app-context';
 import { DeliveryFormContext, SelectedDeliveryContext } from '../../services/contexts/cart-context';
 import { priceFormat } from '../total-price/utils';
@@ -30,7 +30,6 @@ const CheckoutAddress: FC<ICheckoutAddressProps> = ({ extraClass }) => {
     },
     [deliveryMethod?.price]
   );
-  
 
   return (
     <ul className={`${styles.container} ${extraClass}`}>

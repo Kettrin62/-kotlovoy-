@@ -44,5 +44,4 @@ const Button: FC<IButtonProps> = ({
   )
 }
 
-
 export default Button

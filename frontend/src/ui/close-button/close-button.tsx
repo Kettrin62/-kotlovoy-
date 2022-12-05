@@ -8,12 +8,11 @@ interface ICloseButtonProps {
   onClose: () => void;
 }
 
-const CloseButton: FC<ICloseButtonProps> = ({ extraClass, onClose }) => {
-  return (
-    <button type='button' className={cn(styles.button, extraClass)} onClick={onClose}>
-      <img src={closeIcon} alt='Закрыть' className={styles.img} />
-    </button>
-  )
-}
+const CloseButton: FC<ICloseButtonProps> = ({ extraClass, onClose }) => (
+  <button type='button' className={cn(styles.button, extraClass)} onClick={onClose}>
+    <img src={closeIcon} alt='Закрыть' className={styles.img} />
+  </button>
+)
+
 
 export default CloseButton

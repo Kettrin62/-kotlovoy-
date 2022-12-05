@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { useParams, useRouteMatch, useLocation } from 'react-router-dom';
 import { TElementOrder } from '../../services/types/data';
 import { AmountButton } from '../../ui/amount-button/amount-button';
 import { DeleteButton } from '../../ui/delete-button/delete-button';
@@ -19,7 +18,6 @@ const ElementsCardOrder: FC<IElementsCardOrderProps> = ({
   orderCart,
   setOrderCart 
 }) => {
-  const match = useRouteMatch();
   const elementsCardOrder = elements.map(item => {
     const { amount, element_image: image, element_title: title, cur_price, element_id: id } = item;
     return (

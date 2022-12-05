@@ -230,137 +230,132 @@ export const InputsBox = () => {
   }, [formChange]);
 
   return (
-    // <div className={`${styles.container}`}>
-      <ul className={styles.row}>
-        <li className={styles.input}>
-          <Input
-            onChange={onChangeFirstName}
-            name='firstName'
-            value={firstName}
-            type="text"
-            extraClass={styles.input}
-            id="firstName"
-            placeholder="Введите имя"
-            inputRef={inputRef}
-            required
-            label='*Имя получателя - обязательное поле'
-            classLabel={cn(styles.label, styles.required)}
-          />
-        </li>
-        <li className={styles.input}>
-          <Input
-            onChange={onChangeSecondName}
-            name='secondName'
-            value={secondName}
-            type="text"
-            extraClass={styles.input}
-            id="secondName"
-            placeholder="Введите фамилию"
-            inputRef={inputRef}
-            required
-            label='*Фамилия получателя - обязательное поле'
-            classLabel={cn(styles.label, styles.required)}
-          />
-        </li>
-        <li className={styles.input}>
-          <Input
-            onChange={onChangePhone}
-            name='phone'
-            value={phone}
-            extraClass={styles.input}
-            type="tel"
-            id="phone"
-            // placeholder="+7"
-            inputRef={inputRef}
-            minLength={12}
-            required
-            // label='*Телефон - обязательное поле'
-            label={textError.phoneNumber ? textError.phoneNumber : '*Телефон - обязательное поле'}
-            // classLabel={cn(styles.label, styles.required)}
-            classLabel={cn(styles.label, textError.phoneNumber ? styles.error : styles.required)}
-          />
-        </li>
-        <li className={styles.input}>
-          <Input
-            onChange={onChangeEmail}
-            name='email'
-            value={email}
-            extraClass={styles.input}
-            type="email"
-            id="email"
-            placeholder="email@mail.ru"
-            inputRef={inputRef}
-            label={textError.email ? textError.email : 'E-mail'}
-            classLabel={cn(styles.label, textError.email ? styles.error : '')}
-          />
-        </li>
-        <li className={styles.input}>
-          <Input
-            onChange={onChangeIndex}
-            name='index'
-            value={index}
-            extraClass={styles.input}
-            type="text"
-            id="index"
-            inputRef={inputRef}
-            label='Индекс'
-            classLabel={styles.label}
-          />
-        </li>
-        <li className={styles.input}>
-          <Input
-            onChange={onChangeRegion}
-            name='region'
-            value={region}
-            extraClass={styles.input}
-            type="text"
-            id="region"
-            inputRef={inputRef}
-            label='Регион/Область'
-            classLabel={styles.label}
-          />
-        </li>
-        <li className={cn(styles.input, styles.city)}>
-          <Input
-            onChange={onChangeCity}
-            name='city'
-            value={city}
-            extraClass={styles.input}
-            type="text"
-            id="city"
-            inputRef={inputRef}
-            label='Город/Насел.пункт'
-            classLabel={styles.label}
-          />
-        </li>
-        <li className={cn(styles.input, styles.floor)}>
-          <Input
-            onChange={onChangeAddress}
-            name='address'
-            value={address}
-            extraClass={styles.input}
-            type="text"
-            id="address"
-            inputRef={inputRef}
-            label='Улица/Дом/Квартира'
-            classLabel={styles.label}
-          />
-        </li>
-        <li className={cn(styles.input, styles.comment)}>
-          <Input
-            onChange={onChangeComment}
-            name={'comment'}
-            value={comment}
-            extraClass={styles.input}
-            type="text"
-            id="comment"
-            inputRef={inputRef}
-            label='Комментарий'
-            classLabel={styles.label}
-          />
-        </li>
-      </ul>
-    // </div>
+    <ul className={styles.row}>
+      <li className={styles.input}>
+        <Input
+          onChange={onChangeFirstName}
+          name='firstName'
+          value={firstName}
+          type="text"
+          extraClass={styles.input}
+          id="firstName"
+          placeholder="Введите имя"
+          inputRef={inputRef}
+          required
+          label='*Имя получателя - обязательное поле'
+          classLabel={cn(styles.label, styles.required)}
+        />
+      </li>
+      <li className={styles.input}>
+        <Input
+          onChange={onChangeSecondName}
+          name='secondName'
+          value={secondName}
+          type="text"
+          extraClass={styles.input}
+          id="secondName"
+          placeholder="Введите фамилию"
+          inputRef={inputRef}
+          required
+          label='*Фамилия получателя - обязательное поле'
+          classLabel={cn(styles.label, styles.required)}
+        />
+      </li>
+      <li className={styles.input}>
+        <Input
+          onChange={onChangePhone}
+          name='phone'
+          value={phone}
+          extraClass={styles.input}
+          type="tel"
+          id="phone"
+          inputRef={inputRef}
+          minLength={12}
+          required
+          label={textError.phoneNumber ? textError.phoneNumber : '*Телефон - обязательное поле'}
+          classLabel={cn(styles.label, textError.phoneNumber ? styles.error : styles.required)}
+        />
+      </li>
+      <li className={styles.input}>
+        <Input
+          onChange={onChangeEmail}
+          name='email'
+          value={email}
+          extraClass={styles.input}
+          type="email"
+          id="email"
+          placeholder="email@mail.ru"
+          inputRef={inputRef}
+          label={textError.email ? textError.email : 'E-mail'}
+          classLabel={cn(styles.label, textError.email ? styles.error : '')}
+        />
+      </li>
+      <li className={styles.input}>
+        <Input
+          onChange={onChangeIndex}
+          name='index'
+          value={index}
+          extraClass={styles.input}
+          type="text"
+          id="index"
+          inputRef={inputRef}
+          label='Индекс'
+          classLabel={styles.label}
+        />
+      </li>
+      <li className={styles.input}>
+        <Input
+          onChange={onChangeRegion}
+          name='region'
+          value={region}
+          extraClass={styles.input}
+          type="text"
+          id="region"
+          inputRef={inputRef}
+          label='Регион/Область'
+          classLabel={styles.label}
+        />
+      </li>
+      <li className={cn(styles.input, styles.city)}>
+        <Input
+          onChange={onChangeCity}
+          name='city'
+          value={city}
+          extraClass={styles.input}
+          type="text"
+          id="city"
+          inputRef={inputRef}
+          label='Город/Насел.пункт'
+          classLabel={styles.label}
+        />
+      </li>
+      <li className={cn(styles.input, styles.floor)}>
+        <Input
+          onChange={onChangeAddress}
+          name='address'
+          value={address}
+          extraClass={styles.input}
+          type="text"
+          id="address"
+          inputRef={inputRef}
+          label='Улица/Дом/Квартира'
+          classLabel={styles.label}
+        />
+      </li>
+      <li className={cn(styles.input, styles.comment)}>
+        <Input
+          onChange={onChangeComment}
+          name={'comment'}
+          value={comment}
+          extraClass={styles.input}
+          type="text"
+          id="comment"
+          inputRef={inputRef}
+          label='Комментарий'
+          classLabel={styles.label}
+        />
+      </li>
+    </ul>
   );
 };
 

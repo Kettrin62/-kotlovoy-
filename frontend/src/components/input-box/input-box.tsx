@@ -3,16 +3,11 @@ import inputboxStyles from './input-box.module.css';
 import cn from 'classnames';
 import { FC } from 'react';
 import Button from '../button/button';
-// import Input from '../../ui/input/input';
 import Input from '../input/input';
-
 
 interface IInputBoxProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   className: string | undefined,
-  name?: string | undefined,
-  required?: boolean,
-  onFocus?: any,
   value: string,
   reset?: boolean,
   onClickButtonUp: () => void,
@@ -23,9 +18,6 @@ interface IInputBoxProps {
 const InputBox: FC<IInputBoxProps> = ({
     onChange,
     className,
-    name,
-    required,
-    onFocus,
     value = '1',
     reset,
     onClickButtonUp,
@@ -35,12 +27,6 @@ const InputBox: FC<IInputBoxProps> = ({
 
   const [ inputValue, setInputValue ] = useState(value);
 
-  // const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = e.target.value
-  //   setInputValue(value)
-  //   onChange(e)
-  // };
-
   useEffect(() => {
     if (value !== inputValue) {
       setInputValue(value)
@@ -49,10 +35,6 @@ const InputBox: FC<IInputBoxProps> = ({
       setInputValue('1')
     }
   }, [value, reset]);
-
-  // console.log(inputValue);
-  
-
 
   return (
     <div className={cn(inputboxStyles.box, className)}>
@@ -65,10 +47,8 @@ const InputBox: FC<IInputBoxProps> = ({
       <Input
         onChange={onChange}
         inputClassName={inputboxStyles.input}
-        // className=''
         value={value}
         maxLength={4}
-
         type='text'
         name='count'
         inputRef={inputRef}
@@ -79,7 +59,6 @@ const InputBox: FC<IInputBoxProps> = ({
       >
         +
       </Button>
-
     </div>
   )
 }

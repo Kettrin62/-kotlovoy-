@@ -1,6 +1,11 @@
 import React, { Dispatch } from 'react';
 import { formDeliveryInit, totalInitialPrice } from '../../utils/data';
-import { TAction, TDataCartElement, TDeliveryForm, TDeliveryMethod, TTotalPrice } from '../types/data';
+import { 
+  TAction, 
+  TDeliveryForm, 
+  TDeliveryMethod, 
+  TTotalPrice 
+} from '../types/data';
 
 interface ICartStepContext {
   step: string;
@@ -36,8 +41,6 @@ export const TotalPriceContext = React.createContext<ITotalPriceContext>({
   totalPrice: totalInitialPrice,
   totalDispatcher: () => {},
 });
-
-
 
 export const SelectedDeliveryContext = React.createContext<IselectedDelivery>({
   selectedDeliveryId: 1,
