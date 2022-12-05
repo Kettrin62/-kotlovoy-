@@ -79,7 +79,6 @@ const ListElementsSearch: FC<IListElementsSearchProps> = ({
     const { id, title, cur_price, article, images, measurement_unit, price, stock } = element;
     if (stock === 0) {
       setVisible(true);
-      // alert('Товар закончился');
       return
     }
     handleIngredientAutofill({ id, title })
@@ -131,7 +130,6 @@ const ListElementsSearch: FC<IListElementsSearchProps> = ({
         onClickClose={onClickClose}
         inputValue={elementValue.element_title}
         onChangeInput={onChangeNameValue}
-        // onClickSearch={() => {}}
         onFocus={() => {
           setShowElements(true)
         }}

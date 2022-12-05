@@ -1,22 +1,12 @@
-import * as React from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { dataFooter, pathNames } from '../../utils/data';
 import Divider from '../divider/divider';
 import Image from '../image/image';
-// import Link from '../link/link';
 import Navigation from '../navigation/navigation';
 import Text from '../text/text';
 import footerStyles from './footer.module.css';
 
 function Footer() {
-  const history = useHistory();
-  const onClickLink = React.useCallback(
-    (path: string) => {
-      history.replace({ pathname: path });
-    },
-    [history]
-  );
-
   return (
     <>
       <Divider />

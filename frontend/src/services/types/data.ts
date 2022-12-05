@@ -55,7 +55,6 @@ export type TDataGroups = {
 }
 
 export type TDataCartElement<B> = {
-  // readonly element: TDataElement;
   readonly element: B;
   readonly amount: number;
 }
@@ -159,7 +158,6 @@ export type TStatus = TFormStatus & {
 export type TCardOrder = {
   readonly id: number;
   readonly created: Date;
-  // readonly element_sum: number;
   readonly number: string;
   readonly order_sum: number;
   readonly status: TStatus | null;

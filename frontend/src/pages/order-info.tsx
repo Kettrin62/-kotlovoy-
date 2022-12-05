@@ -1,13 +1,22 @@
-import * as React from 'react';
-import { useEffect, useState, FC, useContext, useCallback } from 'react';
-import { useParams, useRouteMatch, useHistory, Redirect } from 'react-router-dom';
+import { 
+  useEffect, 
+  useState, 
+  FC, 
+  useContext 
+} from 'react';
+import { useParams, useRouteMatch, useHistory } from 'react-router-dom';
 import api from '../api';
 import Button from '../components/button/button';
 import { priceFormat } from '../components/total-price/utils';
-import { TContacts, TDeliveryInfo, TDeliveryMethod, TElementOrder, TOrderInfo, TStatus } from '../services/types/data';
+import { 
+  TContacts, 
+  TDeliveryInfo, 
+  TElementOrder, 
+  TOrderInfo, 
+  TStatus 
+} from '../services/types/data';
 import { showMessageDateTime } from '../utils/functions';
 import orderinfoStyles from './order-info.module.css';
-import cn from 'classnames';
 import Status from '../components/status/status';
 import Contacts from '../components/contacts/contacts';
 import ElementsCardOrder from '../components/elements-card-order/elements-card-order';
@@ -18,13 +27,11 @@ import { DeliveryContext } from '../services/contexts/app-context';
 import Modal from '../components/modal/modal';
 import { Loader } from '../ui/loader/loader';
 
-
 export const OrderInfoPage: FC = () => {
   const { auth } = useContext(AuthContext);
   const { isAdmin } = auth;
   const deliveryMethods = useContext(DeliveryContext);
   const history = useHistory();
-
 
   const [dataContacts, setDataContacts] = useState<TContacts>({
     discount: 0,
@@ -43,13 +50,11 @@ export const OrderInfoPage: FC = () => {
   });
 
   const [deliveryMethod, setDeliveryMethod] = useState<string>('');
-
   const match = useRouteMatch();
   const [order, setOrder] = useState<TOrderInfo | null>(null);
   const [change, setChange] = useState(false);
   const [statusName, setStatusName] = useState('');
   const [statuses, setStatuses] = useState<Array<TStatus | null>>([]);
-
   const [orderCart, setOrderCart] = useState<Array<TElementOrder>>([]);
   const [searchVisible, setSearchVisible] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -134,7 +139,6 @@ export const OrderInfoPage: FC = () => {
   const saveFile = (id: number) => {
     api 
       .downloadFile(id)
-      // .then()
       .catch(err => {
         const errors = Object.values(err);
         if (errors) {
@@ -248,9 +252,7 @@ export const OrderInfoPage: FC = () => {
     setVisible(false);
     setChange(false);
     setText('');
-    // window.history.back()
   };
-
 
   const modal = (
     <Modal header='Редактирование заказа' onClose={handleCloseModal}>

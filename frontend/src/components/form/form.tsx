@@ -10,15 +10,12 @@ interface IFormProps {
   children: React.ReactNode;
 };
 
-
-const Form: FC<IFormProps> = (props) => {
-  return (
-    <form name={props.name} className={cn(formStyles.form, props.class)} onSubmit={props.onSubmit}>
-      <fieldset className={(props.class ? props.class : formStyles.form__info)}>
-        {props.children}
-      </fieldset>
-    </form>
-  )
-};
+const Form: FC<IFormProps> = (props) => (
+  <form name={props.name} className={cn(formStyles.form, props.class)} onSubmit={props.onSubmit}>
+    <fieldset className={(props.class ? props.class : formStyles.form__info)}>
+      {props.children}
+    </fieldset>
+  </form>
+)
 
 export default Form;

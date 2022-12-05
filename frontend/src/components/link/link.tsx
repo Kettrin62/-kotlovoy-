@@ -7,12 +7,11 @@ interface ILinkProps {
   children: React.ReactNode;
 };
 
-const Link: FC<ILinkProps> = (props) => {
-  return (
-    <a className={props.class} onClick={props.onClick}>
-      {props.children}
-    </a>
-  )
-}
+const Link: FC<ILinkProps> = (props) => (
+  <a className={props.class} onClick={props.onClick}>
+    {props.children}
+  </a>
+)
+
 
 export default Link;

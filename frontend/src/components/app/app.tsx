@@ -14,9 +14,6 @@ import AppHeader from '../app-header/app-header';
 import { 
   TDataBrand, 
   TDataSwiper,
-  TDataCartElement,
-  TTotalPrice,
-  TAction,
   TDeliveryMethod,
   TDeliveryForm,
   TUser,
@@ -24,7 +21,6 @@ import {
   TFormAuth,
   TAuth,
   TDelivery,
-  TDataElement
 } from '../../services/types/data';
 import api from '../../api';
 import { 
@@ -63,22 +59,6 @@ import { AdminPanelPage } from '../../pages/admin-panel';
 import useLocalStorage from '../../services/hooks';
 import { reducer } from '../../utils/functions';
 
-// function reducer(_totalPrice: TTotalPrice, action: TAction) {
-//   const deliveryPrice =
-//     (action.delivery?.selectedMethod &&
-//       action.delivery?.methods.
-//       find(method => method.id === action.delivery?.selectedMethod)?.price) || 
-//     0;
-
-//   const total = deliveryPrice +
-//     action.array.reduce((
-//       acc: number, 
-//       item: TDataCartElement<TDataElement>
-//     ) => acc + item.element.cur_price * item.amount, 0);
-
-//   return { price: total };
-// }
-
 function App() {
 
   const [brands, setBrands] = useState<Array<TDataBrand>>([]);
@@ -103,7 +83,6 @@ function App() {
     api
       .signup({ email, password, username })
       .then(res => {
-        // history.push('/login')
         authorization(data)
       })
       .catch(err => {
@@ -149,10 +128,6 @@ function App() {
       })
       .catch(err => {
         setUser(null)
-        // const errors = Object.values(err)
-        // if (errors) {
-        //   alert(errors.join(', '))
-        // }
         setAuth({
           loggedIn: false,
           isAdmin: false,
@@ -264,7 +239,6 @@ function App() {
           loggedIn: false,
           isAdmin: false,
         })
-        // history.replace('/login')
       })
     }
     setAuth({
@@ -274,7 +248,6 @@ function App() {
   };
   
   useEffect(() => {
-    // initUser();
     getBrands();
     getSliders();
     getMethodsDelivery();
@@ -314,31 +287,24 @@ function App() {
                       <Route path='/elements/:id' exact={true}>
                         <ElementPage />
                       </Route>
-
                       <Route path='/pay-delivery' exact={true}>
                         <PayDeliveryPage />
                       </Route>
-
                       <Route path='/about' exact={true}>
                         <AboutPage />
                       </Route>
-
                       <Route path='/contacts' exact={true}>
                         <ContactsPage />
                       </Route>
-
                       <Route path='/feedback' exact={true}>
                         <FeedbackPage />
                       </Route>
-
                       <Route path='/elements/brand/:id' exact={true}>
                         <ElementsPage />
                       </Route>
-
                       <Route path='/elements/search/:name' exact={true}>
                         <ElementsPage />
                       </Route>
-
                       <Route path='/cart' exact={true}>
                         <TotalPriceContext.Provider value={{ totalPrice, totalDispatcher }}>
                           <SelectedDeliveryContext.Provider value={{ selectedDeliveryId, setSelectedDeliveryId }}>
@@ -348,13 +314,11 @@ function App() {
                           </SelectedDeliveryContext.Provider>
                         </TotalPriceContext.Provider>
                       </Route>
-
                       <Route path='/register' exact={true}>
                         <RegisterPage
                           onSignUp={registration}
                         />
                       </Route>
-
                       <Route path='/login' exact={true}>
                         <LoginPage 
                           onLogin={authorization}
@@ -371,35 +335,30 @@ function App() {
                           successForgot={successForgotPassword}
                         />
                       </Route>
-
                       <ProtectedRoute
                         path='/profile' 
                         exact={true}
                       >
                         <ProfilePage onLogout={onLogout} />
                       </ProtectedRoute>
-
                       <ProtectedRoute
                         path='/profile/set-password' 
                         exact={true}
                       >
                         <ProfilePage onLogout={onLogout} />
                       </ProtectedRoute>
-
                       <ProtectedRoute
                         path='/profile/orders' 
                         exact={true}
                       >
                         <ProfilePage onLogout={onLogout} />
                       </ProtectedRoute>
-
                       <ProtectedRoute
                         path='/profile/orders/:id' 
                         exact={true}
                       >
                         <OrderInfoPage />
                       </ProtectedRoute>
-
                       <ProtectedRoute
                         path='/admin-panel/orders' 
                         exact={true}
@@ -411,14 +370,12 @@ function App() {
                           deleteDelivery={deleteDeliveryMethod}
                         />
                       </ProtectedRoute>
-
                       <ProtectedRoute
                         path='/admin-panel/orders/:id' 
                         exact={true}
                       >
                         <OrderInfoPage />
                       </ProtectedRoute>
-
                       <ProtectedRoute
                         path='/admin-panel/users' 
                         exact={true}
@@ -430,7 +387,6 @@ function App() {
                           deleteDelivery={deleteDeliveryMethod}
                         />
                       </ProtectedRoute>
-
                       <ProtectedRoute
                         path='/admin-panel/delivery' 
                         exact={true}
@@ -442,7 +398,6 @@ function App() {
                           deleteDelivery={deleteDeliveryMethod}
                         />
                       </ProtectedRoute>
-
                       <ProtectedRoute
                         path='/admin-panel/status' 
                         exact={true}
@@ -454,7 +409,6 @@ function App() {
                           deleteDelivery={deleteDeliveryMethod}
                         />
                       </ProtectedRoute>
-
                     </Switch>
                   </DeliveryContext.Provider>
                 </CartStepContext.Provider>

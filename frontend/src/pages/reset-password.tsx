@@ -9,7 +9,6 @@ import Button from '../components/button/button';
 import { AuthContext } from '../services/contexts/auth-context';
 import api from '../api';
 import InputPassword from '../ui/input-password/input-password';
-import { useFormWithValidation } from '../utils/validation';
 import cn from 'classnames';
 
 interface IResetPasswordPageProps {

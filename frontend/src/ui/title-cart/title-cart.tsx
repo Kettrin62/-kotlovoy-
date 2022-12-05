@@ -1,6 +1,5 @@
-import React, { FC } from 'react';
-import { Interface } from 'readline';
-import { nameStepCart, titleCart } from '../../utils/data';
+import { FC } from 'react';
+import { nameStepCart } from '../../utils/data';
 import styles from './title-cart.module.css';
 
 interface ITitleCartProps {

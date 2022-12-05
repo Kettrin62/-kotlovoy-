@@ -5,15 +5,15 @@ import { TCardOrder } from '../../services/types/data';
 import InputSearch from '../input-add-element/input-search';
 import styles from './order-search.module.css';
 
+interface IOrder {
+  id: number | null;
+  number: string;
+}
+
 const OrdersSearch = () => {
   const { pathname } = useLocation();
   const [ elements, setElements ] = useState<Array<TCardOrder>>([])
   const [ showOrders, setShowOrders ] = useState(false);
-
-  interface IOrder {
-    id: number | null;
-    number: string;
-  }
 
   const [nameOrder, setNameOrder] = useState<IOrder>({
     id: null,
@@ -27,6 +27,7 @@ const OrdersSearch = () => {
       number: value
     })
   };
+
   const onClickClose = () => {
     setNameOrder({
       ...nameOrder,
@@ -46,7 +47,6 @@ const OrdersSearch = () => {
   }, [nameOrder.number]);
 
   const placeholder = pathname === '/admin-panel/orders' ? '№ заказа, email или телефон' : '№ заказа';
-
 
   return (
     <>

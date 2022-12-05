@@ -1,21 +1,13 @@
 import { FC, useState, useEffect, useContext } from 'react';
 import { 
-  BrowserRouter as Router, 
-  Switch, 
-  Route, 
-  useRouteMatch,
-  useHistory,
   useLocation,
   Redirect
 } from 'react-router-dom';
 import profileStyles from './profile.module.css';
 import ProfileNav from '../components/profile-nav/profile-nav';
-import { ProfileProfilePage } from './profile-profile';
 import { OrdersPage } from './orders';
-import { ProfileSetPasswordPage } from './profile-set-password';
-import { OrderInfoPage } from './order-info';
 import api from '../api';
-import { TDelivery, TDeliveryMethod, TFormStatus, TStatus, TUser } from '../services/types/data';
+import { TDelivery, TFormStatus, TStatus } from '../services/types/data';
 import { AuthContext } from '../services/contexts/auth-context';
 import { UsersPage } from './users';
 import { AdminDeliveryPage } from './admin-delivery';
@@ -36,10 +28,8 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({
 }) => {
   const [statuses, setStatuses] = useState<Array<TStatus>>([]);
   const { auth } = useContext(AuthContext)
-  const [users, setUsers] = useState<Array<TUser>>([]);
 
   const location = useLocation()
-  const match = useRouteMatch();
 
   const getStatuses = () => {
     api
@@ -81,40 +71,9 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({
       .catch(err => console.log(err));
   };
 
-  // const getUsers = () => {
-  //   api
-  //     .getUsers()
-  //     .then(res => {
-  //       setUsers(res.results)
-  //     })
-  //     .catch(err => {
-  //       const errors = Object.values(err)
-  //       if (errors) {
-  //         alert(errors.join(', '))
-  //       }
-  //     })
-  // }
-
-  // const changeDiscount = (id: number, data: {
-  //   discount: number
-  // }) => {
-  //   api
-  //     .changeUserDiscount(id, data)
-  //     .then(res => {
-  //       getUsers();
-  //     })
-  //     .catch(err => {
-  //       const errors = Object.values(err)
-  //       if (errors) {
-  //         alert(errors.join(', '))
-  //       }
-  //     })
-  // }
-
   useEffect(() => {
     if (auth.isAdmin) {
       getStatuses();
-      // getUsers();
     }
   }, [])
 
@@ -123,7 +82,6 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({
       <Redirect to='/profile' />
     )
   };
-  
 
   return (
     <section className={profileStyles.container}>
@@ -132,10 +90,7 @@ export const AdminPanelPage: FC<IAdminPanelPageProps> = ({
         <OrdersPage statuses={statuses} />
       )}
       {location.pathname === '/admin-panel/users' && (
-        <UsersPage 
-          // users={users} 
-          // changeDiscount={changeDiscount}
-        />
+        <UsersPage />
       )}
       {location.pathname === '/admin-panel/delivery' && (
         <AdminDeliveryPage 

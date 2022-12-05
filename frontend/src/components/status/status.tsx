@@ -32,33 +32,29 @@ const Status: FC<IStatusProps> = ({ change, status, statusName, setStatusName, s
 
   return (
     <>
-      {
-        !change ? (
-          <p className={cn(statusStyles.text, statusStyles.active)}>
-            {nameStatus}
-          </p>
-        ) : (
-          // <div className={statusStyles.content}>
-          <div className={statusStyles.box} >
-            <div className={cn(statusStyles.button_box, classBorder)} onClick={onChangeStatus}>
-              <Button className={statusStyles.button}>
-                {statusName ? statusName : nameStatus}
-              </Button>
-              <img src={DropDownIcon} alt='Выпадающий список' className={statusStyles.icon} />
-            </div>
-            {statusesVisible && (
-              <ul className={statusStyles.list}>
-                {statuses.map(item => (
-                  <li key={item!.id} className={statusStyles.item} onClick={_ => onChangeStatusName(item!.status)}>
-                    {item!.status}
-                  </li>
-                ))}
-              </ul>
-            )}
+      {!change ? (
+        <p className={cn(statusStyles.text, statusStyles.active)}>
+          {nameStatus}
+        </p>
+      ) : (
+        <div className={statusStyles.box} >
+          <div className={cn(statusStyles.button_box, classBorder)} onClick={onChangeStatus}>
+            <Button className={statusStyles.button}>
+              {statusName ? statusName : nameStatus}
+            </Button>
+            <img src={DropDownIcon} alt='Выпадающий список' className={statusStyles.icon} />
           </div>
-          // </div>
-        )
-      }
+          {statusesVisible && (
+            <ul className={statusStyles.list}>
+              {statuses.map(item => (
+                <li key={item!.id} className={statusStyles.item} onClick={_ => onChangeStatusName(item!.status)}>
+                  {item!.status}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
     </>
   )
 }

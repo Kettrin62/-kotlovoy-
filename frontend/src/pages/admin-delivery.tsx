@@ -1,12 +1,8 @@
 import { FC, useContext, useState } from 'react';
 import Button from '../components/button/button';
-import Form from '../components/form/form';
-import { priceFormat } from '../components/total-price/utils';
 import { DeliveryContext } from '../services/contexts/app-context';
 import { useFormDelivery } from '../utils/validation';
-import Input from '../ui/input/input';
 import styles from './status.module.css';
-import api from '../api';
 import { TDelivery } from '../services/types/data';
 import Modal from '../components/modal/modal';
 import FormDelivery from '../components/form-delivery/form-delivery';

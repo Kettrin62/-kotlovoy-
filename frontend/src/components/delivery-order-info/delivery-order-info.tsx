@@ -1,8 +1,7 @@
 import { FC, useRef, useContext, useState } from 'react';
-import { TDeliveryInfo, TDeliveryMethod, TOrderInfo } from '../../services/types/data';
+import { TDeliveryInfo, TOrderInfo } from '../../services/types/data';
 import Input from '../../ui/input/input';
 import Button from '../button/button';
-import DeliveryMethod from '../delivery-method/delivery-method';
 import { priceFormat } from '../total-price/utils';
 import styles from './delivery-order-info.module.css';
 import DropDownIcon from '../../images/drop-down.svg';

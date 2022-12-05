@@ -1,31 +1,24 @@
 import * as React from 'react';
 import { useEffect, useState, useRef } from 'react';
-
-import { useContext, useCallback } from 'react';
+import { useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-
-import { FC } from 'react';
 import { Pagination, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import cn from 'classnames';
-import { TButtonState, TDataCartElement, TDataElement } from '../services/types/data';
+import { TButtonState, TDataElement } from '../services/types/data';
 import api from '../api';
 import Text from '../components/text/text';
 import elementStyles from './element.module.css';
 import Button from '../components/button/button';
-import Image from '../components/image/image';
 import InputBox from '../components/input-box/input-box';
 import Divider from '../components/divider/divider';
 import { DataCartContext } from '../services/contexts/app-context';
 import { Loader } from '../ui/loader/loader';
 
-
-
 export function ElementPage() {
-  
   const id = useParams<{ id?: string }>().id;
   const [element, setElement] = useState<TDataElement>();
   const { dataCart, setDataCart } = useContext(DataCartContext);
@@ -36,7 +29,6 @@ export function ElementPage() {
     disabled: false,
   });
   const [ elementRequest, setElementRequest] = useState(false);
-  // const [reset, setReset] = useState(false);
 
   const history = useHistory();
 
@@ -85,8 +77,6 @@ export function ElementPage() {
         text: 'В корзину',
       })
     }
-
-    // if (reset) setInputValue(1)
   }, [dataCart]);
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,11 +100,8 @@ export function ElementPage() {
     } else setInputValue(1)
   };
 
-  // let arr: TDataCartElement[] = [];
-
   const onClickButtonCart = () => {
     if (buttonState.text === 'В корзину') {
-      // arr = dataCart;
       if (element) {
         dataCart.push({
           element: element.id,
@@ -124,24 +111,18 @@ export function ElementPage() {
       }
     } 
     if (buttonState.text === 'Оформить') {
-
-      // arr = dataCart;
       let index: number = -1;
       const el = dataCart.find(el => el.element === Number(id));
-
       if (el) {
         index = dataCart.indexOf(el);
       };
-
       if (dataCart[index].amount <= element!.stock && element) {
         dataCart[index] = {
           element: element.id,
           amount: inputValue
         };
-
         setDataCart([...dataCart]);
       }
-
       history.push({ pathname: '/cart' });
     }
   };
@@ -149,7 +130,6 @@ export function ElementPage() {
   if (elementRequest) {
     return <Loader size='large' />
   }
-  
 
   return (
     <div className={elementStyles.element}>
@@ -200,7 +180,6 @@ export function ElementPage() {
                 {buttonState.text}
               </Button>
             </div>
-
             <Text 
               class={cn(elementStyles.text, elementStyles.stock)}
               text={`В наличии ${element.stock} ${element.measurement_unit}`} 

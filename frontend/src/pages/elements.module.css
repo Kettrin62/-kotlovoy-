@@ -13,11 +13,9 @@
   display: grid;
   gap: 25px 20px;
   grid-template-columns: repeat(5, calc((100% - 4*20px)/5));
-  /* grid-template-columns: repeat(5, min-content); */
   list-style-type: none;
   margin: 0 auto;
   padding: 0;
-  /* max-width: 1220px; */
   max-width: calc(100vw - 5%);
   width: 100%;
 }
@@ -42,19 +40,14 @@
 
 .list_group {
   list-style-type: none;
-  /* display: inline-grid; */
-  /* grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); */
   display: inline-flex;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 5px;
   width: 70%;
-  /* row-gap: 5px; */
   padding: 0;
   margin: 0;
   justify-items: end;
-  /* justify-content: space-between; */
-  /* grid-auto-flow: dense; */
 }
 
 .button_group {
@@ -115,8 +108,6 @@
 
 @media all and (max-width: 440px) {
   .list {
-    /* grid-template-columns: 210px; */
     grid-template-columns: 100%;
-
   }
 }

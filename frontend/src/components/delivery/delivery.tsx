@@ -7,14 +7,12 @@ interface DeliveryProps {
   elements: TDataCartElement<TDataElement>[];
 }
 
-const Delivery: FC<DeliveryProps> = ({ elements }) => {
+const Delivery: FC<DeliveryProps> = ({ elements }) => (
+  <section>
+    <InputsBox />
+    <DeliveryMethod elements={elements} />
+  </section>
+)
 
-  return (
-    <section>
-      <InputsBox />
-      <DeliveryMethod elements={elements} />
-    </section>
-  )
-}
 
 export default Delivery;

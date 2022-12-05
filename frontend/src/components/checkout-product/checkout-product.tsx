@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { TDataCartElement, TDataElement } from '../../services/types/data';
 import { priceFormat } from '../total-price/utils';
 import styles from './checkout-product.module.css';

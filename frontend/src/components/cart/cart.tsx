@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { FC, useContext, useState, useEffect, useMemo } from 'react';
-import api from '../../api';
+import { FC, useContext, useEffect, useMemo } from 'react';
 import { DataCartContext } from '../../services/contexts/app-context';
 import { TotalPriceContext } from '../../services/contexts/cart-context';
 import { TDataCartElement, TDataElement } from '../../services/types/data';
@@ -15,27 +14,6 @@ const Cart: FC<CartProps> = ({ elements}) => {
 
   const { dataCart } = useContext(DataCartContext);
   const { totalDispatcher } = useContext(TotalPriceContext);
-  // const [dataCartElements, setDataCartElements] = useState<Array<TDataCartElement<TDataElement>>>([])
-
-  // const getElement = (id: string, amount: number) => {
-  //   api
-  //     .getElement(id)
-  //     .then(data => {
-  //       dataCartElements.push({
-  //         element: data,
-  //         amount: amount
-  //       });
-  //       setDataCartElements([...dataCartElements])
-  //     })
-  //     .catch(err => console.log(err)
-  //     )
-  // };
-
-  // useEffect(() => {
-  //   dataCart.forEach(item => {
-  //     getElement(String(item.element), item.amount)
-  //   })
-  // }, [dataCart])
 
   useEffect(() => {
     elements && totalDispatcher({ array: elements })

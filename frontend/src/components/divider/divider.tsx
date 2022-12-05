@@ -6,11 +6,9 @@ interface IDividerProps {
   className?: string;
 }
 
-const Divider: FC<IDividerProps> = ({ className }) => {
-  return (
-    <hr className={cn(dividerStyles.line, className)}>
-    </hr>
-  )
-}
+const Divider: FC<IDividerProps> = ({ className }) => (
+  <hr className={cn(dividerStyles.line, className)}>
+  </hr>
+)
 
 export default Divider;

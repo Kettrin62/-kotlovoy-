@@ -57,29 +57,12 @@ code {
 
 .swiper-button-next {
   color: #0c555e !important;
-
-  /* width: 30px !important;
-  height: 40px !important; */
-  /* border-radius: 25px !important;
-  background-color: #9b9a9a !important; */
 }
 
 .swiper-button-next::after {
   font-size: 28px !important;
   font-weight: 700 !important;
-
-
 }
-
-/* .swiper-pagination {
-  content: '' !important;
-  background-color: #ebebeb !important;
-  width: max-content !important;
-  margin: 0 auto !important;
-  left: calc(50% - 24px) !important;
-} */
-
-
 
 @media all and (max-width: 730px) {
   .swiper-button-prev {

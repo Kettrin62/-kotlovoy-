@@ -15,7 +15,6 @@ interface IInputProps {
   label?: string | undefined;
   minLength?: number;
   classLabel?: string;
-
 }
 
 const Input: FC<IInputProps> = ({

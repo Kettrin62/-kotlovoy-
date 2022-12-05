@@ -18,7 +18,6 @@ export function ProfileSetPasswordPage() {
   const [text, setText] = useState('');
   const [ changRequest, setChangeRequest] = useState(false);
 
-
   const onChangePassword = (data: {
     current_password: string;
     new_password: string;
@@ -37,7 +36,6 @@ export function ProfileSetPasswordPage() {
         if (errors) {
           setText(errors.join(', '));
           setVisible(true);
-          // alert(errors.join(', '))
         }
         setChangeRequest(false)
       })
@@ -58,7 +56,6 @@ export function ProfileSetPasswordPage() {
     resetForm();
   };
 
-
   const modal = (
     <Modal header='Смена пароля' onClose={handleCloseModal}>
       <p className={modalStyles.modaltext}>{text}</p>
@@ -77,14 +74,12 @@ export function ProfileSetPasswordPage() {
             name='current_password'
             value={values.current_password}
             placeholder='Текущий пароль'
-            // className={styles.input}
           />
           <InputPassword 
             handleChange={handleChange} 
             name='new_password'
             value={values.new_password}
             placeholder='Новый пароль'
-            // className={styles.input}
           />
           <div className={styles.buttons}>
             <Button 

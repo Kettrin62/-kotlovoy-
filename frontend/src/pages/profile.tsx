@@ -1,12 +1,6 @@
-import { FC, useContext, useEffect } from 'react';
+import { FC, useContext } from 'react';
 import { 
-  BrowserRouter as Router, 
-  Switch, 
-  Route, 
-  useRouteMatch,
-  useHistory,
   useLocation,
-  useParams,
   Redirect
 } from 'react-router-dom';
 import profileStyles from './profile.module.css';

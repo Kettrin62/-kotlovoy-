@@ -1,11 +1,13 @@
-import { FC, useCallback, useEffect, useState, forwardRef } from 'react';
-import { TFormStatus, TRef, TStatus, TUser } from '../../services/types/data';
-import { DeleteButton } from '../../ui/delete-button/delete-button';
+import { 
+  useCallback, 
+  useEffect, 
+  useState, 
+  forwardRef 
+} from 'react';
+import { TRef, TUser } from '../../services/types/data';
 import EditButton from '../../ui/edit-button/edit-button';
-import { statusesImmutable } from '../../utils/data';
 import userStyles from './user.module.css';
 import Modal from '../../components/modal/modal';
-import FormStatus from '../form-status/form-status';
 import Form from '../form/form';
 import Input from '../../ui/input/input';
 import Button from '../button/button';
@@ -18,16 +20,13 @@ type TUserProps = {
   }) => void;
 }
 
+interface IValues {
+  discount: number
+}
+
 const User = forwardRef<TRef, TUserProps>(({ user, changeDiscount }, ref) => {
   const { id, username, last_name, first_name, email, discount, phoneNumber } = user
   const [visible, setVisible] = useState(false);
-
-
-  // const isLock = statusesImmutable.some(item => item === id);
-
-  interface IValues {
-    discount: number
-  }
 
   const [values, setValues] = useState<IValues>({
     discount

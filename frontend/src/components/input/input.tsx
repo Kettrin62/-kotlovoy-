@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 import inputStyles from './input.module.css';
 import cn from 'classnames';
-import { FC } from 'react';
 
 
 interface IInputProps {
@@ -44,12 +43,6 @@ const Input: FC<IInputProps> = ({
 
   const [ inputValue, setInputValue ] = useState(value);
 
-  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setInputValue(value)
-    onChange(e)
-  };
-
   useEffect(() => {
     if (value !== inputValue) {
       setInputValue(value)
@@ -70,9 +63,6 @@ const Input: FC<IInputProps> = ({
         required={required}
         name={name}
         className={cn(inputStyles.inputField, inputClassName)}
-        // onChange={e => {
-        //   handleValueChange(e)
-        // }}
         onChange={onChange}
         onFocus={onFocus}
         value={inputValue}

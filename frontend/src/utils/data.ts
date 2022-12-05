@@ -2,8 +2,6 @@ import { TDataFooter } from "../services/types/data";
 import map from '../images/map.svg';
 import mail from '../images/mail.svg';
 import telephoneIcon from '../images/telephone-icon.svg';
-import express from '../images/express.svg';
-import standart from '../images/standart.svg';
 
 export const dataFooter: Array<TDataFooter> = [
   {

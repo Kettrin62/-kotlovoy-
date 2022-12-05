@@ -6,15 +6,14 @@ interface ILinkCartProps {
   count: number;
 }
 
-const LinkCart: FC<ILinkCartProps> = ({ count }) => {
-  return (
-    <>
-      <img src={cartIcon} alt='Корзина' className={linksimageStyles.image} />
-      <div className={linksimageStyles.cart}>
-        <p className={linksimageStyles.count}>{count}</p>
-      </div>
-    </>
-  )
-}
+const LinkCart: FC<ILinkCartProps> = ({ count }) =>(
+  <>
+    <img src={cartIcon} alt='Корзина' className={linksimageStyles.image} />
+    <div className={linksimageStyles.cart}>
+      <p className={linksimageStyles.count}>{count}</p>
+    </div>
+  </>
+)
+
 
 export default LinkCart;

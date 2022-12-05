@@ -8,12 +8,10 @@ interface IEditButtonProps {
   onEdit: () => void;
 }
 
-const EditButton: FC<IEditButtonProps> = ({ extraClass, onEdit }) => {
-  return (
-    <button type='button' className={cn(styles.button, extraClass)} onClick={onEdit}>
-      <img src={editIcon} alt='Иконка редактирования' />
-    </button>
-  )
-}
+const EditButton: FC<IEditButtonProps> = ({ extraClass, onEdit }) => (
+  <button type='button' className={cn(styles.button, extraClass)} onClick={onEdit}>
+    <img src={editIcon} alt='Иконка редактирования' />
+  </button>
+)
 
 export default EditButton

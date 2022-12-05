@@ -7,10 +7,9 @@ interface ILinkSearchtProps {
   class?: string
 }
 
-const LinkSearch: FC<ILinkSearchtProps> = (props) => {
-  return (
-    <img src={searchIcon} alt='Личный кабинет' className={cn(linksimageStyles.image, props.class)} />
-  )
-}
+const LinkSearch: FC<ILinkSearchtProps> = (props) =>(
+  <img src={searchIcon} alt='Личный кабинет' className={cn(linksimageStyles.image, props.class)} />
+)
+
 
 export default LinkSearch;

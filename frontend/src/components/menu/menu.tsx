@@ -1,19 +1,15 @@
-import menuStyles from './menu.module.css';
 import { 
   useEffect, 
   useRef, 
   useState 
 } from 'react';
-import { 
-  useHistory,
-  Link
-} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import menuStyles from './menu.module.css';
 import Text from '../text/text';
 import { pathNames } from '../../utils/data';
 import LinkMain from '../links-buttons-image/link-main';
 
 function Menu() {
-  const history = useHistory();
   const [visible, setVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 

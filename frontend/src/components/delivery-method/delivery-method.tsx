@@ -1,15 +1,11 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import styles from './delivery-method.module.css';
 import { Loader } from '../../ui/loader/loader';
 import DeliveryMethodOption from '../delivery-method-option/delivery-method-option';
-import express from '../../images/express.svg';
-import standart from '../../images/standart.svg';
 import { useContext } from 'react';
 import { SelectedDeliveryContext, TotalPriceContext } from '../../services/contexts/cart-context';
 import { DataCartContext, DeliveryContext } from '../../services/contexts/app-context';
 import { TDataCartElement, TDataElement } from '../../services/types/data';
-
-import api from '../../api';
 
 interface DeliveryMethodProps {
   elements: TDataCartElement<TDataElement>[];
@@ -18,11 +14,10 @@ interface DeliveryMethodProps {
 const DeliveryMethod: FC<DeliveryMethodProps> = ({ elements }) => {
 
   const deliveryMethodsRequest = false;
-
   const deliveryMethods = useContext(DeliveryContext);
-  const { selectedDeliveryId, setSelectedDeliveryId } = useContext(SelectedDeliveryContext);
+  const { selectedDeliveryId } = useContext(SelectedDeliveryContext);
 
-  const { dataCart, setDataCart } = useContext(DataCartContext);
+  const { dataCart } = useContext(DataCartContext);
 
   const { totalDispatcher } = useContext(TotalPriceContext);
 
@@ -57,6 +52,7 @@ const DeliveryMethod: FC<DeliveryMethodProps> = ({ elements }) => {
     },
     [deliveryMethodsRequest, deliveryMethods, selectedDeliveryId, elements]
   );
+  
   return (
     <div className={`${styles.container}`}>
       <h3 className={styles.title}>Выберите способ доставки:</h3>

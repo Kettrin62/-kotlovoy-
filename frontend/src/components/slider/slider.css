@@ -1,6 +1,5 @@
 .swiper {
   width: 100%;
-  /* height: 100%; */
   margin: 10px 0;
 }
 
@@ -8,8 +7,6 @@
   text-align: center;
   font-size: 18px;
   background: #fff;
-
-  /* Center slide text vertically */
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-flex;
@@ -29,9 +26,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-
   color: #fff;
-  /* min-height: 440px; */
   position: relative;
   background-repeat: no-repeat;
   background-position: left bottom;
@@ -76,9 +71,7 @@
   width: 100%;
   height: 400px;
   object-fit: cover;
-
   color: #fff;
-  /* min-height: 440px; */
   position: relative;
   background-repeat: no-repeat;
   background-position: center bottom;
@@ -86,7 +79,6 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-
 }
 
 .swiper-slide div::before {
@@ -115,8 +107,6 @@
   .swiper-slide div {
     height: 200px;
   }
-
-
 }
 
 @media all and (max-width: 730px) {
